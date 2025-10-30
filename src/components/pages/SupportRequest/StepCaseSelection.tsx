@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { CPTCard, CPTDropdown, CPTMessage } from '@/components/input';
 import { CASE_LIST } from '@/constants';
 import type { CaseOption } from '@/types';
@@ -15,7 +16,10 @@ export const StepCaseSelection = ({
   error,
   onCaseChange,
 }: StepCaseSelectionProps) => {
-  const selectedCase = CASE_LIST.find((option) => option.id === selectedCaseId);
+  const selectedCase = useMemo(
+    () => CASE_LIST.find((option) => option.id === selectedCaseId),
+    [selectedCaseId]
+  );
 
   return (
     <CPTCard className="mt-4">
