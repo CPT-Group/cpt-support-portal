@@ -1,3 +1,2 @@
-// Page-specific components will be exported here
-export {};
+export * from './Home';
 

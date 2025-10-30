@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2025-01-27
 
+### Added - Home Page UI
+- Created `HomeHero` component with welcome message and Begin button
+- Implemented navigation to support request form using Next.js App Router
+- Added `/support-request` route placeholder for stepper component
+- Used PrimeReact CPTButton with loading state and transitions
+
 ### Added
 - Installed PrimeReact dependencies (`primereact@^10.9.7`, `primeicons@^7.0.0`, `primeflex@^4.0.0`)
 - Created complete folder structure matching reference codebase:
