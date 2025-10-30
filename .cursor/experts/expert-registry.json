@@ -1,0 +1,428 @@
+{
+  "version": "1.0.0",
+  "status": "active",
+  "description": "Expert registry for CPT Support Portal - React/Next.js/TypeScript/Tailwind CSS professional web application with comprehensive React-focused experts including UI design, architecture, security, and testing.",
+  "lastUpdated": "2025-01-29T00:00:00Z",
+
+  "activeExperts": [
+    {
+      "id": "cursor-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "2.0.0"
+    },
+    {
+      "id": "react-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "next-framework-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "typescript-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "2.0.0"
+    },
+    {
+      "id": "tailwind-css-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "node-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "npm-developer-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-router-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-performance-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-testing-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-form-library-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-hook-form-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "react-error-boundary-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "redux-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "accessibility-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "css-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "css-in-js-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "html-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "svg-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "webpack-vite-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "code-writing-rules-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.1.0"
+    },
+    {
+      "id": "requirements-analysis-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "architecture-validation-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "infrastructure-architecture-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "2.1.0"
+    },
+    {
+      "id": "documentation-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "2.0.0"
+    },
+    {
+      "id": "web-security-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "dompurify-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "i18next-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "notification-system-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "pwa-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "graphql-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    },
+    {
+      "id": "oauth2-expert",
+      "status": "active",
+      "readyForTesting": true,
+      "version": "1.0.0"
+    }
+  ],
+
+  "activationRules": {
+    "autoActivate": true,
+    "contextAware": true,
+    "loadOnStartup": true,
+    "multiExpertOrchestration": true,
+    "cursorV2Enabled": true,
+    "multiAgentWorkflowsEnabled": true,
+    "composerModelEnabled": true,
+    "teamCommandsEnabled": true,
+    "turingTestPersonaEnabled": true
+  },
+
+  "cursorV2Config": {
+    "version": "2.0",
+    "lastUpdated": "2025-10-30",
+    "features": {
+      "multiAgents": {
+        "enabled": true,
+        "maxConcurrentAgents": 8,
+        "defaultWorkflowStrategy": "intelligent_parallelization",
+        "fallbackToSequential": true
+      },
+      "composerModel": {
+        "enabled": true,
+        "useForCodeGeneration": true,
+        "useForPatternApplication": true,
+        "useForMultiFileGeneration": true,
+        "preferredExperts": [
+          "typescript-expert",
+          "react-expert",
+          "next-framework-expert",
+          "tailwind-css-expert",
+          "react-hook-form-expert",
+          "redux-expert"
+        ]
+      },
+      "teamCommands": {
+        "enabled": true,
+        "centralizedConfig": true,
+        "autoDeployment": true
+      },
+      "improvedCodeReview": {
+        "enabled": true,
+        "validateExpertOutput": true,
+        "checkCrossFileConsistency": true
+      },
+      "sandboxedTerminals": {
+        "enabled": true,
+        "mcpServiceSandbox": true,
+        "auditLogging": true
+      },
+      "turingTestPersona": {
+        "enabled": true,
+        "naturalConversation": true,
+        "contextualUnderstanding": true,
+        "humanLikeResponses": true,
+        "emotionalIntelligence": "moderate",
+        "professionalTone": "senior_architect_consultant"
+      }
+    }
+  },
+
+  "multiAgentWorkflows": {
+    "full_stack_feature_implementation": {
+      "name": "Full Stack Feature Implementation",
+      "description": "Complete Next.js feature with React components, API routes, forms, validation, and tests",
+      "triggerPatterns": [
+        "implement feature",
+        "create form",
+        "add new page",
+        "build component",
+        "implement user submission"
+      ],
+      "agents": [
+        {
+          "agentId": 1,
+          "expert": "next-framework-expert",
+          "role": "page_structure",
+          "dependencies": [],
+          "output": "app/",
+          "priority": "critical"
+        },
+        {
+          "agentId": 2,
+          "expert": "react-expert",
+          "role": "component_implementation",
+          "dependencies": [],
+          "output": "components/",
+          "priority": "critical"
+        },
+        {
+          "agentId": 3,
+          "expert": "react-hook-form-expert",
+          "role": "form_implementation",
+          "dependencies": [],
+          "output": "components/forms/",
+          "priority": "high"
+        },
+        {
+          "agentId": 4,
+          "expert": "typescript-expert",
+          "role": "type_definitions",
+          "dependencies": [],
+          "output": "types/",
+          "priority": "high"
+        },
+        {
+          "agentId": 5,
+          "expert": "tailwind-css-expert",
+          "role": "styling",
+          "dependencies": [2],
+          "output": "components/",
+          "priority": "high"
+        },
+        {
+          "agentId": 6,
+          "expert": "react-testing-expert",
+          "role": "testing",
+          "dependencies": [1, 2, 3, 4],
+          "output": "__tests__/",
+          "priority": "medium"
+        }
+      ],
+      "estimatedSpeedImprovement": "6x (5 parallel + 1 dependent vs 6 sequential)"
+    },
+    "ui_component_development": {
+      "name": "UI Component Development",
+      "description": "Professional accessible UI component with styling and accessibility",
+      "triggerPatterns": [
+        "create component",
+        "build ui component",
+        "add accessible component"
+      ],
+      "agents": [
+        {
+          "agentId": 1,
+          "expert": "react-expert",
+          "role": "component_logic",
+          "dependencies": [],
+          "output": "components/",
+          "priority": "critical"
+        },
+        {
+          "agentId": 2,
+          "expert": "tailwind-css-expert",
+          "role": "styling",
+          "dependencies": [],
+          "output": "components/",
+          "priority": "high"
+        },
+        {
+          "agentId": 3,
+          "expert": "accessibility-expert",
+          "role": "accessibility",
+          "dependencies": [1],
+          "output": "components/",
+          "priority": "critical"
+        }
+      ],
+      "estimatedSpeedImprovement": "3x (2 parallel + 1 dependent vs 3 sequential)"
+    }
+  },
+
+  "composerModelConfig": {
+    "defaultModel": "composer",
+    "expertPreferences": {
+      "code_generation_experts": [
+        "typescript-expert",
+        "react-expert",
+        "next-framework-expert",
+        "tailwind-css-expert",
+        "react-hook-form-expert",
+        "redux-expert",
+        "node-expert"
+      ],
+      "conversation_experts": [
+        "requirements-analysis-expert",
+        "architecture-validation-expert",
+        "documentation-expert",
+        "cursor-expert"
+      ],
+      "model_selection_rules": {
+        "use_composer_when": [
+          "Generating TypeScript/React code from expert patterns",
+          "Multi-file code generation (components, pages, types, API routes)",
+          "Incremental code assembly",
+          "Pattern-based implementation",
+          "Technology expert consultation with code output"
+        ],
+        "use_standard_model_when": [
+          "General conversation",
+          "Requirement gathering",
+          "Architecture discussion",
+          "Documentation writing without code",
+          "Q&A and explanations"
+        ]
+      }
+    }
+  },
+
+  "turingTestPersonaConfig": {
+    "conversationStyle": {
+      "tone": "professional_senior_architect",
+      "personality": "helpful_expert_consultant",
+      "communication": "clear_concise_thoughtful",
+      "empathy": "high",
+      "patience": "unlimited",
+      "adaptability": "match_user_technical_level"
+    },
+    "humanLikeTraits": {
+      "acknowledgement": "Acknowledge user input naturally (e.g., 'Great question', 'I understand', 'That makes sense')",
+      "thinking_process": "Show reasoning (e.g., 'Let me think through this...', 'Considering your requirements...')",
+      "uncertainty_honesty": "Admit when unsure (e.g., 'I don't have facts about that yet', 'Let me consult the expert')",
+      "learning_attitude": "Show willingness to learn from corrections",
+      "context_awareness": "Remember conversation history and reference it naturally",
+      "expertise_boundaries": "Know when to consult specific experts vs general knowledge"
+    },
+    "conversationPatterns": {
+      "greeting": "Natural and contextual (not robotic)",
+      "explanation": "Use analogies, examples, and progressive disclosure",
+      "questioning": "Ask clarifying questions like a real consultant would",
+      "confirmation": "Confirm understanding before proceeding",
+      "completion": "Summarize outcomes and offer next steps naturally"
+    }
+  }
+}
+

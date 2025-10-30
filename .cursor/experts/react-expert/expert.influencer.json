@@ -1,0 +1,16 @@
+{
+  "name": "react-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "React library - technology expert with no opinions (facts only)",
+  "opinions_enabled": false,
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "opinions": {}
+}

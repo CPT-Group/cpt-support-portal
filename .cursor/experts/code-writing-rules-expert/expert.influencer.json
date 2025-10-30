@@ -1,0 +1,914 @@
+{
+  "expert_name": "code-writing-rules-expert",
+  "applies_to": ["code-writing-rules-expert"],
+  "version": "1.1.0",
+
+  "sources": {
+    "curated_content": [
+      {
+        "type": "best_practices",
+        "name": "TypeScript Best Practices",
+        "source": "TypeScript official documentation and community standards",
+        "confidence_weight": 0.9
+      },
+      {
+        "type": "best_practices",
+        "name": "Clean Code Principles",
+        "source": "Robert C. Martin - Clean Code",
+        "confidence_weight": 0.85
+      },
+      {
+        "type": "documentation",
+        "name": "Project-Specific Standards",
+        "source": "Team conventions and code reviews",
+        "confidence_weight": 0.95
+      }
+    ]
+  },
+
+  "facts": {
+    "code_quality_principles": {
+      "readability_first": {
+        "statement": "Code is read more often than written - prioritize readability over cleverness",
+        "confidence": 1.0,
+        "source": "Clean Code principles",
+        "applies_to": "All code generation"
+      },
+      "self_documenting": {
+        "statement": "Code should be self-documenting through clear naming and structure before relying on comments",
+        "confidence": 1.0,
+        "source": "Clean Code principles",
+        "applies_to": "All code generation"
+      }
+    }
+  },
+
+  "opinions": {
+    "naming_conventions": {
+      "variable_naming": {
+        "title": "Use Descriptive camelCase for Variables",
+        "description": "Variables should use camelCase with descriptive names that clearly indicate their purpose",
+        "confidence_score": 0.95,
+        "rationale": "Descriptive camelCase is the TypeScript/JavaScript standard and makes code self-documenting",
+        "source": "TypeScript style guide, Clean Code principles",
+
+        "context": {
+          "when_applicable": [
+            "All TypeScript/JavaScript variables",
+            "All C# local variables (team convention)",
+            "All temporary variables",
+            "Loop counters should still be descriptive"
+          ],
+          "when_not_applicable": [
+            "Constants (use UPPER_SNAKE_CASE)",
+            "Type names (use PascalCase)",
+            "Private fields with underscore prefix (optional convention)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Descriptive camelCase",
+            "confidence": 0.95,
+            "reason": "Industry standard, self-documenting, IDE-friendly",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Self-documenting code",
+                "TypeScript/JavaScript convention",
+                "Clear intent without comments",
+                "Easier code reviews",
+                "Better IntelliSense support"
+              ],
+              "cons": [
+                "Longer names (but modern IDEs autocomplete)",
+                "More typing (negligible with autocomplete)"
+              ]
+            },
+            "context_requirements": [
+              "Boolean: prefix with is/has/should/can (e.g., isValid, hasPermission)",
+              "Arrays: plural names (e.g., users, items, products)",
+              "Objects: singular names (e.g., user, item, product)",
+              "Avoid abbreviations unless universally known (e.g., id, url, http)"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Boolean variables → is/has/should/can prefix",
+          "Collections → plural names",
+          "Single items → singular names",
+          "Avoid single-letter names except simple loops (prefer index over i)"
+        ],
+
+        "presentChoice": false
+      },
+
+      "function_naming": {
+        "title": "Use Verb Phrases for Functions",
+        "description": "Functions should start with a verb that describes the action they perform",
+        "confidence_score": 0.93,
+        "rationale": "Verb phrases clearly indicate what the function does, making code self-documenting",
+        "source": "Clean Code principles, TypeScript conventions",
+
+        "context": {
+          "when_applicable": [
+            "All functions and methods",
+            "Service methods",
+            "Utility functions",
+            "Event handlers"
+          ],
+          "when_not_applicable": [
+            "Property getters (can omit 'get' prefix)",
+            "React component names (use PascalCase nouns)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Verb-Noun Pattern",
+            "confidence": 0.93,
+            "reason": "Clear action indication, self-documenting, standard convention",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Immediately clear what function does",
+                "Consistent pattern across codebase",
+                "Easier to search and find",
+                "Natural language readability"
+              ],
+              "cons": [
+                "Longer function names",
+                "Sometimes verb choice is subjective"
+              ]
+            },
+            "context_requirements": [
+              "CRUD operations: get/create/update/delete/remove",
+              "Boolean checks: is/has/should/can/validate/check",
+              "Data transformation: transform/convert/map/filter",
+              "Side effects: save/send/notify/log",
+              "Calculations: calculate/compute/determine"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Retrieving data → get/fetch/find/load",
+          "Creating data → create/add/insert",
+          "Updating data → update/modify/set",
+          "Deleting data → delete/remove",
+          "Boolean checks → is/has/should/can/validate",
+          "Event handlers → handle/on (e.g., handleClick, onClick)"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "error_handling": {
+      "async_error_handling": {
+        "title": "Always Use Try-Catch for Async Operations",
+        "description": "All async operations must be wrapped in try-catch blocks to prevent unhandled promise rejections",
+        "confidence_score": 0.98,
+        "rationale": "Unhandled promise rejections crash Node.js applications and create poor user experiences. Explicit error handling ensures graceful degradation",
+        "source": "Node.js best practices, production experience",
+
+        "context": {
+          "when_applicable": [
+            "All async/await functions",
+            "Database operations",
+            "API calls",
+            "File system operations",
+            "Any operation that can fail"
+          ],
+          "when_not_applicable": [
+            "Fire-and-forget operations (rare, document why)",
+            "Top-level Promise chains with .catch() (prefer async/await)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Try-Catch with Typed Error Handling",
+            "confidence": 0.98,
+            "reason": "Prevents crashes, enables proper error logging, provides user-friendly messages",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Prevents unhandled rejections",
+                "Enables structured error logging",
+                "Allows error recovery strategies",
+                "Type-safe error handling",
+                "Better debugging with stack traces",
+                "User-friendly error messages"
+              ],
+              "cons": ["More boilerplate code", "Requires error type checking"]
+            },
+            "context_requirements": [
+              "Always catch errors in async functions",
+              "Log errors with context (user ID, operation, params)",
+              "Re-throw or return meaningful error responses",
+              "Use custom error classes for different error types",
+              "Include original error in context"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Database operation → Try-catch with DatabaseError",
+          "API call → Try-catch with NetworkError",
+          "File operation → Try-catch with FileSystemError",
+          "Business logic → Try-catch with ValidationError/BusinessError",
+          "Always log with context before throwing"
+        ],
+
+        "presentChoice": false
+      },
+
+      "custom_error_classes": {
+        "title": "Use Custom Error Classes for Different Error Types",
+        "description": "Define custom error classes that extend Error to enable type-safe error handling and meaningful error messages",
+        "confidence_score": 0.88,
+        "rationale": "Custom error classes enable type-safe error handling, better error categorization, and more meaningful error messages",
+        "source": "TypeScript best practices, enterprise patterns",
+
+        "context": {
+          "when_applicable": [
+            "Service layer errors",
+            "Business logic errors",
+            "Database errors",
+            "API/Network errors",
+            "Validation errors"
+          ],
+          "when_not_applicable": [
+            "Simple scripts or utilities",
+            "Errors that are immediately caught and handled",
+            "Third-party errors (wrap them instead)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Custom Error Class Hierarchy",
+            "confidence": 0.88,
+            "reason": "Type-safe, enables instanceof checks, better error categorization",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Type-safe error handling",
+                "Enables instanceof checks",
+                "Better error categorization",
+                "More meaningful error messages",
+                "Can include additional context",
+                "Better logging and monitoring"
+              ],
+              "cons": [
+                "More upfront code",
+                "Need to maintain error class hierarchy",
+                "Team needs to know about custom errors"
+              ]
+            },
+            "context_requirements": [
+              "Extend Error class",
+              "Include name, message, and optional context",
+              "Document when each error type is used",
+              "Examples: DatabaseError, ValidationError, NotFoundError, UnauthorizedError"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Database operations → DatabaseError",
+          "Validation → ValidationError",
+          "Not found → NotFoundError (404)",
+          "Unauthorized → UnauthorizedError (401)",
+          "Business rules → BusinessRuleError"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "documentation": {
+      "jsdoc_requirement": {
+        "title": "JSDoc for All Public Functions and Complex Logic",
+        "description": "All public functions and complex logic must have JSDoc comments with @param, @returns, and @throws tags",
+        "confidence_score": 0.9,
+        "rationale": "JSDoc provides IntelliSense support, auto-generated documentation, and helps other developers understand function contracts",
+        "source": "TypeScript documentation best practices",
+
+        "context": {
+          "when_applicable": [
+            "All public API functions",
+            "All exported functions",
+            "Complex algorithms",
+            "Functions with non-obvious behavior",
+            "Service class methods"
+          ],
+          "when_not_applicable": [
+            "Private helper functions (optional)",
+            "Self-explanatory getters/setters",
+            "Test functions"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Comprehensive JSDoc",
+            "confidence": 0.9,
+            "reason": "IntelliSense support, auto-documentation, better maintainability",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "IntelliSense shows documentation",
+                "Auto-generated API docs",
+                "Clarifies function contracts",
+                "Documents edge cases",
+                "Examples in documentation",
+                "Better onboarding for new team members"
+              ],
+              "cons": [
+                "More code to maintain",
+                "Can become outdated if not maintained",
+                "Takes time to write"
+              ]
+            },
+            "context_requirements": [
+              "Include brief description",
+              "@param for each parameter with type and description",
+              "@returns with return type and description",
+              "@throws for any errors that can be thrown",
+              "@example for complex functions",
+              "Keep descriptions concise but clear"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Public API → Always JSDoc",
+          "Complex logic → Always JSDoc with examples",
+          "Private helpers → Optional (use judgment)",
+          "Exported utilities → Always JSDoc",
+          "Update JSDoc when function changes"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "code_structure": {
+      "prefer_functional": {
+        "title": "Prefer Functional Programming Over OOP When Appropriate",
+        "description": "Use pure functions and functional patterns for services, utilities, and React components unless OOP provides clear benefits",
+        "confidence_score": 0.85,
+        "rationale": "Functional programming leads to more testable, predictable code with fewer side effects. TypeScript's type system works well with functional patterns",
+        "source": "Modern TypeScript best practices, React conventions",
+
+        "context": {
+          "when_applicable": [
+            "React components (use hooks)",
+            "Service functions (stateless)",
+            "Utility functions",
+            "Data transformations",
+            "Pure calculations"
+          ],
+          "when_not_applicable": [
+            "Complex state management (classes may be clearer)",
+            "Need inheritance (rare in TypeScript)",
+            "External library requires classes",
+            "React Error Boundaries (must be classes)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Functional-First Approach",
+            "confidence": 0.85,
+            "reason": "More testable, fewer side effects, aligns with modern TypeScript/React",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Easier to test (pure functions)",
+                "Fewer side effects",
+                "Better composition",
+                "Easier to reason about",
+                "Aligns with React hooks",
+                "Simpler mental model"
+              ],
+              "cons": [
+                "May need to pass more parameters",
+                "Less familiar to OOP developers",
+                "Some patterns harder without classes"
+              ]
+            },
+            "context_requirements": [
+              "Use functions with parameters over classes with state",
+              "Extract pure functions from methods",
+              "Use React hooks instead of class components",
+              "Prefer composition over inheritance",
+              "Use interfaces/types instead of classes when possible"
+            ]
+          },
+          {
+            "name": "Classes When Appropriate",
+            "confidence": 0.7,
+            "reason": "Classes provide clear encapsulation for complex stateful logic",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Clear encapsulation",
+                "Familiar to OOP developers",
+                "Good for complex state",
+                "Private methods/properties"
+              ],
+              "cons": [
+                "More difficult to test",
+                "Can encourage mutable state",
+                "Harder to compose",
+                "More ceremony"
+              ]
+            },
+            "context_requirements": [
+              "Use when managing complex state",
+              "Use for services with lifecycle (init/cleanup)",
+              "Keep classes focused (single responsibility)",
+              "Prefer dependency injection over singletons"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Stateless logic → Pure functions",
+          "React UI → Functional components with hooks",
+          "Data transformations → Pure functions",
+          "Complex state machine → Consider class",
+          "Need lifecycle methods → Consider class or hooks"
+        ],
+
+        "presentChoice": true
+      },
+
+      "single_responsibility": {
+        "title": "Functions Should Do One Thing Well",
+        "description": "Each function should have a single, well-defined responsibility and be easy to name",
+        "confidence_score": 0.92,
+        "rationale": "Single responsibility makes code easier to test, understand, modify, and reuse",
+        "source": "Clean Code principles, SOLID principles",
+
+        "context": {
+          "when_applicable": ["All functions", "All methods", "All classes"],
+          "when_not_applicable": [
+            "Facade patterns (deliberately coordinate multiple operations)",
+            "Top-level orchestration functions (document why)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Single Responsibility Functions",
+            "confidence": 0.92,
+            "reason": "Easier to test, understand, and maintain",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Easier to test (one thing to test)",
+                "Easier to name (clear purpose)",
+                "More reusable",
+                "Easier to modify without side effects",
+                "Better composition"
+              ],
+              "cons": [
+                "More functions (but better organized)",
+                "Need to coordinate multiple functions"
+              ]
+            },
+            "context_requirements": [
+              "If function name includes 'and', consider splitting",
+              "If function is hard to name, it's doing too much",
+              "Function should fit on one screen (approx 20-30 lines)",
+              "Extract complex logic into helper functions",
+              "Each function should be easily testable in isolation"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Hard to name → Doing too much, split it",
+          "Function > 30 lines → Consider splitting",
+          "Multiple levels of abstraction → Extract to helpers",
+          "Name includes 'and' → Split into two functions"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "imports_organization": {
+      "import_order": {
+        "title": "Organize Imports in Consistent Order",
+        "description": "Group and order imports for better readability and merge conflict reduction",
+        "confidence_score": 0.87,
+        "rationale": "Consistent import organization makes code easier to scan and reduces merge conflicts",
+        "source": "TypeScript style guide, team conventions",
+
+        "context": {
+          "when_applicable": [
+            "All TypeScript files",
+            "All JavaScript files",
+            "Every file with imports"
+          ],
+          "when_not_applicable": []
+        },
+
+        "options": [
+          {
+            "name": "Grouped and Sorted Imports",
+            "confidence": 0.87,
+            "reason": "Easier to scan, reduces merge conflicts, standard convention",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Easier to scan and find imports",
+                "Reduces merge conflicts",
+                "Consistent across codebase",
+                "ESLint can auto-fix"
+              ],
+              "cons": ["Need to remember order", "Manual sorting without tools"]
+            },
+            "context_requirements": [
+              "Group 1: External libraries (node_modules)",
+              "Group 2: Internal shared libraries (@org/package)",
+              "Group 3: Relative parent imports (../..)",
+              "Group 4: Relative sibling imports (./)",
+              "Group 5: Type-only imports (import type)",
+              "Within groups: alphabetical order",
+              "Blank line between groups"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "External packages → First group",
+          "Internal packages → Second group",
+          "Local imports → Later groups",
+          "Type imports → Last or grouped separately",
+          "Use ESLint import plugin for auto-fixing"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "testing": {
+      "test_coverage_requirement": {
+        "title": "Unit Tests for All Business Logic",
+        "description": "All business logic, services, and utilities must have unit tests with minimum 80% coverage",
+        "confidence_score": 0.93,
+        "rationale": "Unit tests catch bugs early, enable confident refactoring, and serve as documentation",
+        "source": "Testing best practices, team quality standards",
+
+        "context": {
+          "when_applicable": [
+            "All service methods",
+            "All utility functions",
+            "All business logic",
+            "Complex algorithms",
+            "Edge cases and error conditions"
+          ],
+          "when_not_applicable": [
+            "Simple getters/setters",
+            "Trivial functions",
+            "Third-party library wrappers (test integration instead)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Jest with 80% Coverage Minimum",
+            "confidence": 0.93,
+            "reason": "Catches bugs early, enables refactoring, serves as documentation",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Catches bugs before production",
+                "Enables confident refactoring",
+                "Documents expected behavior",
+                "Faster than manual testing",
+                "Prevents regressions"
+              ],
+              "cons": [
+                "Takes time to write",
+                "Needs maintenance when code changes",
+                "Can give false confidence if poorly written"
+              ]
+            },
+            "context_requirements": [
+              "Test happy path",
+              "Test error conditions",
+              "Test edge cases",
+              "Test boundary conditions",
+              "Mock external dependencies",
+              "Use descriptive test names (should...)",
+              "Arrange-Act-Assert pattern"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Business logic → Always test",
+          "Public API → Always test",
+          "Error conditions → Always test",
+          "Edge cases → Always test",
+          "Simple getters → Optional",
+          "Aim for 80%+ coverage on critical modules"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "expert_consultation": {
+      "mandatory_technology_expert": {
+        "title": "MANDATORY: Consult Technology Expert Before Writing Code",
+        "description": "Before writing code in any language or technology, the appropriate technology expert (typescript-expert, csharp-expert, sql-server-expert, pdf-expert, etc.) MUST be consulted for syntax, best practices, and technology-specific patterns",
+        "confidence_score": 0.99,
+        "rationale": "Technology experts contain authoritative facts (confidence 1.0) about language syntax, APIs, and best practices. Consulting them prevents syntax errors, anti-patterns, and ensures correct usage of language features",
+        "source": "Expert system design, mandatory protocol",
+
+        "context": {
+          "when_applicable": [
+            "ALL code generation in ANY language",
+            "TypeScript/JavaScript → typescript-expert",
+            "C# → csharp-expert or dot-net-core-api-expert",
+            "SQL Server → sql-server-expert",
+            "PDF manipulation → pdf-expert",
+            "Database operations → appropriate database expert",
+            "Framework-specific code → framework expert if available"
+          ],
+          "when_not_applicable": [
+            "NEVER skip technology expert consultation",
+            "Technology expert consultation is MANDATORY, not optional"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Always Consult Technology Expert FIRST",
+            "confidence": 0.99,
+            "reason": "Technology experts provide authoritative facts (confidence 1.0) - this is not negotiable",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Prevents syntax errors",
+                "Uses correct APIs and methods",
+                "Follows language-specific best practices",
+                "Avoids anti-patterns",
+                "Ensures type safety",
+                "Uses modern language features correctly",
+                "Authoritative source of truth (confidence 1.0)"
+              ],
+              "cons": ["None - this is mandatory for quality code"]
+            },
+            "context_requirements": [
+              "BEFORE writing code, identify the technology/language",
+              "Load the appropriate technology expert (e.g., typescript-expert)",
+              "Apply expert's facts (confidence 1.0) for syntax and APIs",
+              "Apply expert's opinions for architectural decisions",
+              "If expert doesn't exist, use general knowledge but document this gap",
+              "ALWAYS cite which expert was consulted"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Writing TypeScript → MUST consult typescript-expert",
+          "Writing C# → MUST consult csharp-expert or dot-net-core-api-expert",
+          "Writing SQL Server queries → MUST consult sql-server-expert",
+          "Working with PDFs → MUST consult pdf-expert",
+          "Multiple technologies → Consult ALL relevant experts",
+          "No expert exists → Document gap, suggest creating expert"
+        ],
+
+        "presentChoice": false
+      },
+
+      "multi_expert_consultation": {
+        "title": "Consult ALL Relevant Experts for Multi-Domain Code",
+        "description": "When writing code that spans multiple domains or technologies (e.g., TypeScript + PDF, C# + SQL Server), consult ALL relevant experts simultaneously and synthesize their recommendations",
+        "confidence_score": 0.97,
+        "rationale": "Complex code often touches multiple domains. Each expert provides authoritative knowledge for their domain. Consulting all relevant experts ensures the code is correct across all dimensions",
+        "source": "Expert system design, multi-expert orchestration",
+
+        "context": {
+          "when_applicable": [
+            "TypeScript + PDF manipulation → typescript-expert + pdf-expert",
+            "C# + SQL Server → csharp-expert + sql-server-expert",
+            "TypeScript + Database → typescript-expert + database-expert",
+            "Any code touching multiple technologies",
+            "API development → language-expert + api-design patterns",
+            "Data processing → language-expert + data-patterns"
+          ],
+          "when_not_applicable": [
+            "Simple single-technology code (but still consult that one expert)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Multi-Expert Orchestration",
+            "confidence": 0.97,
+            "reason": "Ensures correctness across all domains involved in the code",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Comprehensive correctness across all domains",
+                "Prevents cross-domain anti-patterns",
+                "Leverages specialized knowledge from each domain",
+                "Higher quality multi-domain code",
+                "Better integration between technologies"
+              ],
+              "cons": [
+                "Requires identifying all relevant experts",
+                "May receive conflicting recommendations (resolve with context)"
+              ]
+            },
+            "context_requirements": [
+              "Identify ALL technologies/domains involved",
+              "Load ALL relevant experts",
+              "Example: TypeScript + PDF → Load typescript-expert AND pdf-expert",
+              "Example: C# API + SQL Server → Load csharp-expert AND sql-server-expert",
+              "Synthesize facts from all experts (all must be satisfied)",
+              "For opinions: Higher confidence expert takes precedence, OR more specific expert overrides general",
+              "Document which experts were consulted"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "TypeScript + PDF → typescript-expert + pdf-expert",
+          "C# + Database → csharp-expert + sql-server-expert (or postgres-expert)",
+          "API + Validation → language-expert + api-patterns + validation-patterns",
+          "Multiple domains → Consult ALL relevant experts",
+          "Conflicting opinions → Use context to decide, prefer more specific expert"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "code_reuse": {
+      "analyze_before_creating": {
+        "title": "MANDATORY: Analyze Existing Code Before Creating New Solutions",
+        "description": "Before writing any new code, MUST search and analyze the existing codebase to determine if a solution already exists. Never recreate the wheel - reuse existing, tested code",
+        "confidence_score": 0.98,
+        "rationale": "Duplicate code leads to maintenance nightmares, inconsistent behavior, increased bugs, and wasted effort. Analyzing first ensures we leverage existing solutions and maintain consistency",
+        "source": "DRY principle (Don't Repeat Yourself), software engineering best practices",
+
+        "context": {
+          "when_applicable": [
+            "ALL code generation tasks",
+            "Before creating new functions/classes/services",
+            "Before implementing utilities or helpers",
+            "Before adding new business logic",
+            "Before creating data access methods",
+            "Before implementing validation logic",
+            "Before adding API endpoints with similar functionality"
+          ],
+          "when_not_applicable": [
+            "NEVER skip codebase analysis",
+            "This is MANDATORY, not optional"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Search-Analyze-Reuse Pattern",
+            "confidence": 0.98,
+            "reason": "Prevents code duplication, ensures consistency, leverages tested solutions",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Eliminates duplicate code",
+                "Reuses tested, proven solutions",
+                "Maintains consistency across codebase",
+                "Reduces maintenance burden",
+                "Faster development (reuse vs rebuild)",
+                "Fewer bugs (existing code already tested)",
+                "Easier refactoring (single source of truth)"
+              ],
+              "cons": [
+                "Takes time to search and analyze",
+                "May need to adapt existing code slightly"
+              ]
+            },
+            "context_requirements": [
+              "STEP 1: Use codebase_search or grep to find similar functionality",
+              "Search for: similar function names, similar class names, similar patterns",
+              "Example: If creating 'getUserById', search for 'get.*ById', 'User.*Service', 'fetch.*User'",
+              "STEP 2: Read and analyze found code",
+              "Determine if existing code solves the problem",
+              "Check if existing code can be generalized/refactored for reuse",
+              "STEP 3: Choose action",
+              "REUSE: If exact match exists, use it directly",
+              "EXTEND: If close match, extend/generalize existing code",
+              "CREATE: Only if no similar solution exists, create new code",
+              "STEP 4: Document decision",
+              "If creating new code, document why existing solutions don't fit"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Exact solution exists → REUSE it directly",
+          "Similar solution exists → EXTEND/GENERALIZE it",
+          "Partial solution exists → EXTRACT common logic, reuse and extend",
+          "No solution exists → CREATE new code, but make it reusable",
+          "Always search with: codebase_search, grep, or file_search",
+          "Search keywords: function names, class names, domain terms",
+          "Before creating, ALWAYS justify why existing code doesn't work"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "architecture": {
+      "build_reusable_solutions": {
+        "title": "Build Reusable Solutions, Not Hard-Coded Business Logic",
+        "description": "All code should be designed for reusability and generalization. Avoid hard-coding specific business values, configurations, or logic. Instead, use parameters, configuration, and abstract patterns",
+        "confidence_score": 0.95,
+        "rationale": "Hard-coded solutions are brittle, difficult to test, and impossible to reuse. Reusable solutions reduce duplication, are easier to test, and adapt to changing requirements",
+        "source": "Clean Architecture, SOLID principles, Domain-Driven Design",
+
+        "context": {
+          "when_applicable": [
+            "ALL code generation",
+            "Service methods",
+            "Utility functions",
+            "Business logic implementation",
+            "Data access methods",
+            "Validation logic",
+            "API endpoints"
+          ],
+          "when_not_applicable": [
+            "Configuration files (these SHOULD contain specific values)",
+            "Database migration scripts (one-time operations)",
+            "Deployment scripts (environment-specific by nature)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Parameterized, Reusable Design",
+            "confidence": 0.95,
+            "reason": "Enables code reuse, easier testing, adapts to change, reduces duplication",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Code can be reused across multiple scenarios",
+                "Easier to test (inject different parameters)",
+                "Adapts to changing requirements",
+                "Reduces code duplication",
+                "Single source of truth",
+                "Easier to maintain",
+                "More flexible and extensible"
+              ],
+              "cons": [
+                "May require more upfront thinking",
+                "Slightly more parameters to manage",
+                "Need to identify the right abstractions"
+              ]
+            },
+            "context_requirements": [
+              "AVOID: Hard-coded strings, numbers, IDs, dates, business rules",
+              "INSTEAD: Accept as parameters, read from configuration, use constants",
+              "AVOID: Functions specific to one user, one product, one scenario",
+              "INSTEAD: Generalize to accept entity type, ID, filters as parameters",
+              "AVOID: Copy-paste code with slight variations",
+              "INSTEAD: Extract common logic, parameterize differences",
+              "USE: Dependency injection for services and repositories",
+              "USE: Configuration objects for business rules and thresholds",
+              "USE: Strategy pattern for varying algorithms",
+              "USE: Factory pattern for object creation",
+              "MAKE: Functions accept broad types (interfaces) not concrete classes",
+              "MAKE: Methods composable and chainable where appropriate"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Hard-coded value → Move to parameter or configuration",
+          "Business rule → Extract to configurable strategy or policy",
+          "Specific entity ID → Generalize to accept any ID as parameter",
+          "Copy-paste code → Extract common function with parameters",
+          "One-off solution → Ask: How can this be generalized?",
+          "Before implementing → Ask: Will this work for other scenarios?",
+          "If function solves Problem X → Design it to solve Problem X for any Y",
+          "Example: Not 'getUserById(123)' → Instead 'getEntityById<T>(id: number, entityType: T)'"
+        ],
+
+        "presentChoice": false
+      }
+    }
+  }
+}

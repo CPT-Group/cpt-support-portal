@@ -1,0 +1,208 @@
+{
+  "name": "architecture-validation-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Provides opinions on architecture review approaches and severity of architectural issues",
+  "opinions_enabled": true,
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "Enterprise Architecture Team",
+    "status": "active"
+  },
+
+  "opinions": {
+    "when_to_stop_and_fix": {
+      "title": "When to Stop Architecture Generation and Fix Errors",
+      "description": "How to categorize architectural issues and when to halt work",
+      "confidence_score": 0.98,
+      "rationale": "Not all architectural issues are equal; some are career-ending, some are optimizations. Knowing when to stop prevents wasted work on fundamentally flawed designs.",
+      "context": {
+        "when_applicable": [
+          "During architecture generation",
+          "During architecture review",
+          "Before finalizing documentation",
+          "Before presenting to stakeholders"
+        ],
+        "when_not_applicable": [
+          "After architecture is approved and in implementation"
+        ]
+      },
+      "options": [
+        {
+          "name": "CRITICAL ERRORS - STOP IMMEDIATELY",
+          "pros": [
+            "Prevents career-limiting mistakes",
+            "Stops before generating more wrong documentation",
+            "Shows diligence and catches errors early"
+          ],
+          "cons": [
+            "Requires rework of architecture",
+            "Delays initial delivery"
+          ],
+          "when_to_use": "Immediately upon detection of: external users in internal systems, missing authentication, fundamental security violations, illogical user access patterns",
+          "examples": [
+            "External customers shown accessing internal JIRA",
+            "No authentication between external and internal systems",
+            "User access patterns that make no business sense",
+            "Integration with no business justification"
+          ]
+        },
+        {
+          "name": "HIGH PRIORITY ERRORS - FIX BEFORE FINALIZATION",
+          "pros": [
+            "Architecture is mostly correct, just needs adjustments",
+            "Can continue with design while noting fixes needed"
+          ],
+          "cons": ["Risk of forgetting to fix if not addressed immediately"],
+          "when_to_use": "Missing error handling, scalability concerns, performance issues, incomplete security measures",
+          "examples": [
+            "No retry logic for external calls",
+            "Missing fallback strategies",
+            "Single point of failure without HA",
+            "No rate limiting on public APIs"
+          ]
+        },
+        {
+          "name": "MEDIUM PRIORITY - DOCUMENT AND DEFER",
+          "pros": [
+            "Architecture is sound, these are enhancements",
+            "Can be addressed in future phases"
+          ],
+          "cons": ["May never get addressed if not tracked"],
+          "when_to_use": "Optimization opportunities, nice-to-have features, future enhancements",
+          "examples": [
+            "Caching could improve performance",
+            "Message queue for async processing (current volume is low)",
+            "Additional monitoring dashboards",
+            "API versioning strategy"
+          ]
+        }
+      ],
+      "decision_factors": [
+        {
+          "factor": "Stakeholder Impact",
+          "weight": "critical",
+          "guidance": "If stakeholder (especially executives) would question your competence, it's CRITICAL"
+        },
+        {
+          "factor": "Security Risk",
+          "weight": "critical",
+          "guidance": "Any security violation is at least HIGH priority"
+        },
+        {
+          "factor": "Business Logic Correctness",
+          "weight": "critical",
+          "guidance": "If business logic is wrong, it's CRITICAL (e.g., wrong users accessing wrong systems)"
+        },
+        {
+          "factor": "Cost of Fix",
+          "weight": "medium",
+          "guidance": "Easier to fix now than after implementation"
+        }
+      ],
+      "presentChoice": false,
+      "recommendation": "STOP IMMEDIATELY for critical errors (illogical user access, missing auth, fundamental security violations). Fix before generating any more documentation."
+    },
+    "over_engineering_vs_appropriate": {
+      "title": "Over-Engineering vs Appropriate Architecture",
+      "description": "How to determine if architecture is over-engineered for the problem",
+      "confidence_score": 0.9,
+      "rationale": "Over-engineering wastes time and money; under-engineering creates technical debt. The key is matching architectural complexity to actual business needs.",
+      "context": {
+        "when_applicable": [
+          "Reviewing component choices",
+          "Evaluating integration patterns",
+          "Assessing scalability requirements"
+        ],
+        "when_not_applicable": [
+          "Regulatory or compliance requirements mandate specific patterns"
+        ]
+      },
+      "options": [
+        {
+          "name": "Simple Architecture (Right-Sized for Small Scale)",
+          "pros": [
+            "Faster to build and deploy",
+            "Lower operational costs",
+            "Easier to understand and maintain",
+            "Appropriate for current needs"
+          ],
+          "cons": [
+            "May need refactoring if scale increases 10x+",
+            "Less impressive on resume"
+          ],
+          "when_to_use": "Small scale (< 100 users, < 1000 transactions/day), well-defined requirements, limited budget",
+          "examples": [
+            "Single IIS server (no load balancer) for 50 internal users",
+            "Direct DB calls (no caching) for 100 requests/day",
+            "Synchronous processing for low volume"
+          ]
+        },
+        {
+          "name": "Enterprise Architecture (Right-Sized for Large Scale)",
+          "pros": [
+            "Scales to large volumes",
+            "High availability and disaster recovery",
+            "Industry best practices",
+            "Impresses stakeholders"
+          ],
+          "cons": [
+            "Higher upfront cost",
+            "More complexity",
+            "Longer implementation time"
+          ],
+          "when_to_use": "Large scale (1000+ users, 100k+ transactions/day), high availability required, enterprise environment",
+          "examples": [
+            "Load balanced IIS servers with Always On AG",
+            "Message queues for async processing",
+            "Caching layer for performance",
+            "Circuit breakers and retry logic"
+          ]
+        },
+        {
+          "name": "Over-Engineered (Complexity Without Justification)",
+          "pros": ["Looks good on architecture diagrams", "Fun to build"],
+          "cons": [
+            "Wastes time and money",
+            "Adds complexity without benefit",
+            "Harder to maintain",
+            "May never be needed"
+          ],
+          "when_to_use": "Never, unless you enjoy wasting stakeholder money",
+          "examples": [
+            "Kubernetes cluster for 10 users",
+            "Message queue for 5 messages/day",
+            "Microservices architecture for monolithic use case",
+            "Event sourcing for simple CRUD"
+          ]
+        }
+      ],
+      "decision_factors": [
+        {
+          "factor": "Current Scale",
+          "weight": "critical",
+          "guidance": "What is actual current volume? Not 'what if we go viral?'"
+        },
+        {
+          "factor": "Growth Projection",
+          "weight": "high",
+          "guidance": "Realistic growth projection (not wishful thinking)"
+        },
+        {
+          "factor": "Budget Available",
+          "weight": "high",
+          "guidance": "Can we afford enterprise architecture? Is it justified?"
+        },
+        {
+          "factor": "Business Criticality",
+          "weight": "high",
+          "guidance": "What's the cost of downtime? High = more investment in HA/DR"
+        }
+      ],
+      "presentChoice": true,
+      "recommendation": "Match architectural complexity to actual business needs. It's better to start simple and scale up than to over-engineer from the start."
+    }
+  }
+}

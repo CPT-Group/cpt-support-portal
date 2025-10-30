@@ -1,0 +1,178 @@
+{
+  "name": "react-error-boundary-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Architectural opinions for React error handling strategies in enterprise applications",
+  "confidence_level": 92,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "opinions": {
+    "error_boundary_granularity": {
+      "title": "Error Boundary Granularity: How Many Levels?",
+      "description": "Determine the appropriate number and placement of error boundary levels",
+      "confidence_score": 0.92,
+      "rationale": "More error boundaries provide better error isolation but add complexity. The right balance depends on app structure and failure criticality.",
+      "context": {
+        "when_applicable": "All enterprise React applications",
+        "when_not_applicable": "Simple applications with <5 pages"
+      },
+      "options": [
+        {
+          "name": "4-Level Hierarchy (Recommended for Enterprise)",
+          "description": "Global → Layout → Page → Component error boundaries",
+          "pros": [
+            "Maximum error isolation",
+            "Failed widget doesn't crash page",
+            "Failed page doesn't crash app",
+            "Granular error tracking",
+            "Best user experience"
+          ],
+          "cons": [
+            "More boilerplate",
+            "Increased React component tree depth",
+            "Slight performance overhead"
+          ],
+          "use_when": "Complex dashboard apps, mission-critical apps, customer-facing products"
+        },
+        {
+          "name": "2-Level Hierarchy (Minimum Viable)",
+          "description": "Global → Page error boundaries only",
+          "pros": [
+            "Simple to implement",
+            "Minimal boilerplate",
+            "Prevents complete app crash"
+          ],
+          "cons": [
+            "Page-level failures crash entire page",
+            "No widget-level isolation",
+            "Coarse-grained error tracking"
+          ],
+          "use_when": "Internal tools, simple apps, MVP phase"
+        }
+      ],
+      "decision_factors": [
+        "Application complexity",
+        "Number of independent widgets per page",
+        "Criticality of each feature",
+        "Team experience with error boundaries"
+      ],
+      "presentChoice": false
+    },
+
+    "retry_strategy": {
+      "title": "Automatic vs Manual Retry",
+      "description": "Should errors automatically retry or require user action?",
+      "confidence_score": 0.88,
+      "rationale": "Automatic retries reduce user friction for transient errors but can cause infinite loops or mask permanent errors. Manual retries give users control but require more interaction.",
+      "context": {
+        "when_applicable": "Network and transient errors",
+        "when_not_applicable": "Validation errors, authorization errors (permanent)"
+      },
+      "options": [
+        {
+          "name": "Hybrid (Recommended)",
+          "description": "Automatic retry with exponential backoff (3 attempts), then manual retry button",
+          "pros": [
+            "Recovers from brief network glitches automatically",
+            "User doesn't see error for transient issues",
+            "Manual fallback if auto-retry fails",
+            "Prevents infinite retry loops"
+          ],
+          "cons": [
+            "More complex implementation",
+            "Requires error classification"
+          ],
+          "use_when": "Production enterprise applications with network dependencies"
+        },
+        {
+          "name": "Manual Only",
+          "description": "Show error immediately with retry button",
+          "pros": [
+            "Simple implementation",
+            "User has full control",
+            "No risk of infinite retries"
+          ],
+          "cons": [
+            "Poor UX for transient errors",
+            "User sees errors for brief network glitches"
+          ],
+          "use_when": "Internal tools where users understand network issues"
+        },
+        {
+          "name": "Automatic Only",
+          "description": "Retry indefinitely until success",
+          "pros": [
+            "Zero user interaction needed",
+            "Seamless recovery from transient issues"
+          ],
+          "cons": [
+            "Can cause infinite loops",
+            "Masks permanent errors",
+            "Poor UX if retries take long time",
+            "No user control"
+          ],
+          "use_when": "Never for enterprise applications"
+        }
+      ],
+      "decision_factors": [
+        "Network reliability",
+        "User technical expertise",
+        "Error transience (how often are errors temporary?)"
+      ],
+      "presentChoice": false
+    },
+
+    "error_notification_severity": {
+      "title": "Error Notification Strategy",
+      "description": "How to notify users of errors based on severity",
+      "confidence_score": 0.9,
+      "rationale": "Critical errors need prominent UI (modal), medium errors need noticeable feedback (toast), low errors can be inline. Matching notification to severity improves UX.",
+      "context": {
+        "when_applicable": "All error scenarios",
+        "when_not_applicable": "Never - always notify users of errors"
+      },
+      "options": [
+        {
+          "name": "Severity-Based Notifications (Recommended)",
+          "description": "Critical → Modal, High → Persistent Toast, Medium → Toast, Low → Inline",
+          "pros": [
+            "Appropriate urgency for each error type",
+            "Critical errors can't be missed",
+            "Low-severity errors don't interrupt workflow",
+            "Consistent user experience"
+          ],
+          "cons": [
+            "Requires error classification",
+            "More notification components needed"
+          ],
+          "use_when": "All enterprise applications"
+        },
+        {
+          "name": "Toast Only",
+          "description": "All errors show as toast notifications",
+          "pros": ["Simple implementation", "Non-blocking", "Consistent"],
+          "cons": [
+            "Critical errors can be dismissed",
+            "Toast can be missed",
+            "No distinction between severities"
+          ],
+          "use_when": "Internal tools where all errors are medium severity"
+        }
+      ],
+      "decision_factors": [
+        "Error severity distribution in your app",
+        "User attention requirements",
+        "Interruption tolerance"
+      ],
+      "presentChoice": false
+    }
+  }
+}

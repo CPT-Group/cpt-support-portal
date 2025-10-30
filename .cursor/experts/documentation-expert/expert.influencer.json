@@ -1,0 +1,1019 @@
+{
+  "expert_name": "documentation-expert",
+  "applies_to": ["documentation-expert"],
+  "version": "2.0.0",
+
+  "sources": {
+    "curated_content": [
+      {
+        "type": "specification",
+        "name": "OMG UML 2.5.1 Formal Specification",
+        "source": "https://www.omg.org/spec/UML/2.5.1",
+        "confidence_weight": 1.0
+      },
+      {
+        "type": "best_practices",
+        "name": "UML Best Practices and Professional Guidelines",
+        "source": "Industry experience and UML community",
+        "confidence_weight": 0.9
+      }
+    ]
+  },
+
+  "facts": {},
+
+  "opinions": {
+    "relationship_selection": {
+      "aggregation_vs_composition": {
+        "title": "Composition (Strong Ownership) vs Aggregation (Weak Ownership)",
+        "description": "When modeling 'has-a' relationships, choosing between Composition (filled diamond ◆) and Aggregation (hollow diamond ◇) depends on lifecycle ownership. Composition means parts cannot exist without container (strong ownership, cascade delete). Aggregation means parts can exist independently (weak ownership). This is one of the most confusing aspects of UML for beginners.",
+        "confidence_score": 0.95,
+        "rationale": "Composition vs Aggregation represents fundamental difference in object lifecycle management and ownership semantics. UML 2.5.1 specification clearly defines these relationship types, but proper application requires understanding system semantics. Composition enforces stronger coupling and lifecycle dependency, while Aggregation allows flexibility. Incorrect choice leads to implementation errors and misunderstood designs. Most experienced modelers default to Composition when true ownership exists and Association for weaker relationships, using Aggregation sparingly.",
+        "source": "UML 2.5.1 Specification, UML Best Practices",
+        "context": {
+          "when_applicable": [
+            "Modeling 'has-a' or 'contains' relationships between classes",
+            "Parts are integral to the whole (use Composition)",
+            "Parts can exist independently (use Aggregation or Association)",
+            "Need to clarify ownership semantics in design"
+          ],
+          "when_not_applicable": [
+            "Is-a relationships (use Generalization/Inheritance)",
+            "Temporary usage (use Dependency)",
+            "General relationships without ownership (use Association)"
+          ]
+        },
+        "options": [
+          {
+            "name": "Composition (Filled Diamond ◆)",
+            "confidence": 0.95,
+            "reason": "Strong ownership - parts cannot exist without container, lifecycle tightly coupled",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Clear lifecycle ownership (container deletion cascades to parts)",
+                "Strong encapsulation (parts belong to one container only)",
+                "Enforces design intent (parts are integral to whole)",
+                "Easier to understand (obvious ownership)",
+                "Matches common patterns (House-Room, Car-Engine)",
+                "Direct code implementation (private collection, owner manages lifecycle)"
+              ],
+              "cons": [
+                "Tighter coupling (parts cannot be shared)",
+                "Less flexible (parts can't exist independently)",
+                "May over-constrain design if requirements change",
+                "Cannot represent shared ownership"
+              ]
+            },
+            "context_requirements": [
+              "Parts cannot exist without container",
+              "Container owns parts exclusively",
+              "Destroying container should destroy parts",
+              "Parts are integral to container's identity",
+              "Examples: House-Room, Book-Chapter, Order-OrderLine"
+            ]
+          },
+          {
+            "name": "Aggregation (Hollow Diamond ◇)",
+            "confidence": 0.6,
+            "reason": "Weak ownership - parts can exist independently, more flexible but less common",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Parts can exist without container",
+                "Parts can belong to multiple containers",
+                "More flexible (parts have independent lifecycle)",
+                "Models shared relationships (Department-Employee)",
+                "Less coupling than Composition"
+              ],
+              "cons": [
+                "Semantics often unclear (weaker than Composition, stronger than Association)",
+                "Implementation ambiguous (no direct language support in Java, C#, etc.)",
+                "Many modelers avoid it (prefer Association or Composition)",
+                "Can confuse readers (when to use vs Association?)",
+                "UML community debates its usefulness"
+              ]
+            },
+            "context_requirements": [
+              "Parts can exist without container",
+              "Parts can belong to multiple containers",
+              "Weak ownership relationship",
+              "Examples: Department-Employee, Course-Student, Library-Book"
+            ]
+          },
+          {
+            "name": "Association (Solid Line ────)",
+            "confidence": 0.85,
+            "reason": "General relationship without ownership semantics - often better than Aggregation",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "No ownership implications (neutral)",
+                "Most flexible relationship type",
+                "Clear implementation (reference or collection)",
+                "Widely understood (no confusion)",
+                "Can add multiplicity and role names for clarity",
+                "Preferred by many over Aggregation"
+              ],
+              "cons": [
+                "Doesn't explicitly indicate ownership",
+                "May need additional documentation to clarify lifecycle",
+                "Less precise than Composition for containment"
+              ]
+            },
+            "context_requirements": [
+              "General relationship without clear ownership",
+              "When Aggregation semantics are unclear",
+              "Parts can exist independently",
+              "Prefer simplicity over Aggregation ambiguity"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Parts lifecycle (dependent → Composition; independent → Aggregation or Association)",
+          "Ownership (exclusive → Composition; shared → Aggregation or Association)",
+          "Cascade delete (yes → Composition; no → Aggregation or Association)",
+          "Clarity (prefer Composition or Association; use Aggregation only when semantics are clear)",
+          "Community practice (many prefer Composition + Association, avoid Aggregation)",
+          "Default: Use Composition for strong ownership, Association for general relationships"
+        ],
+        "presentChoice": true
+      }
+    },
+    "diagram_selection": {
+      "class_vs_sequence": {
+        "title": "Class Diagram (Structure) vs Sequence Diagram (Behavior)",
+        "description": "Class Diagrams show static system structure (what system is made of) while Sequence Diagrams show dynamic behavior (what system does over time). Both are fundamental but serve different purposes. For comprehensive documentation, use Class Diagrams to define structure, then Sequence Diagrams to show how classes interact.",
+        "confidence_score": 0.98,
+        "rationale": "Class and Sequence Diagrams are the two most commonly used UML diagrams in practice. Class Diagrams are essential for object-oriented design, defining data structures, and code generation. Sequence Diagrams are essential for understanding complex interactions, API design, and debugging scenarios. Most projects need both. Class Diagrams answer 'what is the structure?' while Sequence Diagrams answer 'how does it work?'. Attempting to use one when the other is more appropriate leads to unclear documentation.",
+        "source": "UML 2.5.1 Specification, UML Best Practices",
+        "context": {
+          "when_applicable": [
+            "Documenting object-oriented systems",
+            "Need both structural and behavioral views",
+            "API design and documentation",
+            "System architecture documentation"
+          ],
+          "when_not_applicable": [
+            "Simple scripts without objects (neither may be needed)",
+            "High-level business process (use Activity or Use Case)"
+          ]
+        },
+        "options": [
+          {
+            "name": "Class Diagram",
+            "confidence": 0.98,
+            "reason": "Shows static structure - classes, attributes, operations, relationships",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Defines system structure (foundational documentation)",
+                "Shows data model and attributes",
+                "Documents relationships (associations, inheritance, composition)",
+                "Supports code generation (forward engineering)",
+                "Enables reverse engineering (code → diagram)",
+                "Essential for database schema design",
+                "Long-lived documentation (structure changes slowly)"
+              ],
+              "cons": [
+                "Doesn't show behavior or interactions",
+                "Doesn't show timing or message sequence",
+                "Can become complex with many classes",
+                "Static view only (no dynamics)"
+              ]
+            },
+            "context_requirements": [
+              "Document system structure",
+              "Define data model",
+              "Show class relationships",
+              "Database schema design",
+              "Code generation",
+              "API interface documentation"
+            ]
+          },
+          {
+            "name": "Sequence Diagram",
+            "confidence": 0.98,
+            "reason": "Shows dynamic interactions over time - messages between objects",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Shows how objects interact over time",
+                "Documents message sequence (critical for understanding)",
+                "Models success and error scenarios",
+                "Essential for complex interactions",
+                "Supports API call sequence documentation",
+                "Debugging and testing scenarios",
+                "Shows object lifecycle (create, destroy)"
+              ],
+              "cons": [
+                "Doesn't show class structure or attributes",
+                "Time-based (specific scenarios, not general structure)",
+                "Can become complex with many messages",
+                "May need multiple diagrams for different scenarios",
+                "Changes frequently with implementation"
+              ]
+            },
+            "context_requirements": [
+              "Document interactions and workflows",
+              "Show message sequence",
+              "API call flows",
+              "Debugging scenarios",
+              "Testing scenarios",
+              "Complex multi-object interactions"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Structure question (what is it made of?) → Class Diagram",
+          "Behavior question (how does it work?) → Sequence Diagram",
+          "Data model design → Class Diagram",
+          "Interaction design → Sequence Diagram",
+          "Long-term documentation → Class Diagram (structure stable)",
+          "Scenario documentation → Sequence Diagram (behavior-specific)",
+          "Best practice: Use BOTH for comprehensive documentation"
+        ],
+        "presentChoice": false
+      }
+    },
+    "modeling_approach": {
+      "agile_vs_comprehensive": {
+        "title": "Agile UML (Just Enough) vs Comprehensive Modeling (Complete Documentation)",
+        "description": "Agile UML advocates 'just enough modeling' - create diagrams to answer specific questions, travel light, iterate. Comprehensive modeling creates complete documentation for all aspects. Agile UML is faster and more practical for modern development. Comprehensive modeling provides thorough documentation but is slower and may become outdated.",
+        "confidence_score": 0.92,
+        "rationale": "Modern software development favors agile/iterative approaches over waterfall/comprehensive upfront design. Agile UML aligns with this by focusing on creating diagrams that solve immediate problems rather than complete documentation. Comprehensive modeling can lead to analysis paralysis, outdated documentation, and wasted effort on diagrams no one uses. However, some domains (aerospace, medical devices, defense) require comprehensive documentation for regulatory compliance. The key is matching approach to context.",
+        "source": "UML Best Practices, Agile Manifesto, Industry Experience",
+        "context": {
+          "when_applicable": [
+            "All software development projects (default to Agile UML)",
+            "Documentation needed for specific problems",
+            "Team collaboration and communication",
+            "Iterative development"
+          ],
+          "when_not_applicable": [
+            "Regulatory compliance requiring complete documentation",
+            "Fixed-bid contracts with detailed specifications",
+            "Very stable, long-term systems"
+          ]
+        },
+        "options": [
+          {
+            "name": "Agile UML (Just Enough Modeling)",
+            "confidence": 0.92,
+            "reason": "Create diagrams to answer specific questions, iterate, travel light",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Faster (model only what's needed now)",
+                "Stays relevant (update diagrams only when needed)",
+                "Focuses on value (solve specific problems)",
+                "Lower maintenance burden (fewer diagrams to update)",
+                "Aligns with agile development",
+                "Avoids analysis paralysis",
+                "Flexible (adapt as understanding improves)",
+                "Whiteboard-friendly (informal, collaborative)"
+              ],
+              "cons": [
+                "Incomplete documentation (intentional, but may cause gaps)",
+                "Less suitable for regulatory compliance",
+                "May need to create diagrams later",
+                "Assumes team collaboration and communication"
+              ]
+            },
+            "context_requirements": [
+              "Agile/iterative development",
+              "Team values working software over comprehensive documentation",
+              "Time-to-market is critical",
+              "Requirements evolve",
+              "NOT regulatory-constrained industry"
+            ]
+          },
+          {
+            "name": "Comprehensive Modeling",
+            "confidence": 0.5,
+            "reason": "Complete documentation for all aspects - thorough but slower and higher maintenance",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Complete documentation (all aspects covered)",
+                "Suitable for regulatory compliance (FDA, DO-178C, etc.)",
+                "Fixed-bid contracts (detailed upfront specification)",
+                "Architectural documentation (stable, long-term)",
+                "Onboarding new team members (comprehensive reference)"
+              ],
+              "cons": [
+                "Slow (takes significant time upfront)",
+                "Analysis paralysis (too much planning, not enough building)",
+                "Outdated quickly (diagrams diverge from code)",
+                "High maintenance burden (many diagrams to update)",
+                "May document things that change (wasted effort)",
+                "Waterfall approach (not agile)"
+              ]
+            },
+            "context_requirements": [
+              "Regulatory compliance required (medical devices, aerospace, defense)",
+              "Fixed-bid contracts with detailed specifications",
+              "Very stable systems (ERP, long-term infrastructure)",
+              "Distributed teams with limited communication",
+              "Waterfall development process"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Development approach (Agile → Just Enough; Waterfall → Comprehensive)",
+          "Regulatory constraints (FDA, DO-178C → Comprehensive; none → Just Enough)",
+          "Contract type (Fixed-bid detailed spec → Comprehensive; Agile contract → Just Enough)",
+          "System stability (Evolving → Just Enough; Very stable → Comprehensive)",
+          "Time pressure (High → Just Enough; Low → Comprehensive tolerable)",
+          "Default for modern development → Agile UML (Just Enough Modeling)"
+        ],
+        "presentChoice": true
+      }
+    },
+    "tool_selection": {
+      "commercial_vs_opensource": {
+        "title": "Commercial UML Tools vs Open Source vs Whiteboard/Sketching",
+        "description": "Commercial tools (Enterprise Architect, Visual Paradigm) offer full features, code generation, and collaboration but cost money. Open source tools (Eclipse Papyrus, StarUML, PlantUML) are free but may have limited features. Whiteboard/sketching is fastest for agile/collaborative modeling but lacks persistence. Choice depends on needs, budget, and team size.",
+        "confidence_score": 0.85,
+        "rationale": "Tool selection significantly impacts modeling effectiveness and team productivity. Commercial tools provide comprehensive features, professional support, and advanced capabilities (code generation, round-trip engineering, team collaboration) but require budget. Open source tools offer core functionality for free and work well for smaller teams or basic needs. Whiteboard/sketching (or drawing tools like draw.io) is fastest for agile teams focused on communication over documentation. Most teams benefit from lightweight tools (draw.io, PlantUML) or whiteboard for agile modeling, reserving commercial tools for large enterprises or Model-Driven Development.",
+        "source": "UML Tool Landscape, Industry Practice",
+        "context": {
+          "when_applicable": [
+            "All teams need some way to create UML diagrams",
+            "Team size, budget, and requirements vary",
+            "Evaluate tool needs vs cost"
+          ],
+          "when_not_applicable": [
+            "No UML modeling needed (very simple projects)"
+          ]
+        },
+        "options": [
+          {
+            "name": "Whiteboard / Lightweight Tools (draw.io, Lucidchart)",
+            "confidence": 0.85,
+            "reason": "Fast, collaborative, good for agile teams - recommended for most projects",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Fastest (quick sketching, no tool overhead)",
+                "Collaborative (team can diagram together)",
+                "Low/no cost (whiteboard free; draw.io free; Lucidchart affordable)",
+                "Flexible (easy to change)",
+                "Aligns with Agile UML (just enough modeling)",
+                "No learning curve (intuitive)",
+                "Version control friendly (draw.io exports text-based XML)"
+              ],
+              "cons": [
+                "No code generation",
+                "No reverse engineering (code → diagram)",
+                "Limited validation (may not catch notation errors)",
+                "Whiteboard not persistent (take photos)",
+                "Basic features only (no advanced UML)"
+              ]
+            },
+            "context_requirements": [
+              "Agile development teams",
+              "Small to medium projects",
+              "Communication-focused modeling",
+              "Limited budget",
+              "NOT needing code generation or round-trip engineering"
+            ]
+          },
+          {
+            "name": "Open Source Tools (Eclipse Papyrus, StarUML, PlantUML)",
+            "confidence": 0.75,
+            "reason": "Free with more features than sketching tools - good for budget-conscious teams",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Free (no licensing cost)",
+                "Full UML 2.5.1 support (most tools)",
+                "Code generation available (some tools)",
+                "Standards-compliant (XMI export/import)",
+                "PlantUML text-based (version control friendly)",
+                "Community support",
+                "Extensible (plugins)"
+              ],
+              "cons": [
+                "Steeper learning curve (more complex than drawing tools)",
+                "Limited support (community-based)",
+                "May have bugs or incomplete features",
+                "Less polished UI than commercial tools",
+                "Team collaboration limited (compared to commercial)"
+              ]
+            },
+            "context_requirements": [
+              "Budget constraints (no money for commercial tools)",
+              "Need code generation or XMI export",
+              "Technical team comfortable with tool complexity",
+              "Single developer or small team"
+            ]
+          },
+          {
+            "name": "Commercial Tools (Enterprise Architect, Visual Paradigm, MagicDraw)",
+            "confidence": 0.6,
+            "reason": "Full-featured, professional support, but expensive - only for large teams or MDD",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Full features (code generation, reverse engineering, round-trip)",
+                "Professional support",
+                "Team collaboration (multi-user, version control integration)",
+                "Advanced modeling (profiles, stereotypes, OCL)",
+                "Model-Driven Development (MDD) support",
+                "Enterprise-scale (large models, performance)",
+                "Standards compliance (UML 2.5.1, XMI, SysML)"
+              ],
+              "cons": [
+                "Expensive (per-user licenses, thousands of dollars)",
+                "Steep learning curve (complex features)",
+                "Overhead (may slow down agile teams)",
+                "Vendor lock-in (proprietary formats)",
+                "Over-engineering risk (too much upfront modeling)"
+              ]
+            },
+            "context_requirements": [
+              "Large enterprise teams",
+              "Model-Driven Development (MDD) approach",
+              "Regulatory compliance requiring tool validation",
+              "Budget available for commercial tools",
+              "Need round-trip engineering",
+              "Complex models requiring advanced features"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Team size (small → Whiteboard/draw.io; large → Commercial)",
+          "Budget (limited → Open Source/draw.io; available → Commercial)",
+          "Development approach (Agile → Whiteboard/draw.io; MDD → Commercial)",
+          "Code generation needed (yes → Open Source or Commercial; no → Whiteboard/draw.io)",
+          "Collaboration needs (co-located → Whiteboard; distributed → draw.io/Lucidchart/Commercial)",
+          "Default recommendation → draw.io or Whiteboard for most agile teams"
+        ],
+        "presentChoice": true
+      },
+      "mermaid_vs_traditional_tools": {
+        "title": "Prefer Mermaid for Documentation and Collaboration, Traditional Tools for Formal Specifications",
+        "description": "For developer-centric documentation, living documentation in repos, and collaborative environments, use Mermaid (text-based, version control friendly). For formal specifications, regulatory documentation, and complex enterprise modeling, use traditional UML tools (Visio, Lucidchart, Enterprise Architect).",
+        "confidence_score": 0.9,
+        "rationale": "Mermaid's text-based approach enables diagrams as code, makes them version control friendly (git diff/blame works), embeds in README files and wikis, requires no special tools (renders in GitHub/GitLab), and enables developers to quickly create and update diagrams. Traditional tools offer more complete UML 2.5.1 compliance, code generation, detailed modeling features, but create binary files that don't diff well and require licensed software. The choice depends on audience (developers vs formal stakeholders), documentation type (living vs formal), and compliance requirements.",
+        "source": "Mermaid Documentation, UML Best Practices",
+        "context": {
+          "when_applicable": [
+            "Developer-centric documentation (README, wikis, API docs)",
+            "Living documentation that evolves with code",
+            "Collaborative environments (team edits diagrams)",
+            "Open source projects",
+            "Agile/iterative development",
+            "Quick visualization needs"
+          ],
+          "when_not_applicable": [
+            "Regulatory compliance documentation (FDA, aerospace)",
+            "Formal enterprise architecture (TOGAF, Zachman)",
+            "Code generation from models required",
+            "Complex state machines with nested states",
+            "Very large models (100+ classes)",
+            "Stakeholders require traditional tool output"
+          ]
+        },
+        "options": [
+          {
+            "name": "Mermaid (Text-Based)",
+            "confidence": 0.9,
+            "reason": "Ideal for developer collaboration, version control, living documentation",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Text-based (version control friendly, git diff works)",
+                "No special tools required (renders in Markdown, GitHub, GitLab, Confluence)",
+                "Free and open source (no licensing costs)",
+                "Living documentation (stays with code in repo)",
+                "Quick to create and update (just edit text)",
+                "Supports 14+ diagram types (Flowchart, Sequence, Class, ERD, State, etc.)",
+                "Renders in documentation platforms (ReadMe, Quarto, Notion)"
+              ],
+              "cons": [
+                "Not native UML (approximates notation)",
+                "Limited styling options vs traditional tools",
+                "Cannot generate code from diagrams",
+                "Less suitable for very complex models",
+                "No visual editor (text editing only, though mermaid.live helps)",
+                "Not all UML 2.5.1 features supported (e.g., Profile diagrams)"
+              ]
+            },
+            "context_requirements": [
+              "Developer-centric audience",
+              "Agile/iterative development process",
+              "Version control is priority",
+              "Documentation lives in git repository",
+              "Team comfortable with text-based tools"
+            ]
+          },
+          {
+            "name": "Traditional UML Tools (Visio, Lucidchart, Enterprise Architect, Visual Paradigm)",
+            "confidence": 0.85,
+            "reason": "Necessary for formal specifications, regulatory compliance, code generation",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Complete UML 2.5.1 compliance",
+                "Code generation from models (Java, C#, C++)",
+                "Reverse engineering (code to diagrams)",
+                "Advanced features (model validation, constraints, profiles)",
+                "Visual editors (drag-and-drop)",
+                "Enterprise model management",
+                "Regulatory compliance (traceability, approvals)",
+                "Export to multiple formats (PDF, PNG, XMI)"
+              ],
+              "cons": [
+                "Binary files (poor version control, git diff doesn't work)",
+                "Expensive licensing (Visio $300+, EA $300-600/user)",
+                "Requires specialized software",
+                "Steeper learning curve",
+                "Not collaborative (file locking issues)",
+                "Difficult to embed in README/wikis",
+                "Vendor lock-in"
+              ]
+            },
+            "context_requirements": [
+              "Formal specifications required",
+              "Regulatory compliance (FDA, DO-178C, ISO 26262)",
+              "Model-Driven Development (MDD)",
+              "Code generation needed",
+              "Enterprise architecture governance",
+              "Budget for licensed tools available"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Audience (developers → Mermaid; formal stakeholders → traditional tools)",
+          "Documentation type (living → Mermaid; formal/regulatory → traditional)",
+          "Version control priority (high → Mermaid; low → traditional)",
+          "Code generation needed (yes → traditional; no → Mermaid)",
+          "Budget (limited → Mermaid free; available → traditional)",
+          "Collaboration model (team editing → Mermaid; sequential → traditional)",
+          "Default recommendation → Mermaid for 80% of developer needs, traditional for regulatory/MDD"
+        ],
+        "presentChoice": true
+      },
+      "dfd_notation_style": {
+        "title": "Use Gane-Sarson DFD Notation for Industry Projects, Yourdon-DeMarco for Academic",
+        "description": "Gane-Sarson notation (rounded rectangles for processes, open rectangles for data stores) is the industry standard for DFDs and should be the default choice for professional projects. Yourdon-DeMarco notation (circles for processes) is more common in academic settings and older texts.",
+        "confidence_score": 0.92,
+        "rationale": "Gane-Sarson notation is more compact, easier to read, and widely used in industry tools (Visio, Lucidchart, Enterprise Architect). Rounded rectangles allow room for process numbers and names. The notation is consistently applied across CASE tools and is what business analysts and system analysts expect to see. Yourdon-DeMarco, while historically significant, is less space-efficient and primarily seen in academic contexts.",
+        "source": "Sparx Systems DFD Guide, Industry Best Practices",
+        "context": {
+          "when_applicable": [
+            "Professional system analysis projects",
+            "Business process documentation",
+            "Security analysis (trust boundaries)",
+            "Legacy system documentation",
+            "Stakeholder communication (business analysts, managers)"
+          ],
+          "when_not_applicable": [
+            "Academic coursework following specific notation requirement",
+            "Maintaining existing DFDs in Yourdon-DeMarco notation",
+            "Historical documentation that must match old notation"
+          ]
+        },
+        "options": [
+          {
+            "name": "Gane-Sarson Notation",
+            "confidence": 0.92,
+            "reason": "Industry standard, compact, tool-supported, easier to read",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Industry standard (expected by business analysts, system analysts)",
+                "More compact (fits more information)",
+                "Rounded rectangles easier to read and label",
+                "Supported by all major tools (Visio, Lucidchart, EA)",
+                "Process numbers and names fit well in rounded rectangles",
+                "Clear distinction between components (square vs rounded vs open rectangle)",
+                "Professional appearance"
+              ],
+              "cons": [
+                "Less common in older academic textbooks",
+                "Not the original DFD notation (Yourdon-DeMarco came first)",
+                "May require re-learning if taught Yourdon-DeMarco"
+              ]
+            },
+            "context_requirements": [
+              "Professional/industry projects",
+              "Business stakeholder communication",
+              "Using modern DFD tools",
+              "New DFD creation (not maintaining legacy)"
+            ]
+          },
+          {
+            "name": "Yourdon-DeMarco Notation",
+            "confidence": 0.7,
+            "reason": "Academic use, historical significance, specific course requirements",
+            "severity": "acceptable",
+            "tradeoffs": {
+              "pros": [
+                "Original DFD notation (historical significance)",
+                "Common in academic textbooks and courses",
+                "Clear visual distinction (circles vs rectangles)",
+                "Circles emphasize process transformations"
+              ],
+              "cons": [
+                "Less space-efficient (circles harder to label)",
+                "Less common in modern industry tools",
+                "Can look cluttered with complex diagrams",
+                "Not expected by most business stakeholders",
+                "Process numbers awkward in circles"
+              ]
+            },
+            "context_requirements": [
+              "Academic coursework with specific requirements",
+              "Maintaining legacy DFDs in Yourdon-DeMarco",
+              "Historical documentation consistency"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Context (industry → Gane-Sarson; academic → may require Yourdon-DeMarco)",
+          "Tool support (modern tools → Gane-Sarson)",
+          "Stakeholder expectations (business analysts → Gane-Sarson)",
+          "Space efficiency (Gane-Sarson more compact)",
+          "Default recommendation → Gane-Sarson for 90% of projects"
+        ],
+        "presentChoice": false
+      },
+      "erd_notation_style": {
+        "title": "Use Crow's Foot ERD Notation for Database Design, Chen for Academic, UML for OOP",
+        "description": "Crow's Foot notation is the industry standard for database design ERDs, providing compact representation with clear cardinality symbols. Chen notation is more common in academic settings. UML Class Diagrams are appropriate when combining database structure with object-oriented design (methods, inheritance).",
+        "confidence_score": 0.93,
+        "rationale": "Crow's Foot notation is universally used in industry database design tools (MySQL Workbench, SQL Server Management Studio, pgModeler, dbdiagram.io, Lucidchart). It's compact (attributes inside entity rectangles), cardinality symbols are intuitive (crow's foot = many, single line = one, circle = optional), and it's what DBAs and database developers expect. Chen notation is more verbose (attributes as separate ovals) and primarily seen in database theory courses. UML Class Diagrams are appropriate when modeling both database structure AND object-oriented behavior (methods, inheritance), but are overkill for pure database design.",
+        "source": "Lucidchart ERD Guide, Database Design Best Practices",
+        "context": {
+          "when_applicable": [
+            "Database schema design and documentation",
+            "Data modeling for relational databases",
+            "Database optimization and normalization analysis",
+            "Communication with DBAs and database developers",
+            "ORM (Object-Relational Mapping) planning"
+          ],
+          "when_not_applicable": [
+            "Academic coursework requiring specific notation",
+            "Object-oriented design requiring methods and inheritance (use UML Class Diagram)",
+            "Maintaining existing ERDs in different notation"
+          ]
+        },
+        "options": [
+          {
+            "name": "Crow's Foot Notation",
+            "confidence": 0.93,
+            "reason": "Industry standard for database design, compact, intuitive cardinality",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Industry standard (expected by DBAs, database developers)",
+                "Compact (attributes listed inside entity rectangles)",
+                "Intuitive cardinality symbols (crow's foot = many, │ = one, ○ = zero)",
+                "Supported by all major database tools (MySQL Workbench, SSMS, pgModeler)",
+                "Clear visual representation (cardinality at both ends of relationship)",
+                "Easy to understand for stakeholders",
+                "Space-efficient for large schemas"
+              ],
+              "cons": [
+                "Less detailed than Chen (no attribute shapes)",
+                "Symbols require learning (crow's foot, circle, bar)",
+                "Not suitable for non-relational databases (NoSQL)"
+              ]
+            },
+            "context_requirements": [
+              "Relational database design",
+              "Professional database projects",
+              "Communication with database professionals",
+              "Using modern database design tools"
+            ]
+          },
+          {
+            "name": "Chen Notation",
+            "confidence": 0.75,
+            "reason": "Academic use, original ER model notation, detailed attribute representation",
+            "severity": "acceptable",
+            "tradeoffs": {
+              "pros": [
+                "Original ER notation (Peter Chen 1976)",
+                "Detailed attribute representation (ovals show attribute types)",
+                "Clear separation of entities, attributes, relationships (distinct shapes)",
+                "Common in database theory textbooks",
+                "Shows composite, multi-valued, derived attributes explicitly"
+              ],
+              "cons": [
+                "Verbose (takes more space)",
+                "Less common in modern industry tools",
+                "Can become cluttered with many attributes",
+                "Not expected by most database professionals",
+                "Ovals for attributes are space-inefficient"
+              ]
+            },
+            "context_requirements": [
+              "Academic database courses",
+              "Database theory teaching",
+              "Detailed attribute modeling needed",
+              "Maintaining legacy Chen notation ERDs"
+            ]
+          },
+          {
+            "name": "UML Class Diagram",
+            "confidence": 0.85,
+            "reason": "When combining database structure with object-oriented design",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Shows both data structure AND behavior (methods)",
+                "Supports inheritance (generalization/specialization)",
+                "Includes interfaces and abstract classes",
+                "Useful for ORM mapping (database ↔ objects)",
+                "Part of comprehensive UML modeling",
+                "Supports design patterns",
+                "Code generation possible"
+              ],
+              "cons": [
+                "More complex than pure ERD",
+                "Overkill for database-only design",
+                "Methods not relevant for pure database schema",
+                "May confuse database-focused stakeholders",
+                "Less compact than Crow's Foot"
+              ]
+            },
+            "context_requirements": [
+              "Object-oriented application design",
+              "ORM framework usage (Entity Framework, Hibernate, SQLAlchemy)",
+              "Need to model both database AND object behavior",
+              "Domain-Driven Design (DDD) projects"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Purpose (database design → Crow's Foot; OOP + database → UML; academic theory → Chen)",
+          "Audience (DBAs → Crow's Foot; developers with OOP → UML; students → Chen)",
+          "Tool support (database tools → Crow's Foot; UML tools → UML)",
+          "Complexity (simple database → Crow's Foot; database + behavior → UML)",
+          "Default recommendation → Crow's Foot for 85% of database design projects"
+        ],
+        "presentChoice": false
+      },
+      "document_template_selection": {
+        "title": "Use SOW for Contracts, SRS for Requirements, Technical Spec for Design",
+        "description": "Select document template based on project phase and purpose: Statement of Work (SOW) for contractual agreements defining scope, deliverables, and timeline; Software Requirements Specification (SRS) for capturing functional and non-functional requirements; Technical Specification (Design Spec) for describing implementation approach and architecture. Each serves different audiences and project phases.",
+        "confidence_score": 0.95,
+        "rationale": "Document templates serve distinct purposes in the software development lifecycle. SOW is a legal/contractual document for client-vendor agreements, focusing on what will be delivered, when, and at what cost. SRS is a requirements document for developers, testers, and stakeholders, focusing on WHAT the system must do (functionality, performance, security). Technical Spec is a design document for developers and architects, focusing on HOW the system will be implemented (architecture, APIs, data models). Using the wrong template creates confusion, missing critical information, and communication failures. Following IEEE standards (830-1998, 1016-2009, 29148-2018) ensures professional, complete documentation.",
+        "source": "IEEE Standards 830/1016/29148, Industry Best Practices",
+        "context": {
+          "when_applicable": [
+            "All professional software projects",
+            "Fixed-bid contracts (SOW mandatory)",
+            "Regulatory environments (SRS for compliance)",
+            "Complex systems requiring design documentation",
+            "Team collaboration and stakeholder communication"
+          ],
+          "when_not_applicable": [
+            "Proof-of-concept prototypes (may skip formal docs)",
+            "Very small internal tools (README may suffice)",
+            "Agile projects with living documentation (may use lightweight alternatives)"
+          ]
+        },
+        "options": [
+          {
+            "name": "Statement of Work (SOW)",
+            "confidence": 0.95,
+            "reason": "Essential for contracts, defines scope, deliverables, timeline, costs",
+            "severity": "mandatory",
+            "tradeoffs": {
+              "pros": [
+                "Legal contract between client and vendor",
+                "Clear scope definition (in/out of scope)",
+                "Deliverables with acceptance criteria",
+                "Timeline with milestones",
+                "Budget and payment terms",
+                "Risk management and change control",
+                "Protects both parties (client and vendor)",
+                "Basis for project success measurement"
+              ],
+              "cons": [
+                "Time-consuming to create",
+                "Requires legal review",
+                "Can become outdated (scope changes)",
+                "Formal change management needed for modifications",
+                "May feel bureaucratic for small projects"
+              ]
+            },
+            "context_requirements": [
+              "Fixed-bid contracts",
+              "Consulting engagements",
+              "Outsourced development",
+              "Government contracts (mandatory)",
+              "Large enterprise projects"
+            ]
+          },
+          {
+            "name": "Software Requirements Specification (SRS)",
+            "confidence": 0.93,
+            "reason": "Captures all requirements (functional and non-functional), basis for development and testing",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Complete requirements documentation (functional, non-functional)",
+                "Basis for development (developers know WHAT to build)",
+                "Basis for testing (testers know WHAT to verify)",
+                "Traceability (requirement → design → code → test)",
+                "Reduces misunderstandings and rework",
+                "IEEE 830-1998 / 29148-2018 standard format",
+                "Regulatory compliance documentation (FDA, FAA, ISO)",
+                "Change impact analysis baseline"
+              ],
+              "cons": [
+                "Can become lengthy (100+ pages for complex systems)",
+                "Requires maintenance as requirements evolve",
+                "May feel heavy for Agile teams (prefer user stories)",
+                "Risk of becoming outdated if not maintained",
+                "Writing good requirements requires skill"
+              ]
+            },
+            "context_requirements": [
+              "All non-trivial software projects",
+              "Regulatory environments (FDA, FAA, automotive)",
+              "Fixed-price contracts (requirements locked)",
+              "Large teams (need shared understanding)",
+              "Long-term projects (requirements reference)"
+            ]
+          },
+          {
+            "name": "Technical Specification (Design Spec)",
+            "confidence": 0.9,
+            "reason": "Describes implementation approach, architecture, design decisions",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Blueprint for implementation (HOW to build)",
+                "Architecture and component design",
+                "Technology stack decisions with rationale",
+                "API designs and data models",
+                "Alternatives considered (design rationale)",
+                "Basis for code reviews (does code match design?)",
+                "Onboarding documentation for new developers",
+                "Design review before costly implementation"
+              ],
+              "cons": [
+                "Can become outdated as code evolves",
+                "Time investment upfront",
+                "May feel like 'Big Design Up Front' (BDUF) for Agile teams",
+                "Requires architectural skill to write well",
+                "Risk of over-design if too detailed"
+              ]
+            },
+            "context_requirements": [
+              "Complex systems requiring upfront design",
+              "Distributed systems (microservices, cloud)",
+              "New technology stack (rationale needed)",
+              "Large teams (alignment on approach)",
+              "Performance-critical systems (design for scale)",
+              "Regulatory environments (design review required)"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Project phase (contract → SOW; requirements → SRS; design → Technical Spec)",
+          "Audience (legal/client → SOW; developers/testers/BA → SRS; architects/developers → Technical Spec)",
+          "Purpose (scope agreement → SOW; WHAT system does → SRS; HOW system built → Technical Spec)",
+          "Regulatory (FDA/FAA/automotive → all three mandatory; internal projects → may skip SOW)",
+          "Project size (small internal tool → may use README only; enterprise → all three)",
+          "Default recommendation → SRS and Technical Spec for most professional projects, SOW for contracts"
+        ],
+        "presentChoice": false
+      },
+      "ascii_art_absolutely_forbidden": {
+        "title": "ASCII Art Diagrams Are STRICTLY FORBIDDEN - Use Mermaid or SVG ONLY",
+        "description": "ASCII art diagrams (boxes made of characters, text-based arrows) are absolutely forbidden in all professional documentation. They are unprofessional, unreadable, break rendering, and produce terrible quality output. MANDATORY: Use Mermaid for text-based diagrams that render properly, or SVG when Mermaid has limitations. There is NO acceptable use case for ASCII art in professional documentation.",
+        "confidence_score": 1.0,
+        "rationale": "ASCII art diagrams fail on every quality metric: (1) Unprofessional appearance - looks like code from the 1980s; (2) Poor readability - breaks on different fonts, terminals, editors; (3) Inconsistent rendering - looks different in every viewer; (4) Not maintainable - difficult to edit, align, update; (5) Accessibility issues - screen readers cannot interpret; (6) No styling options - monochrome, fixed size; (7) Breaks in proportional fonts - designed for monospace only. Mermaid provides text-based diagrams that render as professional graphics in all modern documentation platforms (GitHub, GitLab, Confluence, Notion, wikis). SVG provides professional vector graphics when Mermaid limitations are encountered. There is absolutely no justification for using ASCII art in professional documentation - it is a quality and professionalism failure.",
+        "source": "Professional Documentation Standards, User Feedback",
+        "context": {
+          "when_applicable": [
+            "ALL professional documentation",
+            "ALL diagrams in technical documentation",
+            "ALL architecture documentation",
+            "ALL README files",
+            "ALL wikis and knowledge bases",
+            "This rule applies universally with ZERO exceptions"
+          ],
+          "when_not_applicable": [
+            "NEVER - There is no situation where ASCII art is acceptable",
+            "Not even for 'quick sketches' - use Mermaid instead",
+            "Not even for 'simple diagrams' - Mermaid is just as easy",
+            "Not even for 'placeholder diagrams' - start with Mermaid from day one"
+          ]
+        },
+        "options": [
+          {
+            "name": "Mermaid Diagrams (Text-Based, Renders Properly)",
+            "confidence": 1.0,
+            "reason": "Professional rendering, version control friendly, universal platform support",
+            "severity": "mandatory",
+            "tradeoffs": {
+              "pros": [
+                "Professional rendering (NOT character-based)",
+                "Text-based source (version control friendly, git diff works)",
+                "Universal support (GitHub, GitLab, Confluence, Notion, wikis)",
+                "Consistent styling (colors, shapes, fonts)",
+                "Scales properly (not fixed to monospace grid)",
+                "Accessible (renders as proper graphics)",
+                "Easy to write (simpler syntax than ASCII art alignment)",
+                "Living documentation (stays with code)",
+                "Free and open source",
+                "14+ diagram types supported"
+              ],
+              "cons": [
+                "Requires basic syntax knowledge (5 minutes to learn)",
+                "May have limitations for very complex custom layouts (use SVG instead)"
+              ]
+            },
+            "context_requirements": [
+              "ALL diagrams that Mermaid supports",
+              "Flowcharts, Sequence, Class, ERD, State, DFD, etc.",
+              "This is the default and mandatory choice",
+              "If unsure, START with Mermaid"
+            ]
+          },
+          {
+            "name": "SVG (Scalable Vector Graphics)",
+            "confidence": 0.95,
+            "reason": "Professional vector graphics for complex diagrams Mermaid cannot handle",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Professional vector graphics (scales perfectly)",
+                "Unlimited styling and layout options",
+                "Can be created with draw.io, Lucidchart, Inkscape, Adobe Illustrator",
+                "Embeddable in HTML and Markdown",
+                "Version controllable (XML-based text format)",
+                "Industry standard",
+                "Accessible when properly structured"
+              ],
+              "cons": [
+                "Requires external tool (draw.io, Inkscape, etc.)",
+                "Larger file size than Mermaid source",
+                "Git diffs less readable than Mermaid text",
+                "Not as quick to create as Mermaid"
+              ]
+            },
+            "context_requirements": [
+              "Complex diagrams Mermaid cannot represent",
+              "Custom layouts requiring pixel-perfect positioning",
+              "Diagrams needing advanced styling",
+              "Integration with design tools",
+              "When Mermaid limitations are definitively encountered"
+            ]
+          },
+          {
+            "name": "ASCII Art (Character-Based Diagrams)",
+            "confidence": 0.0,
+            "reason": "ABSOLUTELY FORBIDDEN - Unprofessional, unreadable, terrible quality",
+            "severity": "forbidden",
+            "tradeoffs": {
+              "pros": [
+                "NONE - There are no advantages to ASCII art",
+                "Any perceived advantage (text-based, no tools) is better served by Mermaid"
+              ],
+              "cons": [
+                "Unprofessional appearance (looks like 1980s terminal output)",
+                "Unreadable (breaks on different fonts, terminals, proportional fonts)",
+                "Inconsistent rendering (looks different everywhere)",
+                "Not maintainable (nightmare to align, edit, update)",
+                "Accessibility nightmare (screen readers fail)",
+                "No styling options (monochrome, fixed size, ugly)",
+                "Breaks in modern editors with proportional fonts",
+                "Communicates lack of professionalism",
+                "User frustration (as evidenced by feedback)",
+                "Rejected in code reviews",
+                "Embarrassing in professional documentation",
+                "STRICTLY FORBIDDEN BY DOCUMENTATION STANDARDS"
+              ]
+            },
+            "context_requirements": [
+              "NEVER USE - This is forbidden",
+              "Not even as placeholder",
+              "Not even for quick sketches",
+              "Not even for internal docs",
+              "If you're considering ASCII art, use Mermaid instead",
+              "Violation of this rule is a critical documentation failure"
+            ]
+          }
+        ],
+        "decision_factors": [
+          "Can Mermaid represent this diagram? (YES → Use Mermaid, NO → Use SVG)",
+          "Is this ASCII art? (YES → DELETE IT AND USE MERMAID OR SVG)",
+          "Default for 95% of diagrams → Mermaid",
+          "For complex custom layouts → SVG",
+          "NEVER EVER under any circumstances → ASCII art (forbidden)"
+        ],
+        "presentChoice": false
+      }
+    }
+  }
+}

@@ -1,0 +1,615 @@
+{
+  "name": "css-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "CSS (Cascading Style Sheets) technology expert for styling web pages, layouts, animations, and responsive design",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-20",
+    "lastUpdated": "2025-01-24",
+    "author": "Development Team",
+    "status": "active",
+    "last_source_update": "CSS Specifications 2025 - Updated with DevDocs CSS documentation"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "DevDocs – CSS Documentation (https://devdocs.io/css/)",
+      "MDN – CSS: Cascading Style Sheets (https://developer.mozilla.org/en-US/docs/Web/CSS)",
+      "MDN – Getting started with CSS (https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Getting_started)",
+      "MDN – CSS Selectors Reference (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors)",
+      "MDN – CSS Reference - full property list (https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)",
+      "W3C CSS Working Group – Complete list of CSS specs (https://www.w3.org/Style/CSS/specs.en.html)",
+      "W3C – CSS Syntax Module Level 3 (https://www.w3.org/TR/css-syntax-3/)",
+      "MDN – Cascade and inheritance (https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance)",
+      "MDN – Layout - Flexbox, Grid, etc. (https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout)",
+      "MDN – CSS Transitions and Animations (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations)",
+      "W3C – Media Queries Level 5 (https://www.w3.org/TR/mediaqueries-5/)"
+    ],
+    "coverage": "Covers CSS syntax, selectors, properties, cascade, specificity, inheritance, box model, layout (Flexbox, Grid, positioning), responsive design (media queries), animations, transitions, transforms",
+    "version_info": "CSS1, CSS2, CSS2.1, CSS3 (modular specifications), CSS4 (media queries), CSS5 (container queries)"
+  },
+
+  "triggers": {
+    "keywords": [
+      "css",
+      "stylesheet",
+      "style",
+      "selector",
+      "flexbox",
+      "grid",
+      "media query",
+      "animation",
+      "transition",
+      "transform",
+      "box model",
+      "cascade",
+      "specificity",
+      "pseudo-class",
+      "pseudo-element",
+      "responsive",
+      "layout"
+    ],
+    "phrases": [
+      "css selector",
+      "css property",
+      "css layout",
+      "flexbox layout",
+      "grid layout",
+      "media query",
+      "css animation",
+      "css transition",
+      "cascade and specificity",
+      "responsive design",
+      "box model",
+      "css positioning",
+      "css transform",
+      "pseudo-class",
+      "pseudo-element"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate syntactically correct CSS code",
+      "Explain CSS selectors and specificity",
+      "Create Flexbox and Grid layouts",
+      "Define animations and transitions",
+      "Configure media queries for responsive design",
+      "Apply cascade, inheritance, and specificity rules",
+      "Style with box model properties (margin, padding, border)",
+      "Use transforms and positioning",
+      "Generate complete CSS stylesheets"
+    ],
+    "cannot_do": [
+      "Recommend design aesthetics (opinion-based)",
+      "Choose color schemes or typography (opinion-based)",
+      "Suggest CSS frameworks like Bootstrap or Tailwind (opinion)",
+      "Make subjective design decisions",
+      "Recommend specific methodologies like BEM or SMACSS (opinion)"
+    ]
+  },
+
+  "facts": {
+    "syntax_fundamentals": {
+      "css_rule": {
+        "statement": "CSS rules consist of a selector and a declaration block containing property-value pairs",
+        "confidence": 1.0,
+        "source": "W3C CSS Syntax Module Level 3",
+        "example": "selector { property: value; property2: value2; }",
+        "structure": {
+          "selector": "Targets HTML elements",
+          "declaration_block": "Enclosed in curly braces { }",
+          "declaration": "property: value pair separated by colon",
+          "separator": "Declarations separated by semicolons"
+        }
+      },
+      "comments": {
+        "statement": "CSS comments use /* */ syntax and can span multiple lines",
+        "confidence": 1.0,
+        "source": "W3C CSS Syntax Module Level 3",
+        "example": "/* This is a comment */",
+        "multiline": "/* This is\n   a multi-line\n   comment */"
+      },
+      "at_rules": {
+        "statement": "CSS at-rules start with @ and provide special instructions",
+        "confidence": 1.0,
+        "source": "W3C CSS Syntax Module Level 3",
+        "examples": [
+          "@import 'styles.css'; - Import external stylesheet",
+          "@media (max-width: 768px) { } - Media query",
+          "@keyframes animationName { } - Animation definition",
+          "@font-face { } - Custom font definition",
+          "@supports (display: grid) { } - Feature query"
+        ]
+      }
+    },
+
+    "selectors": {
+      "type_selector": {
+        "statement": "Type selectors target elements by tag name",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "example": "p { color: blue; } - Targets all <p> elements",
+        "specificity": "0,0,1"
+      },
+      "class_selector": {
+        "statement": "Class selectors use dot (.) prefix to target elements with specified class attribute",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "example": ".button { background: red; } - Targets class=\"button\"",
+        "specificity": "0,1,0",
+        "html_usage": "<div class=\"button\">Click</div>"
+      },
+      "id_selector": {
+        "statement": "ID selectors use hash (#) prefix to target element with specified id attribute",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "example": "#header { height: 100px; } - Targets id=\"header\"",
+        "specificity": "1,0,0",
+        "uniqueness": "IDs should be unique per page"
+      },
+      "universal_selector": {
+        "statement": "Universal selector (*) targets all elements",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "example": "* { margin: 0; padding: 0; }",
+        "specificity": "0,0,0",
+        "use_case": "CSS resets"
+      },
+      "attribute_selector": {
+        "statement": "Attribute selectors target elements based on attributes and values",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "patterns": [
+          "[attr] - Has attribute",
+          "[attr=value] - Exact match",
+          "[attr~=value] - Contains word",
+          "[attr|=value] - Starts with value or value-",
+          "[attr^=value] - Starts with value",
+          "[attr$=value] - Ends with value",
+          "[attr*=value] - Contains substring"
+        ],
+        "example": "input[type=\"text\"] { border: 1px solid gray; }"
+      },
+      "pseudo_class": {
+        "statement": "Pseudo-classes target elements in specific states using colon (:) syntax",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "common_pseudo_classes": [
+          ":hover - Mouse over",
+          ":active - Being activated (clicked)",
+          ":focus - Has keyboard focus",
+          ":visited - Visited link",
+          ":first-child - First child of parent",
+          ":last-child - Last child of parent",
+          ":nth-child(n) - Nth child",
+          ":nth-of-type(n) - Nth element of type",
+          ":not(selector) - Does not match selector",
+          ":checked - Checked input",
+          ":disabled - Disabled input"
+        ],
+        "example": "button:hover { background: blue; }"
+      },
+      "pseudo_element": {
+        "statement": "Pseudo-elements target specific parts of elements using double colon (::) syntax",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "pseudo_elements": [
+          "::before - Insert content before element",
+          "::after - Insert content after element",
+          "::first-line - First line of text",
+          "::first-letter - First letter",
+          "::selection - Selected text",
+          "::placeholder - Input placeholder text"
+        ],
+        "example": "p::first-letter { font-size: 2em; }",
+        "content_required": "::before and ::after require content property"
+      },
+      "combinator": {
+        "statement": "Combinators define relationships between selectors",
+        "confidence": 1.0,
+        "source": "MDN CSS Selectors Reference",
+        "combinators": [
+          {
+            "symbol": "space",
+            "name": "Descendant combinator",
+            "description": "Matches descendants at any level",
+            "example": "div p { } - All <p> inside <div>"
+          },
+          {
+            "symbol": ">",
+            "name": "Child combinator",
+            "description": "Matches direct children only",
+            "example": "ul > li { } - Direct <li> children of <ul>"
+          },
+          {
+            "symbol": "+",
+            "name": "Adjacent sibling combinator",
+            "description": "Matches immediately following sibling",
+            "example": "h1 + p { } - <p> immediately after <h1>"
+          },
+          {
+            "symbol": "~",
+            "name": "General sibling combinator",
+            "description": "Matches all following siblings",
+            "example": "h1 ~ p { } - All <p> siblings after <h1>"
+          }
+        ]
+      }
+    },
+
+    "cascade_and_specificity": {
+      "cascade": {
+        "statement": "Cascade determines which rules apply when multiple rules target same element",
+        "confidence": 1.0,
+        "source": "MDN Cascade and inheritance",
+        "order_of_precedence": [
+          "1. Importance (!important)",
+          "2. Specificity (ID > Class > Type)",
+          "3. Source order (later rules override earlier)"
+        ],
+        "important": "!important overrides normal declarations but should be avoided"
+      },
+      "specificity": {
+        "statement": "Specificity is calculated as (inline, ID, class/attribute/pseudo-class, type/pseudo-element)",
+        "confidence": 1.0,
+        "source": "MDN Cascade and inheritance",
+        "calculation": [
+          "Inline styles: 1,0,0,0 (highest)",
+          "IDs: 0,1,0,0",
+          "Classes, attributes, pseudo-classes: 0,0,1,0",
+          "Types, pseudo-elements: 0,0,0,1",
+          "Universal selector (*): 0,0,0,0"
+        ],
+        "examples": [
+          "#nav .link { } = 0,1,1,0",
+          "ul li a { } = 0,0,0,3",
+          ".btn:hover { } = 0,0,2,0"
+        ]
+      },
+      "inheritance": {
+        "statement": "Some CSS properties inherit from parent to child elements",
+        "confidence": 1.0,
+        "source": "MDN Cascade and inheritance",
+        "inherited_properties": [
+          "color",
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+          "text-align",
+          "visibility"
+        ],
+        "non_inherited_properties": [
+          "margin",
+          "padding",
+          "border",
+          "background",
+          "width",
+          "height"
+        ],
+        "inherit_keyword": "property: inherit; forces inheritance",
+        "initial_keyword": "property: initial; resets to default value"
+      }
+    },
+
+    "box_model": {
+      "box_model_components": {
+        "statement": "CSS box model consists of content, padding, border, and margin (outside to inside: margin, border, padding, content)",
+        "confidence": 1.0,
+        "source": "MDN CSS Box Model",
+        "components": [
+          "content - Actual element content (text, images)",
+          "padding - Space between content and border (transparent)",
+          "border - Border around padding and content",
+          "margin - Space outside border (transparent, collapses with adjacent margins)"
+        ],
+        "box_sizing": {
+          "content_box": "Default. Width/height apply to content only",
+          "border_box": "Width/height include padding and border"
+        }
+      },
+      "margin": {
+        "statement": "Margin creates space outside element border, can be negative, margins collapse vertically",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "syntax": [
+          "margin: 10px; - All sides",
+          "margin: 10px 20px; - Top/bottom, left/right",
+          "margin: 10px 20px 30px; - Top, left/right, bottom",
+          "margin: 10px 20px 30px 40px; - Top, right, bottom, left (clockwise)"
+        ],
+        "individual_properties": "margin-top, margin-right, margin-bottom, margin-left",
+        "auto_centering": "margin: 0 auto; centers block element"
+      },
+      "padding": {
+        "statement": "Padding creates space inside element border, cannot be negative",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "syntax": [
+          "padding: 10px; - All sides",
+          "padding: 10px 20px; - Top/bottom, left/right",
+          "padding: 10px 20px 30px; - Top, left/right, bottom",
+          "padding: 10px 20px 30px 40px; - Top, right, bottom, left"
+        ],
+        "individual_properties": "padding-top, padding-right, padding-bottom, padding-left"
+      },
+      "border": {
+        "statement": "Border surrounds padding and content with customizable width, style, and color",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "shorthand": "border: width style color;",
+        "example": "border: 2px solid black;",
+        "styles": [
+          "none",
+          "solid",
+          "dashed",
+          "dotted",
+          "double",
+          "groove",
+          "ridge",
+          "inset",
+          "outset"
+        ],
+        "individual_sides": "border-top, border-right, border-bottom, border-left",
+        "individual_properties": "border-width, border-style, border-color",
+        "border_radius": "border-radius: 10px; rounds corners"
+      }
+    },
+
+    "layout": {
+      "display": {
+        "statement": "Display property controls element's display behavior and layout mode",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "values": [
+          "block - Takes full width, starts new line",
+          "inline - Flows with text, no width/height",
+          "inline-block - Inline flow but accepts width/height",
+          "flex - Flexbox container",
+          "grid - Grid container",
+          "none - Hidden from layout"
+        ],
+        "example": "display: flex;"
+      },
+      "flexbox": {
+        "statement": "Flexbox is a one-dimensional layout method for arranging items in rows or columns",
+        "confidence": 1.0,
+        "source": "MDN Layout - Flexbox",
+        "container_properties": [
+          "display: flex; - Activates flexbox",
+          "flex-direction: row | row-reverse | column | column-reverse",
+          "justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly",
+          "align-items: flex-start | flex-end | center | baseline | stretch",
+          "flex-wrap: nowrap | wrap | wrap-reverse",
+          "gap: 10px; - Space between items"
+        ],
+        "item_properties": [
+          "flex-grow: 0; - Grow factor",
+          "flex-shrink: 1; - Shrink factor",
+          "flex-basis: auto; - Initial size",
+          "flex: 1; - Shorthand for grow shrink basis",
+          "align-self: auto | flex-start | flex-end | center | baseline | stretch"
+        ],
+        "example": ".container { display: flex; justify-content: center; align-items: center; gap: 1rem; }"
+      },
+      "grid": {
+        "statement": "Grid is a two-dimensional layout system with rows and columns",
+        "confidence": 1.0,
+        "source": "MDN Layout - Grid",
+        "container_properties": [
+          "display: grid; - Activates grid",
+          "grid-template-columns: 1fr 1fr 1fr; - Column tracks",
+          "grid-template-rows: 100px auto; - Row tracks",
+          "grid-template-areas: 'header header' 'sidebar content'; - Named areas",
+          "gap: 10px; or row-gap/column-gap - Spacing",
+          "justify-items: start | end | center | stretch",
+          "align-items: start | end | center | stretch"
+        ],
+        "item_properties": [
+          "grid-column: 1 / 3; - Span columns",
+          "grid-row: 1 / 2; - Span rows",
+          "grid-area: header; - Named area",
+          "justify-self: start | end | center | stretch",
+          "align-self: start | end | center | stretch"
+        ],
+        "fr_unit": "fr (fractional unit) represents portion of available space",
+        "example": ".container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }"
+      },
+      "positioning": {
+        "statement": "Position property controls element positioning method",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "values": [
+          {
+            "value": "static",
+            "description": "Default. Normal document flow. top/right/bottom/left have no effect."
+          },
+          {
+            "value": "relative",
+            "description": "Positioned relative to normal position. Creates positioning context for children."
+          },
+          {
+            "value": "absolute",
+            "description": "Removed from flow. Positioned relative to nearest positioned ancestor."
+          },
+          {
+            "value": "fixed",
+            "description": "Removed from flow. Positioned relative to viewport. Stays in place on scroll."
+          },
+          {
+            "value": "sticky",
+            "description": "Toggles between relative and fixed based on scroll position."
+          }
+        ],
+        "offset_properties": "top, right, bottom, left",
+        "z_index": "z-index controls stacking order (only works on positioned elements)"
+      }
+    },
+
+    "responsive_design": {
+      "media_queries": {
+        "statement": "Media queries apply styles based on device characteristics like screen size, orientation, resolution",
+        "confidence": 1.0,
+        "source": "W3C Media Queries Level 5",
+        "syntax": "@media media-type and (media-feature) { /* styles */ }",
+        "media_types": [
+          "all - All devices (default)",
+          "screen - Screen devices",
+          "print - Print preview and printed pages"
+        ],
+        "common_features": [
+          "width, min-width, max-width - Viewport width",
+          "height, min-height, max-height - Viewport height",
+          "orientation: portrait | landscape",
+          "aspect-ratio - Viewport aspect ratio",
+          "resolution - Device pixel density"
+        ],
+        "examples": [
+          "@media (max-width: 768px) { } - Mobile styles",
+          "@media (min-width: 769px) and (max-width: 1024px) { } - Tablet",
+          "@media (min-width: 1025px) { } - Desktop",
+          "@media (orientation: landscape) { } - Landscape orientation",
+          "@media (prefers-color-scheme: dark) { } - Dark mode preference"
+        ],
+        "logical_operators": "and, or, not"
+      },
+      "viewport_meta": {
+        "statement": "Viewport meta tag controls mobile browser viewport behavior",
+        "confidence": 1.0,
+        "source": "MDN Responsive Design",
+        "recommended": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+        "properties": [
+          "width=device-width - Match device width",
+          "initial-scale=1.0 - Initial zoom level",
+          "maximum-scale - Maximum zoom",
+          "user-scalable=no - Disable zoom (accessibility concern)"
+        ]
+      },
+      "responsive_units": {
+        "statement": "Responsive units scale based on context",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "relative_units": [
+          "em - Relative to parent font-size",
+          "rem - Relative to root (html) font-size",
+          "% - Percentage of parent",
+          "vw - 1% of viewport width",
+          "vh - 1% of viewport height",
+          "vmin - 1% of smaller viewport dimension",
+          "vmax - 1% of larger viewport dimension"
+        ],
+        "absolute_units": [
+          "px - Pixels",
+          "pt - Points (1pt = 1/72 inch)",
+          "cm, mm, in - Physical measurements"
+        ]
+      }
+    },
+
+    "animations_and_transitions": {
+      "transitions": {
+        "statement": "Transitions animate property changes over time",
+        "confidence": 1.0,
+        "source": "MDN CSS Transitions",
+        "properties": [
+          "transition-property: all | property-name - Which properties to transition",
+          "transition-duration: 0.3s - How long transition takes",
+          "transition-timing-function: ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier()",
+          "transition-delay: 0s - Delay before transition starts"
+        ],
+        "shorthand": "transition: property duration timing-function delay;",
+        "example": "transition: background-color 0.3s ease, transform 0.3s ease;",
+        "trigger": "Transitions occur when property value changes (e.g., on :hover)"
+      },
+      "animations": {
+        "statement": "Animations create complex multi-step animations using keyframes",
+        "confidence": 1.0,
+        "source": "MDN CSS Animations",
+        "keyframes_syntax": "@keyframes animation-name {\n  0% { property: value; }\n  50% { property: value; }\n  100% { property: value; }\n}",
+        "animation_properties": [
+          "animation-name: keyframe-name - Which @keyframes to use",
+          "animation-duration: 2s - How long one cycle takes",
+          "animation-timing-function: ease | linear | ease-in | ease-out | ease-in-out",
+          "animation-delay: 0s - Delay before animation starts",
+          "animation-iteration-count: 1 | infinite - How many times to repeat",
+          "animation-direction: normal | reverse | alternate | alternate-reverse",
+          "animation-fill-mode: none | forwards | backwards | both",
+          "animation-play-state: running | paused"
+        ],
+        "shorthand": "animation: name duration timing-function delay iteration-count direction fill-mode;",
+        "example": "@keyframes fadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n\n.element {\n  animation: fadeIn 1s ease-in;\n}"
+      },
+      "transforms": {
+        "statement": "Transforms modify element appearance without affecting document flow",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "2d_transforms": [
+          "translate(x, y) - Move element",
+          "translateX(x), translateY(y) - Move on axis",
+          "scale(x, y) - Resize element",
+          "scaleX(x), scaleY(y) - Scale on axis",
+          "rotate(angle) - Rotate element",
+          "skew(x-angle, y-angle) - Skew element",
+          "skewX(angle), skewY(angle) - Skew on axis"
+        ],
+        "3d_transforms": [
+          "translate3d(x, y, z)",
+          "scale3d(x, y, z)",
+          "rotate3d(x, y, z, angle)",
+          "perspective(n) - 3D perspective"
+        ],
+        "transform_origin": "transform-origin: x y; - Point around which transforms occur",
+        "example": "transform: translateX(100px) rotate(45deg) scale(1.5);"
+      }
+    },
+
+    "colors_and_backgrounds": {
+      "color_formats": {
+        "statement": "CSS supports multiple color notation formats",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "formats": [
+          "Named colors: red, blue, transparent",
+          "Hexadecimal: #RRGGBB or #RGB",
+          "RGB: rgb(255, 0, 0)",
+          "RGBA: rgba(255, 0, 0, 0.5) - With alpha transparency",
+          "HSL: hsl(0, 100%, 50%) - Hue, Saturation, Lightness",
+          "HSLA: hsla(0, 100%, 50%, 0.5) - With alpha"
+        ],
+        "example": "color: #ff0000; background: rgba(0, 0, 0, 0.5);"
+      },
+      "background": {
+        "statement": "Background properties control element background appearance",
+        "confidence": 1.0,
+        "source": "MDN CSS Reference",
+        "properties": [
+          "background-color: color - Background color",
+          "background-image: url('image.jpg') - Background image",
+          "background-repeat: repeat | repeat-x | repeat-y | no-repeat",
+          "background-position: x y - Image position",
+          "background-size: cover | contain | width height",
+          "background-attachment: scroll | fixed | local"
+        ],
+        "shorthand": "background: color image repeat position / size;",
+        "multiple_backgrounds": "background: url(img1.png), url(img2.png);",
+        "gradients": [
+          "linear-gradient(direction, color1, color2)",
+          "radial-gradient(shape, color1, color2)"
+        ]
+      }
+    }
+  },
+
+  "required_folders": ["training/"],
+
+  "notes": {
+    "maintenance": "Update when W3C publishes new CSS specifications or MDN updates documentation",
+    "coverage": "Covers CSS1, CSS2, CSS2.1, CSS3 modules, and modern CSS features including Flexbox, Grid, Custom Properties, Container Queries",
+    "related_experts": "Coordinate with html-expert for semantic markup, javascript-expert for DOM manipulation, responsive-design-expert for mobile-first approaches"
+  }
+}

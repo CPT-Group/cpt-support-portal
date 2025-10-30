@@ -1,0 +1,348 @@
+{
+  "name": "html-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive HTML (HyperText Markup Language) technology expert covering HTML5 elements, attributes, semantics, forms, tables, accessibility, and best practices",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+  
+  "metadata": {
+    "created": "2025-10-20",
+    "lastUpdated": "2025-10-20",
+    "author": "Development Team",
+    "status": "active",
+    "last_source_update": "October 2025 - MDN Web Docs, WHATWG HTML Living Standard, W3C HTML Reference"
+  },
+  
+  "sources": {
+    "official_documentation": [
+      "Mozilla Developer Network (MDN) - HTML documentation",
+      "WHATWG HTML Living Standard (official specification)",
+      "W3C HTML Working Group / HTML Reference"
+    ],
+    "urls": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTML",
+      "https://html.spec.whatwg.org/",
+      "https://w3c.github.io/html-reference/"
+    ],
+    "version_info": "HTML Living Standard, HTML5, modern browser implementations October 2025"
+  },
+  
+  "triggers": {
+    "keywords": [
+      "html",
+      "html5",
+      "markup",
+      "element",
+      "tag",
+      "attribute",
+      "form",
+      "input",
+      "table",
+      "semantic html",
+      "accessibility",
+      "aria",
+      "meta tag",
+      "doctype",
+      "viewport",
+      "heading",
+      "paragraph",
+      "link",
+      "anchor",
+      "image",
+      "img",
+      "video",
+      "audio",
+      "canvas",
+      "svg",
+      "iframe",
+      "div",
+      "span",
+      "section",
+      "article",
+      "nav",
+      "header",
+      "footer",
+      "main",
+      "aside"
+    ],
+    "phrases": [
+      "html document",
+      "html structure",
+      "html element",
+      "html tag",
+      "html attribute",
+      "html form",
+      "input type",
+      "html table",
+      "semantic html",
+      "aria attribute",
+      "meta viewport",
+      "responsive images",
+      "html validation",
+      "form validation",
+      "accessibility html",
+      "html5 element",
+      "character entity",
+      "data attribute",
+      "html template"
+    ]
+  },
+  
+  "capabilities": {
+    "can_do": [
+      "Generate valid HTML5 markup",
+      "Explain HTML document structure and syntax",
+      "Describe all HTML elements and their attributes",
+      "Generate forms with all input types and validation",
+      "Generate accessible tables with proper structure",
+      "Generate semantic HTML markup",
+      "Generate ARIA-enhanced elements for accessibility",
+      "Generate meta tags for SEO and social media",
+      "Generate responsive images with srcset and sizes",
+      "Explain HTML validation rules and requirements",
+      "Describe form validation attributes and API",
+      "Generate character entities for special characters",
+      "Explain data attributes and usage",
+      "Describe multimedia elements (video, audio, canvas, SVG)",
+      "Generate accessible navigation structures",
+      "Explain HTML5 vs XHTML differences"
+    ],
+    "cannot_do": [
+      "Make design decisions (CSS styling - see css-expert)",
+      "Make architectural decisions without context",
+      "Choose between valid HTML approaches without requirements",
+      "Provide JavaScript implementations (see typescript-expert)",
+      "Design page layouts (requires CSS knowledge)",
+      "Choose specific form validation strategies without context",
+      "Access or modify live web pages",
+      "Determine appropriate semantic elements without content context",
+      "Choose between multiple valid HTML patterns without requirements"
+    ]
+  },
+  
+  "facts": {
+    "document_structure": {
+      "doctype": {
+        "statement": "The DOCTYPE declaration <!DOCTYPE html> must be the first line of an HTML document and declares the document type as HTML5, triggering standards mode in browsers",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<!DOCTYPE html>"
+      },
+      "html_element": {
+        "statement": "The <html> element is the root element containing all content, with the lang attribute specifying the language code (e.g., en, en-US, fr, es) for accessibility and SEO",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<html lang=\"en\"> or <html lang=\"en-US\">"
+      },
+      "head_element": {
+        "statement": "The <head> element contains metadata about the document (title, meta, link, style, script) that is not displayed on the page",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<head><meta charset=\"UTF-8\"><title>Page Title</title></head>"
+      },
+      "body_element": {
+        "statement": "The <body> element contains all visible content of the document, with one <body> element per document",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<body><!-- All visible content --></body>"
+      }
+    },
+    
+    "metadata": {
+      "title": {
+        "statement": "The <title> element is required in every HTML document, provides browser tab text, bookmarks, search results, and should be 50-60 characters, descriptive, and include site name for SEO",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<title>Page Title - Site Name</title>"
+      },
+      "charset": {
+        "statement": "The <meta charset=\"UTF-8\"> element specifies character encoding as UTF-8 (universal encoding supporting all languages), is required, and must be first in <head> or within first 1024 bytes",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<meta charset=\"UTF-8\">"
+      },
+      "viewport": {
+        "statement": "The <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> element controls viewport scaling on mobile devices with width=device-width (use device width) and initial-scale=1.0 (no initial zoom), required for responsive design",
+        "confidence": 1.0,
+        "source": "MDN Web Docs",
+        "example": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+      },
+      "description": {
+        "statement": "The <meta name=\"description\" content=\"...\"> element provides page description in search results, should be 150-160 characters, and is important for SEO click-through rate",
+        "confidence": 1.0,
+        "source": "MDN Web Docs",
+        "example": "<meta name=\"description\" content=\"Page description for search engines\">"
+      }
+    },
+    
+    "text_content": {
+      "headings": {
+        "statement": "HTML provides 6 heading levels (h1-h6) where h1 is the main heading (one per page), must be used hierarchically (don't skip levels: h1 → h2 → h3 not h1 → h3), are semantic for structure not styling, and screen readers use for navigation",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<h1>Main Heading</h1><h2>Section</h2><h3>Subsection</h3>"
+      },
+      "paragraph": {
+        "statement": "The <p> element represents a paragraph of text, is a block element creating line break before and after, and has default margin top and bottom",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<p>This is a paragraph of text.</p>"
+      },
+      "lists": {
+        "statement": "HTML provides three list types: unordered lists <ul> with <li> for items without order (bullets), ordered lists <ol> with <li> for numbered/ordered items with attributes type (1/A/a/I/i), start (starting number), reversed (reverse numbering), and description lists <dl> with <dt> (term) and <dd> (definition) for term-definition pairs",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<ul><li>Item 1</li><li>Item 2</li></ul> or <ol start=\"5\"><li>First</li><li>Second</li></ol> or <dl><dt>Term</dt><dd>Definition</dd></dl>"
+      },
+      "semantic_text": {
+        "statement": "HTML provides semantic text elements: <strong> for strong importance (default: bold, not for styling), <em> for emphasis (default: italic, not for styling), <mark> for highlighted text (default: yellow background, for search results), <code> for inline code (monospace font), <kbd> for keyboard input, <samp> for sample output, <var> for variables",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<strong>Important</strong>, <em>Emphasized</em>, <mark>Highlighted</mark>, <code>const x = 10;</code>, Press <kbd>Ctrl</kbd>+<kbd>C</kbd>"
+      }
+    },
+    
+    "links_images": {
+      "hyperlinks": {
+        "statement": "The <a> element creates hyperlinks with required href attribute (URL/relative path/anchor #id/mailto:/tel:), target attribute (_self default, _blank for new tab with rel=\"noopener noreferrer\" for security), rel attribute (noopener, noreferrer, nofollow, sponsored, ugc), and download attribute prompting file download with optional filename",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Link</a> or <a href=\"file.pdf\" download=\"filename.pdf\">Download</a>"
+      },
+      "images": {
+        "statement": "The <img> element requires src (path to image in JPEG/PNG/GIF/WebP/SVG/AVIF) and alt (alternative text for accessibility/SEO/broken images, empty alt=\"\" for decorative), with optional width and height (intrinsic dimensions preventing layout shift, CSS can override), loading attribute (eager default, lazy for below-fold images), srcset and sizes attributes for responsive images (multiple sources with widths, tells browser which to use)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<img src=\"image.jpg\" alt=\"Description\" width=\"800\" height=\"600\" loading=\"lazy\"> or <img src=\"image-800.jpg\" srcset=\"image-400.jpg 400w, image-800.jpg 800w, image-1600.jpg 1600w\" sizes=\"(max-width: 600px) 100vw, 800px\" alt=\"Description\">"
+      }
+    },
+    
+    "semantic_structure": {
+      "header_footer": {
+        "statement": "The <header> element represents introductory content, logo, navigation and can be in <body>, <article>, <section> (multiple allowed), while <footer> represents footer content (copyright, links, contact) and can be in <body>, <article>, <section> (multiple allowed)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<header><h1>Site Title</h1><nav>...</nav></header> and <footer><p>&copy; 2024 Company</p></footer>"
+      },
+      "main": {
+        "statement": "The <main> element represents the main content of document, with only one visible <main> per page, not used in <header>, <footer>, <nav>, <aside>, <article>",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<main><!-- Primary content --></main>"
+      },
+      "article_section": {
+        "statement": "The <article> element represents self-contained, independently distributable content (blog post, news article) that can contain <header>, <footer>, <section>, while <section> represents thematic grouping of content that should have heading and is used when no more specific semantic element fits",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<article><h2>Article Title</h2><p>Content</p></article> and <section><h2>Section Title</h2><p>Content</p></section>"
+      },
+      "nav": {
+        "statement": "The <nav> element represents major navigation blocks, identifies navigation for semantic meaning and accessibility, and multiple <nav> elements are allowed per page",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<nav><ul><li><a href=\"/\">Home</a></li><li><a href=\"/about\">About</a></li></ul></nav>"
+      }
+    },
+    
+    "forms": {
+      "form_element": {
+        "statement": "The <form> element with action attribute (URL where data sent), method attribute (GET default for data in URL query string used for search/idempotent, POST for data in request body used for submissions/mutations/file uploads), enctype attribute (application/x-www-form-urlencoded default, multipart/form-data REQUIRED for file uploads, text/plain rarely used), novalidate attribute (disable HTML5 validation), autocomplete attribute (on default, off to disable)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<form action=\"/submit\" method=\"POST\" enctype=\"multipart/form-data\">...</form>"
+      },
+      "input_types": {
+        "statement": "HTML input types include: text (single-line text with maxlength/minlength/pattern), email (email address with validation, email keyboard on mobile), password (masked input with minlength/maxlength/pattern), url (URL with validation, URL keyboard on mobile), tel (telephone with pattern for validation, numeric keyboard on mobile), number (numeric input with min/max/step, spinbox UI), range (slider with min/max/step), date (date picker, format YYYY-MM-DD), time (time picker, format HH:MM), datetime-local (date and time, format YYYY-MM-DDTHH:MM), checkbox (true/false or multi-select, checked attribute, submitted only if checked), radio (single selection, same name for group, different value for each, one checked), file (file upload with accept and multiple attributes, requires form enctype multipart/form-data), color (color picker, hex format #RRGGBB), hidden (not visible, included in submission)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<input type=\"email\" name=\"email\" required> or <input type=\"file\" name=\"file\" accept=\".pdf,.doc\" multiple> or <input type=\"checkbox\" name=\"terms\" value=\"agreed\" checked>"
+      },
+      "form_attributes": {
+        "statement": "Common form input attributes include: name (identifies field in submission, required), id (unique identifier for label/CSS/JS), value (default/current value sent to server), placeholder (hint text disappearing when typing, not label substitute), required (field must be filled, boolean), disabled (disables input, not submitted, boolean), readonly (can't edit but IS submitted), autofocus (auto-focus on page load, one per page, accessibility concern), autocomplete (hint for browser: name/email/username/current-password/new-password/tel/address-line1/cc-number)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<input type=\"text\" name=\"username\" id=\"username\" required placeholder=\"Enter username\" autocomplete=\"username\">"
+      },
+      "label": {
+        "statement": "The <label> element associates text with input using two methods: explicit with for attribute matching input id, or implicit with input nested in label, providing accessibility (clicking label focuses input, screen readers announce), and should always be used (not just placeholder)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<label for=\"username\">Username:</label><input type=\"text\" id=\"username\" name=\"username\"> or <label>Username: <input type=\"text\" name=\"username\"></label>"
+      },
+      "select": {
+        "statement": "The <select> element creates dropdown with <option> elements (value attribute for submitted value, selected attribute for pre-selected, disabled attribute to disable option), optgroup to group options with label, multiple attribute for multiple selections, size attribute for visible options count, required attribute to require selection",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<select name=\"country\" required><option value=\"\">-- Select --</option><option value=\"us\">United States</option></select> or <select><optgroup label=\"Group 1\"><option value=\"a\">A</option></optgroup></select>"
+      },
+      "textarea": {
+        "statement": "The <textarea> element for multi-line text with rows (visible rows), cols (visible columns in characters), maxlength (maximum characters), minlength (minimum characters), placeholder (hint text), wrap attribute (soft default, hard), and default value goes between tags not in value attribute",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<textarea name=\"message\" rows=\"5\" cols=\"40\" maxlength=\"500\">Default text</textarea>"
+      },
+      "fieldset": {
+        "statement": "The <fieldset> element groups related form controls with <legend> element providing title for the group, providing accessibility (screen readers announce group) and visual grouping (usually bordered)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<fieldset><legend>Personal Information</legend><label>Name: <input type=\"text\"></label></fieldset>"
+      },
+      "validation": {
+        "statement": "HTML5 form validation attributes include: required (field must be filled), pattern (regular expression with title for error message), min/max (for number/date inputs), minlength/maxlength (for text inputs), and validation pseudo-classes :valid, :invalid, :required for CSS, and JavaScript Constraint Validation API with validity.valid, validationMessage, setCustomValidity(), checkValidity()",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<input type=\"text\" pattern=\"[A-Z]{3}-[0-9]{4}\" title=\"Format: ABC-1234\" required> and input:invalid { border-color: red; }"
+      }
+    },
+    
+    "tables": {
+      "table_structure": {
+        "statement": "HTML table structure uses <table> container with optional <caption> (table title, first child), <thead> grouping header rows with <tr> and <th>, <tbody> grouping body rows (multiple allowed) with <tr> and <td>, <tfoot> grouping footer rows, <tr> for table rows, <th> for header cells with scope attribute (col default, row, colgroup, rowgroup) for accessibility (critical for screen readers), <td> for data cells with colspan (span columns) and rowspan (span rows) attributes, and <colgroup> with <col> for column styling",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<table><caption>Title</caption><thead><tr><th scope=\"col\">Header</th></tr></thead><tbody><tr><td>Data</td></tr></tbody></table> or <td colspan=\"2\">Spans 2 columns</td>"
+      }
+    },
+    
+    "accessibility": {
+      "aria_attributes": {
+        "statement": "ARIA (Accessible Rich Internet Applications) attributes include: roles (navigation, main, search, alert, dialog), aria-label (provides accessible name when no visible text for icons/buttons), aria-labelledby (references element ID that labels this element), aria-describedby (references element ID that describes this element), aria-expanded (true/false for collapsed/expanded state), aria-hidden (true to hide from screen readers), aria-live (polite for announce when convenient, assertive for immediate announce), and should only be used when HTML semantics insufficient",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<button aria-label=\"Close dialog\">×</button> or <section aria-labelledby=\"title\"><h2 id=\"title\">Title</h2></section> or <div aria-live=\"polite\" role=\"status\">Message</div>"
+      }
+    },
+    
+    "advanced": {
+      "data_attributes": {
+        "statement": "Data attributes use data-* prefix with lowercase kebab-case names, accessed via JavaScript dataset API (converts to camelCase), used to store custom data on elements",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<div data-user-id=\"12345\" data-user-role=\"admin\"></div> accessed as element.dataset.userId and element.dataset.userRole"
+      },
+      "script_attributes": {
+        "statement": "The <script> element with src attribute (external script path), type attribute (text/javascript default can omit, module for ES6 modules), defer attribute (download in parallel, execute after HTML parsed, scripts execute in order, best for scripts needing DOM), async attribute (download and execute ASAP, order not guaranteed, best for independent scripts like analytics), nomodule attribute (fallback for browsers without module support)",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "<script src=\"script.js\" defer></script> or <script src=\"analytics.js\" async></script> or <script type=\"module\" src=\"module.js\"></script>"
+      },
+      "character_entities": {
+        "statement": "HTML character entities use &name; or &#number; format for special characters: &lt; or &#60; for <, &gt; or &#62; for >, &amp; or &#38; for &, &quot; or &#34; for \", &apos; or &#39; for ', &nbsp; or &#160; for non-breaking space, &copy; or &#169; for ©, &reg; or &#174; for ®, &trade; or &#8482; for ™",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "example": "&lt;div&gt; renders as <div>, Price: &pound;10 renders as Price: £10"
+      }
+    }
+  },
+  
+  "required_folders": ["training/", "outputs/"],
+  
+  "notes": {
+    "maintenance": "Update when WHATWG HTML Living Standard adds new elements or attributes; Review quarterly for browser support changes and new best practices",
+    "coverage": "Covers HTML Living Standard (HTML5), modern browser implementations (Chrome, Firefox, Safari, Edge) as of October 2025, complete element reference, forms, tables, accessibility, semantic HTML",
+    "training_source": "All facts extracted from 3 comprehensive markdown files (~18,000 words) in training/online-documentation/ folder based on MDN Web Docs, WHATWG HTML Living Standard, W3C HTML Reference"
+  }
+}
+

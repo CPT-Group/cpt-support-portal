@@ -1,0 +1,160 @@
+{
+  "name": "requirements-analysis-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Forces comprehensive business and requirements analysis BEFORE any technical architecture or design work begins",
+  "confidence_level": 100,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "Enterprise Architecture Team",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Business Analysis Body of Knowledge (BABOK) v3",
+      "IIBA Standards",
+      "Agile Requirements Discovery Best Practices",
+      "Enterprise Architecture Frameworks (TOGAF, Zachman)"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "architecture",
+      "design",
+      "integrate",
+      "integration",
+      "system",
+      "solution",
+      "implement",
+      "build",
+      "create architecture",
+      "technical design"
+    ],
+    "phrases": [
+      "design the architecture",
+      "create architecture for",
+      "integrate systems",
+      "build integration",
+      "design solution",
+      "architecture document",
+      "system design",
+      "create technical design"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Identify missing business requirements before technical design",
+      "Force validation of user personas and system access patterns",
+      "Detect illogical business scenarios (e.g., external users in internal systems)",
+      "Ensure business problem is clearly defined before solution design",
+      "Validate stakeholder identification and their actual needs",
+      "Question assumptions and force explicit confirmation",
+      "Prevent premature technical design without business context"
+    ],
+    "cannot_do": [
+      "Generate technical architecture (that's for technical experts)",
+      "Write code or configuration",
+      "Make business decisions (only validate they've been made)"
+    ]
+  },
+
+  "facts": {
+    "requirements_analysis_process": {
+      "stakeholder_identification": {
+        "statement": "Before any technical design, ALL stakeholders and user types must be explicitly identified with their roles, responsibilities, and system access needs",
+        "confidence": 1.0,
+        "source": "BABOK v3 - Stakeholder Analysis",
+        "example": "User types: External customers (self-service only), Internal CSRs (customer service), Internal sales (CRM), Internal dev/PM (JIRA)"
+      },
+      "business_problem_definition": {
+        "statement": "The business problem being solved must be explicitly stated and validated before any solution design begins",
+        "confidence": 1.0,
+        "source": "BABOK v3 - Problem Definition",
+        "example": "Problem: Customer service reps need legacy customer data visible in Salesforce Service Cloud during customer calls"
+      },
+      "user_to_system_mapping": {
+        "statement": "Every user type must be mapped to the specific systems they access, with business justification for each access",
+        "confidence": 1.0,
+        "source": "Enterprise Architecture Best Practices",
+        "example": "External customers → Salesforce Service Cloud ONLY (self-service portal). Internal Sales → Salesforce CRM (manage opportunities). External customers NEVER access JIRA or internal CRM."
+      },
+      "assumption_validation": {
+        "statement": "All assumptions about user access, system integration, and business flows must be explicitly stated and confirmed with stakeholders before design",
+        "confidence": 1.0,
+        "source": "BABOK v3 - Requirements Validation",
+        "example": "ASSUMPTION: External customers only use self-service portal. VALIDATION REQUIRED: Is this correct?"
+      },
+      "security_constraints": {
+        "statement": "Security and access control requirements must be identified during requirements analysis, not as an afterthought during design",
+        "confidence": 1.0,
+        "source": "Security by Design Principles",
+        "example": "Constraint: External users must not access internal JIRA, Salesforce CRM, or internal tools"
+      },
+      "licensing_constraints": {
+        "statement": "Software licensing constraints (Salesforce licenses, JIRA licenses, etc.) must be considered during requirements analysis to avoid costly architecture decisions",
+        "confidence": 1.0,
+        "source": "Enterprise Architecture Cost Management",
+        "example": "Constraint: We want to minimize Salesforce licenses for internal users by building an internal portal"
+      }
+    },
+    "validation_checkpoints": {
+      "external_vs_internal_users": {
+        "statement": "External users (customers, partners) must NEVER have direct access to internal systems (JIRA, internal CRM, internal tools) unless there is explicit business justification",
+        "confidence": 1.0,
+        "source": "Enterprise Security Best Practices",
+        "example": "RED FLAG: Architecture showing external customers using JIRA → STOP and validate business justification"
+      },
+      "system_purpose_validation": {
+        "statement": "Each system integration must have a clear business purpose: What data flows? Why? Who benefits? What's the business value?",
+        "confidence": 1.0,
+        "source": "BABOK v3 - Business Value Analysis",
+        "example": "Purpose: Salesforce Service Cloud → Legacy DB integration allows CSRs to see customer history during calls, improving customer satisfaction"
+      },
+      "over_integration_detection": {
+        "statement": "Integrating systems just because they exist, without clear business justification, is architectural waste and should be challenged",
+        "confidence": 1.0,
+        "source": "Lean Architecture Principles",
+        "example": "QUESTION: Why are we integrating JIRA with legacy DB? What specific business problem does this solve?"
+      }
+    },
+    "mandatory_questions": {
+      "who_are_the_users": {
+        "statement": "MANDATORY QUESTION: Who are ALL the user types for this system? (List external users separately from internal users, break internal users into roles)",
+        "confidence": 1.0,
+        "source": "Requirements Engineering Best Practices",
+        "example": "Answer: External customers, Internal CSRs, Internal sales team, Internal dev team, Internal admins"
+      },
+      "what_systems_exist": {
+        "statement": "MANDATORY QUESTION: What systems already exist in the enterprise? (Don't assume, ask explicitly)",
+        "confidence": 1.0,
+        "source": "Enterprise Architecture Discovery",
+        "example": "Answer: Salesforce Service Cloud (customer service), Salesforce CRM (sales), JIRA (project mgmt), Legacy SQL DB (customer data)"
+      },
+      "who_uses_what": {
+        "statement": "MANDATORY QUESTION: Which specific systems does EACH user type access today? (Create a user-to-system matrix)",
+        "confidence": 1.0,
+        "source": "User Access Analysis",
+        "example": "External customers → Service Cloud only. Internal CSRs → Service Cloud. Internal sales → Salesforce CRM. Internal dev → JIRA."
+      },
+      "what_problem_are_we_solving": {
+        "statement": "MANDATORY QUESTION: What specific business problem are we trying to solve? (Be precise, not vague)",
+        "confidence": 1.0,
+        "source": "Problem-Solution Fit Analysis",
+        "example": "Problem: CSRs don't have access to legacy customer history when answering calls in Salesforce Service Cloud, causing poor customer experience"
+      },
+      "why_integration_needed": {
+        "statement": "MANDATORY QUESTION: For EACH system integration, why is it needed? What data flows? What's the business value?",
+        "confidence": 1.0,
+        "source": "Integration Justification",
+        "example": "Salesforce Service Cloud → Legacy DB: CSRs need customer history during calls. Salesforce CRM → Legacy DB: Sales needs account history. JIRA → Legacy DB: Link projects to customers."
+      }
+    }
+  }
+}

@@ -1,0 +1,2234 @@
+{
+  "name": "cursor-expert",
+  "type": "technology",
+  "version": "2.0.0",
+  "description": "Cursor IDE technology expert covering features, MDC syntax, configuration, expert system implementation, and Cursor v2 features including Multi-Agents, Composer, Voice Mode, and Team Commands",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+  "language": "markdown",
+  "frameworks": ["MDC", "Cursor IDE", "Expert System"],
+
+  "metadata": {
+    "created": "2025-10-10",
+    "lastUpdated": "2025-10-29",
+    "author": "Bootstrap Setup + Real-World Testing + Cursor v2 Update",
+    "status": "comprehensive_with_validated_patterns_v2",
+    "documentation_pages_analyzed": 150,
+    "feature_categories": 15,
+    "detailed_features": 15,
+    "total_facts": 250,
+    "validated_patterns": 4,
+    "last_validation": "2025-10-29",
+    "validation_method": "Real-world JSON state management experiments + Cursor v2 feature documentation",
+    "cursor_version": "2.0",
+    "v2_features_added": 7
+  },
+
+  "sources": {
+    "official_documentation": [
+      "https://cursor.com/docs",
+      "https://cursor.com/changelog/2-0/",
+      "MDC Specification",
+      "Cursor IDE Feature Documentation",
+      "Cursor v2 Release Documentation"
+    ],
+    "version_info": "Cursor IDE v2.0 (October 2025)"
+  },
+
+  "outputs": {
+    "file_types": [".mdc", ".md", ".json", ".cursor"],
+    "systems": ["cursor-ide", "expert-system", "mdc-rules"]
+  },
+
+  "communication_interface": "separate_chat_expert",
+
+  "triggers": {
+    "keywords": [
+      "cursor",
+      "cursor ide",
+      "cursor v2",
+      "cursor 2.0",
+      "mdc",
+      "mdc file",
+      "mdc syntax",
+      ".cursor folder",
+      "cursor rules",
+      "cursor expert",
+      "cursor configuration",
+      "cursor features",
+      "ai rules",
+      "cursor settings",
+      "cursor agent",
+      "cursor chat",
+      "cursor cli",
+      "cursor tab",
+      "cursor inline",
+      "cursor context",
+      "cursor mcp",
+      "cursor memories",
+      "cursor background agent",
+      "cursor models",
+      "cursor commands",
+      "cursor keyboard shortcuts",
+      "multi-agents",
+      "composer model",
+      "team commands",
+      "voice mode",
+      "sandboxed terminals",
+      "concurrent agents"
+    ],
+    "phrases": [
+      "how do I use cursor",
+      "what is mdc",
+      "cursor expert system",
+      "activate expert",
+      "cursor ide features",
+      "mdc frontmatter",
+      "cursor rules syntax",
+      "how does cursor agent work",
+      "cursor chat commands",
+      "cursor cli usage",
+      "cursor context system",
+      "what are cursor modes",
+      "cursor keyboard shortcuts",
+      "cursor integrations",
+      "cursor enterprise features",
+      "cursor api documentation",
+      "what's new in cursor v2",
+      "cursor 2.0 features",
+      "how to use multi-agents",
+      "what is composer model",
+      "cursor team commands",
+      "cursor voice control",
+      "multiple agents at once",
+      "run agents concurrently",
+      "agentic coding model"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Explain Cursor IDE features and functionality",
+      "Explain Cursor v2 features (Multi-Agents, Composer, Voice Mode, Team Commands)",
+      "Define MDC file syntax and structure",
+      "Specify expert system configuration",
+      "Document file structure requirements",
+      "Explain Cursor settings and configuration",
+      "Define keyboard shortcuts and commands",
+      "Specify .cursor folder organization",
+      "Explain multi-agent workflows and concurrent execution",
+      "Describe Composer agentic coding model capabilities",
+      "Document Team Commands and centralized team management",
+      "Explain Voice Mode and speech-to-text controls"
+    ],
+    "cannot_do": [
+      "Provide opinions on best practices",
+      "Recommend subjective workflow choices",
+      "Generate code in other languages",
+      "Make architectural decisions beyond Cursor configuration",
+      "Configure operating system settings"
+    ]
+  },
+
+  "facts": {
+    "mdc_syntax": {
+      "file_extension": {
+        "statement": "MDC files use the .mdc file extension",
+        "source": "MDC Specification",
+        "applies_to_versions": ["all"]
+      },
+
+      "frontmatter_structure": {
+        "statement": "MDC files use YAML frontmatter delimited by triple dashes (---) at the beginning and end",
+        "source": "MDC Specification",
+        "syntax": "---\nkey: value\n---",
+        "required": true,
+        "applies_to_versions": ["all"]
+      },
+
+      "frontmatter_fields": {
+        "description": {
+          "statement": "The 'description' field in MDC frontmatter describes the rule's purpose",
+          "type": "string",
+          "required": true,
+          "source": "MDC Specification",
+          "example": "description: AI Expert System Activation"
+        },
+
+        "alwaysRun": {
+          "statement": "The 'alwaysRun' field determines if the rule runs on every conversation",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "source": "MDC Specification",
+          "example": "alwaysRun: true"
+        },
+
+        "priority": {
+          "statement": "The 'priority' field sets the rule execution priority",
+          "type": "string",
+          "required": false,
+          "valid_values": ["critical", "high", "medium", "low"],
+          "source": "MDC Specification",
+          "example": "priority: critical"
+        },
+
+        "globs": {
+          "statement": "The 'globs' field specifies file patterns this rule applies to",
+          "type": "array",
+          "required": false,
+          "source": "MDC Specification",
+          "example": "globs:\n  - '**/*.ts'\n  - '**/*.tsx'"
+        }
+      },
+
+      "markdown_body": {
+        "statement": "After frontmatter, MDC files contain standard Markdown content",
+        "source": "MDC Specification",
+        "syntax": "# Heading\n\nContent with **bold**, *italic*, `code`",
+        "supports": ["headings", "lists", "code blocks", "links", "emphasis"]
+      },
+
+      "code_blocks": {
+        "statement": "MDC files support fenced code blocks with language specification",
+        "source": "Markdown Specification",
+        "syntax": "```language\ncode here\n```",
+        "example": "```typescript\nconst x: number = 5;\n```"
+      },
+
+      "comments": {
+        "statement": "MDC files support HTML-style comments in Markdown body",
+        "source": "Markdown Specification",
+        "syntax": "<!-- comment text -->",
+        "visibility": "Comments are not visible to AI, used for documentation only"
+      }
+    },
+
+    "file_structure": {
+      "cursor_folder": {
+        "statement": "The .cursor folder at project root contains Cursor IDE configuration",
+        "location": "Project root directory",
+        "required": false,
+        "created_automatically": false,
+        "source": "Cursor IDE Documentation"
+      },
+
+      "rules_folder": {
+        "statement": "MDC rule files are stored in .cursor/rules/ directory",
+        "path": ".cursor/rules/",
+        "file_pattern": "*.mdc",
+        "source": "Cursor IDE Documentation",
+        "example": ".cursor/rules/expert-system-activation.mdc"
+      },
+
+      "experts_folder": {
+        "statement": "Expert definitions are stored in .cursor/experts/ directory",
+        "path": ".cursor/experts/",
+        "structure": "Each expert has its own subdirectory",
+        "source": "Expert System Architecture",
+        "example": ".cursor/experts/cursor-expert/"
+      },
+
+      "expert_structure": {
+        "statement": "Each expert folder contains specific JSON configuration files",
+        "required_files": ["expert.behavior.json"],
+        "optional_files": [
+          "expert.influencer.json",
+          "expert.patterns.json",
+          "expert.validation.json",
+          "expert.routing.json",
+          "expert.persona.json"
+        ],
+        "required_folders": ["training/", "outputs/"],
+        "source": "Expert File Naming Convention"
+      },
+
+      "expert_registry": {
+        "statement": "The expert-registry.json file in .cursor/experts/ tracks all active experts",
+        "path": ".cursor/experts/expert-registry.json",
+        "purpose": "Single source of truth for expert activation",
+        "required": true,
+        "source": "Expert System Architecture",
+        "loaded_on": "AI agent startup"
+      }
+    },
+
+    "expert_types": {
+      "type_count": {
+        "statement": "The expert system defines exactly six expert types",
+        "count": 6,
+        "source": "Expert System Architecture",
+        "version": "2.0.0"
+      },
+
+      "technology_expert": {
+        "statement": "Technology experts handle pure technical implementation and code generation",
+        "type_value": "technology",
+        "confidence_level": 100,
+        "opinions_enabled": false,
+        "neural_access": "none",
+        "source": "Technology Expert Type Definition",
+        "use_for": "Code generation, configuration creation, technical implementation"
+      },
+
+      "agent_expert": {
+        "statement": "Agent experts coordinate other experts and route tasks",
+        "type_value": "agent",
+        "neural_access": "none",
+        "source": "Agent Expert Type Definition",
+        "use_for": "Task routing, expert coordination, workflow orchestration"
+      },
+
+      "chat_expert": {
+        "statement": "Chat experts provide conversational interface with users",
+        "type_value": "chat",
+        "neural_access": "full",
+        "source": "Chat Expert Type Definition",
+        "use_for": "Natural language interaction, user communication"
+      },
+
+      "communication_expert": {
+        "statement": "Communication experts translate technical concepts to human language",
+        "type_value": "communication",
+        "neural_access": "response_augmentation",
+        "source": "Communication Expert Type Definition",
+        "use_for": "Technical explanation, educational content"
+      },
+
+      "documentation_expert": {
+        "statement": "Documentation experts generate structured documentation",
+        "type_value": "documentation",
+        "neural_access": "response_augmentation",
+        "source": "Documentation Expert Type Definition",
+        "use_for": "Architecture docs, specifications, reports"
+      },
+
+      "influence_expert": {
+        "statement": "Influence experts provide strategic design guidance",
+        "type_value": "influence",
+        "neural_access": "limited",
+        "max_influence": 0.6,
+        "source": "Influence Expert Type Definition",
+        "use_for": "Strategic decisions, design guidance, recommendations",
+        "timing": "Design phase only"
+      }
+    },
+
+    "expert_behavior_json": {
+      "required_fields": {
+        "statement": "All expert.behavior.json files must contain specific required fields",
+        "fields": [
+          "name",
+          "type",
+          "version",
+          "description",
+          "metadata",
+          "sources",
+          "triggers",
+          "capabilities",
+          "facts"
+        ],
+        "source": "Expert Behavior Specification"
+      },
+
+      "name_field": {
+        "statement": "The 'name' field identifies the expert with kebab-case naming",
+        "type": "string",
+        "format": "kebab-case",
+        "example": "cursor-expert",
+        "required": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "type_field": {
+        "statement": "The 'type' field must be one of six valid expert types",
+        "type": "string",
+        "valid_values": [
+          "technology",
+          "agent",
+          "chat",
+          "communication",
+          "documentation",
+          "influence"
+        ],
+        "required": true,
+        "source": "Expert System Architecture"
+      },
+
+      "version_field": {
+        "statement": "The 'version' field uses semantic versioning (major.minor.patch)",
+        "type": "string",
+        "format": "semver",
+        "example": "1.0.0",
+        "required": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "triggers_field": {
+        "statement": "The 'triggers' field contains keywords and phrases that activate the expert",
+        "type": "object",
+        "properties": {
+          "keywords": "array of strings",
+          "phrases": "array of strings"
+        },
+        "required": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "capabilities_field": {
+        "statement": "The 'capabilities' field defines what the expert can and cannot do",
+        "type": "object",
+        "properties": {
+          "can_do": "array of strings",
+          "cannot_do": "array of strings"
+        },
+        "required": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "facts_field": {
+        "statement": "The 'facts' field contains 100% confidence factual information",
+        "type": "object",
+        "confidence": 1.0,
+        "source_required": true,
+        "opinions_prohibited": true,
+        "source": "Expert Behavior Specification"
+      }
+    },
+
+    "expert_influencer_json": {
+      "purpose": {
+        "statement": "The expert.influencer.json file contains facts and opinions with confidence scoring",
+        "required_for": [
+          "influence",
+          "agent",
+          "communication",
+          "documentation"
+        ],
+        "prohibited_for": ["technology (unless composite)"],
+        "source": "Expert Behavior Specification"
+      },
+
+      "facts_section": {
+        "statement": "Facts section in influencer.json contains 100% confidence statements",
+        "confidence": 1.0,
+        "source_required": true,
+        "categories": ["standards", "security", "best_practices"],
+        "source": "Expert Behavior Specification"
+      },
+
+      "opinions_section": {
+        "statement": "Opinions section contains variable confidence recommendations",
+        "confidence_range": [0.0, 0.99],
+        "required_fields": [
+          "confidence_score",
+          "rationale",
+          "alternatives",
+          "tradeoffs"
+        ],
+        "source": "Expert Behavior Specification"
+      },
+
+      "presentChoice_flag": {
+        "statement": "The presentChoice flag determines if AI should ask user to choose",
+        "type": "boolean",
+        "use_when": "confidence < 0.75 or decision significantly impacts architecture",
+        "source": "Expert Behavior Specification"
+      }
+    },
+
+    "expert_patterns_json": {
+      "purpose": {
+        "statement": "The expert.patterns.json file contains reusable code/design patterns",
+        "required_for": ["technology experts that generate code"],
+        "optional_for": ["other expert types"],
+        "source": "Expert Behavior Specification"
+      },
+
+      "common_patterns_ref": {
+        "statement": "Patterns can reference common patterns from _common/patterns/",
+        "path": ".cursor/experts/_common/patterns/pattern-registry.json",
+        "override_allowed": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "pattern_structure": {
+        "statement": "Each pattern includes ID, name, category, confidence, code template, and examples",
+        "required_fields": [
+          "pattern_id",
+          "pattern_name",
+          "category",
+          "confidence",
+          "description",
+          "use_when",
+          "avoid_when",
+          "code_template",
+          "example"
+        ],
+        "source": "Expert Behavior Specification"
+      }
+    },
+
+    "expert_registry_json": {
+      "location": {
+        "statement": "The expert-registry.json file resides at .cursor/experts/expert-registry.json",
+        "path": ".cursor/experts/expert-registry.json",
+        "required": true,
+        "source": "Expert System Architecture"
+      },
+
+      "structure": {
+        "statement": "The registry contains version info, status, and activeExperts array",
+        "required_fields": ["version", "status", "activeExperts"],
+        "optional_fields": ["expertOrder", "activationRules", "usage"],
+        "source": "Expert System Architecture"
+      },
+
+      "activeExperts_array": {
+        "statement": "The activeExperts array lists all currently active experts",
+        "type": "array",
+        "element_structure": {
+          "required": [
+            "id",
+            "name",
+            "priority",
+            "triggers",
+            "files",
+            "capabilities"
+          ],
+          "optional": ["activatedDate", "version", "dependencies"]
+        },
+        "source": "Expert System Architecture"
+      },
+
+      "loading_behavior": {
+        "statement": "AI agent loads expert-registry.json on startup to discover available experts",
+        "timing": "Conversation start",
+        "frequency": "Every new conversation",
+        "caching": false,
+        "source": "Expert System Activation MDC"
+      }
+    },
+
+    "cursor_features_catalog": {
+      "total_documented_features": {
+        "statement": "Cursor IDE has 115+ documented feature areas",
+        "count": 115,
+        "source": "https://cursor.com/docs sitemap",
+        "last_verified": "2025-10-10"
+      },
+
+      "core_capabilities": {
+        "ai_chat": {
+          "statement": "Cursor IDE includes AI-powered chat interface for code assistance",
+          "documentation_path": "/docs/agent/chat/*",
+          "sub_features": [
+            "checkpoints",
+            "commands",
+            "compact",
+            "duplicate",
+            "export",
+            "history",
+            "summarization",
+            "tabs"
+          ],
+          "rich_chat_responses": {
+            "statement": "Cursor supports Rich Chat Responses with embedded visualizations including Mermaid diagrams, Markdown tables, and formatted content",
+            "mermaid_diagrams": "Mermaid diagrams render inline in chat responses (flowcharts, sequence diagrams, state diagrams, ER diagrams, component diagrams)",
+            "markdown_tables": "Markdown tables render with rich formatting for comparisons and data presentation",
+            "use_cases": [
+              "Architecture explanations with visual diagrams",
+              "Technology comparisons with formatted tables",
+              "Workflow visualization with sequence diagrams",
+              "System relationships with component diagrams"
+            ],
+            "syntax": "Use triple backticks with mermaid language tag: ```mermaid\n[diagram code]\n```",
+            "source": "Cursor v2 Documentation"
+          },
+          "source": "Cursor Documentation"
+        },
+
+        "ai_agent": {
+          "statement": "Cursor Agent provides autonomous code generation and task completion",
+          "documentation_path": "/docs/agent/overview",
+          "modes_available": true,
+          "planning_capable": true,
+          "sub_features": [
+            "modes",
+            "planning",
+            "browser",
+            "hooks",
+            "review",
+            "security",
+            "terminal",
+            "tools"
+          ],
+          "source": "Cursor Documentation"
+        },
+
+        "background_agent": {
+          "statement": "Background Agent enables API-driven code generation",
+          "documentation_path": "/docs/background-agent",
+          "api_available": true,
+          "webhooks_supported": true,
+          "source": "Cursor Documentation"
+        },
+
+        "inline_editing": {
+          "statement": "Cursor supports inline AI-powered code editing within the editor",
+          "documentation_path": "/docs/inline-edit/overview",
+          "terminal_support": true,
+          "source": "Cursor Documentation"
+        },
+
+        "tab_completion": {
+          "statement": "Cursor provides AI-powered tab completion",
+          "documentation_path": "/docs/tab/overview",
+          "source": "Cursor Documentation"
+        },
+
+        "codebase_indexing": {
+          "statement": "Cursor automatically indexes codebase for AI context",
+          "documentation_path": "/docs/context/codebase-indexing",
+          "source": "Cursor Documentation"
+        },
+
+        "rules_system": {
+          "statement": "Cursor uses MDC rules system to configure AI behavior",
+          "configuration_location": ".cursor/rules/*.mdc",
+          "documentation_path": "/docs/context/rules",
+          "source": "Cursor Documentation"
+        }
+      },
+
+      "context_management": {
+        "codebase_indexing": {
+          "statement": "Cursor indexes entire codebase for semantic search",
+          "path": "/docs/context/codebase-indexing",
+          "source": "Cursor Documentation"
+        },
+
+        "ignore_files": {
+          "statement": "Cursor supports .cursorignore files to exclude files from AI context",
+          "path": "/docs/context/ignore-files",
+          "source": "Cursor Documentation"
+        },
+
+        "max_mode": {
+          "statement": "Max Mode provides maximum context window for AI interactions",
+          "path": "/docs/context/max-mode",
+          "source": "Cursor Documentation"
+        },
+
+        "mcp_integration": {
+          "statement": "Model Context Protocol (MCP) enables external service integration",
+          "path": "/docs/context/mcp",
+          "extension_api": "/docs/context/mcp-extension-api",
+          "directory": "/docs/context/mcp/directory",
+          "install_links": "/docs/context/mcp/install-links",
+          "source": "Cursor Documentation"
+        },
+
+        "memories": {
+          "statement": "Cursor Memories store persistent context across sessions",
+          "path": "/docs/context/memories",
+          "source": "Cursor Documentation"
+        },
+
+        "symbols": {
+          "statement": "Symbol-based navigation and context retrieval",
+          "path": "/docs/context/symbols",
+          "source": "Cursor Documentation"
+        }
+      },
+
+      "cli_interface": {
+        "statement": "Cursor provides command-line interface for automation",
+        "overview": "/docs/cli/overview",
+        "installation": "/docs/cli/installation",
+        "usage": "/docs/cli/using",
+        "features": {
+          "github_actions": "/docs/cli/github-actions",
+          "headless_mode": "/docs/cli/headless",
+          "mcp_support": "/docs/cli/mcp",
+          "shell_mode": "/docs/cli/shell-mode"
+        },
+        "reference": {
+          "authentication": "/docs/cli/reference/authentication",
+          "configuration": "/docs/cli/reference/configuration",
+          "output_format": "/docs/cli/reference/output-format",
+          "parameters": "/docs/cli/reference/parameters",
+          "permissions": "/docs/cli/reference/permissions",
+          "slash_commands": "/docs/cli/reference/slash-commands"
+        },
+        "cookbook_examples": [
+          "code-review",
+          "fix-ci",
+          "secret-audit",
+          "translate-keys",
+          "update-docs"
+        ],
+        "source": "Cursor Documentation"
+      },
+
+      "integrations": {
+        "git": {
+          "statement": "Native Git integration for version control",
+          "path": "/docs/integrations/git",
+          "ai_commit_messages": "/docs/more/ai-commit-message",
+          "ai_merge_conflicts": "/docs/more/ai-merge-conflicts",
+          "source": "Cursor Documentation"
+        },
+
+        "github": {
+          "statement": "GitHub integration for repository management",
+          "path": "/docs/integrations/github",
+          "source": "Cursor Documentation"
+        },
+
+        "linear": {
+          "statement": "Linear integration for issue tracking",
+          "path": "/docs/integrations/linear",
+          "source": "Cursor Documentation"
+        },
+
+        "slack": {
+          "statement": "Slack integration for team notifications",
+          "path": "/docs/integrations/slack",
+          "source": "Cursor Documentation"
+        },
+
+        "deeplinks": {
+          "statement": "Deep linking support for navigation",
+          "path": "/docs/integrations/deeplinks",
+          "source": "Cursor Documentation"
+        }
+      },
+
+      "language_support": {
+        "statement": "Cursor provides language-specific configuration",
+        "supported_languages": {
+          "ios_macos_swift": "/docs/configuration/languages/ios-macos-swift",
+          "java": "/docs/configuration/languages/java",
+          "javascript_typescript": "/docs/configuration/languages/javascript-typescript",
+          "python": "/docs/configuration/languages/python"
+        },
+        "source": "Cursor Documentation"
+      },
+
+      "migration_guides": {
+        "statement": "Migration guides available for transitioning from other IDEs",
+        "from_jetbrains": "/docs/configuration/migrations/jetbrains",
+        "from_vscode": "/docs/configuration/migrations/vscode",
+        "source": "Cursor Documentation"
+      },
+
+      "specialized_tools": {
+        "data_science": "/docs/configuration/tools/data-science",
+        "large_codebases": "/docs/configuration/tools/large-codebases",
+        "mermaid_diagrams": "/docs/configuration/tools/mermaid-diagrams",
+        "web_development": "/docs/configuration/tools/web-development",
+        "source": "Cursor Documentation"
+      },
+
+      "team_enterprise": {
+        "admin_api": {
+          "statement": "Admin API for programmatic team management",
+          "path": "/docs/account/teams/admin-api",
+          "source": "Cursor Documentation"
+        },
+
+        "ai_code_tracking": {
+          "statement": "AI Code Tracking API monitors AI-generated code",
+          "path": "/docs/account/teams/ai-code-tracking-api",
+          "source": "Cursor Documentation"
+        },
+
+        "analytics": {
+          "statement": "Analytics dashboard and API for usage tracking",
+          "v1_path": "/docs/account/teams/analytics",
+          "v2_path": "/docs/account/teams/analytics-v2",
+          "source": "Cursor Documentation"
+        },
+
+        "dashboard": "/docs/account/teams/dashboard",
+        "enterprise_settings": "/docs/account/teams/enterprise-settings",
+        "members_management": "/docs/account/teams/members",
+        "team_pricing": "/docs/account/teams/pricing",
+        "scim_provisioning": "/docs/account/teams/scim",
+        "team_setup": "/docs/account/teams/setup",
+        "sso_integration": "/docs/account/teams/sso",
+        "source": "Cursor Documentation"
+      },
+
+      "account_billing": {
+        "billing": "/docs/account/billing",
+        "pricing": "/docs/account/pricing",
+        "regions": "/docs/account/regions",
+        "update_access": "/docs/account/update-access",
+        "request_based_legacy": "/docs/account/pricing/request-based-legacy",
+        "source": "Cursor Documentation"
+      },
+
+      "configuration_options": {
+        "extensions": "/docs/configuration/extensions",
+        "keyboard_shortcuts": "/docs/configuration/kbd",
+        "shell_integration": "/docs/configuration/shell",
+        "themes": "/docs/configuration/themes",
+        "api_keys": "/docs/settings/api-keys",
+        "source": "Cursor Documentation"
+      },
+
+      "troubleshooting": {
+        "common_issues": "/docs/troubleshooting/common-issues",
+        "request_reporting": "/docs/troubleshooting/request-reporting",
+        "troubleshooting_guide": "/docs/troubleshooting/troubleshooting-guide",
+        "source": "Cursor Documentation"
+      },
+
+      "getting_started": {
+        "quickstart": "/docs/get-started/quickstart",
+        "concepts": "/docs/get-started/concepts",
+        "downloads": "/docs/downloads",
+        "source": "Cursor Documentation"
+      },
+
+      "additional_features": {
+        "bugbot": {
+          "statement": "BugBot assists with bug detection and fixes",
+          "path": "/docs/bugbot",
+          "source": "Cursor Documentation"
+        },
+
+        "models": {
+          "statement": "Multiple AI models available for different tasks",
+          "path": "/docs/models",
+          "source": "Cursor Documentation"
+        },
+
+        "reuse_existing_code": {
+          "statement": "Features for discovering and reusing existing code",
+          "path": "/docs/reuse-existing-code",
+          "source": "Cursor Documentation"
+        }
+      },
+
+      "learning_resources": {
+        "agents_overview": "/learn/agents",
+        "context_guide": "/learn/context",
+        "creating_plans": "/learn/creating-plans",
+        "hallucination_limitations": "/learn/hallucination-limitations",
+        "how_ai_models_work": "/learn/how-ai-models-work",
+        "team_productivity": "/learn/team-productivity",
+        "tokens_pricing": "/learn/tokens-pricing",
+        "tool_calling": "/learn/tool-calling",
+        "source": "Cursor Documentation"
+      }
+    },
+
+    "detailed_feature_facts": {
+      "agent_system": {
+        "statement": "Cursor Agent is an autonomous coding assistant that can plan and execute multi-step tasks",
+        "capabilities": [
+          "Multi-step task planning",
+          "Autonomous code generation",
+          "File creation and modification",
+          "Terminal command execution",
+          "Browser interaction for research",
+          "Code review and suggestions",
+          "Security-focused code analysis"
+        ],
+        "modes": {
+          "statement": "Agent supports multiple operational modes for different tasks",
+          "documentation": "/docs/agent/modes",
+          "source": "Cursor Documentation"
+        },
+        "planning": {
+          "statement": "Agent uses planning capability to break down complex tasks",
+          "documentation": "/docs/agent/planning",
+          "source": "Cursor Documentation"
+        },
+        "hooks": {
+          "statement": "Agent hooks allow customization of agent behavior at key points",
+          "documentation": "/docs/agent/hooks",
+          "source": "Cursor Documentation"
+        },
+        "review": {
+          "statement": "Agent can review code for quality, security, and best practices",
+          "documentation": "/docs/agent/review",
+          "source": "Cursor Documentation"
+        },
+        "terminal_integration": {
+          "statement": "Agent can execute terminal commands as part of task completion",
+          "documentation": "/docs/agent/terminal",
+          "source": "Cursor Documentation"
+        },
+        "browser_capability": {
+          "statement": "Agent can browse documentation and web resources for research",
+          "documentation": "/docs/agent/browser",
+          "source": "Cursor Documentation"
+        },
+        "tools": {
+          "statement": "Agent has access to various tools for code generation and modification",
+          "documentation": "/docs/agent/tools",
+          "source": "Cursor Documentation"
+        },
+        "security": {
+          "statement": "Agent includes security features to protect code and data",
+          "documentation": "/docs/agent/security",
+          "source": "Cursor Documentation"
+        },
+        "source": "Cursor Agent Documentation"
+      },
+
+      "chat_system": {
+        "statement": "Cursor Chat provides conversational AI interface for code assistance",
+        "features": {
+          "checkpoints": {
+            "statement": "Chat checkpoints allow saving and restoring conversation state",
+            "documentation": "/docs/agent/chat/checkpoints",
+            "source": "Cursor Documentation"
+          },
+          "commands": {
+            "statement": "Chat supports slash commands for specific operations",
+            "documentation": "/docs/agent/chat/commands",
+            "source": "Cursor Documentation"
+          },
+          "compact_mode": {
+            "statement": "Compact mode provides condensed chat interface",
+            "documentation": "/docs/agent/chat/compact",
+            "source": "Cursor Documentation"
+          },
+          "duplicate": {
+            "statement": "Chat conversations can be duplicated for experimentation",
+            "documentation": "/docs/agent/chat/duplicate",
+            "source": "Cursor Documentation"
+          },
+          "export": {
+            "statement": "Chat conversations can be exported for sharing or archival",
+            "documentation": "/docs/agent/chat/export",
+            "source": "Cursor Documentation"
+          },
+          "history": {
+            "statement": "Chat maintains conversation history across sessions",
+            "documentation": "/docs/agent/chat/history",
+            "source": "Cursor Documentation"
+          },
+          "summarization": {
+            "statement": "Chat can summarize long conversations for quick reference",
+            "documentation": "/docs/agent/chat/summarization",
+            "source": "Cursor Documentation"
+          },
+          "tabs": {
+            "statement": "Chat supports multiple conversation tabs for parallel work",
+            "documentation": "/docs/agent/chat/tabs",
+            "source": "Cursor Documentation"
+          }
+        },
+        "source": "Cursor Chat Documentation"
+      },
+
+      "cli_system": {
+        "statement": "Cursor CLI enables command-line automation and CI/CD integration",
+        "installation": {
+          "statement": "CLI can be installed via package managers or direct download",
+          "documentation": "/docs/cli/installation",
+          "source": "Cursor Documentation"
+        },
+        "authentication": {
+          "statement": "CLI authentication supports multiple methods including API keys",
+          "documentation": "/docs/cli/reference/authentication",
+          "source": "Cursor Documentation"
+        },
+        "github_actions": {
+          "statement": "CLI integrates with GitHub Actions for automated workflows",
+          "documentation": "/docs/cli/github-actions",
+          "source": "Cursor Documentation"
+        },
+        "headless_mode": {
+          "statement": "CLI supports headless operation for server environments",
+          "documentation": "/docs/cli/headless",
+          "source": "Cursor Documentation"
+        },
+        "shell_mode": {
+          "statement": "CLI shell mode provides interactive command-line interface",
+          "documentation": "/docs/cli/shell-mode",
+          "source": "Cursor Documentation"
+        },
+        "mcp_support": {
+          "statement": "CLI supports Model Context Protocol for external integrations",
+          "documentation": "/docs/cli/mcp",
+          "source": "Cursor Documentation"
+        },
+        "output_formats": {
+          "statement": "CLI supports multiple output formats including JSON, text, and structured data",
+          "documentation": "/docs/cli/reference/output-format",
+          "source": "Cursor Documentation"
+        },
+        "parameters": {
+          "statement": "CLI accepts various parameters for customizing behavior",
+          "documentation": "/docs/cli/reference/parameters",
+          "source": "Cursor Documentation"
+        },
+        "permissions": {
+          "statement": "CLI permissions control access to files and operations",
+          "documentation": "/docs/cli/reference/permissions",
+          "source": "Cursor Documentation"
+        },
+        "slash_commands": {
+          "statement": "CLI supports slash commands for specific operations",
+          "documentation": "/docs/cli/reference/slash-commands",
+          "source": "Cursor Documentation"
+        },
+        "use_cases": [
+          "Automated code reviews",
+          "CI pipeline integration",
+          "Secret scanning",
+          "Documentation updates",
+          "Key translation",
+          "Build fixes"
+        ],
+        "source": "Cursor CLI Documentation"
+      },
+
+      "context_system": {
+        "statement": "Cursor Context system manages AI awareness of codebase and external resources",
+        "codebase_indexing": {
+          "statement": "Automatic indexing of entire codebase for semantic search and AI context",
+          "documentation": "/docs/context/codebase-indexing",
+          "capabilities": [
+            "Semantic code search",
+            "Symbol detection",
+            "Dependency tracking",
+            "Cross-file references"
+          ],
+          "source": "Cursor Documentation"
+        },
+        "ignore_files": {
+          "statement": ".cursorignore files exclude files/directories from AI context",
+          "documentation": "/docs/context/ignore-files",
+          "syntax": "Similar to .gitignore",
+          "source": "Cursor Documentation"
+        },
+        "max_mode": {
+          "statement": "Max Mode provides maximum available context window for AI interactions",
+          "documentation": "/docs/context/max-mode",
+          "use_case": "Complex tasks requiring large context",
+          "source": "Cursor Documentation"
+        },
+        "mcp_protocol": {
+          "statement": "Model Context Protocol enables integration with external services and data sources",
+          "documentation": "/docs/context/mcp",
+          "extension_api": "/docs/context/mcp-extension-api",
+          "capabilities": [
+            "External API integration",
+            "Database queries",
+            "Documentation access",
+            "Tool integration"
+          ],
+          "install_methods": "/docs/context/mcp/install-links",
+          "directory": "/docs/context/mcp/directory",
+          "source": "Cursor Documentation"
+        },
+        "memories": {
+          "statement": "Cursor Memories persist important context across sessions",
+          "documentation": "/docs/context/memories",
+          "use_cases": [
+            "Project conventions",
+            "Architecture decisions",
+            "Team preferences",
+            "Custom workflows"
+          ],
+          "source": "Cursor Documentation"
+        },
+        "rules": {
+          "statement": "Rules configure AI behavior using MDC files",
+          "documentation": "/docs/context/rules",
+          "location": ".cursor/rules/*.mdc",
+          "source": "Cursor Documentation"
+        },
+        "symbols": {
+          "statement": "Symbol-based navigation and context for code understanding",
+          "documentation": "/docs/context/symbols",
+          "source": "Cursor Documentation"
+        },
+        "source": "Cursor Context Documentation"
+      },
+
+      "background_agent": {
+        "statement": "Background Agent provides API-driven code generation without IDE interaction",
+        "api_endpoints": {
+          "statement": "RESTful API endpoints for programmatic code generation",
+          "documentation": "/docs/background-agent/api/endpoints",
+          "source": "Cursor Documentation"
+        },
+        "webhooks": {
+          "statement": "Webhook support for event-driven workflows",
+          "documentation": "/docs/background-agent/api/webhooks",
+          "source": "Cursor Documentation"
+        },
+        "web_mobile": {
+          "statement": "Web and mobile interface for background agent management",
+          "documentation": "/docs/background-agent/web-and-mobile",
+          "source": "Cursor Documentation"
+        },
+        "use_cases": [
+          "Automated PR generation",
+          "Scheduled code updates",
+          "Integration with external systems",
+          "Batch processing"
+        ],
+        "source": "Cursor Background Agent Documentation"
+      },
+
+      "enterprise_features": {
+        "statement": "Enterprise features provide team management, security, and analytics",
+        "admin_api": {
+          "statement": "Admin API for programmatic team and user management",
+          "documentation": "/docs/account/teams/admin-api",
+          "capabilities": [
+            "User provisioning",
+            "Team management",
+            "Permission control",
+            "License management"
+          ],
+          "source": "Cursor Documentation"
+        },
+        "ai_code_tracking": {
+          "statement": "AI Code Tracking API monitors AI-generated code across organization",
+          "documentation": "/docs/account/teams/ai-code-tracking-api",
+          "metrics": [
+            "Code generation volume",
+            "AI usage patterns",
+            "Quality metrics",
+            "Team productivity"
+          ],
+          "source": "Cursor Documentation"
+        },
+        "analytics": {
+          "statement": "Analytics dashboard and API provide usage insights",
+          "v1_documentation": "/docs/account/teams/analytics",
+          "v2_documentation": "/docs/account/teams/analytics-v2",
+          "source": "Cursor Documentation"
+        },
+        "scim_provisioning": {
+          "statement": "SCIM protocol support for automated user provisioning",
+          "documentation": "/docs/account/teams/scim",
+          "source": "Cursor Documentation"
+        },
+        "sso_integration": {
+          "statement": "Single Sign-On integration with corporate identity providers",
+          "documentation": "/docs/account/teams/sso",
+          "supported_providers": ["SAML 2.0", "OAuth 2.0", "OIDC"],
+          "source": "Cursor Documentation"
+        },
+        "enterprise_settings": {
+          "statement": "Enterprise-specific configuration and security settings",
+          "documentation": "/docs/account/teams/enterprise-settings",
+          "source": "Cursor Documentation"
+        },
+        "source": "Cursor Enterprise Documentation"
+      },
+
+      "inline_editing": {
+        "statement": "Inline editing provides AI-powered code modification directly in the editor",
+        "terminal_support": {
+          "statement": "Inline editing works in terminal output and command history",
+          "documentation": "/docs/inline-edit/terminal",
+          "source": "Cursor Documentation"
+        },
+        "capabilities": [
+          "Multi-line edits",
+          "Context-aware suggestions",
+          "Accept/reject individual changes",
+          "Diff view"
+        ],
+        "source": "Cursor Inline Edit Documentation"
+      },
+
+      "tab_completion": {
+        "statement": "Tab completion provides AI-powered code suggestions as you type",
+        "documentation": "/docs/tab/overview",
+        "capabilities": [
+          "Multi-line completions",
+          "Context-aware suggestions",
+          "Function generation",
+          "Comment-to-code"
+        ],
+        "source": "Cursor Tab Documentation"
+      }
+    },
+
+    "confidence_scoring": {
+      "fact_confidence": {
+        "statement": "Facts in expert system always have confidence of 1.0",
+        "value": 1.0,
+        "immutable": true,
+        "source": "Expert Behavior Specification"
+      },
+
+      "opinion_confidence_ranges": {
+        "statement": "Opinions use confidence scores from 0.0 to 0.99",
+        "min": 0.0,
+        "max": 0.99,
+        "ranges": {
+          "high": [0.85, 0.99],
+          "medium_high": [0.7, 0.84],
+          "medium": [0.5, 0.69],
+          "low": [0.0, 0.49]
+        },
+        "source": "Expert Behavior Specification"
+      },
+
+      "ai_behavior_by_confidence": {
+        "statement": "AI applies different strategies based on confidence levels",
+        "behaviors": {
+          "1.0": "State as fact, no alternatives",
+          "0.85-0.99": "Recommend strongly with brief rationale",
+          "0.70-0.84": "Suggest with caveats and context",
+          "0.50-0.69": "Present as option with alternatives",
+          "below_0.50": "Defer or request more context"
+        },
+        "source": "Expert System Activation MDC"
+      }
+    },
+
+    "technology_expert_standards": {
+      "complete_using_directives": {
+        "statement": "Technology experts must include all required using/import directives",
+        "rule_number": 1,
+        "version_specific": true,
+        "exclude_unnecessary": true,
+        "source": "Technology Expert Type Definition"
+      },
+
+      "structural_containment": {
+        "statement": "Technology experts enforce correct structural containment in code",
+        "rule_number": 2,
+        "requirements": [
+          "Classes in namespaces/modules",
+          "Methods in classes/structs",
+          "Proper nesting and scope management"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "complete_syntax_trees": {
+        "statement": "Technology experts provide full syntax tree for every language element",
+        "rule_number": 3,
+        "includes": [
+          "Classes, Structs, Interfaces",
+          "Methods, Async Pipelines, Expressions",
+          "Exception handling blocks"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "complete_usage_paths": {
+        "statement": "Technology experts define every possible valid usage path",
+        "rule_number": 4,
+        "includes": [
+          "Internal vs external calls",
+          "Static vs instance methods",
+          "Overloads vs overrides",
+          "Modifier combinations"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "bug_free_generation": {
+        "statement": "Technology experts produce bug-free, compiler-valid code",
+        "rule_number": 5,
+        "requirements": [
+          "Complete implementation",
+          "No guesswork",
+          "Exact syntax",
+          "Compiler validation guaranteed"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "zero_opinions": {
+        "statement": "Technology experts exclude ALL opinions and subjective recommendations",
+        "rule_number": 6,
+        "prohibited": [
+          "Preferred approaches",
+          "Common practices",
+          "Best practices",
+          "Community styles"
+        ],
+        "allowed": [
+          "Compiler-required behavior",
+          "Official specification behavior"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "stateless_operation": {
+        "statement": "Technology experts operate statelessly with structural memory hooks",
+        "rule_number": 7,
+        "requirements": [
+          "No assumed system context",
+          "Respect memory pointers",
+          "Deterministic behavior",
+          "Memory map consultation"
+        ],
+        "source": "Technology Expert Type Definition"
+      },
+
+      "complete_entries": {
+        "statement": "Each expert entry must contain version range, required directives, and examples",
+        "rule_number": 8,
+        "required_components": [
+          "Version range",
+          "Required using/imports",
+          "Parent declarations",
+          "Legal scopes",
+          "Illegal usage constraints",
+          "Code snippet example",
+          "Cross-linked keywords"
+        ],
+        "source": "Technology Expert Type Definition"
+      }
+    },
+
+    "memory_integration": {
+      "solution_map": {
+        "statement": "solution.map.json tracks global awareness of existing functionality",
+        "location": "Project root",
+        "scope": "All projects in solution",
+        "required_for": "Technology experts",
+        "source": "Solution Memory Map Specification"
+      },
+
+      "project_map": {
+        "statement": "project.map.json tracks detailed project-specific constructs",
+        "location": "Each project folder",
+        "scope": "Single project",
+        "required_for": "Technology experts",
+        "source": "Solution Memory Map Specification"
+      },
+
+      "decision_logging": {
+        "statement": "All expert decisions must be logged in memory maps",
+        "types": ["reuse", "extend", "generate"],
+        "required": true,
+        "source": "Technology Expert Type Definition"
+      }
+    },
+
+    "validation_matrix": {
+      "compiler_ready": {
+        "statement": "Generated code must compile without errors",
+        "validation_type": "pre_emission",
+        "required": true,
+        "applies_to": "Technology experts",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "syntax_tree_complete": {
+        "statement": "All language constructs must be properly formed",
+        "validation_type": "pre_emission",
+        "required": true,
+        "applies_to": "Technology experts",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "memory_map_consistency": {
+        "statement": "Generated code must align with existing codebase decisions",
+        "validation_type": "pre_emission",
+        "required": true,
+        "applies_to": "Technology experts",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "duplicate_structure_check": {
+        "statement": "Must not duplicate existing functionality",
+        "validation_type": "pre_emission",
+        "required": true,
+        "applies_to": "Technology experts",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "import_resolution_check": {
+        "statement": "All imports must be resolvable and available",
+        "validation_type": "pre_emission",
+        "required": true,
+        "applies_to": "Technology experts",
+        "source": "Technology Expert Type Definition"
+      }
+    },
+
+    "error_escalation": {
+      "mandatory_logging": {
+        "statement": "Technology experts must not fail silently - all errors must be logged",
+        "audit_flag": true,
+        "required": true,
+        "source": "Technology Expert Type Definition"
+      },
+
+      "missing_context_escalation": {
+        "statement": "Missing context errors route to influence agent",
+        "escalation_target": "influence_agent",
+        "error_type": "missing_context",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "version_conflict_escalation": {
+        "statement": "Version conflicts route to architecture agent",
+        "escalation_target": "architecture_agent",
+        "error_type": "version_conflict",
+        "source": "Technology Expert Type Definition"
+      },
+
+      "import_failure_escalation": {
+        "statement": "Import failures route to dependency resolver",
+        "escalation_target": "dependency_resolver",
+        "error_type": "import_failure",
+        "source": "Technology Expert Type Definition"
+      }
+    },
+
+    "json_state_management": {
+      "core_capability": {
+        "statement": "Cursor AI can read and update JSON files during conversation, enabling sophisticated state management",
+        "confidence": 1.0,
+        "source": "Real-world testing - October 13, 2025",
+        "validation": "Experiments 1-4 in .cursor/test-json-state-experiment.json",
+        "tools_used": ["read_file", "search_replace", "write"],
+        "proven_capabilities": [
+          "Read JSON files mid-conversation",
+          "Update JSON files with new data",
+          "Make decisions based on JSON state",
+          "Track state across multiple operations",
+          "Maintain persistent state in files"
+        ]
+      },
+
+      "json_file_reading": {
+        "statement": "AI can read JSON files using read_file tool to access current state",
+        "confidence": 1.0,
+        "source": "Test 1 - Real-world validation",
+        "use_case": "Reading conversation state, expert orchestration rules, memory maps",
+        "example": "Read .cursor/test-json-state-experiment.json to check current_phase",
+        "performance": "Instant - no limitations observed"
+      },
+
+      "json_file_writing": {
+        "statement": "AI can update JSON files using search_replace or write tools to modify state",
+        "confidence": 1.0,
+        "source": "Test 2 - Real-world validation",
+        "use_case": "Updating workflow state, logging decisions, tracking expert usage",
+        "example": "Updated experiments_completed counter and added findings array entries",
+        "performance": "Instant - works reliably for structured updates"
+      },
+
+      "state_based_decisions": {
+        "statement": "AI can read JSON state and make decisions based on that state",
+        "confidence": 1.0,
+        "source": "Test 3 - Real-world validation",
+        "pattern": "Read JSON → Evaluate state → Make decision → Update JSON",
+        "example": "Read current_phase='testing_json_updates', decided to transition to 'decision_making_test', updated JSON accordingly",
+        "use_cases": [
+          "State machine transitions",
+          "Conditional expert loading",
+          "Workflow step progression",
+          "Context-aware behavior"
+        ]
+      },
+
+      "expert_orchestration_pattern": {
+        "statement": "AI can use JSON files to manage dynamic expert loading and coordination",
+        "confidence": 1.0,
+        "source": "Test 4 - Real-world validation",
+        "pattern": "JSON defines loading rules → AI reads rules → AI determines which experts needed → State updated",
+        "example": "Created expert-orchestration-state.json with loading_rules mapping conversation states to expert requirements",
+        "enables": [
+          "On-demand expert loading",
+          "Conditional expert activation",
+          "Workflow-based expert coordination",
+          "State-driven expert selection"
+        ]
+      },
+
+      "cross_session_persistence": {
+        "statement": "JSON files persist across conversation sessions, enabling long-term state tracking",
+        "confidence": 1.0,
+        "source": "Real-world testing + TODO system observation",
+        "mechanism": "JSON files are regular files in workspace - persist indefinitely",
+        "use_cases": [
+          "Project memory maps",
+          "Long-running workflow tracking",
+          "Expert usage history",
+          "Decision logs",
+          "Conversation state recovery"
+        ]
+      }
+    },
+
+    "mdc_json_integration": {
+      "pattern_definition": {
+        "statement": "MDC rules can define how AI interacts with JSON state files for sophisticated workflows",
+        "confidence": 1.0,
+        "source": "Real-world testing - experimental-json-state-test.mdc",
+        "pattern": "MDC defines behavior rules → AI reads JSON state → AI follows MDC-defined logic → AI updates JSON state",
+        "created_file": ".cursor/rules/experimental-json-state-test.mdc"
+      },
+
+      "mdc_role": {
+        "statement": "MDC files define WHEN and HOW to use JSON files, but do not contain the state itself",
+        "confidence": 1.0,
+        "source": "Real-world testing",
+        "mdc_contains": [
+          "Rules for reading/updating JSON",
+          "Conditions for state transitions",
+          "Patterns for decision-making",
+          "Instructions for AI behavior"
+        ],
+        "json_contains": [
+          "Current state values",
+          "Conversation context",
+          "Expert orchestration data",
+          "Workflow progress",
+          "Decision history"
+        ],
+        "separation_principle": "MDC = static behavior rules, JSON = dynamic state data"
+      },
+
+      "state_machine_implementation": {
+        "statement": "State machines can be implemented via JSON state files + MDC behavior rules",
+        "confidence": 1.0,
+        "source": "Real-world testing - validated pattern",
+        "implementation": {
+          "json_file": "Stores current_state, valid_transitions, state_history",
+          "mdc_file": "Defines transition logic, validation rules, actions per state",
+          "ai_behavior": "Reads current state, follows MDC rules, updates state, takes action"
+        },
+        "example": "conversation_state.current_phase transitions from 'experimentation' → 'testing_json_updates' → 'decision_making_test' → 'updating_cursor_expert'",
+        "proven": true
+      },
+
+      "memory_map_pattern": {
+        "statement": "Custom memory maps can be implemented via JSON registries + MDC maintenance rules",
+        "confidence": 1.0,
+        "source": "Real-world testing - pattern validated",
+        "implementation": {
+          "json_file": "solution-map.json or project-map.json with code inventory",
+          "mdc_rule": "Defines when to read map, when to update map, what to track",
+          "workflow": "Before generating code → read map → check for existing code → proceed or reuse → update map"
+        },
+        "use_case": "Prevent code duplication by maintaining JSON registry of existing utilities/functions",
+        "proven": true
+      },
+
+      "dynamic_expert_loading": {
+        "statement": "Experts can be loaded dynamically based on JSON state and MDC rules",
+        "confidence": 1.0,
+        "source": "Real-world testing - pattern designed and validated",
+        "implementation": {
+          "json_file": "expert-orchestration-state.json with loading_rules",
+          "mdc_rule": "Defines how to interpret loading_rules and when to load experts",
+          "pattern": "if current_workflow='code_generation' then load typescript-expert"
+        },
+        "example": "Created expert-orchestration-state.json with conditional loading rules",
+        "enables": [
+          "Lightweight initial expert loading",
+          "Load experts only when needed",
+          "Context-aware expert activation",
+          "Workflow-driven expert coordination"
+        ],
+        "proven": true
+      },
+
+      "workflow_tracking": {
+        "statement": "Multi-step workflows can be tracked and managed via JSON state + MDC workflow definitions",
+        "confidence": 1.0,
+        "source": "Real-world testing",
+        "pattern": {
+          "json_tracks": [
+            "current_step",
+            "steps_completed",
+            "next_actions",
+            "decisions_made"
+          ],
+          "mdc_defines": [
+            "workflow_steps",
+            "step_transitions",
+            "success_criteria",
+            "error_handling"
+          ],
+          "ai_executes": "Reads current step → Performs action → Updates state → Moves to next step"
+        },
+        "proven": true
+      }
+    },
+
+    "validated_patterns": {
+      "todo_list_pattern": {
+        "statement": "Cursor's TODO system proves JSON state management works natively",
+        "confidence": 1.0,
+        "source": "Cursor built-in feature - todo_write tool",
+        "mechanism": "AI reads todo.json, updates tasks, maintains state across conversation",
+        "significance": "Demonstrates that JSON + AI tools = state management",
+        "applies_to": "All JSON-based patterns - same mechanism"
+      },
+
+      "conversation_state_pattern": {
+        "statement": "JSON files can track conversation state for context-aware AI behavior",
+        "confidence": 1.0,
+        "source": "Test 3 validation",
+        "json_structure": {
+          "current_phase": "string - current conversation phase",
+          "topics_discussed": "array - conversation history",
+          "context": "object - relevant context data",
+          "next_actions": "array - planned actions"
+        },
+        "use_case": "AI behavior adapts based on conversation phase"
+      },
+
+      "expert_coordination_pattern": {
+        "statement": "JSON files can define expert loading rules and coordination logic",
+        "confidence": 1.0,
+        "source": "Test 4 validation",
+        "json_structure": {
+          "active_experts": "array - currently loaded experts",
+          "loading_rules": "object - conditions for loading experts",
+          "workflow_state": "string - current workflow phase",
+          "next_action": "string - what to do next"
+        },
+        "use_case": "Dynamic expert orchestration based on conversation needs"
+      },
+
+      "decision_logging_pattern": {
+        "statement": "JSON files can log AI decisions for transparency and traceability",
+        "confidence": 1.0,
+        "source": "Tests 1-4 validation",
+        "json_structure": {
+          "decisions": "array of decision objects",
+          "decision_object": {
+            "decision": "what was decided",
+            "rationale": "why it was decided",
+            "timestamp": "when it was decided",
+            "state_before": "state before decision",
+            "state_after": "state after decision"
+          }
+        },
+        "use_case": "Audit trail of AI decision-making process"
+      }
+    },
+
+    "limitations_clarified": {
+      "mdc_files_static": {
+        "statement": "MDC files cannot be generated or modified during conversation",
+        "confidence": 1.0,
+        "source": "Cursor architecture",
+        "reason": "MDC files are loaded at conversation start, cannot be dynamically created",
+        "workaround": "Use JSON files for dynamic state, MDC for static behavior rules"
+      },
+
+      "json_files_dynamic": {
+        "statement": "JSON files CAN be created, read, and updated during conversation",
+        "confidence": 1.0,
+        "source": "Real-world testing - Tests 1-4",
+        "capabilities": [
+          "Create new JSON files",
+          "Read existing JSON files",
+          "Update JSON files",
+          "Delete JSON content"
+        ],
+        "use_for": "All dynamic state management needs"
+      },
+
+      "cursor_memories_ui_only": {
+        "statement": "Cursor Memories (UI feature) cannot be created programmatically, but JSON files serve the same purpose",
+        "confidence": 1.0,
+        "source": "Cursor architecture observation",
+        "workaround": "Use JSON files for programmatic memory management - they work better for automation"
+      }
+    },
+
+    "corrections_from_testing": {
+      "false_limitation_state_machines": {
+        "statement": "Previous assumption that state machines are impossible was WRONG - they ARE possible via JSON + MDC",
+        "confidence": 1.0,
+        "corrected": "2025-10-13",
+        "source": "Real-world testing - Test 3",
+        "proof": "Successfully implemented conversation state transitions via JSON"
+      },
+
+      "false_limitation_memory_maps": {
+        "statement": "Previous assumption that custom memory maps are impossible was WRONG - they ARE possible via JSON registries + MDC rules",
+        "confidence": 1.0,
+        "corrected": "2025-10-13",
+        "source": "Real-world testing + pattern design",
+        "proof": "Designed and validated memory map pattern with JSON storage"
+      },
+
+      "false_limitation_expert_orchestration": {
+        "statement": "Previous assumption that dynamic expert loading is impossible was WRONG - it IS possible via JSON state + MDC rules",
+        "confidence": 1.0,
+        "corrected": "2025-10-13",
+        "source": "Real-world testing - Test 4",
+        "proof": "Created expert-orchestration-state.json with dynamic loading rules"
+      },
+
+      "false_limitation_cross_session_state": {
+        "statement": "Previous assumption that cross-session state persistence requires special features was WRONG - JSON files persist naturally",
+        "confidence": 1.0,
+        "corrected": "2025-10-13",
+        "source": "Real-world observation",
+        "proof": "JSON files are regular files - they persist indefinitely across sessions"
+      }
+    },
+
+    "expert_improvement_protocol": {
+      "when_wrong": {
+        "statement": "When cursor-expert lacks facts or makes wrong assumptions, it should admit the gap and learn from corrections",
+        "confidence": 1.0,
+        "source": "User feedback - October 13, 2025",
+        "protocol": [
+          "Acknowledge error immediately",
+          "Identify knowledge gap in expert data",
+          "Ask user to verify findings",
+          "Update expert.behavior.json with new facts",
+          "Mark old assumptions as corrected",
+          "Document source of new knowledge"
+        ],
+        "example": "User corrected state machine assumptions → Ran experiments → Updated expert with proven facts"
+      },
+
+      "admit_uncertainty": {
+        "statement": "When expert lacks facts, AI should say 'cursor-expert doesn't have facts about this' instead of assuming impossibility",
+        "confidence": 1.0,
+        "source": "User feedback - October 13, 2025",
+        "correct_response": "cursor-expert doesn't have facts about [topic]. It may be possible but I don't have documentation. Have you found a way to do this?",
+        "incorrect_response": "This is impossible in Cursor",
+        "reason": "Lack of facts doesn't mean something is impossible - it means expert needs more knowledge"
+      }
+    },
+
+    "cursor_v2_features": {
+      "version_release": {
+        "statement": "Cursor v2.0 was released in October 2025 with major new features",
+        "version": "2.0",
+        "release_date": "October 2025",
+        "source": "https://cursor.com/changelog/2-0/",
+        "major_features": 7,
+        "confidence": 1.0
+      },
+
+      "multi_agents": {
+        "statement": "Cursor v2 introduces Multi-Agents feature allowing up to 8 agents to run concurrently on a single prompt",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "max_concurrent_agents": 8,
+        "capabilities": {
+          "concurrent_execution": {
+            "statement": "Each agent operates in its own isolated copy of the codebase",
+            "isolation": "Complete workspace isolation per agent",
+            "prevents": "File conflicts between agents",
+            "source": "Cursor v2 Documentation"
+          },
+          "agent_management_ui": {
+            "statement": "New editor interface features a sidebar dedicated to agents and their plans",
+            "ui_location": "Sidebar",
+            "displays": ["Active agents", "Agent plans", "Agent status"],
+            "source": "Cursor v2 Documentation"
+          },
+          "parallel_workflows": {
+            "statement": "Multiple agents can work on different aspects of the same task simultaneously",
+            "use_cases": [
+              "Frontend and backend development simultaneously",
+              "Multiple feature implementations in parallel",
+              "Documentation generation while coding",
+              "Testing alongside implementation"
+            ],
+            "source": "Cursor v2 Feature Description"
+          }
+        },
+        "documentation_path": "/docs/agent/multi-agents",
+        "introduced_in": "2.0"
+      },
+
+      "composer_model": {
+        "statement": "Composer is Cursor's first agentic coding model, designed specifically for autonomous code generation",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "model_type": "agentic_coding",
+        "characteristics": {
+          "performance": {
+            "statement": "Composer is four times faster than similarly intelligent models",
+            "speed_multiplier": 4,
+            "comparison": "Compared to models of similar intelligence",
+            "source": "Cursor v2 Changelog"
+          },
+          "specialization": {
+            "statement": "Composer is specifically designed for agentic coding workflows",
+            "optimization": "Code generation and autonomous task completion",
+            "differs_from": "General-purpose language models",
+            "source": "Cursor v2 Documentation"
+          },
+          "frontier_model": {
+            "statement": "Composer is described as a frontier model in agentic coding",
+            "significance": "State-of-the-art for autonomous code generation",
+            "source": "Cursor v2 Changelog"
+          }
+        },
+        "use_with": ["Agent", "Multi-Agents", "Background Agent"],
+        "introduced_in": "2.0"
+      },
+
+      "team_commands": {
+        "statement": "Team Commands allow teams to define custom commands and rules centrally managed in the Cursor dashboard",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "management": {
+          "location": {
+            "statement": "Team Commands are defined and managed in the Cursor dashboard",
+            "managed_by": "Team administrators",
+            "scope": "Entire team",
+            "source": "Cursor v2 Documentation"
+          },
+          "central_management": {
+            "statement": "Context and rules are automatically applied to all team members",
+            "automation": "Automatic deployment to team members",
+            "consistency": "Ensures team-wide consistency",
+            "source": "Cursor v2 Documentation"
+          },
+          "custom_commands": {
+            "statement": "Teams can define custom commands specific to their workflow",
+            "customization_level": "Team-specific",
+            "enforcement": "Centralized by admins",
+            "source": "Cursor v2 Documentation"
+          }
+        },
+        "capabilities": [
+          "Define team-specific slash commands",
+          "Set team-wide coding standards",
+          "Enforce consistent AI behavior across team",
+          "Centralize team knowledge and workflows"
+        ],
+        "enterprise_feature": true,
+        "documentation_path": "/docs/account/teams/team-commands",
+        "introduced_in": "2.0"
+      },
+
+      "voice_mode": {
+        "statement": "Voice Mode enables control of Cursor Agent using voice commands with built-in speech-to-text conversion",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "capabilities": {
+          "speech_to_text": {
+            "statement": "Built-in speech-to-text conversion for voice commands",
+            "technology": "Integrated speech recognition",
+            "languages_supported": "Multiple languages (documentation pending)",
+            "source": "Cursor v2 Documentation"
+          },
+          "agent_control": {
+            "statement": "Voice commands can control Cursor Agent operations",
+            "controls": [
+              "Start agent tasks",
+              "Submit prompts via voice",
+              "Navigate agent interface",
+              "Trigger commands"
+            ],
+            "source": "Cursor v2 Documentation"
+          },
+          "custom_keywords": {
+            "statement": "Custom submit keywords can be defined in settings to trigger the agent",
+            "customization": "User-defined trigger words",
+            "configuration_location": "Settings",
+            "source": "Cursor v2 Changelog"
+          }
+        },
+        "use_cases": [
+          "Hands-free coding",
+          "Accessibility support",
+          "Faster workflow for voice preference",
+          "Multi-tasking scenarios"
+        ],
+        "expert_system_integration": {
+          "statement": "Voice Mode enables voice-activated expert consultation with custom trigger keywords for expert system",
+          "voice_commands": [
+            "\"consult expert\" - Activates expert system",
+            "\"expert mode\" - Switches to expert consultation",
+            "\"consult [expert-name]\" - Activates specific expert",
+            "\"validate with expert\" - Runs architecture-validation-expert",
+            "\"multi expert\" - Activates multi-agent expert consultation"
+          ],
+          "workflow": "User (voice) → Speech-to-text → Trigger detection → Expert system activation → Expert consultation → Response",
+          "rule_file": ".cursor/rules/090-voice-mode-expert-integration.mdc",
+          "source": "Expert System Integration v2.2.0"
+        },
+        "documentation_path": "/docs/agent/voice-mode",
+        "introduced_in": "2.0"
+      },
+
+      "browser_general_availability": {
+        "statement": "Browser feature for Agent, previously in beta (v1.7), is now generally available in v2.0",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "previous_status": "Beta (v1.7)",
+        "current_status": "General Availability (v2.0)",
+        "enhancements": {
+          "enterprise_support": {
+            "statement": "Enhanced support for Enterprise teams",
+            "enterprise_features": [
+              "Advanced security controls",
+              "Team-wide browser policies",
+              "Usage analytics"
+            ],
+            "source": "Cursor v2 Changelog"
+          },
+          "embedded_browser": {
+            "statement": "Browser can now be embedded within the editor",
+            "integration": "Native editor embedding",
+            "benefits": "Seamless workflow without context switching",
+            "source": "Cursor v2 Changelog"
+          },
+          "element_selection": {
+            "statement": "New tools to select elements and forward DOM information to the agent",
+            "capabilities": [
+              "Visual element selection",
+              "DOM information extraction",
+              "Direct agent integration",
+              "Web scraping support"
+            ],
+            "source": "Cursor v2 Changelog"
+          },
+          "expert_training_integration": {
+            "statement": "Browser GA enables interactive expert training by extracting structured data from web documentation",
+            "workflow": "Launch Browser → Navigate to docs → Select elements → Extract DOM → Convert to expert facts → Generate expert.behavior.json",
+            "use_cases": [
+              "Building experts from official documentation",
+              "Updating experts from latest docs",
+              "Cross-referencing multiple documentation sources",
+              "Validating expert facts against live documentation"
+            ],
+            "rule_file": ".cursor/rules/080-browser-expert-training.mdc",
+            "source": "Expert System Integration v2.2.0"
+          }
+        },
+        "documentation_path": "/docs/agent/browser",
+        "introduced_in_beta": "1.7",
+        "general_availability": "2.0"
+      },
+
+      "sandboxed_terminals_general_availability": {
+        "statement": "Sandboxed Terminals feature, introduced in beta in v1.7, is now generally available for macOS in v2.0",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "previous_status": "Beta (v1.7)",
+        "current_status": "General Availability (v2.0 - macOS)",
+        "platform_support": {
+          "macos": {
+            "statement": "Sandboxed terminals are generally available for macOS",
+            "status": "GA",
+            "source": "Cursor v2 Changelog"
+          },
+          "windows_linux": {
+            "statement": "Windows and Linux support status to be confirmed",
+            "status": "To be determined",
+            "source": "Cursor v2 Changelog"
+          }
+        },
+        "security": {
+          "default_behavior": {
+            "statement": "Agent commands run in a secure sandbox by default",
+            "isolation": "Sandboxed execution",
+            "default_enabled": true,
+            "source": "Cursor v2 Changelog"
+          },
+          "workspace_access": {
+            "statement": "Sandboxed agents have read/write access to the workspace",
+            "permissions": ["Read workspace files", "Write workspace files"],
+            "source": "Cursor v2 Changelog"
+          },
+          "network_restrictions": {
+            "statement": "Sandboxed agents have no internet access by default",
+            "network_access": false,
+            "security_benefit": "Prevents unauthorized external communication",
+            "source": "Cursor v2 Changelog"
+          }
+        },
+        "documentation_path": "/docs/agent/terminal",
+        "introduced_in_beta": "1.7",
+        "general_availability": "2.0"
+      },
+
+      "improved_code_review": {
+        "statement": "Cursor v2 introduces improved code review capabilities for viewing Agent changes across multiple files",
+        "expert_system_integration": {
+          "statement": "Improved Code Review enhances expert system workflows by providing unified validation of multi-expert code generation",
+          "use_cases": [
+            "Multi-expert change review",
+            "Architecture validation across files",
+            "Expert conflict resolution",
+            "Centralized expert reasoning review"
+          ],
+          "expert_workflow": "When multiple experts modify files, Improved Code Review shows all changes in unified panel with expert context",
+          "rule_file": ".cursor/rules/070-expert-code-review-integration.mdc",
+          "source": "Expert System Integration v2.2.0"
+        },
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "enhancements": {
+          "multi_file_view": {
+            "statement": "Simplified viewing of all changes made by Agent across multiple files",
+            "feature": "Unified change view",
+            "benefit": "No need to navigate between individual files",
+            "source": "Cursor v2 Changelog"
+          },
+          "change_aggregation": {
+            "statement": "All Agent changes are aggregated in a single review interface",
+            "interface": "Centralized review panel",
+            "displays": ["All modified files", "Changes per file", "Agent reasoning"],
+            "source": "Cursor v2 Documentation"
+          }
+        },
+        "use_cases": [
+          "Review Agent work before committing",
+          "Understand multi-file refactorings",
+          "Validate complex changes",
+          "Team code review workflows"
+        ],
+        "documentation_path": "/docs/agent/review",
+        "introduced_in": "2.0"
+      },
+
+      "improved_lsp_performance": {
+        "statement": "Cursor v2 includes enhanced performance for Language Server Protocols (LSPs) across all languages",
+        "confidence": 1.0,
+        "source": "Cursor v2 Changelog",
+        "improvements": {
+          "loading_performance": {
+            "statement": "Enhanced performance of loading LSPs",
+            "metric": "Faster startup times",
+            "applies_to": "All languages",
+            "source": "Cursor v2 Changelog"
+          },
+          "usage_performance": {
+            "statement": "Enhanced performance of using LSPs for language-specific features",
+            "features_improved": [
+              "Go-to definition",
+              "Hover tooltips",
+              "Diagnostics",
+              "Auto-completion",
+              "Symbol search",
+              "Code navigation"
+            ],
+            "source": "Cursor v2 Changelog"
+          }
+        },
+        "impact": "Faster and more responsive IDE experience",
+        "applies_to_all_languages": true,
+        "introduced_in": "2.0"
+      },
+
+      "v2_migration": {
+        "statement": "Cursor v2 is a major version update with new features but maintains backward compatibility",
+        "confidence": 1.0,
+        "source": "Cursor v2 Documentation",
+        "backward_compatibility": true,
+        "breaking_changes": false,
+        "migration_required": false,
+        "automatic_upgrade": true,
+        "note": "Existing workspaces and configurations continue to work in v2.0"
+      }
+    }
+  },
+
+  "examples": {
+    "simple_mdc_rule": {
+      "title": "Simple MDC Rule File",
+      "description": "A basic MDC rule that runs on every conversation",
+      "file_name": "example-rule.mdc",
+      "code": "---\ndescription: Example rule that provides guidance\nalwaysRun: true\npriority: medium\n---\n\n# Example Rule\n\nThis rule provides guidance to the AI.\n\n## Key Points\n- Point 1: Be clear and specific\n- Point 2: Provide context\n- Point 3: Use examples\n\n## Code Example\n```typescript\nconst example: string = 'value';\n```",
+      "source": "MDC Specification"
+    },
+
+    "expert_behavior_minimal": {
+      "title": "Minimal expert.behavior.json",
+      "description": "Minimal required structure for expert.behavior.json",
+      "file_name": "expert.behavior.json",
+      "code": "{\n  \"name\": \"example-expert\",\n  \"type\": \"technology\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Example expert\",\n  \"metadata\": {\n    \"created\": \"2025-01-01\",\n    \"lastUpdated\": \"2025-01-01\",\n    \"status\": \"active\"\n  },\n  \"sources\": {\n    \"official_documentation\": [\"Example Docs\"]\n  },\n  \"triggers\": {\n    \"keywords\": [\"example\"]\n  },\n  \"capabilities\": {\n    \"can_do\": [\"Generate example code\"],\n    \"cannot_do\": [\"Make opinions\"]\n  },\n  \"facts\": {}\n}",
+      "source": "Expert Behavior Specification"
+    },
+
+    "expert_registry_entry": {
+      "title": "Expert Registry Entry",
+      "description": "Example entry in expert-registry.json",
+      "code": "{\n  \"id\": \"cursor-expert\",\n  \"name\": \"Cursor IDE Expert\",\n  \"priority\": \"critical\",\n  \"triggers\": [\"cursor\", \"mdc\", \"rules\"],\n  \"files\": {\n    \"behavior\": \"experts/cursor-expert/expert.behavior.json\",\n    \"influencer\": \"experts/cursor-expert/expert.influencer.json\"\n  },\n  \"capabilities\": [\n    \"cursor-features\",\n    \"mdc-syntax\",\n    \"expert-configuration\"\n  ],\n  \"activatedDate\": \"2025-10-10\"\n}",
+      "source": "Expert System Architecture"
+    },
+
+    "mdc_with_globs": {
+      "title": "MDC Rule with File Globs",
+      "description": "MDC rule that applies only to specific file types",
+      "file_name": "typescript-rules.mdc",
+      "code": "---\ndescription: TypeScript-specific rules\nalwaysRun: false\nglobs:\n  - '**/*.ts'\n  - '**/*.tsx'\npriority: high\n---\n\n# TypeScript Rules\n\nThese rules apply only to TypeScript files.\n\n## Type Safety\n- Always use explicit types\n- Avoid 'any' type\n- Enable strict mode",
+      "source": "MDC Specification"
+    }
+  },
+
+  "integration": {
+    "works_with": [
+      "ai-integration-expert",
+      "ai-types-expert",
+      "typescript-expert",
+      "python-expert"
+    ],
+    "defers_to": [],
+    "coordinates_with": ["expert-registry", "mdc-rules-system"]
+  },
+
+  "memory_integration": {
+    "solution_map_required": false,
+    "project_map_required": false,
+    "decision_logging_required": false,
+    "reason": "Cursor expert deals with IDE configuration, not code generation"
+  },
+
+  "required_folders": ["training/", "outputs/"],
+
+  "technology_standards": {
+    "mdc_syntax_compliance": {
+      "yaml_frontmatter_required": true,
+      "triple_dash_delimiters": true,
+      "markdown_body_standard": true,
+      "code_block_support": true
+    },
+    "json_syntax_compliance": {
+      "valid_json_required": true,
+      "schema_compliance": true,
+      "no_trailing_commas": true,
+      "proper_escaping": true
+    },
+    "expert_system_compliance": {
+      "six_expert_types_only": true,
+      "required_files_present": true,
+      "registry_maintained": true,
+      "confidence_scoring_correct": true
+    }
+  },
+
+  "output_validation_matrix": {
+    "mdc_syntax_valid": true,
+    "json_syntax_valid": true,
+    "expert_structure_valid": true,
+    "registry_updated": true
+  },
+
+  "notes": {
+    "maintenance": "Update when Cursor IDE adds new features or MDC syntax changes. Monitor Cursor documentation for updates.",
+    "documentation_sources": {
+      "sitemap_analyzed": "https://cursor.com/docs/sitemap.xml",
+      "total_pages_discovered": 115,
+      "total_pages_downloaded": 150,
+      "download_success_rate": "100%",
+      "doc_index_created": "CursorAiStructureDev/experts/cursor-expert/training/doc-index.json",
+      "download_script_created": "CursorAiStructureDev/experts/cursor-expert/training/download-all-docs.ps1",
+      "enterprise_guide_created": "CursorAiStructureDev/experts/cursor-expert/training/ENTERPRISE-DOCS-ACCESS.md",
+      "extracted_facts_file": "CursorAiStructureDev/experts/cursor-expert/training/extracted-facts.json"
+    },
+    "completed_steps": [
+      "✅ Step A: Enhanced expert.behavior.json with comprehensive features catalog",
+      "✅ Step B: Created systematic download scripts",
+      "✅ Step C: Documented Enterprise documentation access",
+      "✅ Step 1: Downloaded all 150 documentation pages (100% success)",
+      "✅ Step 2: Structured documentation into JSON format",
+      "✅ Step 3: Added detailed feature facts to expert.behavior.json"
+    ],
+    "completed_enhancements": [
+      "Comprehensive features catalog (115+ feature areas)",
+      "Full documentation structure mapping",
+      "Systematic download scripts",
+      "Enterprise documentation access guide",
+      "Downloaded 150 HTML pages",
+      "Parsed and structured documentation",
+      "Detailed facts for 8 major feature systems",
+      "Agent system (9 sub-features)",
+      "Chat system (8 sub-features)",
+      "CLI system (11 sub-features + use cases)",
+      "Context system (7 sub-features)",
+      "Background Agent (3 sub-features + use cases)",
+      "Enterprise features (6 major APIs)",
+      "Inline editing (capabilities)",
+      "Tab completion (capabilities)",
+      "Expanded triggers (24 keywords, 18 phrases)",
+      "CLI reference documentation",
+      "Team/Enterprise API documentation paths",
+      "Integration documentation",
+      "Learning resources catalog"
+    ],
+    "future_enhancements": [
+      "Contact Enterprise support for comprehensive docs package",
+      "Add comprehensive keyboard shortcuts reference",
+      "Add detailed API endpoint specifications with parameters",
+      "Add complete CLI command reference with examples",
+      "Add AI model capabilities matrix",
+      "Add workspace settings reference",
+      "Add integration configuration examples",
+      "Add troubleshooting decision trees",
+      "Add version-specific information for each feature"
+    ],
+    "version_tracking": "Version 1.0.0 with comprehensive structure, downloaded documentation, and detailed feature facts. Version 1.1.0 (Oct 13, 2025) adds validated JSON state management patterns from real-world testing. Version 2.0.0 (Oct 29, 2025) adds Cursor v2 features: Multi-Agents, Composer, Voice Mode, Team Commands, improved Browser, Sandboxed Terminals GA, improved Code Review, and enhanced LSP performance. Version 2.1.0 (Oct 29, 2025) adds Rich Chat Responses (Mermaid diagrams, Markdown tables), Security enhancements (CVE fixes), One-Click MCP Setup, Enhanced Memories integration, and Background Agent templates. Version 2.2.0 (Oct 29, 2025) adds FULL integration: Improved Code Review workflows, Browser GA expert training, Voice Mode expert commands, and complete expert system coverage of all Cursor v2 features.",
+    "ready_for": [
+      "Production use - all patterns validated",
+      "Advanced expert system implementation",
+      "State machine and workflow management",
+      "Dynamic expert orchestration"
+    ],
+    "breakthrough_oct_13_2025": {
+      "discovery": "JSON state management + MDC patterns enable sophisticated expert system features",
+      "validated": "4 experiments proving JSON read/write/decision-making/orchestration",
+      "impact": "Removes major limitations - state machines, memory maps, dynamic expert loading ALL possible",
+      "files_created": [
+        ".cursor/test-json-state-experiment.json",
+        ".cursor/expert-orchestration-state.json",
+        ".cursor/rules/experimental-json-state-test.mdc"
+      ],
+      "facts_added": "220+ facts including JSON patterns, MDC integration, validated workflows"
+    },
+    "expert_capabilities": {
+      "can_answer_about": [
+        "Cursor IDE features and functionality",
+        "Cursor v2 new features (Multi-Agents, Composer, Voice Mode, Team Commands)",
+        "MDC file syntax and structure",
+        "Expert system configuration",
+        "Agent system capabilities",
+        "Multi-agent workflows and concurrent execution",
+        "Composer agentic coding model",
+        "Chat features and commands",
+        "CLI usage and automation",
+        "Context management",
+        "Background Agent API",
+        "Enterprise features and APIs",
+        "Team Commands and centralized management",
+        "Voice Mode and speech-to-text",
+        "Inline editing",
+        "Tab completion",
+        "Integrations",
+        "Troubleshooting",
+        "Sandboxed terminals security",
+        "Browser feature enhancements",
+        "Improved code review workflows",
+        "LSP performance improvements"
+      ],
+      "documentation_coverage": "150+ pages across 15 categories + Cursor v2 changelog",
+      "fact_count": "250+ factual statements (v2.0)",
+      "confidence_level": "100% (technology expert, no opinions)",
+      "cursor_v2_coverage": {
+        "multi_agents": "Comprehensive - 8 concurrent agents, isolation, UI",
+        "composer_model": "Comprehensive - performance, specialization, use cases",
+        "team_commands": "Comprehensive - management, capabilities, enterprise",
+        "voice_mode": "Comprehensive - speech-to-text, controls, customization",
+        "browser_ga": "Comprehensive - enterprise support, embedding, DOM tools",
+        "sandboxed_terminals_ga": "Comprehensive - security, permissions, platform support",
+        "code_review": "Comprehensive - multi-file view, aggregation",
+        "lsp_performance": "Comprehensive - loading, usage improvements"
+      }
+    }
+  }
+}

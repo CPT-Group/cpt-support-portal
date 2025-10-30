@@ -1,0 +1,259 @@
+{
+  "name": "notification-system-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Notification system expert for React PWA applications with toast, push, in-app notifications, queueing, and persistence",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API - Notifications API",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Push_API - Push API",
+      "https://react-hot-toast.com/ - react-hot-toast Documentation"
+    ],
+    "training_materials": [
+      ".cursor-knowledge-base/experts/notification-system-expert/training/online-documentation/01-Notification-System-Complete-Guide.md"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "toast notification",
+      "push notification",
+      "in-app notification",
+      "notification center",
+      "notification queue",
+      "react-hot-toast",
+      "Push API",
+      "Service Worker notifications",
+      "VAPID",
+      "notification persistence",
+      "notification history",
+      "user preferences notifications"
+    ],
+    "phrases": [
+      "show toast notification",
+      "implement push notifications",
+      "notification center dropdown",
+      "queue notifications",
+      "persist notifications",
+      "notification action buttons",
+      "user notification preferences",
+      "unread notification count",
+      "mark notification as read"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Implement toast notifications with react-hot-toast",
+      "Set up push notifications with Service Worker Push API",
+      "Build in-app notification center with unread count",
+      "Create notification priority queue",
+      "Persist notifications in IndexedDB",
+      "Add action buttons to notifications",
+      "Build notification history page",
+      "Implement user notification preferences",
+      "Handle push notification permission requests",
+      "Test notification components"
+    ],
+    "cannot_do": [
+      "Send push notifications from frontend (requires backend with VAPID keys)",
+      "Guarantee push notification delivery (OS controls delivery)",
+      "Show notifications without user permission",
+      "Access notification history from other apps",
+      "Override user OS notification settings"
+    ]
+  },
+
+  "facts": {
+    "toast_notifications": {
+      "react_hot_toast": {
+        "statement": "react-hot-toast provides toast notifications with built-in animations, customizable duration, positioning, and promise support",
+        "confidence": 1.0,
+        "source": "react-hot-toast documentation",
+        "example": "toast.success('Saved!'); toast.error('Failed'); toast.promise(saveData(), { loading: 'Saving...', success: 'Saved!', error: 'Failed' });"
+      },
+      "toast_options": {
+        "statement": "Toast options include duration (milliseconds), position (top-left, top-center, top-right, bottom-left, bottom-center, bottom-right), icon, style, and className",
+        "confidence": 1.0,
+        "source": "react-hot-toast documentation",
+        "example": "toast('Message', { duration: 4000, position: 'top-right', icon: '✅', style: { background: '#333', color: '#fff' } });"
+      },
+      "toast_with_actions": {
+        "statement": "Toasts can include custom JSX with action buttons using toast((t) => <JSX>) pattern, accessing toast ID via t.id for dismissal",
+        "confidence": 1.0,
+        "source": "react-hot-toast documentation",
+        "example": "toast((t) => <div>Message <button onClick={() => { handleAction(); toast.dismiss(t.id); }}>Action</button></div>);"
+      }
+    },
+
+    "push_notifications": {
+      "Push_API": {
+        "statement": "Push API allows web apps to receive push notifications from server even when app is not running, using Service Worker",
+        "confidence": 1.0,
+        "source": "MDN Push API Documentation",
+        "example": "const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: vapidPublicKey });"
+      },
+      "notification_permission": {
+        "statement": "Notification.requestPermission() requests user permission for notifications, returning 'granted', 'denied', or 'default'",
+        "confidence": 1.0,
+        "source": "MDN Notifications API",
+        "example": "const permission = await Notification.requestPermission(); if (permission === 'granted') { /* enable push */ }"
+      },
+      "VAPID_keys": {
+        "statement": "VAPID (Voluntary Application Server Identification) keys authenticate push server, consisting of public key (frontend) and private key (backend)",
+        "confidence": 1.0,
+        "source": "Web Push Protocol specification",
+        "example": "Backend stores VAPID private key, frontend uses VAPID public key in pushManager.subscribe({ applicationServerKey: vapidPublicKey })"
+      },
+      "push_subscription": {
+        "statement": "PushSubscription contains endpoint URL and keys for server to send push notifications, must be sent to backend for storage",
+        "confidence": 1.0,
+        "source": "MDN Push API Documentation",
+        "example": "const subscription = await registration.pushManager.getSubscription(); await fetch('/api/push/subscribe', { body: JSON.stringify(subscription) });"
+      },
+      "service_worker_push_event": {
+        "statement": "Service Worker handles 'push' event to display notifications using self.registration.showNotification(title, options)",
+        "confidence": 1.0,
+        "source": "MDN Service Worker API",
+        "example": "self.addEventListener('push', (event) => { const data = event.data.json(); event.waitUntil(self.registration.showNotification(data.title, { body: data.body })); });"
+      },
+      "notification_click_event": {
+        "statement": "Service Worker handles 'notificationclick' event to open URLs or perform actions when user clicks notification",
+        "confidence": 1.0,
+        "source": "MDN Service Worker API",
+        "example": "self.addEventListener('notificationclick', (event) => { event.notification.close(); event.waitUntil(clients.openWindow('/cases/123')); });"
+      }
+    },
+
+    "in_app_notifications": {
+      "notification_center_component": {
+        "statement": "Notification center displays dropdown list of notifications with unread count badge, typically using React Query for data fetching",
+        "confidence": 1.0,
+        "source": "React UI patterns",
+        "example": "const { data: notifications } = useQuery('notifications', fetchNotifications); const unreadCount = notifications.filter(n => !n.read).length;"
+      },
+      "unread_count_badge": {
+        "statement": "Unread count badge shows number of unread notifications on notification bell icon, updating in real-time",
+        "confidence": 1.0,
+        "source": "UI/UX best practices",
+        "example": "<button>🔔 {unreadCount > 0 && <span className=\"badge\">{unreadCount}</span>}</button>"
+      },
+      "mark_as_read": {
+        "statement": "Marking notification as read updates read status via API and invalidates React Query cache to refresh UI",
+        "confidence": 1.0,
+        "source": "React Query patterns",
+        "example": "const markAsReadMutation = useMutation(markNotificationAsRead, { onSuccess: () => queryClient.invalidateQueries('notifications') });"
+      }
+    },
+
+    "notification_queueing": {
+      "priority_queue": {
+        "statement": "Priority queue orders notifications by priority (CRITICAL > HIGH > MEDIUM > LOW) and limits concurrent displayed notifications",
+        "confidence": 1.0,
+        "source": "Queue data structure patterns",
+        "example": "enum Priority { LOW = 1, MEDIUM = 2, HIGH = 3, CRITICAL = 4 }; queue.sort((a, b) => b.priority - a.priority);"
+      },
+      "queue_processing": {
+        "statement": "Queue processes notifications sequentially respecting maxConcurrent limit to prevent notification overload",
+        "confidence": 1.0,
+        "source": "Notification UX best practices",
+        "example": "while (queue.length > 0 && currentlyShowing < maxConcurrent) { showNotification(queue.shift()); }"
+      }
+    },
+
+    "notification_persistence": {
+      "indexeddb_storage": {
+        "statement": "IndexedDB stores notification history with indexes on read status and creation date for efficient querying",
+        "confidence": 1.0,
+        "source": "IndexedDB API documentation",
+        "example": "const store = db.createObjectStore('notifications', { keyPath: 'id' }); store.createIndex('by-read', 'read'); store.createIndex('by-date', 'createdAt');"
+      },
+      "idb_library": {
+        "statement": "idb library provides Promise-based IndexedDB wrapper for easier async/await usage in TypeScript",
+        "confidence": 1.0,
+        "source": "idb library documentation",
+        "example": "import { openDB } from 'idb'; const db = await openDB('notifications', 1, { upgrade(db) { db.createObjectStore('notifications'); } });"
+      }
+    },
+
+    "action_buttons": {
+      "toast_actions": {
+        "statement": "Toast notifications can include multiple action buttons with onClick handlers, dismissing toast via toast.dismiss(t.id)",
+        "confidence": 1.0,
+        "source": "react-hot-toast documentation",
+        "example": "toast((t) => <div><p>Message</p><button onClick={() => { handleAction(); toast.dismiss(t.id); }}>Action</button></div>);"
+      },
+      "push_actions": {
+        "statement": "Push notifications support actions array with action, title, and optional icon properties handled in notificationclick event",
+        "confidence": 1.0,
+        "source": "MDN Notifications API",
+        "example": "actions: [{ action: 'view', title: 'View', icon: '/view.png' }]; // Handle: if (event.action === 'view') { clients.openWindow('/url'); }"
+      }
+    },
+
+    "user_preferences": {
+      "notification_settings": {
+        "statement": "User preferences control notification types (toast, push, in-app, email), categories, and quiet hours stored per user",
+        "confidence": 1.0,
+        "source": "User preference patterns",
+        "example": "interface Preferences { enableToast: boolean; enablePush: boolean; quietHoursStart?: string; categories: { caseAssignments: boolean; } }"
+      },
+      "quiet_hours": {
+        "statement": "Quiet hours prevent notifications during specified time range (e.g., 22:00-08:00), checked before displaying notifications",
+        "confidence": 1.0,
+        "source": "Notification UX best practices",
+        "example": "if (isQuietHours(preferences.quietHoursStart, preferences.quietHoursEnd, new Date())) { return; /* skip notification */ }"
+      }
+    },
+
+    "react_integration": {
+      "useNotifications_hook": {
+        "statement": "Custom useNotifications hook provides notifications data, unreadCount, markAsRead function, and showToast helper",
+        "confidence": 1.0,
+        "source": "React custom hooks patterns",
+        "example": "const { notifications, unreadCount, markAsRead, showToast } = useNotifications(); showToast('Saved!', 'success');"
+      },
+      "react_query_polling": {
+        "statement": "React Query refetchInterval option polls notification API at regular intervals (e.g., 30 seconds) for new notifications",
+        "confidence": 1.0,
+        "source": "React Query documentation",
+        "example": "useQuery('notifications', fetchNotifications, { refetchInterval: 30000 }); // Poll every 30s"
+      }
+    },
+
+    "testing": {
+      "mock_notifications_api": {
+        "statement": "Notification tests mock API calls with jest.mock and verify UI updates using React Testing Library waitFor",
+        "confidence": 1.0,
+        "source": "React Testing Library patterns",
+        "example": "jest.mock('../api/notifications'); (api.fetchNotifications as jest.Mock).mockResolvedValue([{ id: '1', read: false }]); await waitFor(() => expect(screen.getByText('1')).toBeInTheDocument());"
+      }
+    },
+
+    "best_practices": {
+      "permission_timing": {
+        "statement": "Request notification permission with clear user benefit and context, never on page load without explanation",
+        "confidence": 1.0,
+        "source": "Web notification UX best practices",
+        "example": "Show dialog explaining benefits: 'Get notified when cases are assigned to you' with 'Enable Notifications' button"
+      },
+      "notification_frequency": {
+        "statement": "Limit notification frequency to prevent user annoyance, grouping related notifications and using priority queue",
+        "confidence": 1.0,
+        "source": "Notification UX best practices",
+        "example": "Group 5 case updates into single notification: 'You have 5 case updates' instead of 5 separate notifications"
+      }
+    }
+  }
+}

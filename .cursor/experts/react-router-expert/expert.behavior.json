@@ -1,0 +1,398 @@
+{
+  "name": "react-router-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "React Router 6+ expert for enterprise PWA routing, authentication guards, deep linking, and code-split navigation",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "https://reactrouter.com/en/main - React Router Official Documentation",
+      "https://github.com/remix-run/react-router - React Router GitHub Repository"
+    ],
+    "training_materials": [
+      ".cursor-knowledge-base/experts/react-router-expert/training/online-documentation/01-React-Router-Enterprise-Guide.md"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "react-router",
+      "routing",
+      "routes",
+      "navigation",
+      "useNavigate",
+      "useParams",
+      "useSearchParams",
+      "Link",
+      "NavLink",
+      "Outlet",
+      "Navigate",
+      "route guards",
+      "authentication guard",
+      "authorization",
+      "deep linking",
+      "breadcrumbs",
+      "nested routes",
+      "lazy loading routes",
+      "code splitting routes"
+    ],
+    "phrases": [
+      "how to implement routing",
+      "protect routes with authentication",
+      "route-based code splitting",
+      "nested route layouts",
+      "deep linkable URLs",
+      "route guards",
+      "programmatic navigation",
+      "URL parameters",
+      "query strings",
+      "404 page",
+      "error boundary routes"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Design hierarchical route structures for enterprise PWAs",
+      "Implement authentication and authorization guards",
+      "Create deep-linkable, shareable URLs with query parameters",
+      "Set up route-based code splitting with lazy loading",
+      "Build nested route layouts with Outlet pattern",
+      "Extract and validate URL parameters and query strings",
+      "Implement breadcrumb navigation from route hierarchy",
+      "Handle 404 and error routes with error boundaries",
+      "Provide programmatic navigation with useNavigate",
+      "Create type-safe route configurations with TypeScript",
+      "Test routes with MemoryRouter",
+      "Optimize route performance with preloading and prefetching",
+      "Implement scroll restoration and navigation blocking",
+      "Design RESTful URL structures"
+    ],
+    "cannot_do": [
+      "Implement server-side routing (use Next.js or Remix)",
+      "Handle authentication logic (use oauth2-expert or web-security-expert)",
+      "Manage global state (use redux-expert)",
+      "Implement form validation (use react-form-library-expert)",
+      "Design component architecture (use react architecture experts)",
+      "Replace native browser routing entirely"
+    ]
+  },
+
+  "facts": {
+    "core_api": {
+      "createBrowserRouter": {
+        "statement": "createBrowserRouter creates a router using the HTML5 History API with automatic data fetching, error handling, and code splitting support",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const router = createBrowserRouter([{ path: '/', element: <RootLayout />, children: [...] }]);"
+      },
+      "RouterProvider": {
+        "statement": "RouterProvider is the component that renders the router and enables routing in the application",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "<RouterProvider router={router} />"
+      },
+      "Outlet": {
+        "statement": "Outlet renders child routes in a parent route's element, enabling nested route layouts",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "function Layout() { return <div><Header /><Outlet /><Footer /></div>; }"
+      },
+      "Navigate": {
+        "statement": "Navigate component performs declarative navigation and redirects when rendered",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "<Navigate to=\"/login\" replace />"
+      },
+      "Link": {
+        "statement": "Link component renders an anchor tag that navigates without page reload",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "<Link to=\"/cases\">View Cases</Link>"
+      },
+      "NavLink": {
+        "statement": "NavLink is a special Link that knows whether it's active, allowing active state styling",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "<NavLink to=\"/dashboard\" className={({ isActive }) => isActive ? 'active' : ''}>Dashboard</NavLink>"
+      }
+    },
+
+    "hooks": {
+      "useNavigate": {
+        "statement": "useNavigate returns a navigate function for programmatic navigation with support for state, replace, and history manipulation",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const navigate = useNavigate(); navigate('/cases/123', { state: { from: 'dashboard' } });"
+      },
+      "useParams": {
+        "statement": "useParams returns an object of URL parameters from the current route",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const { id } = useParams<{ id: string }>();"
+      },
+      "useSearchParams": {
+        "statement": "useSearchParams returns current search params and a function to update them, similar to useState",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const [searchParams, setSearchParams] = useSearchParams(); const status = searchParams.get('status');"
+      },
+      "useLocation": {
+        "statement": "useLocation returns the current location object with pathname, search, hash, state, and key",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const location = useLocation(); const state = location.state as { from?: string };"
+      },
+      "useMatches": {
+        "statement": "useMatches returns an array of all matched routes, useful for building breadcrumbs or determining active routes",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const matches = useMatches(); const breadcrumbs = matches.filter(m => m.handle?.breadcrumb);"
+      },
+      "useBlocker": {
+        "statement": "useBlocker blocks navigation when condition is true, useful for warning about unsaved changes",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const blocker = useBlocker(hasUnsavedChanges); if (blocker.state === 'blocked') { /* show confirmation */ }"
+      }
+    },
+
+    "route_configuration": {
+      "route_objects": {
+        "statement": "Route objects are plain JavaScript objects defining route configuration, preferred over JSX routes for enterprise apps due to better TypeScript support and testability",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const routes: RouteObject[] = [{ path: '/', element: <Home />, children: [...] }];"
+      },
+      "nested_routes": {
+        "statement": "Nested routes use the children array to define route hierarchy, with parent routes rendering Outlet to display child routes",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: 'app', element: <AppLayout />, children: [{ path: 'dashboard', element: <Dashboard /> }] }"
+      },
+      "index_routes": {
+        "statement": "Index routes use index: true instead of path and render as the default child route when parent's path is matched exactly",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: 'cases', element: <Layout />, children: [{ index: true, element: <CaseList /> }] }"
+      },
+      "catch_all_routes": {
+        "statement": "Catch-all routes use path: '*' to match any unmatched routes, typically used for 404 pages",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: '*', element: <NotFoundPage /> }"
+      },
+      "error_boundary_routes": {
+        "statement": "Routes can have errorElement property that renders when route errors occur, providing error boundary at route level",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: '/', element: <Layout />, errorElement: <ErrorBoundary />, children: [...] }"
+      }
+    },
+
+    "route_guards": {
+      "auth_guard_pattern": {
+        "statement": "Authentication guards are implemented as route elements that check authentication status and redirect to login or render Outlet for child routes",
+        "confidence": 1.0,
+        "source": "Enterprise React patterns",
+        "example": "function AuthGuard() { const { isAuthenticated } = useAuth(); if (!isAuthenticated) return <Navigate to=\"/login\" />; return <Outlet />; }"
+      },
+      "role_guard_pattern": {
+        "statement": "Role-based guards check user roles before rendering child routes, redirecting to unauthorized page if role requirements not met",
+        "confidence": 1.0,
+        "source": "Enterprise React patterns",
+        "example": "function RoleGuard({ requiredRole }) { const { hasRole } = useAuth(); if (!hasRole(requiredRole)) return <Navigate to=\"/unauthorized\" />; return <Outlet />; }"
+      },
+      "permission_guard_pattern": {
+        "statement": "Permission guards provide fine-grained access control at the feature level using permission strings",
+        "confidence": 1.0,
+        "source": "Enterprise React patterns",
+        "example": "function PermissionGuard({ requiredPermission }) { const { hasPermission } = useAuth(); if (!hasPermission(requiredPermission)) return <Navigate to=\"/unauthorized\" />; return <Outlet />; }"
+      },
+      "guard_composition": {
+        "statement": "Guards can be composed by nesting route elements: outer guards for authentication, inner guards for authorization",
+        "confidence": 1.0,
+        "source": "Enterprise React patterns",
+        "example": "{ path: 'admin', element: <AuthGuard />, children: [{ element: <RoleGuard requiredRole=\"admin\" />, children: [...] }] }"
+      }
+    },
+
+    "code_splitting": {
+      "lazy_loading": {
+        "statement": "Routes can be code-split using React.lazy and dynamic imports, with Suspense providing fallback UI during loading",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const AdminPage = lazy(() => import('./pages/AdminPage')); { path: 'admin', element: <Suspense fallback={<Loading />}><AdminPage /></Suspense> }"
+      },
+      "route_preloading": {
+        "statement": "Route bundles can be preloaded on link hover or idle using dynamic imports before navigation",
+        "confidence": 1.0,
+        "source": "Performance optimization patterns",
+        "example": "<Link to=\"/admin\" onMouseEnter={() => import('./pages/AdminPage')}>Admin</Link>"
+      },
+      "data_prefetching": {
+        "statement": "Data for routes can be prefetched using React Query prefetchQuery on hover before navigation",
+        "confidence": 1.0,
+        "source": "Performance optimization patterns",
+        "example": "function handleMouseEnter() { queryClient.prefetchQuery(['cases', id], () => fetchCase(id)); }"
+      }
+    },
+
+    "deep_linking": {
+      "url_design_principles": {
+        "statement": "URLs should be RESTful, human-readable, and every application state should be URL-addressable for deep linking",
+        "confidence": 1.0,
+        "source": "Web standards and best practices",
+        "example": "/app/cases/123/edit or /app/cases?status=open&priority=high"
+      },
+      "query_param_usage": {
+        "statement": "Query parameters should be used for filters, sorting, pagination, and search - not path segments - to maintain shareable, bookmarkable URLs",
+        "confidence": 1.0,
+        "source": "Web standards and best practices",
+        "example": "Use /app/cases?status=open instead of /app/cases/open"
+      },
+      "state_in_url": {
+        "statement": "Critical application state (filters, current page, selected items) should be stored in URL query params to enable sharing and bookmarking",
+        "confidence": 1.0,
+        "source": "Web standards and best practices",
+        "example": "const [searchParams, setSearchParams] = useSearchParams(); setSearchParams({ status: 'open', page: '2' });"
+      },
+      "fetch_from_url": {
+        "statement": "Route components should always fetch data based on URL parameters, never assuming in-memory state exists, to support deep linking",
+        "confidence": 1.0,
+        "source": "Web standards and best practices",
+        "example": "const { id } = useParams(); const { data } = useQuery(['cases', id], () => fetchCase(id));"
+      }
+    },
+
+    "navigation": {
+      "programmatic_navigation": {
+        "statement": "useNavigate returns a function that programmatically navigates, supporting path, state, replace option, and relative navigation",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "navigate('/cases/123', { state: { from: 'dashboard' }, replace: true });"
+      },
+      "history_navigation": {
+        "statement": "navigate function can go back/forward in history using negative/positive numbers: navigate(-1) goes back, navigate(1) goes forward",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "navigate(-1); // Go back one entry"
+      },
+      "navigation_state": {
+        "statement": "Navigation state is passed via state option and accessed via useLocation().state, not visible in URL but preserved during navigation",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "navigate('/cases', { state: { message: 'Case created!' } }); const state = useLocation().state;"
+      },
+      "replace_navigation": {
+        "statement": "Replace option replaces current history entry instead of pushing new one, preventing back button from returning to replaced entry",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "navigate('/dashboard', { replace: true });"
+      }
+    },
+
+    "layouts": {
+      "outlet_pattern": {
+        "statement": "Outlet component renders matched child route element, enabling layout components to wrap children with common UI",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "function AppLayout() { return <div><Header /><Outlet /><Footer /></div>; }"
+      },
+      "multiple_layouts": {
+        "statement": "Different route branches can have different layouts by nesting route elements with Outlet at each level",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: 'app', element: <AppLayout />, children: [...] }, { path: 'admin', element: <AdminLayout />, children: [...] }"
+      },
+      "nested_outlets": {
+        "statement": "Layouts can nest multiple levels deep, each with their own Outlet, creating hierarchical UI structures",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "RootLayout → AppLayout → CasesLayout → CaseDetail (3 levels of nesting)"
+      }
+    },
+
+    "parameters": {
+      "url_parameters": {
+        "statement": "URL parameters are defined with : prefix in route path and accessed via useParams hook as object of string values",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: 'cases/:id' }; const { id } = useParams<{ id: string }>();"
+      },
+      "query_parameters": {
+        "statement": "Query parameters are accessed via useSearchParams hook which returns URLSearchParams object and setter function",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const [params, setParams] = useSearchParams(); const status = params.get('status');"
+      },
+      "type_safe_params": {
+        "statement": "TypeScript generics can type URL parameters, but values are always strings or undefined and must be validated",
+        "confidence": 1.0,
+        "source": "React Router TypeScript patterns",
+        "example": "const { id } = useParams<{ id: string }>(); if (!id) return <Navigate to=\"/cases\" />;"
+      }
+    },
+
+    "error_handling": {
+      "error_boundaries": {
+        "statement": "Route errorElement catches errors in route rendering and provides fallback UI, integrating with useRouteError hook",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: '/', errorElement: <ErrorBoundary />, children: [...] }"
+      },
+      "useRouteError": {
+        "statement": "useRouteError hook returns error thrown in route, can be checked with isRouteErrorResponse for status code handling",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "const error = useRouteError(); if (isRouteErrorResponse(error) && error.status === 404) { /* 404 */ }"
+      },
+      "404_handling": {
+        "statement": "404 pages are implemented using path: '*' catch-all route at end of routes array",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "{ path: '*', element: <NotFoundPage /> }"
+      }
+    },
+
+    "performance": {
+      "scroll_restoration": {
+        "statement": "ScrollRestoration component automatically restores scroll position on back/forward navigation",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "<RouterProvider router={router}><ScrollRestoration /></RouterProvider>"
+      },
+      "memoized_routes": {
+        "statement": "Route components can be wrapped with React.memo to prevent unnecessary re-renders when route doesn't change",
+        "confidence": 1.0,
+        "source": "React performance patterns",
+        "example": "const CasesPage = memo(function CasesPage() { /* ... */ });"
+      }
+    },
+
+    "testing": {
+      "memory_router": {
+        "statement": "MemoryRouter is used in tests to simulate routing without browser dependencies, accepting initialEntries array",
+        "confidence": 1.0,
+        "source": "React Router Official Documentation",
+        "example": "render(<MemoryRouter initialEntries={['/cases/123']}><App /></MemoryRouter>);"
+      },
+      "testing_guards": {
+        "statement": "Route guards are tested by rendering routes with different auth states via provider wrappers",
+        "confidence": 1.0,
+        "source": "React testing patterns",
+        "example": "render(<AuthProvider initialAuth={{ isAuthenticated: false }}><MemoryRouter><App /></MemoryRouter></AuthProvider>);"
+      }
+    }
+  }
+}

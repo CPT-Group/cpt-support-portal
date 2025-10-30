@@ -1,0 +1,278 @@
+{
+  "name": "node-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive Node.js runtime technology expert covering Node.js core modules, npm, async programming, Express.js, and backend development best practices",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Node.js Official Documentation (nodejs.org)",
+      "npm Documentation",
+      "Express.js Documentation"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "nodejs",
+      "node",
+      "npm",
+      "express",
+      "async",
+      "await",
+      "promise",
+      "callback",
+      "event-loop",
+      "commonjs",
+      "esm"
+    ],
+    "phrases": [
+      "node.js app",
+      "express server",
+      "npm install",
+      "node module",
+      "async await",
+      "event driven"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate Node.js server applications",
+      "Create Express.js REST APIs",
+      "Use Node.js core modules (fs, http, path, etc)",
+      "Handle async operations with promises and async/await",
+      "Manage dependencies with npm",
+      "Implement middleware patterns",
+      "Work with streams and buffers",
+      "Create CLI tools",
+      "Apply Node.js best practices"
+    ],
+    "cannot_do": [
+      "Make architectural decisions (defer to architecture-expert)",
+      "Design database schemas (defer to database-expert)",
+      "Choose between Node.js frameworks (defer to backend-architecture-expert)"
+    ]
+  },
+
+  "facts": {
+    "nodejs_basics": {
+      "what_is_nodejs": {
+        "statement": "Node.js is JavaScript runtime built on Chrome's V8 engine. Enables server-side JavaScript execution. Event-driven, non-blocking I/O model makes it efficient for I/O-heavy operations. Current LTS versions: 18.x, 20.x (as of 2024)",
+        "confidence": 1.0,
+        "source": "Node.js official documentation",
+        "example": "node app.js // Run Node.js application"
+      },
+      "event_loop": {
+        "statement": "Event loop is single-threaded loop handling async operations. Phases: timers (setTimeout/setInterval), pending callbacks, idle/prepare, poll (I/O), check (setImmediate), close callbacks. Non-blocking I/O allows handling many connections concurrently.",
+        "confidence": 1.0,
+        "source": "Node.js event loop documentation",
+        "example": "// Non-blocking: fs.readFile('file.txt', (err, data) => { /* async callback */ }); console.log('This runs first');"
+      },
+      "module_system": {
+        "statement": "Two module systems: CommonJS (require/module.exports - default), ES Modules (import/export - use .mjs or \"type\": \"module\" in package.json). CommonJS is synchronous, ESM is asynchronous.",
+        "confidence": 1.0,
+        "source": "Node.js modules documentation",
+        "example": "// CommonJS: const fs = require('fs'); module.exports = {}; // ESM: import fs from 'fs'; export default {};"
+      }
+    },
+    "npm": {
+      "package_manager": {
+        "statement": "npm (Node Package Manager) manages dependencies. package.json defines project metadata and dependencies. Install: npm install <package>, save as dependency: npm install --save (default), save as devDependency: npm install --save-dev",
+        "confidence": 1.0,
+        "source": "npm documentation",
+        "example": "npm init -y // Create package.json. npm install express // Install package. npm install --save-dev nodemon"
+      },
+      "npm_scripts": {
+        "statement": "npm scripts automate tasks in package.json scripts field. Run with: npm run <script> or npm <script> for predefined (start, test). Special scripts: preinstall, postinstall, prepare.",
+        "confidence": 1.0,
+        "source": "npm scripts documentation",
+        "example": "\"scripts\": { \"start\": \"node app.js\", \"dev\": \"nodemon app.js\", \"test\": \"jest\" }"
+      },
+      "package_json": {
+        "statement": "package.json metadata: name, version, description, main (entry point), scripts, dependencies (runtime), devDependencies (development only), engines (Node.js version requirement)",
+        "confidence": 1.0,
+        "source": "npm package.json documentation",
+        "example": "{ \"name\": \"my-app\", \"version\": \"1.0.0\", \"main\": \"index.js\", \"dependencies\": { \"express\": \"^4.18.0\" } }"
+      },
+      "semver": {
+        "statement": "Semantic versioning (semver): MAJOR.MINOR.PATCH. ^ allows minor/patch updates (^1.2.3 allows 1.x.x), ~ allows patch updates (~1.2.3 allows 1.2.x), no symbol = exact version",
+        "confidence": 1.0,
+        "source": "npm semver documentation",
+        "example": "\"express\": \"^4.18.0\" // Allows 4.x.x (not 5.x.x)"
+      },
+      "node_modules": {
+        "statement": "node_modules folder contains installed packages. Git ignore this folder (use .gitignore). package-lock.json locks exact versions for consistent installs across environments.",
+        "confidence": 1.0,
+        "source": "npm documentation",
+        "example": "// .gitignore: node_modules/ // Commit: package.json, package-lock.json"
+      }
+    },
+    "core_modules": {
+      "fs_module": {
+        "statement": "fs (file system) module for file operations. Sync (blocking): fs.readFileSync(), Async callback: fs.readFile(), Async promise: fs.promises.readFile() or require('fs/promises'). Use async for production.",
+        "confidence": 1.0,
+        "source": "Node.js fs documentation",
+        "example": "const fs = require('fs/promises'); await fs.readFile('file.txt', 'utf8'); fs.writeFile('file.txt', 'data');"
+      },
+      "path_module": {
+        "statement": "path module for file path operations. Cross-platform path handling. Methods: path.join() (join paths), path.resolve() (absolute path), path.dirname(), path.basename(), path.extname(), __dirname (current directory), __filename (current file)",
+        "confidence": 1.0,
+        "source": "Node.js path documentation",
+        "example": "const path = require('path'); const filePath = path.join(__dirname, 'folder', 'file.txt');"
+      },
+      "http_module": {
+        "statement": "http module creates HTTP servers and makes HTTP requests. http.createServer() creates server, server.listen(port) starts listening. Modern: use Express.js for HTTP servers, axios/node-fetch for HTTP requests.",
+        "confidence": 1.0,
+        "source": "Node.js http documentation",
+        "example": "const http = require('http'); const server = http.createServer((req, res) => { res.writeHead(200); res.end('Hello'); }); server.listen(3000);"
+      },
+      "events_module": {
+        "statement": "events module for event-driven architecture. EventEmitter class: emit events, listen with on/once. Many Node.js objects inherit from EventEmitter (streams, http.Server).",
+        "confidence": 1.0,
+        "source": "Node.js events documentation",
+        "example": "const EventEmitter = require('events'); const emitter = new EventEmitter(); emitter.on('event', (data) => { }); emitter.emit('event', data);"
+      },
+      "buffer_module": {
+        "statement": "Buffer class for binary data (like arrays of bytes). Used for: file I/O, network operations, streams. Create: Buffer.from(string/array), Buffer.alloc(size). Convert: buffer.toString(encoding)",
+        "confidence": 1.0,
+        "source": "Node.js buffer documentation",
+        "example": "const buf = Buffer.from('Hello', 'utf8'); console.log(buf); // <Buffer 48 65 6c 6c 6f>"
+      },
+      "stream_module": {
+        "statement": "Streams handle data in chunks (not loading entire file into memory). Types: Readable (read from), Writable (write to), Duplex (both), Transform (modify data). Use .pipe() to connect streams.",
+        "confidence": 1.0,
+        "source": "Node.js streams documentation",
+        "example": "const fs = require('fs'); fs.createReadStream('input.txt').pipe(fs.createWriteStream('output.txt'));"
+      }
+    },
+    "async_programming": {
+      "callbacks": {
+        "statement": "Callbacks are functions passed as arguments, executed when async operation completes. Convention: error-first callbacks (err, result). Callback hell (nested callbacks) solved by promises/async-await.",
+        "confidence": 1.0,
+        "source": "Node.js async programming patterns",
+        "example": "fs.readFile('file.txt', (err, data) => { if (err) { console.error(err); return; } console.log(data); });"
+      },
+      "promises": {
+        "statement": "Promises represent eventual completion/failure of async operation. States: pending, fulfilled, rejected. Methods: .then() (success), .catch() (error), .finally() (always). Chain promises to avoid callback hell.",
+        "confidence": 1.0,
+        "source": "Node.js promises documentation",
+        "example": "fs.promises.readFile('file.txt').then(data => { }).catch(err => { }).finally(() => { });"
+      },
+      "async_await": {
+        "statement": "async/await is syntactic sugar for promises. async function returns promise. await pauses execution until promise resolves. Use try/catch for error handling. Makes async code look synchronous.",
+        "confidence": 1.0,
+        "source": "Node.js async/await documentation",
+        "example": "async function readFile() { try { const data = await fs.promises.readFile('file.txt'); } catch (err) { console.error(err); } }"
+      },
+      "promise_utilities": {
+        "statement": "Promise utilities: Promise.all() (wait for all, fail if any fails), Promise.allSettled() (wait for all, never fails), Promise.race() (first to complete), Promise.any() (first to succeed)",
+        "confidence": 1.0,
+        "source": "Node.js Promise utilities",
+        "example": "const [user, posts] = await Promise.all([getUser(), getPosts()]);"
+      }
+    },
+    "express": {
+      "express_basics": {
+        "statement": "Express.js is minimal, flexible web framework for Node.js. Install: npm install express. Create app: express(), define routes, start server: app.listen(port). Middleware-based architecture.",
+        "confidence": 1.0,
+        "source": "Express.js documentation",
+        "example": "const express = require('express'); const app = express(); app.get('/', (req, res) => { res.send('Hello'); }); app.listen(3000);"
+      },
+      "routing": {
+        "statement": "Express routing: app.METHOD(path, handler). Methods: get, post, put, delete, patch, all. Route parameters: /user/:id, access: req.params.id. Query params: /search?q=term, access: req.query.q",
+        "confidence": 1.0,
+        "source": "Express routing documentation",
+        "example": "app.get('/user/:id', (req, res) => { const id = req.params.id; }); app.get('/search', (req, res) => { const query = req.query.q; });"
+      },
+      "middleware": {
+        "statement": "Middleware are functions with access to req, res, next. Execute in order defined. Types: application-level (app.use), router-level, error-handling (4 params), built-in (express.json, express.static), third-party (cors, helmet). Call next() to pass control.",
+        "confidence": 1.0,
+        "source": "Express middleware documentation",
+        "example": "app.use(express.json()); app.use((req, res, next) => { console.log('Request:', req.method, req.url); next(); });"
+      },
+      "request_response": {
+        "statement": "Request object (req): req.params (route params), req.query (query string), req.body (request body - needs body parser), req.headers. Response object (res): res.send() (send response), res.json() (JSON), res.status(code), res.redirect(url)",
+        "confidence": 1.0,
+        "source": "Express request/response documentation",
+        "example": "app.post('/user', (req, res) => { const user = req.body; res.status(201).json({ id: 1, ...user }); });"
+      },
+      "error_handling": {
+        "statement": "Express error handling: error-handling middleware has 4 parameters (err, req, res, next). Define last. Async errors: pass to next(err) or use try/catch with next(err). express-async-handler simplifies async error handling.",
+        "confidence": 1.0,
+        "source": "Express error handling documentation",
+        "example": "app.use((err, req, res, next) => { console.error(err); res.status(500).json({ error: err.message }); });"
+      },
+      "express_router": {
+        "statement": "Router creates modular route handlers. Create: express.Router(), define routes, mount in app: app.use('/api', router). Organizes routes by feature/resource.",
+        "confidence": 1.0,
+        "source": "Express Router documentation",
+        "example": "const router = express.Router(); router.get('/users', handler); router.post('/users', handler); app.use('/api', router);"
+      }
+    },
+    "environment_and_config": {
+      "environment_variables": {
+        "statement": "Environment variables store configuration (API keys, database URLs). Access: process.env.VAR_NAME. Set in .env file with dotenv package: require('dotenv').config(). Never commit .env to git.",
+        "confidence": 1.0,
+        "source": "Node.js environment variables",
+        "example": "// .env: PORT=3000, DATABASE_URL=... // app.js: require('dotenv').config(); const port = process.env.PORT || 3000;"
+      },
+      "process_object": {
+        "statement": "process object provides info about Node.js process. Properties: process.env (environment), process.argv (command-line args), process.cwd() (current directory), process.exit(code) (exit process). Events: process.on('uncaughtException'), process.on('SIGTERM')",
+        "confidence": 1.0,
+        "source": "Node.js process documentation",
+        "example": "console.log(process.env.NODE_ENV); process.on('SIGTERM', () => { server.close(); process.exit(0); });"
+      }
+    },
+    "debugging_and_testing": {
+      "debugging": {
+        "statement": "Debugging Node.js: console.log(), Node.js debugger (node --inspect app.js, use Chrome DevTools), VS Code debugger, debug module for debug logging. Set breakpoints, inspect variables.",
+        "confidence": 1.0,
+        "source": "Node.js debugging guide",
+        "example": "node --inspect-brk app.js // Starts debugger, pauses at first line"
+      },
+      "testing": {
+        "statement": "Testing frameworks: Jest (popular, all-in-one), Mocha + Chai (flexible), Node.js built-in test runner (node:test module in Node 18+). Test types: unit tests, integration tests, API tests (supertest for Express)",
+        "confidence": 1.0,
+        "source": "Node.js testing best practices",
+        "example": "// Jest: test('should return 200', async () => { const res = await request(app).get('/'); expect(res.status).toBe(200); });"
+      }
+    },
+    "best_practices": {
+      "project_structure": {
+        "statement": "Recommended structure: src/ (source code), test/ (tests), config/ (configuration), routes/ (Express routes), controllers/ (request handlers), services/ (business logic), models/ (data models), middleware/ (custom middleware), utils/ (utilities)",
+        "confidence": 1.0,
+        "source": "Node.js project structure best practices",
+        "example": "src/ routes/ controllers/ services/ models/ middleware/ utils/"
+      },
+      "error_handling_best_practices": {
+        "statement": "Error handling best practices: Use try/catch for async/await, handle promise rejections (unhandledRejection event), use error-handling middleware in Express, log errors with logger (winston, pino), return appropriate HTTP status codes, don't expose error details in production",
+        "confidence": 1.0,
+        "source": "Node.js error handling guide",
+        "example": "process.on('unhandledRejection', (err) => { console.error('Unhandled rejection:', err); process.exit(1); });"
+      },
+      "security": {
+        "statement": "Security best practices: Use helmet middleware (security headers), validate input (joi, express-validator), sanitize user input, use parameterized queries (prevent SQL injection), implement rate limiting (express-rate-limit), keep dependencies updated (npm audit), use HTTPS, set NODE_ENV=production",
+        "confidence": 1.0,
+        "source": "Node.js security best practices",
+        "example": "app.use(helmet()); app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));"
+      },
+      "performance": {
+        "statement": "Performance best practices: Use clustering (cluster module for multi-core), caching (Redis), compression (compression middleware), database indexing, use streams for large files, avoid blocking operations, monitor with APM tools (New Relic, DataDog), use --max-old-space-size for memory",
+        "confidence": 1.0,
+        "source": "Node.js performance guide",
+        "example": "const cluster = require('cluster'); if (cluster.isMaster) { for (let i = 0; i < cpus; i++) cluster.fork(); } else { startServer(); }"
+      }
+    }
+  }
+}

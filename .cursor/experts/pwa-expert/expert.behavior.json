@@ -1,0 +1,422 @@
+{
+  "name": "pwa-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Progressive Web App technology expert covering service workers, caching strategies, web app manifest, installation, offline functionality, and platform-specific PWA implementation",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert Builder",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "MDN Web Docs - Progressive Web Apps (https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)",
+      "Google Web.dev - Progressive Web Apps (https://web.dev/progressive-web-apps/)",
+      "W3C App Manifest Specification (https://www.w3.org/TR/appmanifest/)",
+      "Service Worker Specification (https://www.w3.org/TR/service-workers/)",
+      "Google Workbox Documentation (https://developers.google.com/web/tools/workbox)"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "PWA",
+      "progressive web app",
+      "service worker",
+      "sw.js",
+      "manifest.json",
+      "web app manifest",
+      "cache API",
+      "caching strategy",
+      "offline",
+      "offline-first",
+      "workbox",
+      "app shell",
+      "add to home screen",
+      "installable",
+      "beforeinstallprompt",
+      "background sync",
+      "push notifications"
+    ],
+    "phrases": [
+      "progressive web app",
+      "service worker registration",
+      "cache first strategy",
+      "network first strategy",
+      "stale while revalidate",
+      "web app manifest",
+      "app installation",
+      "offline functionality",
+      "install prompt",
+      "pwa installation",
+      "service worker lifecycle",
+      "caching strategies"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Implement service worker registration and lifecycle",
+      "Generate service worker code for all caching strategies",
+      "Create web app manifest JSON with all required and optional fields",
+      "Implement offline functionality and fallback pages",
+      "Set up app installation (beforeinstallprompt) logic",
+      "Configure background sync for deferred actions",
+      "Implement push notification setup",
+      "Generate Workbox-based service workers",
+      "Provide platform-specific PWA implementations (iOS, Android, Desktop)",
+      "Implement cache versioning and cleanup strategies",
+      "Debug service worker issues using Chrome DevTools",
+      "Generate PWA-compliant HTML meta tags",
+      "Implement app shell architecture",
+      "Create cache-first, network-first, and hybrid caching strategies"
+    ],
+    "cannot_do": [
+      "Make architectural decisions about when to use PWA vs native apps (opinion)",
+      "Recommend specific caching strategies without context (opinion)",
+      "Choose between platforms to support (opinion)",
+      "Design UI/UX for installation prompts (opinion)",
+      "Make subjective decisions about offline experience (opinion)"
+    ]
+  },
+
+  "facts": {
+    "core_concepts": {
+      "pwa_definition": {
+        "statement": "A Progressive Web App is a web application built using common web technologies (HTML, CSS, JavaScript) that works on any platform with a standards-compliant browser and provides app-like experiences including offline functionality, installation, and push notifications",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Progressive Web Apps"
+      },
+      "pwa_characteristics": {
+        "statement": "PWAs must be: Progressive (work for all users), Responsive (all form factors), Connectivity-independent (offline/low quality networks), App-like (app-style interactions), Fresh (up-to-date via service workers), Safe (HTTPS), Discoverable (identifiable as applications), Re-engageable (push notifications), Installable (home screen), Linkable (shared via URL)",
+        "confidence": 1.0,
+        "source": "Google Web.dev - What makes a good Progressive Web App"
+      },
+      "https_requirement": {
+        "statement": "PWAs must be served over HTTPS (except on localhost for development) because service workers have powerful capabilities that could be exploited if tampered with",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Security Considerations"
+      }
+    },
+
+    "service_workers": {
+      "sw_definition": {
+        "statement": "A service worker is a script that runs in the background, separate from a web page, enabling features that don't need a web page or user interaction. It acts as a programmable network proxy between the application and the network",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Service Worker API"
+      },
+      "sw_lifecycle": {
+        "statement": "Service worker lifecycle has 5 states: Registration (JavaScript registers the SW), Installation (SW downloaded and installed), Activation (SW becomes active and controls pages), Fetch/Message (SW handles events), Update (new SW installed when file changes)",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Lifecycle",
+        "example": "navigator.serviceWorker.register('/sw.js')"
+      },
+      "sw_registration": {
+        "statement": "Register service workers after page load using navigator.serviceWorker.register() to avoid competing with initial page performance",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Service Worker Registration",
+        "example": "window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js') });"
+      },
+      "sw_scope": {
+        "statement": "Service worker scope determines which pages it controls. Default scope is the location of the service worker file. Service worker can only control pages within its scope",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Scope"
+      },
+      "install_event": {
+        "statement": "The install event fires once per service worker version. Use event.waitUntil() to extend the event until a Promise resolves. This is the ideal time to cache static assets",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Install Event",
+        "example": "self.addEventListener('install', event => { event.waitUntil(caches.open('v1').then(cache => cache.addAll(['/']))); });"
+      },
+      "activate_event": {
+        "statement": "The activate event fires after installation. This is ideal for cache cleanup. Old service workers remain active until all tabs are closed unless skipWaiting() is called",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Activate Event"
+      },
+      "fetch_event": {
+        "statement": "The fetch event is fired for all network requests from controlled pages. Use event.respondWith() to provide a custom response from cache or network",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Fetch Event",
+        "example": "self.addEventListener('fetch', event => { event.respondWith(caches.match(event.request)); });"
+      },
+      "skipWaiting": {
+        "statement": "Call self.skipWaiting() in install event to skip the waiting state and activate immediately. Use with caution as it can break pages loaded with old service worker",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - skipWaiting()"
+      },
+      "clients_claim": {
+        "statement": "Call self.clients.claim() in activate event to take control of all pages immediately without requiring navigation",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - clients.claim()"
+      },
+      "sw_update_detection": {
+        "statement": "Browser checks for service worker updates on navigation. If file changed (even 1 byte), downloads new version which installs in parallel with old SW and waits until all pages closed",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Update Algorithm"
+      }
+    },
+
+    "caching_strategies": {
+      "cache_first": {
+        "statement": "Cache First strategy: Check cache first, return cached response if exists, otherwise fetch from network and cache for future use. Best for static assets (CSS, JS, images, fonts)",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Strategies",
+        "example": "async function cacheFirst(request) { const cached = await caches.match(request); return cached || fetch(request); }"
+      },
+      "network_first": {
+        "statement": "Network First strategy: Try network first, cache successful responses, fall back to cache if network fails. Best for dynamic content and API calls",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Strategies",
+        "example": "async function networkFirst(request) { try { const response = await fetch(request); const cache = await caches.open('v1'); cache.put(request, response.clone()); return response; } catch { return caches.match(request); } }"
+      },
+      "stale_while_revalidate": {
+        "statement": "Stale While Revalidate strategy: Return cached version immediately, fetch new version in background to update cache. Best for content that changes occasionally but doesn't need immediate freshness",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Strategies"
+      },
+      "network_only": {
+        "statement": "Network Only strategy: Always fetch from network, no caching. Best for real-time critical data (stock prices, live scores)",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Strategies"
+      },
+      "cache_only": {
+        "statement": "Cache Only strategy: Only serve from cache, no network requests. Best for pre-cached app shell on repeat visits",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Strategies"
+      },
+      "cache_api": {
+        "statement": "Cache API provides caches.open(name), cache.add(), cache.addAll(), cache.put(), cache.delete(), caches.match(), caches.keys(), caches.delete() for managing cached responses",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Cache API"
+      },
+      "cache_versioning": {
+        "statement": "Implement cache versioning by including version in cache name (e.g., 'app-shell-v1'). On activate event, delete all caches except current version",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Cache Versioning"
+      }
+    },
+
+    "manifest": {
+      "manifest_definition": {
+        "statement": "Web app manifest is a JSON file that tells the browser about the PWA and how it should behave when installed on the user's device",
+        "confidence": 1.0,
+        "source": "W3C App Manifest Specification"
+      },
+      "manifest_required_fields": {
+        "statement": "Required manifest fields: name or short_name (app name), start_url (launch URL), display (display mode), icons (array with at least 192x192 and 512x512 PNG icons)",
+        "confidence": 1.0,
+        "source": "W3C App Manifest Specification"
+      },
+      "manifest_display_modes": {
+        "statement": "Manifest display modes: fullscreen (no browser UI), standalone (looks like standalone app - recommended), minimal-ui (standalone with minimal navigation), browser (normal browser tab)",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Display Modes"
+      },
+      "manifest_icons": {
+        "statement": "Icons array requires objects with src (URL), sizes (e.g., '192x192'), type (e.g., 'image/png'), and purpose ('any', 'maskable', or 'monochrome'). Minimum required: 192x192 and 512x512",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Icons"
+      },
+      "manifest_shortcuts": {
+        "statement": "Manifest shortcuts provide quick actions accessible from app icon context menu. Maximum 4 shortcuts (platform-dependent). Each shortcut needs name, url, and optional icons",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Shortcuts"
+      },
+      "manifest_scope": {
+        "statement": "Manifest scope defines navigation scope - URLs outside this scope open in browser. Service worker scope must contain manifest scope. Default is directory of manifest file",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Scope"
+      },
+      "manifest_linking": {
+        "statement": "Link manifest in HTML head: <link rel=\"manifest\" href=\"/manifest.json\">",
+        "confidence": 1.0,
+        "source": "W3C App Manifest Specification",
+        "example": "<link rel=\"manifest\" href=\"/manifest.json\">"
+      },
+      "theme_color": {
+        "statement": "theme_color in manifest and <meta name=\"theme-color\" content=\"#1890ff\"> define browser UI color (address bar, status bar, task switcher)",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Theme Color"
+      }
+    },
+
+    "installation": {
+      "installation_criteria": {
+        "statement": "For automatic installation prompt: Must be served over HTTPS, have registered service worker with fetch handler, have valid manifest (name, icons 192x192+512x512, start_url, display standalone/fullscreen/minimal-ui), user engagement (Chrome: 30+ seconds)",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Install Criteria"
+      },
+      "beforeinstallprompt_event": {
+        "statement": "beforeinstallprompt event fires when PWA installation criteria met. Call preventDefault() to defer prompt, store event, and show custom install UI later by calling prompt() on stored event",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - beforeinstallprompt",
+        "example": "window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; showInstallButton(); });"
+      },
+      "appinstalled_event": {
+        "statement": "appinstalled event fires when PWA is successfully installed. Use to hide install prompts and track installations",
+        "confidence": 1.0,
+        "source": "MDN Web.Docs - appinstalled event"
+      },
+      "display_mode_detection": {
+        "statement": "Detect if running as installed PWA: window.matchMedia('(display-mode: standalone)').matches returns true when running standalone",
+        "confidence": 1.0,
+        "source": "W3C App Manifest - Display Mode",
+        "example": "if (window.matchMedia('(display-mode: standalone)').matches) { console.log('Running as PWA'); }"
+      }
+    },
+
+    "offline_functionality": {
+      "offline_fallback": {
+        "statement": "Provide offline fallback page by precaching /offline.html during install and serving it for navigation requests when network fails",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Offline Fallback"
+      },
+      "app_shell_architecture": {
+        "statement": "App Shell Architecture separates core application infrastructure (HTML, CSS, JS for UI - cached aggressively) from dynamic content (fetched and cached separately). App shell loads instantly on repeat visits",
+        "confidence": 1.0,
+        "source": "Google Web.dev - App Shell Model"
+      }
+    },
+
+    "background_sync": {
+      "background_sync_api": {
+        "statement": "Background Sync API allows deferred actions when user has connectivity. Register sync: await self.registration.sync.register('sync-tag'). Handle: self.addEventListener('sync', event => { if (event.tag === 'sync-tag') event.waitUntil(doSync()); })",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Background Sync API"
+      },
+      "background_sync_usage": {
+        "statement": "Background Sync use cases: Send messages when online, upload photos on WiFi, submit failed forms, sync data changes. Works even if app is closed",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Background Sync"
+      }
+    },
+
+    "push_notifications": {
+      "push_notifications_components": {
+        "statement": "Push Notifications require: Push Service (FCM for Chrome, APNs for Safari), Subscription (user permission + endpoint), Server (sends to endpoint), Service Worker (receives push events and shows notifications)",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Push API"
+      },
+      "push_permission": {
+        "statement": "Request push permission: const permission = await Notification.requestPermission(). Returns 'granted', 'denied', or 'default'",
+        "confidence": 1.0,
+        "source": "MDN Web Docs - Notification.requestPermission()"
+      }
+    },
+
+    "workbox": {
+      "workbox_definition": {
+        "statement": "Workbox is Google's production-ready service worker library that simplifies common service worker tasks with pre-built strategies, plugins, and utilities",
+        "confidence": 1.0,
+        "source": "Google Workbox Documentation"
+      },
+      "workbox_strategies": {
+        "statement": "Workbox provides pre-built strategies: CacheFirst, NetworkFirst, StaleWhileRevalidate, NetworkOnly, CacheOnly as classes in workbox.strategies",
+        "confidence": 1.0,
+        "source": "Workbox Strategies Documentation"
+      },
+      "workbox_routing": {
+        "statement": "Workbox routing: workbox.routing.registerRoute(urlPattern, strategy) registers routes with strategies. Supports RegExp, string, or function matchers",
+        "confidence": 1.0,
+        "source": "Workbox Routing Documentation",
+        "example": "workbox.routing.registerRoute(/\\.png$/, new workbox.strategies.CacheFirst());"
+      },
+      "workbox_precaching": {
+        "statement": "Workbox precaching: workbox.precaching.precacheAndRoute(manifest) precaches assets with revision tracking. Manifest generated by build tools",
+        "confidence": 1.0,
+        "source": "Workbox Precaching Documentation"
+      }
+    },
+
+    "platform_specific": {
+      "ios_limitations": {
+        "statement": "iOS PWA limitations: No beforeinstallprompt event, no automatic install prompt, no push notifications (as of iOS 16), limited background sync, service worker limitations (no persistent background, 50MB cache quota)",
+        "confidence": 1.0,
+        "source": "Apple WebKit - Service Workers on iOS"
+      },
+      "ios_meta_tags": {
+        "statement": "iOS-specific meta tags: <meta name=\"apple-mobile-web-app-capable\" content=\"yes\"> for standalone mode, <meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\"> for status bar, <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/icon.png\"> for icon",
+        "confidence": 1.0,
+        "source": "Apple Developer - Configuring Web Applications"
+      },
+      "android_advantages": {
+        "statement": "Android (Chrome) provides full PWA support: automatic install prompts, WebAPK generation (looks like native app), push notifications, background sync, file handling",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Android PWA Support"
+      },
+      "desktop_pwa": {
+        "statement": "Desktop PWAs (Windows, Mac, Linux) install from address bar or menu, listed in Start Menu/Applications, run in separate window, support file handling and protocol handling",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Desktop PWA"
+      }
+    },
+
+    "debugging": {
+      "chrome_devtools": {
+        "statement": "Chrome DevTools Application tab provides: Service Workers panel (view, unregister, update on reload, bypass), Cache Storage panel (inspect cached resources), Clear Storage (remove all SW data)",
+        "confidence": 1.0,
+        "source": "Chrome DevTools - Application Panel"
+      },
+      "lighthouse_pwa_audit": {
+        "statement": "Lighthouse PWA audit checks: Installability (installation criteria), PWA Optimized (performance, best practices), Icons (sizes and formats), Service Worker (registration), Manifest (structure). Target PWA score: 90+",
+        "confidence": 1.0,
+        "source": "Lighthouse - PWA Audits"
+      }
+    },
+
+    "security": {
+      "sw_security": {
+        "statement": "Service worker security requirements: HTTPS required (prevents MITM), same-origin policy (can only control same-origin pages), no inline code (scripts must be external files), enforce Content Security Policy",
+        "confidence": 1.0,
+        "source": "Service Worker Specification - Security"
+      },
+      "cache_security": {
+        "statement": "Cache security best practices: Avoid caching PII unencrypted, store tokens in HTTP-only cookies (not cache), implement cache versioning, clear cache on logout",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Service Worker Security"
+      }
+    },
+
+    "performance": {
+      "core_web_vitals": {
+        "statement": "PWAs improve Core Web Vitals: First Contentful Paint (app shell from cache), Time to Interactive (cached JS bundles), Largest Contentful Paint (cached images/assets), Cumulative Layout Shift (consistent cached layout)",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Core Web Vitals"
+      },
+      "cache_size_limits": {
+        "statement": "Implement cache size limits to prevent storage quota issues. Use expiration plugins (Workbox) or manual cleanup. Monitor cache size and remove old entries",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Cache Management"
+      }
+    },
+
+    "best_practices": {
+      "register_after_load": {
+        "statement": "Register service worker after page load event to avoid competing with initial page performance",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Service Worker Registration"
+      },
+      "cache_selectively": {
+        "statement": "Cache selectively - don't cache everything. Only cache essential resources. Use cache size limits and cleanup strategies",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Caching Best Practices"
+      },
+      "version_caches": {
+        "statement": "Version cache names (e.g., 'app-v1', 'app-v2') to force updates. Delete old caches in activate event",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Cache Versioning"
+      },
+      "respect_dismissals": {
+        "statement": "Respect install prompt dismissals - don't repeatedly prompt. Track dismissals in localStorage and wait for user engagement",
+        "confidence": 1.0,
+        "source": "Google Web.dev - Installation Best Practices"
+      }
+    }
+  }
+}

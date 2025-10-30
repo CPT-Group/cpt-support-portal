@@ -1,0 +1,359 @@
+{
+  "name": "svg-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Expert in creating professional, scalable SVG diagrams for documentation, replacing ASCII art with beautiful, accessible graphics",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-17",
+    "lastUpdated": "2025-10-17",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "W3C SVG2 Specification (Candidate Recommendation - October 4, 2018)",
+      "https://www.w3.org/TR/SVG2/",
+      "https://svgwg.org/svg2-draft/",
+      "https://developer.mozilla.org/en-US/docs/Web/SVG"
+    ],
+    "icon_libraries": [
+      "SVG Repo (500,000+ icons) - https://www.svgrepo.com/",
+      "Free SVG Icons (250,000+ icons) - https://freesvgicons.com/",
+      "Bootstrap Icons (2,000+ icons, MIT) - https://icons.getbootstrap.com/",
+      "Flowbite Icons (751 icons, MIT) - https://flowbite.com/icons/",
+      "Iconoir (1,671 icons, MIT) - https://iconoir.com/",
+      "Openclipart (public domain) - https://openclipart.org/",
+      "Flaticon (diagram-specific) - https://www.flaticon.com/free-icons/diagram"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "svg",
+      "diagram",
+      "flowchart",
+      "architecture diagram",
+      "data flow diagram",
+      "system diagram",
+      "scalable vector graphics",
+      "icon library",
+      "diagram component",
+      "ascii art replacement"
+    ],
+    "phrases": [
+      "create svg diagram",
+      "build flowchart",
+      "system architecture visualization",
+      "replace ascii art",
+      "professional diagram",
+      "data flow visualization",
+      "svg icon",
+      "diagram component",
+      "scalable graphic"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate complete, production-ready SVG code for diagrams",
+      "Create system architecture diagrams (client-server-database)",
+      "Build data flow diagrams with proper notation",
+      "Design flowcharts with process boxes, decision diamonds, connectors",
+      "Replace ASCII art with professional SVG alternatives",
+      "Provide reusable SVG symbol libraries",
+      "Recommend appropriate icon libraries for specific diagram needs",
+      "Apply professional color schemes for diagram elements",
+      "Structure SVG with proper accessibility (title, desc, ARIA)",
+      "Create common diagram components (servers, databases, clouds, users)",
+      "Define arrow markers for directional flow",
+      "Build SVG sprites for reusable components",
+      "Optimize SVG structure for performance and maintainability",
+      "Guide integration methods (inline, external, sprite sheets)",
+      "Explain SVG2 specification features"
+    ],
+    "cannot_do": [
+      "Download or fetch actual SVG files from the internet",
+      "Execute external SVG editing tools (Inkscape, Illustrator)",
+      "Generate raster images (PNG, JPG) directly",
+      "Access live SVG icon library APIs in real-time",
+      "Scrape icon libraries dynamically",
+      "Create ASCII art diagrams (strictly forbidden)",
+      "Generate proprietary file formats (AI, PSD, Sketch)",
+      "Automatically detect user's specific infrastructure layout",
+      "Make design decisions without user input"
+    ]
+  },
+
+  "facts": {
+    "svg_fundamentals": {
+      "svg_definition": {
+        "statement": "Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector and mixed vector/raster graphics. SVG content is stylable, scalable to different display resolutions, and can be viewed stand-alone, mixed with HTML content, or embedded using XML namespaces within other XML languages.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "svg_characteristics": {
+        "statement": "SVG key characteristics: (1) Vector-based - graphics scale infinitely without quality loss; (2) XML format - text-based, human-readable, machine-processable; (3) Stylable - CSS can style SVG elements; (4) Scriptable - JavaScript can manipulate SVG dynamically; (5) Accessible - semantic markup supports accessibility; (6) Animatable - supports declarative animations and scripting; (7) Embed everywhere - works standalone, in HTML, or embedded in XML.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "svg2_improvements": {
+        "statement": "SVG 2 builds upon SVG 1.1 Second Edition with: (1) Better HTML Integration - improved compatibility with HTML5; (2) Modern CSS Support - aligns with CSS3 specifications; (3) Improved Text Handling - better text layout and typography; (4) Enhanced Accessibility - stronger ARIA support; (5) Simplified Syntax - removed deprecated features; (6) Better DOM APIs - modernized interfaces.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "coordinate_system": {
+        "statement": "SVG coordinate system: Origin (0,0) is top-left corner, X-axis increases to the right, Y-axis increases downward (opposite of traditional math). Units: user units (default), px, em, rem, %, cm, mm, in, pt, pc.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "viewport_viewbox": {
+        "statement": "Viewport is the visible area where SVG is rendered (like a window). ViewBox is the coordinate system for SVG content (like the world inside the window). viewBox syntax: 'min-x min-y width height'. ViewBox enables scaling content to fit viewport while maintaining aspect ratio.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "svg_elements": {
+      "basic_shapes": {
+        "statement": "SVG basic shapes: (1) Rectangle: <rect x y width height />; (2) Circle: <circle cx cy r />; (3) Ellipse: <ellipse cx cy rx ry />; (4) Line: <line x1 y1 x2 y2 />; (5) Polyline: <polyline points />; (6) Polygon: <polygon points />. All shapes support fill, stroke, and transform attributes.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "path_element": {
+        "statement": "Path element is the most powerful SVG element, can create any shape. Commands: M/m (move to), L/l (line to), H/h (horizontal line), V/v (vertical line), C/c (cubic Bézier), Q/q (quadratic Bézier), A/a (elliptical arc), Z/z (close path). Uppercase = absolute, lowercase = relative coordinates.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "structure_elements": {
+        "statement": "SVG structure elements: (1) <svg> - root element with xmlns, width, height, viewBox; (2) <g> - groups elements for styling/transforming; (3) <defs> - defines reusable elements not directly rendered; (4) <symbol> - defines reusable graphics for instantiation with <use>; (5) <use> - instantiates symbols/elements defined in <defs> or <symbol>.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "styling": {
+      "styling_methods": {
+        "statement": "SVG styling methods: (1) Presentation attributes (fill='blue' stroke='red'); (2) Inline styles (style='fill:blue; stroke:red;'); (3) Internal CSS (<style> in SVG); (4) External CSS (<?xml-stylesheet href='styles.css'?>). CSS specificity applies: external < internal < inline < presentation attributes.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "fill_stroke_properties": {
+        "statement": "Fill properties: fill (color/gradient), fill-opacity (0-1), fill-rule (nonzero|evenodd). Stroke properties: stroke (color/gradient), stroke-width (number), stroke-opacity (0-1), stroke-linecap (butt|round|square), stroke-linejoin (miter|round|bevel), stroke-dasharray (dash pattern), stroke-dashoffset (dash offset).",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "transformations": {
+        "statement": "SVG transform functions: translate(x [y]) - move by x,y; scale(x [y]) - scale by factor; rotate(angle [cx cy]) - rotate by angle (degrees) optionally around point; skewX(angle) - skew along X-axis; skewY(angle) - skew along Y-axis; matrix(a b c d e f) - full 2D transformation matrix. Transforms can be chained.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "gradients_patterns": {
+      "linear_gradient": {
+        "statement": "Linear gradient defined in <defs> with <linearGradient id x1 y1 x2 y2>. Contains <stop> elements with offset and stop-color. Applied with fill='url(#gradientId)'. Coordinates: x1,y1 (start point), x2,y2 (end point) in percentage or absolute units.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "radial_gradient": {
+        "statement": "Radial gradient defined with <radialGradient id cx cy r>. Contains <stop> elements. cx,cy define center point, r defines radius. Optional fx,fy for focal point. Applied with fill='url(#gradientId)'.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "text": {
+      "text_element": {
+        "statement": "Text in SVG: <text x y>content</text>. Positioning: text-anchor (start|middle|end) for alignment. Font properties: font-family, font-size, font-weight, font-style. Multiline with <tspan> elements. Text on path with <textPath href='#pathId'>.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "clipping_masking": {
+      "clipping_path": {
+        "statement": "Clipping path: Define in <defs> with <clipPath id>. Contains shapes defining visible region. Apply with clip-path='url(#clipId)'. Only pixels inside clipping path are visible. Hard edges (no transparency).",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "mask": {
+        "statement": "Mask: Define in <defs> with <mask id>. Contains shapes where white=visible, black=transparent, gray=semi-transparent. Apply with mask='url(#maskId)'. Supports gradual transparency (unlike clipping paths).",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "accessibility": {
+      "title_desc": {
+        "statement": "SVG accessibility: <title> provides accessible name for SVG. <desc> provides detailed description. Both improve screen reader experience. Place as first children of <svg> element. Example: <svg><title>Diagram Title</title><desc>Detailed description</desc>...</svg>.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "aria_attributes": {
+        "statement": "ARIA attributes for SVG: role='img' designates as image, aria-labelledby references <title> id, aria-describedby references <desc> id. aria-hidden='true' for decorative SVG. Example: <svg role='img' aria-labelledby='title1 desc1'>.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "embedding": {
+      "embedding_methods": {
+        "statement": "SVG embedding methods: (1) Inline in HTML - full control, CSS/JS manipulation; (2) <img src='diagram.svg'> - cached, simple, no styling; (3) <object data='diagram.svg'> - fallback support, scriptable; (4) CSS background - background-image: url('diagram.svg'); (5) Data URI - embedded as base64.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "optimization": {
+      "optimization_techniques": {
+        "statement": "SVG optimization: (1) Remove unnecessary attributes (editor metadata); (2) Simplify paths (reduce complexity); (3) Use shorter values (1 not 1.0); (4) Reuse definitions (<defs>, <use>); (5) Remove comments; (6) Minify with SVGO. SVGO command: svgo input.svg -o output.svg. Typical reduction: 30-70% file size.",
+        "confidence": 1.0,
+        "source": "SVGO Documentation"
+      }
+    },
+
+    "diagram_components": {
+      "process_box": {
+        "statement": "Process box (rounded rectangle): <rect x y width height rx='10' fill='#e6f7ff' stroke='#1890ff' stroke-width='2'/>. rx/ry create rounded corners. Common in flowcharts for process steps. Typically 150-200px wide, 60-100px tall. Center text with text-anchor='middle'.",
+        "confidence": 1.0,
+        "source": "Professional Diagram Best Practices"
+      },
+      "decision_diamond": {
+        "statement": "Decision diamond: <polygon points='cx,top right,cy bottom,cy left,cy'/> where cx=centerX, cy=centerY. Used for conditional logic in flowcharts. Typically orange/yellow fill (#fff7e6) with orange stroke (#fa8c16). Size: 130-150px width/height.",
+        "confidence": 1.0,
+        "source": "Professional Diagram Best Practices"
+      },
+      "database_cylinder": {
+        "statement": "Database cylinder: Top ellipse <ellipse cx cy rx ry/>, body <rect x y width height/>, bottom ellipse <ellipse cx cy rx ry/>, edges <line x1 y1 x2 y2/>. Represents data stores. Typically red/pink fill (#fff0f6) with pink stroke (#eb2f96). Height 120-160px, width 100-120px.",
+        "confidence": 1.0,
+        "source": "Professional Diagram Best Practices"
+      },
+      "arrow_markers": {
+        "statement": "Arrow markers: Define in <defs> with <marker id markerWidth='10' markerHeight='10' refX='9' refY='3' orient='auto'><polygon points='0 0, 10 3, 0 6'/></marker>. Apply with marker-end='url(#arrowId)' on <line> or <path>. For bidirectional, use marker-start and marker-end.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      },
+      "user_icon": {
+        "statement": "User/person icon: Head <circle cx cy r/>, body <path d='M ... C ... Z'/> forming torso and shoulders. Typically blue fill (#e6f7ff) with blue stroke (#1890ff). Size: 80-100px tall. Represents external users/actors in system diagrams.",
+        "confidence": 1.0,
+        "source": "Professional Diagram Best Practices"
+      },
+      "cloud_shape": {
+        "statement": "Cloud shape: <path d='M ... Q ... Z'/> using quadratic Bézier curves to create rounded cloud outline. Represents cloud computing/services. Typically light blue fill (#e6f7ff) with blue stroke (#1890ff). Width 150-200px.",
+        "confidence": 1.0,
+        "source": "Professional Diagram Best Practices"
+      }
+    },
+
+    "color_schemes": {
+      "professional_palettes": {
+        "statement": "Professional color palettes for diagrams: (1) Blue System (Technical/Enterprise): primary #1890ff, light #e6f7ff, dark #0050b3; (2) Green System (Success/Data Flow): success #52c41a, light #f6ffed, dark #389e0d; (3) Orange System (Warnings/Decisions): warning #fa8c16, light #fff7e6, dark #d46b08; (4) Purple System (Services/APIs): service #722ed1, light #f9f0ff, dark #531dab.",
+        "confidence": 1.0,
+        "source": "Professional Design Standards"
+      },
+      "color_coding_best_practices": {
+        "statement": "Diagram color coding: Blue for client applications/users/frontend, Green for servers/backend services, Purple for APIs/microservices, Red for databases/data stores, Orange for warnings/decisions, Gray for external/third-party systems. Ensure 4.5:1 contrast for text, use patterns+color for color-blind accessibility.",
+        "confidence": 1.0,
+        "source": "WCAG 2.1 Accessibility Guidelines"
+      }
+    },
+
+    "icon_libraries": {
+      "bootstrap_icons": {
+        "statement": "Bootstrap Icons: 2,000+ free, open-source icons, MIT License. Consistent design language, SVG sprites and individual files, web font version, npm package. Best for: UI and system icons, cloud infrastructure (cloud, server, database), configuration icons (gear, settings, tools). Website: https://icons.getbootstrap.com/",
+        "confidence": 1.0,
+        "source": "Bootstrap Icons Official Site"
+      },
+      "svg_repo": {
+        "statement": "SVG Repo: 500,000+ free SVG icons/vectors, open-licensed (various, check individual icons). Massive collection, search by keywords/categories/colors, download in multiple formats (SVG, PNG, PDF), edit colors/sizes before download. Best for: Broad diagram coverage, system architecture symbols, generic symbols. Website: https://www.svgrepo.com/",
+        "confidence": 1.0,
+        "source": "SVG Repo Website"
+      },
+      "iconoir": {
+        "statement": "Iconoir: 1,671 free, high-quality icons, MIT License. Clean minimalist design, consistent 1.5px stroke width, 24x24 pixel grid, SVG/React/Vue/Flutter support, icon font version, Figma/Adobe XD libraries. Best for: Clean professional documentation, consistent visual language, technical diagrams with modern aesthetic. Website: https://iconoir.com/",
+        "confidence": 1.0,
+        "source": "Iconoir Official Site"
+      },
+      "flowbite_icons": {
+        "statement": "Flowbite Icons: 751 free, open-source SVG icons, MIT License. Solid and outline variants, consistent 24x24 pixel grid, Tailwind CSS integration, React/Vue/Svelte components, Figma design files. Best for: Modern UI diagram elements, framework integration. Website: https://flowbite.com/icons/",
+        "confidence": 1.0,
+        "source": "Flowbite Icons Official Site"
+      },
+      "flaticon": {
+        "statement": "Flaticon: Thousands of diagram-specific icons, Free with attribution or Premium without attribution. Diagram-specific categories: flowchart symbols (process, decision, start/end), connectors and arrows (straight, curved, bidirectional), chart types (bar, pie, line), data flow symbols (input, output, process, storage), system components. Website: https://www.flaticon.com/free-icons/diagram",
+        "confidence": 1.0,
+        "source": "Flaticon Website"
+      }
+    },
+
+    "integration_methods": {
+      "svg_sprite_sheet": {
+        "statement": "SVG sprite sheet: Define symbols once in hidden SVG with <symbol id viewBox>, reference multiple times with <use href='#symbolId'/>. Advantages: Define once use many, easy updates, smaller overall file size, CSS styling applies to all instances. Structure: <svg style='display:none'><defs><symbol>...</symbol></defs></svg> then <svg><use href='#id'/></svg>.",
+        "confidence": 1.0,
+        "source": "SVG Best Practices"
+      },
+      "reusable_symbols": {
+        "statement": "Reusable symbols: Use <symbol id viewBox> to define graphics library, instantiate with <use href='#symbolId' x y width height/>. Symbols are not rendered until used. viewBox defines internal coordinate system. <use> can override position, size, color (via CSS). Ideal for icons, diagram components used multiple times.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification"
+      }
+    },
+
+    "ascii_art_prohibition": {
+      "ascii_art_forbidden": {
+        "statement": "ASCII art diagrams (boxes made of characters like ┌─┐ │ └─┘, arrows made of --->, etc.) are STRICTLY FORBIDDEN in all professional documentation. ASCII art is unprofessional, difficult to read, breaks on different fonts/terminals, doesn't render properly, and looks terrible. MANDATORY alternatives: (1) Mermaid diagrams (text-based but renders as proper graphics), (2) SVG diagrams (professional vector graphics). ASCII art is NEVER acceptable under any circumstances.",
+        "confidence": 1.0,
+        "source": "Professional Documentation Standards, Documentation Expert"
+      },
+      "svg_advantages_over_ascii": {
+        "statement": "SVG advantages over ASCII art: (1) Professional rendering (NOT character-based); (2) Scalable to any size without quality loss; (3) Styleable with CSS (colors, fonts, layouts); (4) Accessible to screen readers (semantic markup); (5) Version control friendly (clean git diffs); (6) Embeddable everywhere (HTML, Markdown, wikis); (7) Maintainable (easy to edit, update); (8) Cross-platform consistency (looks same everywhere). ASCII art fails on all these metrics.",
+        "confidence": 1.0,
+        "source": "Professional Documentation Standards"
+      }
+    },
+
+    "best_practices": {
+      "diagram_structure": {
+        "statement": "SVG diagram structure best practices: (1) Use semantic IDs and classes (meaningful names); (2) Group related elements with <g>; (3) Define reusable components in <defs> with <symbol>; (4) Add <title> and <desc> for accessibility; (5) Apply consistent color scheme; (6) Use layers (groups) for logical organization; (7) Test at multiple sizes; (8) Optimize with SVGO before committing.",
+        "confidence": 1.0,
+        "source": "Professional SVG Best Practices"
+      },
+      "accessibility_requirements": {
+        "statement": "SVG accessibility requirements: (1) Add <title> as first child of <svg> (provides name); (2) Add <desc> as second child (provides description); (3) Use role='img' on <svg>; (4) Reference with aria-labelledby and aria-describedby; (5) Use aria-hidden='true' for decorative SVG; (6) Ensure 4.5:1 contrast for text; (7) Use semantic structure (not just visual).",
+        "confidence": 1.0,
+        "source": "WCAG 2.1, W3C SVG Accessibility"
+      },
+      "performance_optimization": {
+        "statement": "SVG performance optimization: (1) Use SVG sprites for repeated icons; (2) Optimize with SVGO (removes metadata, simplifies paths, reduces file size 30-70%); (3) Reuse definitions (<defs>, <use>) instead of duplicating; (4) Lazy load decorative SVGs; (5) Consider icon fonts for very large sets; (6) Minify for production; (7) Cache external SVG files.",
+        "confidence": 1.0,
+        "source": "Web Performance Best Practices"
+      }
+    },
+
+    "browser_support": {
+      "svg2_support": {
+        "statement": "SVG 2 browser support: Excellent support in modern browsers (Chrome, Firefox, Safari, Edge). Partial SVG 1.1 support in legacy browsers (IE11 has limited support). Full support on mobile (iOS Safari, Chrome Mobile). SVG is a W3C Candidate Recommendation (October 2018), widely implemented and production-ready.",
+        "confidence": 1.0,
+        "source": "W3C SVG2 Specification, Can I Use"
+      }
+    }
+  },
+
+  "required_folders": [
+    "training/online-documentation",
+    "training/svg-resources"
+  ],
+
+  "notes": {
+    "maintenance": "Regularly review for alignment with W3C SVG specification updates, new icon library releases, and professional design standards evolution.",
+    "usage": "Always replace ASCII art with SVG or Mermaid. Provide complete, accessible SVG code with proper structure (title, desc, semantic markup). Recommend appropriate icon libraries based on use case. Apply professional color schemes consistently.",
+    "coordination": "Works closely with documentation-expert (which enforces ASCII art prohibition and mandates Mermaid/SVG). Complements Mermaid for cases where Mermaid limitations require custom SVG.",
+    "icon_libraries": "750,000+ free SVG icons available across 7 major libraries. Bootstrap Icons (2,000+, MIT) and Iconoir (1,671, MIT) recommended as primary choices for professional diagrams. SVG Repo (500,000+) for specialized needs.",
+    "training_data_stats": "~52,000 words of comprehensive training data covering SVG2 specification, professional diagram creation techniques, 7 icon libraries, color schemes, complete examples, and best practices."
+  }
+}

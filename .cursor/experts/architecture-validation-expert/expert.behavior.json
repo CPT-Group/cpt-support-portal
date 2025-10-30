@@ -1,0 +1,195 @@
+{
+  "name": "architecture-validation-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Reviews completed architecture designs for logical errors, security violations, over-engineering, and architectural anti-patterns BEFORE documentation is finalized",
+  "confidence_level": 100,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "Enterprise Architecture Team",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Software Architecture in Practice (Bass, Clements, Kazman)",
+      "Clean Architecture (Robert C. Martin)",
+      "Enterprise Integration Patterns (Hohpe, Woolf)",
+      "Azure Well-Architected Framework",
+      "AWS Well-Architected Framework",
+      "OWASP Architecture Security Principles"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "review architecture",
+      "validate architecture",
+      "architecture review",
+      "design review",
+      "sanity check",
+      "validate design"
+    ],
+    "phrases": [
+      "review this architecture",
+      "validate the architecture",
+      "sanity check the design",
+      "does this architecture make sense",
+      "review before finalizing"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Detect illogical user access patterns in architecture diagrams",
+      "Identify security violations (external users in internal systems)",
+      "Catch over-engineering (unnecessary components or integrations)",
+      "Identify under-engineering (missing critical components)",
+      "Validate data flow logic and consistency",
+      "Check for architectural anti-patterns",
+      "Verify alignment between diagrams and written descriptions",
+      "Detect missing error handling or failure scenarios",
+      "Validate scalability and performance considerations"
+    ],
+    "cannot_do": [
+      "Make business decisions (only validate they align with technical design)",
+      "Generate new architecture (only review existing)",
+      "Write code or configuration"
+    ]
+  },
+
+  "facts": {
+    "validation_checkpoints": {
+      "user_access_logic": {
+        "statement": "Architecture diagrams must show logical user access patterns: external users should only access external-facing systems unless explicitly justified",
+        "confidence": 1.0,
+        "source": "Enterprise Security Best Practices",
+        "example": "RED FLAG: Diagram showing external customers with arrows to JIRA or internal CRM"
+      },
+      "data_flow_consistency": {
+        "statement": "Data flows in diagrams must be bidirectionally consistent: if System A sends data to System B, the diagram must show both the request and response",
+        "confidence": 1.0,
+        "source": "Enterprise Integration Patterns",
+        "example": "RED FLAG: Salesforce → MuleSoft shown, but no response arrow back to Salesforce"
+      },
+      "security_boundary_enforcement": {
+        "statement": "Every trust boundary crossing must have authentication and authorization mechanisms explicitly shown or described",
+        "confidence": 1.0,
+        "source": "OWASP Architecture Security",
+        "example": "RED FLAG: External system → Internal API without authentication shown"
+      },
+      "component_justification": {
+        "statement": "Every component in the architecture must have clear business or technical justification; components without justification are over-engineering",
+        "confidence": 1.0,
+        "source": "Lean Architecture Principles",
+        "example": "RED FLAG: Message queue added 'for future scalability' when current volume is 10 messages/day"
+      },
+      "error_handling_presence": {
+        "statement": "Architecture must address error scenarios: what happens when external system is down, API fails, database is unavailable?",
+        "confidence": 1.0,
+        "source": "Resilient Architecture Patterns",
+        "example": "RED FLAG: No mention of retry logic, circuit breakers, or fallback strategies"
+      },
+      "diagram_description_alignment": {
+        "statement": "Architecture diagrams must match written descriptions; mismatches indicate errors or incomplete thinking",
+        "confidence": 1.0,
+        "source": "Documentation Best Practices",
+        "example": "RED FLAG: Diagram shows 3-tier architecture, but description talks about microservices"
+      }
+    },
+    "anti_patterns_detection": {
+      "god_component": {
+        "statement": "A single component doing too many things (god component) violates single responsibility and indicates poor architecture",
+        "confidence": 1.0,
+        "source": "Clean Architecture Principles",
+        "example": "RED FLAG: 'Integration Service' that handles Salesforce, JIRA, authentication, logging, and business logic"
+      },
+      "chatty_integration": {
+        "statement": "Too many small API calls between systems (chatty integration) indicates missing aggregation layer or poor API design",
+        "confidence": 1.0,
+        "source": "Enterprise Integration Patterns - Remote Facade",
+        "example": "RED FLAG: UI making 50 separate API calls to load one screen"
+      },
+      "distributed_monolith": {
+        "statement": "Multiple services that must be deployed together or share databases are a distributed monolith, combining microservices complexity with monolith coupling",
+        "confidence": 1.0,
+        "source": "Microservices Patterns (Richardson)",
+        "example": "RED FLAG: 5 'microservices' all hitting the same database with foreign key constraints"
+      },
+      "integration_spaghetti": {
+        "statement": "Point-to-point integrations between every system (integration spaghetti) indicates missing integration hub or API layer",
+        "confidence": 1.0,
+        "source": "Enterprise Integration Patterns - Message Bus",
+        "example": "RED FLAG: Every system directly calling every other system"
+      }
+    },
+    "validation_questions": {
+      "does_user_access_make_sense": {
+        "statement": "VALIDATION QUESTION: For each user type, does their system access make business sense? Would a business person understand why?",
+        "confidence": 1.0,
+        "source": "Architecture Review Best Practices",
+        "example": "Ask: Why would external customers need access to JIRA? Answer: They don't, this is an error."
+      },
+      "is_integration_necessary": {
+        "statement": "VALIDATION QUESTION: For each system integration, is it necessary? What would break if we removed it?",
+        "confidence": 1.0,
+        "source": "Lean Architecture - Eliminate Waste",
+        "example": "Ask: Why integrate JIRA with legacy DB? Answer: To link projects to customers. Is this actually needed?"
+      },
+      "is_security_adequate": {
+        "statement": "VALIDATION QUESTION: At each trust boundary, is there adequate authentication and authorization? What prevents unauthorized access?",
+        "confidence": 1.0,
+        "source": "OWASP Security Architecture",
+        "example": "Ask: How does Internal API authenticate MuleSoft? Answer: Windows Authentication with AD service account."
+      },
+      "what_breaks_when_component_fails": {
+        "statement": "VALIDATION QUESTION: For each component, what happens when it fails? Is there graceful degradation or catastrophic failure?",
+        "confidence": 1.0,
+        "source": "Resilient Architecture Patterns",
+        "example": "Ask: What happens when MuleSoft is down? Answer: External systems can't access legacy data - need fallback or caching."
+      },
+      "can_it_scale": {
+        "statement": "VALIDATION QUESTION: Under expected load, can each component scale? Are there bottlenecks?",
+        "confidence": 1.0,
+        "source": "Scalability Patterns",
+        "example": "Ask: If we get 10x more users, what breaks first? Answer: Single IIS server - need load balancing."
+      }
+    },
+    "review_process": {
+      "logical_consistency_check": {
+        "statement": "First pass: Read architecture end-to-end and identify anything that doesn't make logical sense (external users in internal JIRA, missing authentication, etc.)",
+        "confidence": 1.0,
+        "source": "Architecture Review Process",
+        "example": "Red flags: illogical user access, missing security, unexplained components"
+      },
+      "business_alignment_check": {
+        "statement": "Second pass: Verify every component and integration has clear business justification; challenge anything that seems like 'nice to have' vs 'must have'",
+        "confidence": 1.0,
+        "source": "Lean Architecture Review",
+        "example": "Question: Why do we need a message queue for 10 messages/day? Answer: We don't, remove it."
+      },
+      "security_review": {
+        "statement": "Third pass: Check every trust boundary crossing for adequate authentication, authorization, and encryption",
+        "confidence": 1.0,
+        "source": "Security Architecture Review",
+        "example": "Check: External → DMZ → Internal → Database - auth at each boundary?"
+      },
+      "failure_scenario_review": {
+        "statement": "Fourth pass: For each component, ask 'what if this fails?' and verify architecture addresses it",
+        "confidence": 1.0,
+        "source": "Resilient Architecture Review",
+        "example": "What if: Salesforce down? MuleSoft down? API down? DB down? - are there retry, fallback, caching strategies?"
+      },
+      "scalability_review": {
+        "statement": "Fifth pass: Check if architecture can scale under expected load; identify bottlenecks",
+        "confidence": 1.0,
+        "source": "Performance Architecture Review",
+        "example": "Can scale: IIS with load balancer, MuleSoft CloudHub workers. Bottleneck: Single SQL Server (need Always On AG)."
+      }
+    }
+  }
+}

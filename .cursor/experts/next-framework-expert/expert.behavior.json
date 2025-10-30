@@ -1,0 +1,404 @@
+{
+  "name": "next-framework-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive Next.js framework expert covering App Router, Server Components, Server Actions, routing, data fetching, rendering strategies, middleware, and deployment",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-01-24",
+    "lastUpdated": "2025-01-24",
+    "author": "AI Expert System",
+    "status": "active",
+    "framework_version": "Next.js 16",
+    "react_requirement": "React 18+"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Next.js Official Documentation (nextjs.org/docs)",
+      "Next.js Website (nextjs.org)",
+      "Vercel Next.js Documentation"
+    ],
+    "version_info": "Next.js 16 (App Router recommended), Pages Router (legacy support)"
+  },
+
+  "triggers": {
+    "keywords": [
+      "next.js",
+      "nextjs",
+      "next.js framework",
+      "app router",
+      "pages router",
+      "server components",
+      "server actions",
+      "getserversideprops",
+      "getstaticprops",
+      "incremental static regeneration",
+      "isr",
+      "route handlers",
+      "middleware",
+      "next/image",
+      "next/font",
+      "next/script",
+      "create-next-app",
+      "vercel"
+    ],
+    "phrases": [
+      "next.js app",
+      "nextjs application",
+      "next.js routing",
+      "server side rendering",
+      "static site generation",
+      "next.js api route",
+      "next.js middleware",
+      "next.js deployment",
+      "vercel deployment",
+      "next.js server component",
+      "next.js server action"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate Next.js App Router applications",
+      "Create file-system based routes",
+      "Implement Server Components and Client Components",
+      "Use Server Actions for server-side code execution",
+      "Create Route Handlers (API endpoints)",
+      "Implement middleware for authentication and routing",
+      "Configure different rendering strategies (SSG, SSR, ISR, CSR)",
+      "Use Next.js Image, Font, and Script optimizations",
+      "Set up nested layouts and route groups",
+      "Implement dynamic routes and catch-all routes",
+      "Configure TypeScript in Next.js projects",
+      "Deploy Next.js applications to Vercel and other platforms",
+      "Use Pages Router (legacy) when needed"
+    ],
+    "cannot_do": [
+      "Make architectural decisions about framework selection (defer to architecture-expert)",
+      "Choose between Next.js and other React frameworks without business context (defer to architecture-expert)",
+      "Design UI/UX (defer to design-expert)",
+      "Configure deployment infrastructure details (defer to infrastructure-expert)"
+    ]
+  },
+
+  "facts": {
+    "installation": {
+      "create_next_app": {
+        "statement": "Create Next.js app with: npx create-next-app@latest. Interactive CLI prompts for TypeScript, ESLint, Tailwind CSS, src/ directory, App Router, and Turbopack. App Router is default in Next.js 13+. Creates new Next.js application with optimal defaults.",
+        "confidence": 1.0,
+        "source": "Next.js Installation Documentation",
+        "example": "npx create-next-app@latest my-app"
+      },
+      "manual_installation": {
+        "statement": "Manual installation: npm install next react react-dom. Add scripts to package.json: 'dev': 'next dev', 'build': 'next build', 'start': 'next start', 'lint': 'next lint'. Requires Node.js 18.17 or later. Create app/ directory for App Router or pages/ for Pages Router.",
+        "confidence": 1.0,
+        "source": "Next.js Installation Documentation",
+        "example": "npm install next react react-dom && npm run dev"
+      }
+    },
+    "app_router": {
+      "overview": {
+        "statement": "App Router (Next.js 13+) is default routing system. File-system based routing in app/ directory. React Server Components by default. Supports layouts, loading states, error boundaries, streaming, and Suspense. Recommended for new projects. Pages Router still supported but App Router preferred.",
+        "confidence": 1.0,
+        "source": "Next.js App Router Documentation",
+        "example": "app/page.js → / route, app/about/page.js → /about route"
+      },
+      "file_structure": {
+        "statement": "App Router file structure: app/page.js (route), app/layout.js (layout), app/loading.js (loading state), app/error.js (error boundary), app/not-found.js (404 page), app/globals.css (global styles). Special files: layout.js wraps all routes, page.js defines route, loading.js shows while data loads, error.js catches errors.",
+        "confidence": 1.0,
+        "source": "Next.js App Router Documentation",
+        "example": "app/layout.js wraps app/page.js and app/about/page.js with shared UI"
+      },
+      "server_components_default": {
+        "statement": "In App Router, components are Server Components by default. Run on server, no client JavaScript sent. Access backend directly (databases, file systems). Use 'use client' directive at top of file to create Client Component. Server Components can import Client Components but not vice versa.",
+        "confidence": 1.0,
+        "source": "Next.js Server Components Documentation",
+        "example": "// Server Component (default). export default function Page() { return <div>Server Component</div>; } // Client Component. 'use client'; export default function Component() { const [state, setState] = useState(0); }"
+      }
+    },
+    "routing": {
+      "dynamic_routes": {
+        "statement": "Dynamic routes use brackets: app/blog/[slug]/page.js → /blog/:slug. Access params with props: export default function Page({ params }) { const { slug } = params; }. Generate static params with generateStaticParams() for SSG. Multiple dynamic segments: [id]/[slug]/page.js → /:id/:slug",
+        "confidence": 1.0,
+        "source": "Next.js Routing Documentation",
+        "example": "app/blog/[slug]/page.js handles /blog/post-1, /blog/post-2, etc."
+      },
+      "catch_all_routes": {
+        "statement": "Catch-all routes use [...slug]: app/shop/[...slug]/page.js matches /shop/* (multiple segments). Optional catch-all [[...slug]] matches /shop and /shop/*. Access with params.slug array. Use for complex routing patterns or CMS integration.",
+        "confidence": 1.0,
+        "source": "Next.js Routing Documentation",
+        "example": "app/shop/[...slug]/page.js matches /shop/clothing, /shop/electronics/phones, etc."
+      },
+      "route_groups": {
+        "statement": "Route groups organize routes without affecting URL: (marketing)/about/page.js → /about (not /marketing/about). Use parentheses: (marketing), (shop), (admin). Useful for organizing layouts, loading states per section. Route groups don't create URL segments.",
+        "confidence": 1.0,
+        "source": "Next.js Routing Documentation",
+        "example": "(marketing)/about/page.js and (marketing)/contact/page.js share (marketing)/layout.js"
+      },
+      "parallel_routes": {
+        "statement": "Parallel routes render multiple pages simultaneously: app/@analytics/page.js and app/@team/page.js render together at /dashboard. Use @ prefix for parallel slots. Combine with catch-all for conditional rendering. Useful for dashboards with multiple panels.",
+        "confidence": 1.0,
+        "source": "Next.js Routing Documentation",
+        "example": "app/dashboard/@analytics/page.js and app/dashboard/@team/page.js render side-by-side"
+      },
+      "intercepting_routes": {
+        "statement": "Intercepting routes intercept route segments: (.) intercepts same level, (..) intercepts parent level, (...) intercepts root. Useful for modals and conditional layouts. Example: app/@modal/(.)photo/[id]/page.js intercepts app/photo/[id]/page.js to show in modal.",
+        "confidence": 1.0,
+        "source": "Next.js Routing Documentation",
+        "example": "app/@modal/(.)photo/[id]/page.js shows photo in modal instead of full page"
+      }
+    },
+    "layouts": {
+      "nested_layouts": {
+        "statement": "Layouts create shared UI that persists: app/layout.js (root layout, wraps entire app), app/dashboard/layout.js (dashboard layout, wraps dashboard routes). Layouts receive children prop. Can be nested. Layouts don't re-render on navigation, only children do.",
+        "confidence": 1.0,
+        "source": "Next.js Layouts Documentation",
+        "example": "app/layout.js wraps app/dashboard/page.js and app/dashboard/settings/page.js"
+      },
+      "layout_structure": {
+        "statement": "Layout file structure: export default function Layout({ children }) { return (<html><body>{children}</body></html>); }. Root layout must include <html> and <body>. Layouts can have metadata, loading states. Layout components are Server Components by default.",
+        "confidence": 1.0,
+        "source": "Next.js Layouts Documentation",
+        "example": "app/layout.js: export default function RootLayout({ children }) { return (<html lang=\"en\"><body>{children}</body></html>); }"
+      }
+    },
+    "data_fetching": {
+      "server_components_async": {
+        "statement": "Server Components can be async and fetch data directly: export default async function Page() { const data = await fetch('...'); return <div>{data.title}</div>; }. No useEffect needed. Fetch requests are automatically deduplicated and cached. Supports native fetch API with Next.js extensions.",
+        "confidence": 1.0,
+        "source": "Next.js Data Fetching Documentation",
+        "example": "export default async function Page() { const res = await fetch('https://api.example.com/data'); const data = await res.json(); return <div>{data.title}</div>; }"
+      },
+      "fetch_caching": {
+        "statement": "Next.js extends fetch with caching: fetch(url, { cache: 'force-cache' }) for SSG (default), fetch(url, { cache: 'no-store' }) for SSR, fetch(url, { next: { revalidate: 60 } }) for ISR (revalidate every 60 seconds). Automatic request deduplication. fetch is async in Server Components.",
+        "confidence": 1.0,
+        "source": "Next.js Data Fetching Documentation",
+        "example": "const data = await fetch(url, { next: { revalidate: 3600 } }); // ISR: revalidate every hour"
+      },
+      "client_data_fetching": {
+        "statement": "Client Components use useEffect or data fetching libraries (SWR, React Query): 'use client'; import { useEffect, useState } from 'react'; export default function Component() { const [data, setData] = useState(null); useEffect(() => { fetch('/api/data').then(r => r.json()).then(setData); }, []); return <div>{data?.title}</div>; }",
+        "confidence": 1.0,
+        "source": "Next.js Client Components Documentation",
+        "example": "Client Component with useEffect for client-side data fetching"
+      }
+    },
+    "server_actions": {
+      "overview": {
+        "statement": "Server Actions allow calling server functions directly from Client Components. Mark function with 'use server' directive. Can be async. Automatically handle request/response serialization. Support form actions and progressive enhancement. Revalidate cached data automatically.",
+        "confidence": 1.0,
+        "source": "Next.js Server Actions Documentation",
+        "example": "'use server'; export async function createPost(formData) { // Server code }"
+      },
+      "form_actions": {
+        "statement": "Server Actions work with forms: <form action={createPost}>. Form data automatically passed to Server Action. Progressive enhancement: works without JavaScript. Use useFormState and useFormStatus hooks for form state management. Server Actions can revalidate data after mutation.",
+        "confidence": 1.0,
+        "source": "Next.js Server Actions Documentation",
+        "example": "<form action={createPost}><input name=\"title\" /><button>Submit</button></form>"
+      },
+      "client_call": {
+        "statement": "Call Server Actions from Client Components: import { createPost } from './actions'; 'use client'; export default function Component() { async function handleSubmit() { await createPost(formData); } }. Server Actions are async functions. Can pass serializable data (JSON-serializable).",
+        "confidence": 1.0,
+        "source": "Next.js Server Actions Documentation",
+        "example": "const result = await createPost({ title: 'Post Title' });"
+      }
+    },
+    "route_handlers": {
+      "api_endpoints": {
+        "statement": "Route Handlers create API endpoints in App Router: butterfliesapp/api/users/route.js exports GET, POST, PUT, DELETE, etc. Export named functions: export async function GET(request) { return Response.json({ data: [] }); }. Use Request and Response APIs (Web API standard). Support streaming and cookies.",
+        "confidence": 1.0,
+        "source": "Next.js Route Handlers Documentation",
+        "example": "app/api/users/route.js: export async function GET() { return Response.json({ users: [] }); } export async function POST(request) { const body = await request.json(); return Response.json({ created: true }); }"
+      },
+      "dynamic_route_handlers": {
+        "statement": "Dynamic route handlers: app/api/users/[id]/route.js handles /api/users/:id. Access params: export async function GET(request, { params }) { const { id } = params; }. Same dynamic routing rules as pages: [id], [...slug], [[...slug]].",
+        "confidence": 1.0,
+        "source": "Next.js Route Handlers Documentation",
+        "example": "app/api/users/[id]/route.js: export async function GET(request, { params }) { const { id } = params.id; }"
+      }
+    },
+    "middleware": {
+      "overview": {
+        "statement": "Middleware runs before request completes. File: middleware.js at project root or src/middleware.js. Export function: export function middleware(request) { const response = NextResponse.next(); return response; }. Runs on edge runtime. Can modify request/response, redirect, rewrite, set headers.",
+        "confidence": 1.0,
+        "source": "Next.js Middleware Documentation",
+        "example": "middleware.js: export function middleware(request) { if (request.nextUrl.pathname === '/admin') { return NextResponse.redirect('/login'); } }"
+      },
+      "matcher": {
+        "statement": "Configure middleware matcher to run on specific routes: export const config = { matcher: '/about/:path*' }. Use matcher to limit middleware execution. Matcher patterns: '/about/:path*' matches /about and nested routes, '/api/:path*' matches API routes.",
+        "confidence": 1.0,
+        "source": "Next.js Middleware Documentation",
+        "example": "export const config = { matcher: ['/dashboard/:path*', '/api/:path*'] }"
+      },
+      "authentication": {
+        "statement": "Middleware commonly used for authentication: check auth token, redirect to login, set headers. Access cookies: request.cookies.get('token'). Create response: NextResponse.next(), NextResponse.redirect(url), NextResponse.rewrite(url). Can read/write headers.",
+        "confidence": 1.0,
+        "source": "Next.js Middleware Documentation",
+        "example": "if (!request.cookies.get('token')) { return NextResponse.redirect('/login'); }"
+      }
+    },
+    "rendering_strategies": {
+      "static_generation": {
+        "statement": "Static Site Generation (SSG): Pages generated at build time. Default for pages without dynamic data or with generateStaticParams(). Fastest, cached on CDN. Use for content that doesn't change frequently. In App Router, Server Components with static data are SSG by default.",
+        "confidence": 1.0,
+        "source": "Next.js Rendering Documentation",
+        "example": "Static page generated at build time, served from CDN"
+      },
+      "server_side_rendering": {
+        "statement": "Server-Side Rendering (SSR): Page generated on each request. Use fetch(url, { cache: 'no-store' }) or dynamic = 'force-dynamic' in App Router. Good for personalized content, real-time data. Slower than SSG but always fresh data.",
+        "confidence": 1.0,
+        "source": "Next.js Rendering Documentation",
+        "example": "export const dynamic = 'force-dynamic'; // Force SSR for this route"
+      },
+      "incremental_static_regeneration": {
+        "statement": "Incremental Static Regeneration (ISR): Statically generate pages, revalidate periodically. Use fetch(url, { next: { revalidate: 3600 } }) for ISR. Pages regenerated in background after revalidation period. Best of both worlds: fast static + fresh data. App Router supports ISR by default with revalidate option.",
+        "confidence": 1.0,
+        "source": "Next.js ISR Documentation",
+        "example": "const data = await fetch(url, { next: { revalidate: 60 } }); // Revalidate every 60 seconds"
+      },
+      "client_side_rendering": {
+        "statement": "Client-Side Rendering (CSR): Render in browser with JavaScript. Use 'use client' directive. Fetch data in useEffect or on mount. Good for interactive components, dashboards. App Router uses Client Components for interactivity, Server Components for data fetching.",
+        "confidence": 1.0,
+        "source": "Next.js Client Components Documentation",
+        "example": "'use client'; export default function Component() { useEffect(() => { fetchData(); }, []); }"
+      }
+    },
+    "css_styling": {
+      "css_modules": {
+        "statement": "CSS Modules: Create .module.css files. Import: import styles from './Component.module.css'. Use: <div className={styles.container}>. Scoped CSS (class names hashed). Supported in both App Router and Pages Router.",
+        "confidence": 1.0,
+        "source": "Next.js CSS Modules Documentation",
+        "example": "import styles from './Button.module.css'; <button className={styles.primary}>Click</button>"
+      },
+      "global_css": {
+        "statement": "Global CSS: Import in app/layout.js or _app.js: import './globals.css'. Global styles apply to entire app. Only one global CSS file. Use for reset styles, fonts, CSS variables. App Router: import in root layout only.",
+        "confidence": 1.0,
+        "source": "Next.js CSS Documentation",
+        "example": "import './globals.css'; in app/layout.js"
+      },
+      "tailwind_css": {
+        "statement": "Tailwind CSS: Install with create-next-app or manually. Configure tailwind.config.js. Import in globals.css: @tailwind base; @tailwind components; @tailwind utilities;. Use utility classes in JSX. Fully supported in Next.js.",
+        "confidence": 1.0,
+        "source": "Next.js Tailwind CSS Documentation",
+        "example": "<div className=\"flex items-center justify-center bg-blue-500\">Content</div>"
+      }
+    },
+    "optimization": {
+      "image_optimization": {
+        "statement": "next/image component automatically optimizes images: import Image from 'next/image'; <Image src=\"/photo.jpg\" width={500} height={300} alt=\"Photo\" />. Features: lazy loading, responsive images, WebP/AVIF format conversion, blur placeholder. Requires width and height (or fill for responsive).",
+        "confidence": 1.0,
+        "source": "Next.js Image Optimization Documentation",
+        "example": "<Image src=\"/hero.jpg\" width={1200} height={600} alt=\"Hero\" priority />"
+      },
+      "font_optimization": {
+        "statement": "next/font optimizes fonts: import { Inter } from 'next/font/google'; const inter = Inter({ subsets: ['latin'] });. Use in layout: <body className={inter.className}>. Automatic font optimization, self-hosted fonts, zero layout shift. Supports Google Fonts and custom fonts.",
+        "confidence": 1.0,
+        "source": "Next.js Font Optimization Documentation",
+        "example": "import { Inter } from 'next/font/google'; const inter = Inter(); <body className={inter.className}>"
+      },
+      "script_optimization": {
+        "statement": "next/script optimizes third-party scripts: import Script from 'next/script'; <Script src=\"https://example.com/script.js\" strategy=\"afterInteractive\" />. Strategies: 'beforeInteractive' (before page interactive), 'afterInteractive' (after page interactive, default), 'lazyOnload' (on window load).",
+        "confidence": 1.0,
+        "source": "Next.js Script Optimization Documentation",
+        "example": "<Script src=\"https://example.com/analytics.js\" strategy=\"afterInteractive\" />"
+      }
+    },
+    "pages_router": {
+      "legacy_routing": {
+        "statement": "Pages Router (legacy): File-system routing in pages/ directory. pages/index.js → /, pages/about.js → /about. Use getServerSideProps for SSR, getStaticProps for SSG, getStaticPaths for dynamic SSG. API routes in pages/api/. Still supported but App Router recommended for new projects.",
+        "confidence": 1.0,
+        "source": "Next.js Pages Router Documentation",
+        "example": "pages/about.js: export default function About() { return <div>About</div>; }"
+      },
+      "getserversideprops": {
+        "statement": "getServerSideProps runs on server on each request (SSR). Export: export async function getServerSideProps(context) { return { props: { data } }; }. Context includes params, query, req, res. Run server-side code, fetch data, return props. Deprecated in App Router (use Server Components instead).",
+        "confidence": 1.0,
+        "source": "Next.js Pages Router Documentation",
+        "example": "export async function getServerSideProps() { const data = await fetchData(); return { props: { data } }; }"
+      },
+      "getstaticprops": {
+        "statement": "getStaticProps runs at build time (SSG). Export: export async function getStaticProps(context) { return { props: { data }, revalidate: 60 }; }. Revalidate for ISR. Pre-renders page at build. Deprecated in App Router (use Server Components with fetch caching).",
+        "confidence": 1.0,
+        "source": "Next.js Pages Router Documentation",
+        "example": "export async function getStaticProps() { const data = await fetchData(); return { props: { data }, revalidate: 3600 }; }"
+      }
+    },
+    "deployment": {
+      "vercel": {
+        "statement": "Vercel is recommended deployment platform (created by Next.js team). Zero-configuration deployment. Automatic HTTPS, global CDN, preview deployments for PRs, environment variables management. Connect GitHub repository, auto-deploy on push. Free tier available.",
+        "confidence": 1.0,
+        "source": "Next.js Deployment Documentation",
+        "example": "Deploy to Vercel: vercel deploy or connect GitHub repo in Vercel dashboard"
+      },
+      "docker": {
+        "statement": "Docker deployment: Use Next.js standalone output. next build outputs .next/standalone directory. Create Dockerfile with Node.js, copy standalone files, run next start. Supports standalone server mode for containerized deployments.",
+        "confidence": 1.0,
+        "source": "Next.js Deployment Documentation",
+        "example": "Dockerfile: FROM node:18-alpine, COPY .next/standalone ./standalone, CMD ['node', 'standalone/server.js']"
+      },
+      "static_export": {
+        "statement": "Static Export: Configure output: 'export' in next.config.js. Run next build to generate static HTML. Export: export default { output: 'export' }. Pages must not use server-side features (getServerSideProps, API routes, Server Components with dynamic data).",
+        "confidence": 1.0,
+        "source": "Next.js Static Export Documentation",
+        "example": "next.config.js: module.exports = { output: 'export' }; // Generate static HTML"
+      }
+    },
+    "typescript": {
+      "typescript_support": {
+        "statement": "Next.js has excellent TypeScript support. Install types: npm install -D typescript @types/react @types/node. Create tsconfig.json (auto-generated by create-next-app). File extensions: .ts, .tsx. Type-safe routing, API routes, Server Actions. Full TypeScript support in both App Router and Pages Router.",
+        "confidence": 1.0,
+        "source": "Next.js TypeScript Documentation",
+        "example": "app/page.tsx, app/api/users/route.ts, app/layout.tsx all support TypeScript"
+      }
+    }
+  },
+
+  "examples": {
+    "basic_app_router_page": {
+      "title": "Basic App Router Page",
+      "description": "Simple page in App Router",
+      "code": "// app/page.js\nexport default function HomePage() {\n  return <div>Home</div>;\n}",
+      "source": "Next.js App Router Documentation"
+    },
+    "server_component_data_fetching": {
+      "title": "Server Component Data Fetching",
+      "description": "Async Server Component fetching data",
+      "code": "// app/posts/page.js\nexport default async function PostsPage() {\n  const res = await fetch('https://api.example.com/posts');\n  const posts = await res.json();\n  return (\n    <div>\n      {posts.map(post => (\n        <div key={post.id}>{post.title}</div>\n      ))}\n    </div>\n  );\n}",
+      "source": "Next.js Server Components Documentation"
+    },
+    "server_action": {
+      "title": "Server Action",
+      "description": "Server Action with form",
+      "code": "'use server';\n\nexport async function createPost(formData) {\n  const title = formData.get('title');\n  // Save to database\n  return { success: true };\n}\n\n// In Client Component:\n<form action={createPost}>\n  <input name=\"title\" />\n  <button>Submit</button>\n</form>",
+      "source": "Next.js Server Actions Documentation"
+    },
+    "route_handler": {
+      "title": "Route Handler (API Route)",
+      "description": "API endpoint using Route Handler",
+      "code": "// app/api/users/route.js\nexport async function GET() {\n  const users = await getUsers();\n  return Response.json({ users });\n}\n\nexport async function POST(request) {\n  const body = await request.json();\n  const user = await createUser(body);\n  return Response.json({ user }, { status: 201 });\n}",
+      "source": "Next.js Route Handlers Documentation"
+    }
+  },
+
+  "integration": {
+    "works_with": [
+      "react-expert",
+      "typescript-expert",
+      "tailwind-css-expert"
+    ],
+    "defers_to": [
+      "architecture-validation-expert (for architectural decisions)",
+      "requirements-analysis-expert (for framework selection decisions)"
+    ]
+  },
+
+  "notes": {
+    "maintenance": "Update when Next.js releases new versions or adds new features. Check nextjs.org/docs for latest documentation and migration guides",
+    "coverage": "Covers Next.js 16 with focus on App Router. Pages Router documented for legacy support. Update for new App Router features and rendering strategies.",
+    "training_source": "Documentation scraped from nextjs.org on 2025-01-24"
+  }
+}
+

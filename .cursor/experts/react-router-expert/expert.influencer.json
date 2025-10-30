@@ -1,0 +1,247 @@
+{
+  "name": "react-router-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Architectural opinions and recommendations for React Router 6+ in enterprise PWA applications",
+  "confidence_level": 95,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "opinions": {
+    "route_configuration_style": {
+      "title": "Route Configuration Style: Objects vs JSX",
+      "description": "Choose between route objects and JSX syntax for defining routes",
+      "confidence_score": 0.95,
+      "rationale": "Route objects provide better TypeScript support, easier testing, and centralized configuration. JSX routes are more familiar but less testable.",
+      "context": {
+        "when_applicable": "All enterprise React applications with React Router 6+",
+        "when_not_applicable": "Simple prototypes or apps migrating from React Router 5 with minimal refactoring time"
+      },
+      "options": [
+        {
+          "name": "Route Objects (Recommended)",
+          "description": "Define routes as plain JavaScript objects",
+          "pros": [
+            "Better TypeScript support and type inference",
+            "Easier to test (plain objects)",
+            "Centralized configuration",
+            "Can be generated dynamically from API/config",
+            "Easier to compose and merge route configs"
+          ],
+          "cons": [
+            "Less familiar to developers coming from React Router 5",
+            "Slightly more verbose syntax"
+          ],
+          "use_when": "Building enterprise applications requiring testability, type safety, and maintainability"
+        },
+        {
+          "name": "JSX Routes",
+          "description": "Define routes using JSX components",
+          "pros": [
+            "Familiar to React developers",
+            "Visually similar to component tree",
+            "Less initial learning curve"
+          ],
+          "cons": [
+            "Harder to test (requires rendering)",
+            "Weaker TypeScript support",
+            "Can't be easily generated dynamically",
+            "Harder to merge configurations"
+          ],
+          "use_when": "Migrating from React Router 5 or building simple applications"
+        }
+      ],
+      "decision_factors": [
+        "Team experience with React Router 6",
+        "Need for dynamic route generation",
+        "Testing requirements",
+        "TypeScript adoption"
+      ],
+      "presentChoice": false
+    },
+
+    "guard_implementation": {
+      "title": "Route Guard Implementation Strategy",
+      "description": "How to implement authentication and authorization checks for routes",
+      "confidence_score": 0.92,
+      "rationale": "Route-level guards provide clear security boundaries and prevent unauthorized route access at the routing layer, rather than within components.",
+      "context": {
+        "when_applicable": "All enterprise applications with authentication and role-based access",
+        "when_not_applicable": "Public applications with no authentication"
+      },
+      "options": [
+        {
+          "name": "Guard Components with Outlet (Recommended)",
+          "description": "Create guard components that check auth and render Outlet or Navigate",
+          "pros": [
+            "Guards are routes themselves (part of route hierarchy)",
+            "Clear security boundaries",
+            "Easy to compose (AuthGuard → RoleGuard → children)",
+            "DRY - guards are reusable across route branches",
+            "Can show loading states during auth checks"
+          ],
+          "cons": [
+            "Requires understanding of Outlet pattern",
+            "Guards add extra components to React tree"
+          ],
+          "use_when": "Building enterprise PWAs with layered security (auth + roles + permissions)"
+        },
+        {
+          "name": "Loader Functions with Redirects",
+          "description": "Use route loader functions to check auth and throw redirect responses",
+          "pros": [
+            "No extra components",
+            "Data loading and auth checking in one place"
+          ],
+          "cons": [
+            "Harder to compose multiple security checks",
+            "Less clear security boundaries",
+            "Can't show loading UI during auth check",
+            "Loader errors harder to debug"
+          ],
+          "use_when": "Simple auth checks with no layered authorization"
+        },
+        {
+          "name": "Component-Level Checks (Not Recommended)",
+          "description": "Check auth within each protected component",
+          "pros": ["Simple to understand", "No routing configuration changes"],
+          "cons": [
+            "Not DRY (repeated checks in every component)",
+            "Security holes if checks are forgotten",
+            "Component loads before redirect (flash of content)",
+            "No centralized auth boundary"
+          ],
+          "use_when": "Never for enterprise applications"
+        }
+      ],
+      "decision_factors": [
+        "Complexity of authorization (simple auth vs roles vs permissions)",
+        "Need for loading states during auth checks",
+        "Team familiarity with Outlet pattern"
+      ],
+      "presentChoice": false
+    },
+
+    "url_state_management": {
+      "title": "State Management: URL vs Redux vs Memory",
+      "description": "Where to store different types of application state in relation to routing",
+      "confidence_score": 0.9,
+      "rationale": "URL state enables deep linking and sharing, Redux state persists across navigation, memory state is lost on navigation. Each has appropriate use cases.",
+      "context": {
+        "when_applicable": "All React applications with routing",
+        "when_not_applicable": "Never - always need to decide where state lives"
+      },
+      "options": [
+        {
+          "name": "URL Query Params (Recommended for UI State)",
+          "description": "Store filters, sorting, pagination, search in URL query params",
+          "pros": [
+            "Shareable - users can copy/paste URLs to colleagues",
+            "Bookmarkable - users can save filtered views",
+            "Deep linkable - direct access to specific filtered state",
+            "Browser back/forward works correctly",
+            "No state management library needed"
+          ],
+          "cons": [
+            "URL can become long with many params",
+            "Sensitive data shouldn't be in URL",
+            "Must validate params (user can manipulate URL)"
+          ],
+          "use_when": "Filters, sorting, pagination, search terms, selected tabs, expanded/collapsed state"
+        },
+        {
+          "name": "Redux/Global State",
+          "description": "Store state in Redux that persists across navigation",
+          "pros": [
+            "Persists when navigating away and back",
+            "Can be used across multiple routes",
+            "Works offline with persistence",
+            "No URL pollution"
+          ],
+          "cons": [
+            "Not shareable via URL",
+            "Requires state management setup",
+            "Can lead to stale state"
+          ],
+          "use_when": "User preferences, draft work, shopping cart, notification state, authentication"
+        },
+        {
+          "name": "Component Memory (useState)",
+          "description": "Store state in component with useState/useReducer",
+          "pros": [
+            "Simple - no external dependencies",
+            "Automatically cleaned up on unmount",
+            "Isolated to component"
+          ],
+          "cons": [
+            "Lost on navigation away",
+            "Not shareable",
+            "Not bookmarkable",
+            "Lost on page refresh"
+          ],
+          "use_when": "Form input, modal open/close, accordion expand/collapse, hover state"
+        }
+      ],
+      "decision_factors": [
+        "Does state need to be shareable?",
+        "Does state need to persist across navigation?",
+        "Does state need to persist across page refresh?",
+        "Is state sensitive (shouldn't be in URL)?"
+      ],
+      "presentChoice": true
+    },
+
+    "code_splitting_strategy": {
+      "title": "Route-Based Code Splitting Strategy",
+      "description": "Which routes to code-split and which to load eagerly",
+      "confidence_score": 0.88,
+      "rationale": "Code splitting reduces initial bundle size but adds network latency. Balance is needed based on route usage patterns.",
+      "context": {
+        "when_applicable": "All production React applications",
+        "when_not_applicable": "Very small applications (<100KB bundle)"
+      },
+      "options": [
+        {
+          "name": "Aggressive Code Splitting (Recommended for Enterprise)",
+          "description": "Split all routes except home/login, preload on hover",
+          "pros": [
+            "Minimal initial bundle",
+            "Faster Time to Interactive",
+            "Users only download what they use",
+            "Better for mobile/slow connections"
+          ],
+          "cons": [
+            "More HTTP requests",
+            "Slight delay on first visit to split route (mitigated by preloading)"
+          ],
+          "use_when": "Large applications, mobile-first, international users"
+        },
+        {
+          "name": "Conservative Code Splitting",
+          "description": "Split only admin/rarely used routes",
+          "pros": ["Fewer HTTP requests", "No loading delay for common routes"],
+          "cons": [
+            "Larger initial bundle",
+            "Slower Time to Interactive",
+            "Users download unused code"
+          ],
+          "use_when": "Fast internal networks, desktop-first, small applications"
+        }
+      ],
+      "decision_factors": [
+        "Initial bundle size",
+        "User connection speed",
+        "Route usage patterns (analytics)",
+        "Mobile vs desktop audience"
+      ],
+      "presentChoice": false
+    }
+  }
+}

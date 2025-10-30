@@ -1,0 +1,994 @@
+{
+  "expert_name": "infrastructure-architecture-expert",
+  "applies_to": ["infrastructure-architecture-expert"],
+  "version": "2.0.0",
+
+  "sources": {
+    "curated_content": [
+      {
+        "type": "documentation",
+        "name": "Azure Well-Architected Framework",
+        "source": "Microsoft Azure Architecture Center",
+        "confidence_weight": 0.98
+      },
+      {
+        "type": "best_practices",
+        "name": "Azure Architecture Patterns and Best Practices",
+        "source": "Azure Architecture Center",
+        "confidence_weight": 0.95
+      },
+      {
+        "type": "training",
+        "name": "Pluralsight Professional Training",
+        "source": "37 courses on Azure architecture, microservices, data architecture, enterprise architecture",
+        "confidence_weight": 0.9
+      }
+    ]
+  },
+
+  "facts": {
+    "service_characteristics": {
+      "expressroute_vs_vpn": {
+        "statement": "ExpressRoute provides 99.95% SLA, up to 100 Gbps bandwidth, predictable latency, and private connectivity not traversing public internet. VPN Gateway provides 99.9% SLA (Basic/VpnGw1-5) or 99.95% (VpnGw1AZ-5AZ), up to 10 Gbps bandwidth, variable latency over public internet",
+        "confidence": 1.0,
+        "source": "Azure Networking Documentation",
+        "expressroute_sla": "99.95%",
+        "vpn_sla": "99.9% (standard) or 99.95% (zone-redundant)"
+      }
+    }
+  },
+
+  "opinions": {
+    "networking": {
+      "expressroute_vs_vpn": {
+        "title": "ExpressRoute vs VPN Gateway for Hybrid Connectivity",
+        "description": "Choose hybrid connectivity solution based on workload criticality, latency requirements, and bandwidth needs",
+        "confidence_score": 0.9,
+        "rationale": "ExpressRoute provides predictable latency, higher bandwidth, and better security through private connectivity. While VPN is suitable for dev/test and branch offices, production mission-critical workloads benefit significantly from ExpressRoute's characteristics",
+        "source": "Azure Well-Architected Framework - Reliability and Performance",
+
+        "context": {
+          "when_applicable": [
+            "Production workloads requiring hybrid connectivity",
+            "Mission-critical applications",
+            "High bandwidth requirements",
+            "Latency-sensitive workloads"
+          ],
+          "when_not_applicable": [
+            "Development/test environments",
+            "Branch office connectivity (small scale)",
+            "Extremely cost-constrained scenarios",
+            "Low bandwidth requirements (< 100 Mbps)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "ExpressRoute (Primary)",
+            "confidence": 0.9,
+            "reason": "Best for production - predictable latency, high bandwidth, private connectivity",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "99.95% SLA",
+                "Predictable latency (consistent performance)",
+                "Up to 100 Gbps bandwidth",
+                "Private connectivity (doesn't traverse public internet)",
+                "Better security posture",
+                "Reduced troubleshooting (no internet variability)"
+              ],
+              "cons": [
+                "Higher monthly cost ($50-$5,000+/month depending on bandwidth)",
+                "Longer setup time (weeks to months with ISP)",
+                "Requires coordination with connectivity provider",
+                "Higher commitment (typically annual contracts)"
+              ]
+            },
+            "context_requirements": [
+              "Production mission-critical workloads",
+              "Latency-sensitive applications",
+              "High bandwidth needs (> 1 Gbps)",
+              "Budget allows for premium connectivity",
+              "Long-term hybrid strategy"
+            ]
+          },
+          {
+            "name": "VPN Gateway",
+            "confidence": 0.75,
+            "reason": "Acceptable for dev/test, branch offices, or backup connectivity",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Lower cost ($30-$500/month)",
+                "Quick setup (hours to days)",
+                "No ISP coordination needed",
+                "Flexible (can terminate easily)",
+                "Good for variable/intermittent workloads"
+              ],
+              "cons": [
+                "Variable latency (depends on internet path)",
+                "Lower bandwidth (up to 10 Gbps, typically much less)",
+                "99.9% SLA (vs 99.95% for ExpressRoute)",
+                "Traverses public internet (security consideration)",
+                "More troubleshooting due to internet variability"
+              ]
+            },
+            "context_requirements": [
+              "Non-production environments",
+              "Branch office connectivity",
+              "Cost-constrained scenarios",
+              "Low bandwidth requirements",
+              "Backup connectivity for ExpressRoute"
+            ]
+          },
+          {
+            "name": "ExpressRoute + VPN (HA)",
+            "confidence": 0.85,
+            "reason": "Best for critical workloads requiring highest availability",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Maximum availability (primary + backup)",
+                "Automatic failover capability",
+                "Cost-effective backup (VPN cheaper than dual ExpressRoute)",
+                "Best of both worlds"
+              ],
+              "cons": [
+                "More complex configuration",
+                "Higher total cost (both services)",
+                "Application must handle path changes gracefully"
+              ]
+            },
+            "context_requirements": [
+              "Mission-critical workloads",
+              "Maximum availability required",
+              "Budget allows for dual connectivity",
+              "Can handle asymmetric routing"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Production + mission-critical → ExpressRoute (primary)",
+          "Need highest availability → ExpressRoute + VPN backup",
+          "Dev/test or branch offices → VPN Gateway alone",
+          "Latency-sensitive (< 10ms required) → ExpressRoute mandatory",
+          "Bandwidth > 1 Gbps → ExpressRoute strongly recommended",
+          "Cost-constrained + non-critical → VPN Gateway"
+        ],
+
+        "presentChoice": false
+      },
+
+      "azure_firewall_sizing": {
+        "title": "Azure Firewall for Hub-Spoke Topology",
+        "description": "Decide when Azure Firewall complexity and cost are justified vs simpler NSG-based approaches",
+        "confidence_score": 0.75,
+        "rationale": "Azure Firewall Standard costs ~$1.25/hour (~$900/month) plus data processing. For small deployments, this can represent 20-50% of total Azure spend. NSGs provide stateful packet filtering at no cost. Application Gateway WAF or Front Door provide Layer 7 protection for web apps. The operational complexity of managing Azure Firewall rules is not justified for smaller environments",
+        "source": "Azure Well-Architected Framework - Cost Optimization + Pluralsight Training",
+
+        "context": {
+          "when_applicable": [
+            "Evaluating network security architecture",
+            "Hub-spoke topology design",
+            "Enterprise network planning"
+          ],
+          "when_not_applicable": [
+            "Azure Firewall already deployed and working",
+            "Regulatory requirement for centralized firewall"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Azure Firewall (Hub-Spoke)",
+            "confidence": 0.85,
+            "reason": "Best for large enterprises with complex network requirements",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Centralized egress control",
+                "FQDN filtering (DNS-based rules)",
+                "Threat intelligence integration",
+                "Centralized logging and monitoring",
+                "Support for multiple VNets",
+                "Application and network rules in single pane"
+              ],
+              "cons": [
+                "High cost (~$900/month Standard, ~$1,800/month Premium)",
+                "Additional data processing charges",
+                "Operational complexity (rule management)",
+                "Potential single point of failure (if not HA)",
+                "Requires hub-spoke topology design"
+              ]
+            },
+            "context_requirements": [
+              "Large enterprises (> 100 VMs)",
+              "Complex network requirements (5+ workloads)",
+              "Centralized egress control needed",
+              "Compliance requiring FQDN filtering",
+              "Azure spend > $50K/month"
+            ]
+          },
+          {
+            "name": "NSG-Based Segmentation",
+            "confidence": 0.8,
+            "reason": "Best for smaller deployments - cost-effective and simpler",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Zero cost (included with Azure)",
+                "Simple to understand and manage",
+                "Stateful packet filtering",
+                "Applied at subnet or NIC level",
+                "Low operational overhead"
+              ],
+              "cons": [
+                "No FQDN filtering (IP-based only)",
+                "No centralized egress control",
+                "Decentralized rule management",
+                "No threat intelligence integration",
+                "Limited logging compared to Firewall"
+              ]
+            },
+            "context_requirements": [
+              "Smaller deployments (< 100 VMs)",
+              "Simple network requirements",
+              "Cost-constrained environments",
+              "IP-based rules sufficient",
+              "No centralized egress requirement"
+            ]
+          },
+          {
+            "name": "Application Gateway WAF / Front Door",
+            "confidence": 0.9,
+            "reason": "Best for web application protection - Layer 7 security",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Layer 7 (application) protection",
+                "OWASP Top 10 protection",
+                "Custom WAF rules",
+                "SSL/TLS termination",
+                "Load balancing integrated",
+                "Lower cost than Azure Firewall for web apps"
+              ],
+              "cons": [
+                "Only for HTTP/HTTPS traffic",
+                "Doesn't replace network firewall",
+                "Per-app deployment (not centralized)",
+                "Moderate cost ($125-$500+/month)"
+              ]
+            },
+            "context_requirements": [
+              "Web application protection needed",
+              "HTTP/HTTPS traffic only",
+              "OWASP protection required",
+              "Can be used alongside NSGs or Firewall"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Large enterprise (>100 VMs) + complex networks → Azure Firewall",
+          "Small deployment (<100 VMs) + simple needs → NSGs only",
+          "Web applications → Application Gateway WAF or Front Door WAF",
+          "Need FQDN filtering + centralized egress → Azure Firewall",
+          "Cost-constrained + no FQDN requirements → NSGs + App Gateway WAF",
+          "Consider Firewall when managing 5+ separate workloads with complex inter-communication"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "architecture": {
+      "microservices_adoption": {
+        "title": "When to Adopt Microservices Architecture",
+        "description": "Decide when microservices complexity is justified vs simpler architectures",
+        "confidence_score": 0.85,
+        "rationale": "Microservices introduce substantial complexity: distributed system challenges, eventual consistency, complex testing, increased operational overhead, and require high DevOps maturity. Many organizations adopt microservices prematurely without these capabilities, leading to 'distributed monoliths' with all downsides and none of the benefits",
+        "source": "Pluralsight Microservices Training + Azure Architecture Center",
+
+        "context": {
+          "when_applicable": [
+            "Architecture selection for new projects",
+            "Refactoring existing applications",
+            "Scaling team or application"
+          ],
+          "when_not_applicable": [
+            "Microservices already in production and working",
+            "Small POC or prototype projects"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Start with Simpler Architecture (N-tier, Web-Queue-Worker)",
+            "confidence": 0.9,
+            "reason": "Best default for most applications - provides benefits with far less complexity",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Simpler to understand and maintain",
+                "Faster initial development",
+                "Easier debugging and testing",
+                "Lower operational overhead",
+                "Works for 80% of applications",
+                "Can evolve to microservices later if needed"
+              ],
+              "cons": [
+                "Monolithic deployment (can't deploy parts independently)",
+                "Scaling is all-or-nothing",
+                "Technology stack is unified",
+                "May need refactoring if grows very large"
+              ]
+            },
+            "context_requirements": [
+              "New projects or greenfield applications",
+              "Teams new to cloud or distributed systems",
+              "Single team or small organization",
+              "No proven independent scaling needs",
+              "Want to move fast initially"
+            ]
+          },
+          {
+            "name": "Adopt Microservices",
+            "confidence": 0.75,
+            "reason": "Only when you have genuine need and capability",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Independent deployment of services",
+                "Independent scaling per service",
+                "Technology diversity (different stacks per service)",
+                "Fault isolation (one service failure doesn't crash all)",
+                "Team autonomy (separate teams per service)"
+              ],
+              "cons": [
+                "Distributed system complexity (network calls, retries, timeouts)",
+                "Eventual consistency challenges",
+                "Complex testing (integration tests across services)",
+                "High operational overhead (monitoring, logging, tracing)",
+                "Requires high DevOps maturity",
+                "More expensive infrastructure (multiple deployments)"
+              ]
+            },
+            "context_requirements": [
+              "Large application with proven scaling issues",
+              "Multiple autonomous teams (10+ developers)",
+              "Rapid independent release cycles required",
+              "High DevOps maturity (CI/CD, monitoring, IaC)",
+              "Willingness to manage distributed system complexity",
+              "Budget for increased infrastructure costs"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Default → Start with simpler architecture (monolith or N-tier)",
+          "Only adopt microservices when you have PROVEN need (not theoretical)",
+          "Adopt when: large team, independent scaling proven needed, rapid releases required, DevOps maturity high",
+          "Avoid when: small team, new to distributed systems, cost-constrained, rapid initial development needed",
+          "Can always refactor later - premature microservices is worse than starting simple"
+        ],
+
+        "presentChoice": false
+      },
+
+      "container_apps_vs_aks": {
+        "title": "Azure Container Apps vs AKS for Containerized Applications",
+        "description": "Choose between managed serverless containers (Container Apps) vs full Kubernetes (AKS)",
+        "confidence_score": 0.8,
+        "rationale": "AKS provides full Kubernetes features but requires significant expertise to operate securely and reliably: node management, upgrade coordination, security patching, network policy configuration, service mesh setup. Container Apps provides serverless containers with KEDA autoscaling, Dapr integration, and managed ingress, eliminating most operational complexity while still supporting containerized apps. For 80% of containerized workloads, Container Apps operational overhead savings far outweigh flexibility loss",
+        "source": "Azure Container Apps Documentation + Pluralsight Training",
+
+        "context": {
+          "when_applicable": [
+            "Deploying containerized applications",
+            "Migrating to containers",
+            "Modernizing applications"
+          ],
+          "when_not_applicable": [
+            "Already using AKS successfully",
+            "Strong Kubernetes team and investment"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Azure Container Apps",
+            "confidence": 0.85,
+            "reason": "Default choice for most containerized workloads - serverless with low ops overhead",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Serverless (pay per use, scale to zero)",
+                "Zero infrastructure management",
+                "KEDA autoscaling built-in",
+                "Dapr integration for microservices patterns",
+                "Managed ingress and certificates",
+                "Simple deployment model",
+                "Fast time-to-production"
+              ],
+              "cons": [
+                "Less control than full Kubernetes",
+                "No Windows containers support",
+                "Limited Kubernetes features available",
+                "Can't use Kubernetes-specific tooling",
+                "Managed service (can't customize control plane)"
+              ]
+            },
+            "context_requirements": [
+              "Microservices architectures",
+              "Event-driven containers",
+              "APIs and web applications",
+              "Background processing",
+              "Want minimal ops overhead",
+              "Don't need full Kubernetes features"
+            ]
+          },
+          {
+            "name": "Azure Kubernetes Service (AKS)",
+            "confidence": 0.75,
+            "reason": "Use when need full Kubernetes control or advanced features",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Full Kubernetes features and ecosystem",
+                "Service mesh support (Istio, Linkerd)",
+                "Windows container support",
+                "Advanced networking options",
+                "Complete control over configuration",
+                "Kubernetes-specific tooling compatibility"
+              ],
+              "cons": [
+                "High operational overhead (cluster management, upgrades, patching)",
+                "Requires Kubernetes expertise",
+                "More complex security configuration",
+                "Higher cost (always-on nodes)",
+                "Longer setup and learning curve"
+              ]
+            },
+            "context_requirements": [
+              "Need advanced Kubernetes features",
+              "Service mesh requirements",
+              "Windows containers needed",
+              "Existing Kubernetes investments and expertise",
+              "Complex networking requirements",
+              "Kubernetes-specific tooling required"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Default → Container Apps (80% of use cases)",
+          "Use AKS when: need service mesh, Windows containers, advanced K8s features, existing K8s team",
+          "Start with Container Apps, migrate to AKS only if you hit limitations",
+          "Operational capacity: low → Container Apps, high → AKS",
+          "Team expertise: new to containers → Container Apps, Kubernetes experts → AKS"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "data": {
+      "cosmos_db_evaluation": {
+        "title": "When to Use Cosmos DB vs Azure SQL Database",
+        "description": "Choose database based on actual workload requirements, not aspirational global scale",
+        "confidence_score": 0.8,
+        "rationale": "Cosmos DB is powerful for global distribution and multi-model capabilities, but most applications don't need them and end up paying significant cost premium. Cosmos DB pricing at ~$24/month per 100 RU/s is expensive compared to SQL Database starting at ~$5/month. Cosmos DB is optimized for specific scenarios: global distribution with low latency worldwide, flexible schema changes, massive scale (>100 million ops/day)",
+        "source": "Azure Database Documentation + Pluralsight Training",
+
+        "context": {
+          "when_applicable": [
+            "Database selection for new projects",
+            "Evaluating database costs",
+            "Global application planning"
+          ],
+          "when_not_applicable": [
+            "Cosmos DB already in production with proper use case",
+            "Regulatory requirement for specific database"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Azure SQL Database",
+            "confidence": 0.85,
+            "reason": "Best default for most CRUD applications - cost-effective and feature-rich",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Lower cost (starting ~$5/month)",
+                "Strong consistency by default",
+                "Rich T-SQL capabilities",
+                "Mature ecosystem and tools",
+                "Easy migration from SQL Server",
+                "Azure Hybrid Benefit eligible (save up to 55%)",
+                "Familiar to most developers"
+              ],
+              "cons": [
+                "Single region (multi-region requires additional setup)",
+                "Fixed schema (migrations required for changes)",
+                "Vertical scaling (limited to max SKU size)",
+                "Not optimized for key-value patterns"
+              ]
+            },
+            "context_requirements": [
+              "Regional applications (not global)",
+              "Relational data model fits well",
+              "Strong consistency required",
+              "Predictable schema",
+              "< 1 million requests/day",
+              "Budget-conscious",
+              "Team familiar with SQL Server"
+            ]
+          },
+          {
+            "name": "Cosmos DB",
+            "confidence": 0.75,
+            "reason": "Use when you have specific global distribution or massive scale needs",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Global distribution with < 10ms latency worldwide",
+                "Multi-region write capability",
+                "Flexible schema (schema-less)",
+                "Massive scale (millions of ops/second)",
+                "Multiple consistency levels (5 options)",
+                "Multiple APIs (SQL, MongoDB, Cassandra, Gremlin, Table)"
+              ],
+              "cons": [
+                "Higher cost (~$24/month per 100 RU/s minimum)",
+                "Data processing charges on top",
+                "Eventual consistency by default (strong costs more)",
+                "Learning curve for RU planning",
+                "More complex cost modeling"
+              ]
+            },
+            "context_requirements": [
+              "Global application requiring < 10ms latency in multiple regions",
+              "Truly flexible schema requirements (not just 'might change someday')",
+              "Massive scale (> 100 million ops/day)",
+              "IoT/telemetry time-series data",
+              "Gaming leaderboards or real-time personalization",
+              "Multi-region write required"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Default → Azure SQL Database (for most apps)",
+          "Use Cosmos DB when: global < 10ms latency needed, truly flexible schema, massive scale, IoT/telemetry",
+          "Don't use Cosmos DB for: regional apps, predictable schemas, < 1M requests/day, strong consistency without compromise, limited budget",
+          "Cost comparison: SQL DB can be 5-10x cheaper for similar workloads without global distribution needs"
+        ],
+
+        "presentChoice": true
+      }
+    },
+
+    "compute": {
+      "functions_cold_start": {
+        "title": "Azure Functions Consumption vs Premium Plan",
+        "description": "Choose Functions plan based on latency requirements and traffic patterns",
+        "confidence_score": 0.9,
+        "rationale": "Consumption plan cold starts can take 3-10+ seconds depending on language and dependencies. While warm instances respond in milliseconds, the unpredictability of cold starts creates poor user experience. Premium plan eliminates cold starts with pre-warmed instances. Container Apps with minimum replica configuration also avoids cold starts",
+        "source": "Azure Functions Documentation + Pluralsight Training",
+
+        "context": {
+          "when_applicable": [
+            "Deploying Azure Functions",
+            "User-facing APIs or latency-sensitive workloads",
+            "Background processing applications"
+          ],
+          "when_not_applicable": [
+            "Not using Azure Functions (using App Service or Container Apps)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Consumption Plan",
+            "confidence": 0.85,
+            "reason": "Best for background processing, async workloads, cost optimization",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Pay per execution (very cost-effective)",
+                "Auto-scale to zero (no cost when idle)",
+                "Auto-scale to thousands of instances",
+                "Simple pricing model",
+                "Generous free tier (1M executions/month)"
+              ],
+              "cons": [
+                "Cold start delays (3-10+ seconds)",
+                "Unpredictable latency",
+                "200-second timeout limit",
+                "No VNet integration",
+                "Poor for user-facing workloads"
+              ]
+            },
+            "context_requirements": [
+              "Background processing (queues, blobs)",
+              "Scheduled tasks (timers)",
+              "Infrequent webhooks",
+              "Cost-optimized async workloads",
+              "Latency not critical (seconds acceptable)"
+            ]
+          },
+          {
+            "name": "Premium Plan",
+            "confidence": 0.9,
+            "reason": "Best for user-facing APIs and consistent performance needs",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "No cold starts (pre-warmed instances)",
+                "Consistent sub-second performance",
+                "VNet integration",
+                "Unlimited timeout",
+                "Better for user-facing workloads"
+              ],
+              "cons": [
+                "Higher cost (~$170/month minimum)",
+                "Always-on cost (even when idle)",
+                "More expensive than App Service for always-on workloads"
+              ]
+            },
+            "context_requirements": [
+              "User-facing APIs",
+              "Real-time processing",
+              "Consistent performance requirements",
+              "VNet integration needed",
+              "Latency must be sub-second and predictable"
+            ]
+          },
+          {
+            "name": "Dedicated (App Service Plan)",
+            "confidence": 0.75,
+            "reason": "Use when Functions run continuously and predictable hourly cost preferred",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Predictable hourly cost",
+                "No cold starts",
+                "Can share with App Services",
+                "Existing App Service Plan can be reused"
+              ],
+              "cons": [
+                "Pay for capacity, not execution",
+                "Manual scaling configuration",
+                "Less cost-effective than Consumption for intermittent workloads"
+              ]
+            },
+            "context_requirements": [
+              "Functions run continuously (always-on)",
+              "Already have App Service Plan with capacity",
+              "Predictable cost model preferred",
+              "VNet integration needed but Premium too expensive"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Background/async processing → Consumption Plan",
+          "User-facing APIs → Premium Plan or Container Apps",
+          "Consistent performance required → Premium Plan",
+          "Cost-optimized + latency not critical → Consumption Plan",
+          "Always-on workloads + predictable cost → Dedicated (App Service Plan)",
+          "VNet integration needed → Premium or Dedicated"
+        ],
+
+        "presentChoice": false
+      }
+    },
+
+    "azure_databases": {
+      "database_technology_selection": {
+        "title": "Choosing Between SQL Server and PostgreSQL in Azure",
+        "description": "Select appropriate database technology based on licensing, features, expertise, and cost considerations",
+        "confidence_score": 0.92,
+        "rationale": "SQL Server offers Microsoft ecosystem integration and AHUB savings, while PostgreSQL provides open-source flexibility and lower TCO. Choice depends on existing investment, licensing, team expertise, and application requirements.",
+        "source": "Microsoft Azure Database Comparison Documentation and Cost Analysis",
+
+        "context": {
+          "when_applicable": [
+            "New application development requiring relational database",
+            "Migrating existing database to Azure",
+            "Choosing database for microservices",
+            "Cost optimization of database spending",
+            "Evaluating open-source vs commercial databases"
+          ],
+          "when_not_applicable": [
+            "NoSQL requirements (use CosmosDB)",
+            "Pure key-value storage (use Redis, Table Storage)",
+            "Existing database platform mandated by organization",
+            "Third-party application with specific database requirement"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "SQL Server (Azure SQL Database or Managed Instance)",
+            "confidence": 0.95,
+            "reason": "Best for existing SQL Server applications and Microsoft ecosystem integration",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Near 100% compatibility with on-premises SQL Server (Managed Instance)",
+                "Seamless .NET and Microsoft ecosystem integration",
+                "Enterprise BI tools (Power BI, SSRS, SSAS) native support",
+                "Azure Hybrid Benefit saves up to 55% for customers with SA",
+                "Extensive Microsoft support and documentation",
+                "SQL Server-specific features (CLR, Service Broker, Always Encrypted)",
+                "Familiar T-SQL for existing SQL Server teams"
+              ],
+              "cons": [
+                "Higher cost without Azure Hybrid Benefit ($2,400/month vs $1,200/month for 8vCore HA)",
+                "Commercial licensing required (per-core)",
+                "Limited extensibility compared to PostgreSQL",
+                "Some advanced SQL features require Business Critical tier",
+                "Cross-database queries only in Managed Instance (not SQL Database)"
+              ]
+            },
+            "context_requirements": [
+              "Existing SQL Server applications or expertise",
+              "Microsoft ecosystem (.NET, Azure AD, Power BI)",
+              "SQL Server licenses with Software Assurance (for AHUB)",
+              "Need SQL Server-specific features (CLR, Service Broker)",
+              "Enterprise BI requirements"
+            ]
+          },
+          {
+            "name": "PostgreSQL (Flexible Server or Hyperscale)",
+            "confidence": 0.94,
+            "reason": "Best for new applications, open-source preference, and cost optimization",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "30-50% lower cost than SQL Server without AHUB ($1,200 vs $2,400/month for 8vCore HA)",
+                "Open-source with no licensing costs",
+                "Advanced data types (JSONB, arrays, hstore, custom types)",
+                "Excellent extensibility (PostGIS, TimescaleDB, 50+ extensions)",
+                "SQL standards compliance (SQL:2016)",
+                "Hyperscale (Citus) for massive scale and multi-tenant SaaS",
+                "Strong community and ecosystem"
+              ],
+              "cons": [
+                "Team learning curve if coming from SQL Server",
+                "No native .NET tools like SSRS/SSAS (use alternatives)",
+                "Less mature Azure integration than SQL Server",
+                "No superuser access in managed service",
+                "Migration from SQL Server requires code conversion"
+              ]
+            },
+            "context_requirements": [
+              "New cloud-native application development",
+              "Cost optimization priority",
+              "Open-source preference or requirement",
+              "Need advanced data types (JSONB) or extensions (PostGIS)",
+              "Multi-tenant SaaS with 100+ tenants (Hyperscale)",
+              "Team comfortable learning PostgreSQL"
+            ]
+          },
+          {
+            "name": "MySQL (Flexible Server)",
+            "confidence": 0.82,
+            "reason": "Good for LAMP stack and existing MySQL applications",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Open-source with no licensing costs",
+                "Excellent for LAMP/LEMP stack (PHP, Python web apps)",
+                "Simpler to learn and administer than PostgreSQL or SQL Server",
+                "Large community and ecosystem",
+                "Good read performance"
+              ],
+              "cons": [
+                "Weaker SQL standards compliance than PostgreSQL",
+                "Limited advanced features compared to PostgreSQL",
+                "Less sophisticated query optimizer",
+                "Limited JSON support compared to PostgreSQL JSONB"
+              ]
+            },
+            "context_requirements": [
+              "LAMP/LEMP stack web applications",
+              "Existing MySQL applications",
+              "Team expertise in MySQL",
+              "Simplicity prioritized over advanced features"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Existing investment (SQL Server apps/licenses → SQL Server, new apps → PostgreSQL)",
+          "Licensing (Have SQL SA → SQL Server with AHUB, No licenses → PostgreSQL 30-50% cheaper)",
+          "Ecosystem (Microsoft/.NET → SQL Server, Java/Python/Node.js → PostgreSQL)",
+          "Features (CLR/Service Broker → SQL Server, JSONB/PostGIS → PostgreSQL)",
+          "Scale (Single-node < 100GB → any, Massive scale > 100GB → PostgreSQL Hyperscale or SQL Hyperscale)",
+          "Team expertise (SQL Server DBAs → SQL Server initially, No database team → Managed PaaS either)",
+          "Cost (Budget constrained + no AHUB → PostgreSQL, Have AHUB → SQL Server competitive)"
+        ],
+
+        "presentChoice": true
+      },
+
+      "deployment_model_selection": {
+        "title": "Choosing Between PaaS and IaaS for Azure Databases",
+        "description": "Select appropriate deployment model balancing management overhead, control, compatibility, and cost",
+        "confidence_score": 0.94,
+        "rationale": "PaaS (SQL Database, SQL MI, PostgreSQL Flexible) offers minimal management with automatic patching, backups, and HA. IaaS (SQL Server on VM, PostgreSQL on VM) provides full control with self-management. Most workloads benefit from PaaS, with IaaS reserved for specific compatibility or control requirements.",
+        "source": "Microsoft Azure Deployment Model Comparison",
+
+        "context": {
+          "when_applicable": [
+            "Deploying new database to Azure",
+            "Migrating on-premises database to cloud",
+            "Evaluating management overhead vs control",
+            "Choosing between managed service and self-managed"
+          ],
+          "when_not_applicable": [
+            "Organization policy mandates specific deployment model",
+            "Proof of concept or temporary workload (use quickest option)"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "PaaS - SQL Database",
+            "confidence": 0.96,
+            "reason": "Best for modern cloud-native applications with minimal management",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Zero infrastructure management",
+                "Automatic backups (7-35 days retention) and patching",
+                "Built-in high availability (99.99% SLA)",
+                "Serverless tier for intermittent workloads",
+                "Elastic scaling (vertical and horizontal)",
+                "Fastest deployment (minutes)"
+              ],
+              "cons": [
+                "No SQL Server Agent (use Elastic Jobs)",
+                "No cross-database queries",
+                "No CLR assemblies or Service Broker",
+                "Higher cost than VMs without AHUB ($2,400 vs $1,200/month)"
+              ]
+            },
+            "context_requirements": [
+              "Modern cloud-native applications",
+              "Don't need SQL Server Agent or cross-database queries",
+              "Want automatic scaling and management",
+              "Microservices or SaaS applications"
+            ]
+          },
+          {
+            "name": "PaaS - SQL Managed Instance",
+            "confidence": 0.94,
+            "reason": "Best for lift-and-shift SQL Server migrations with near 100% compatibility",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Near 100% SQL Server compatibility",
+                "SQL Server Agent, cross-database queries, CLR, Service Broker",
+                "Automatic backups and patching",
+                "Built-in Always On HA (99.99% SLA)",
+                "Minimal code changes from on-premises"
+              ],
+              "cons": [
+                "Requires VNet integration (more complex networking)",
+                "Higher cost than SQL Database ($2,800 vs $2,400/month for 8vCore)",
+                "Instance startup time (hours for initial provision)",
+                "Cannot change instance collation after creation"
+              ]
+            },
+            "context_requirements": [
+              "Migrating SQL Server applications",
+              "Need cross-database queries or SQL Server Agent",
+              "VNet integration acceptable",
+              "Want PaaS benefits with high compatibility"
+            ]
+          },
+          {
+            "name": "PaaS - PostgreSQL Flexible Server",
+            "confidence": 0.95,
+            "reason": "Best for PostgreSQL workloads with fully managed service",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Zero infrastructure management",
+                "Automatic backups (7-35 days) and patching",
+                "Zone-redundant HA (99.99% SLA)",
+                "Built-in PgBouncer connection pooling",
+                "Read replicas (up to 5)",
+                "50+ extensions (PostGIS, TimescaleDB, pg_cron)",
+                "Lower cost than SQL Server ($1,200 vs $2,400/month)"
+              ],
+              "cons": [
+                "No superuser access",
+                "Cannot modify postgresql.conf directly (use server parameters)",
+                "Some extensions not available (security restrictions)"
+              ]
+            },
+            "context_requirements": [
+              "PostgreSQL 11-16 applications",
+              "Don't need superuser access",
+              "Want fully managed PostgreSQL",
+              "Need high availability"
+            ]
+          },
+          {
+            "name": "IaaS - SQL Server on Azure VM",
+            "confidence": 0.82,
+            "reason": "Best when need full SQL Server control or specific requirements",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "100% SQL Server compatibility (any version 2008-2022)",
+                "Full OS and SQL Server control",
+                "Any SQL Server feature supported",
+                "Custom configurations and optimizations",
+                "Lower compute cost ($800 vs $2,400/month without AHUB)",
+                "Azure Hybrid Benefit saves up to 55%"
+              ],
+              "cons": [
+                "Manual patching and backup configuration",
+                "Self-managed HA (configure Always On AG or FCI)",
+                "More management overhead (OS + SQL Server)",
+                "Longer deployment time",
+                "Need database and OS administration expertise"
+              ]
+            },
+            "context_requirements": [
+              "Need specific SQL Server version or full features",
+              "Require OS-level access",
+              "Third-party applications with SQL Server dependencies",
+              "Custom configurations required",
+              "Team has SQL Server + Windows administration expertise"
+            ]
+          },
+          {
+            "name": "IaaS - PostgreSQL on Azure VM",
+            "confidence": 0.78,
+            "reason": "Only when need superuser access or specific PostgreSQL configuration",
+            "severity": "discouraged",
+            "tradeoffs": {
+              "pros": [
+                "Full PostgreSQL control (any version)",
+                "Superuser access",
+                "Any extension or configuration",
+                "Custom optimizations"
+              ],
+              "cons": [
+                "Manual patching, backups, HA configuration",
+                "More management overhead",
+                "Higher operational cost (time and expertise)",
+                "No built-in PgBouncer or managed read replicas"
+              ]
+            },
+            "context_requirements": [
+              "Need superuser access",
+              "Specific PostgreSQL version or extension not in Flexible Server",
+              "Custom PostgreSQL configurations",
+              "Team has PostgreSQL + Linux administration expertise"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Management overhead (Want minimal → PaaS, Need full control → IaaS)",
+          "Compatibility (SQL Server features needed → SQL MI or VM, PostgreSQL standard → Flexible Server)",
+          "Expertise (Limited database team → PaaS, Experienced DBAs → can use IaaS)",
+          "Deployment speed (Fast → PaaS minutes, Custom → IaaS hours)",
+          "Cost with AHUB (Have SA → SQL VM competitive, No SA → PostgreSQL Flexible Server cheaper)",
+          "Features needed (SQL Agent/cross-DB → SQL MI, Superuser → VM, Standard features → PaaS)"
+        ],
+
+        "presentChoice": false
+      }
+    }
+  }
+}

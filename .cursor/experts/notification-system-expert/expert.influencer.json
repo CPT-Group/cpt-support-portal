@@ -1,0 +1,88 @@
+{
+  "name": "notification-system-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Architectural opinions for notification system implementation in React PWA applications",
+  "confidence_level": 88,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "opinions": {
+    "notification_type_selection": {
+      "title": "Which Notification Types to Implement",
+      "description": "Should app implement toast, push, in-app, or all three notification types?",
+      "confidence_score": 0.88,
+      "rationale": "Different notification types serve different purposes. Toast for immediate feedback, push for engagement when offline, in-app for persistent notifications. Implementation complexity vs user value must be balanced.",
+      "context": {
+        "when_applicable": "All React applications with user feedback requirements",
+        "when_not_applicable": "Read-only applications with no user actions"
+      },
+      "options": [
+        {
+          "name": "Toast + In-App (Recommended for Internal Tools)",
+          "description": "Implement toast for immediate feedback and in-app notification center for history",
+          "pros": [
+            "Toast provides instant feedback",
+            "In-app center provides persistent history",
+            "No push permission complexity",
+            "Works entirely in-app",
+            "Lower implementation cost than push"
+          ],
+          "cons": [
+            "No notifications when app is closed",
+            "No OS-level engagement"
+          ],
+          "use_when": "Internal tools where users are actively using the app"
+        },
+        {
+          "name": "Toast + Push + In-App (Recommended for Customer-Facing)",
+          "description": "Full notification system with all three types",
+          "pros": [
+            "Complete notification coverage",
+            "Engagement when app closed (push)",
+            "Immediate feedback (toast)",
+            "Persistent history (in-app)",
+            "Best user experience"
+          ],
+          "cons": [
+            "High implementation complexity",
+            "Requires backend push server",
+            "Push permission friction",
+            "More maintenance overhead"
+          ],
+          "use_when": "Customer-facing apps where offline engagement is critical"
+        },
+        {
+          "name": "Toast Only",
+          "description": "Simple toast notifications only",
+          "pros": [
+            "Simplest implementation",
+            "No permission requests",
+            "No backend required",
+            "Fast to implement"
+          ],
+          "cons": [
+            "No notification history",
+            "No offline engagement",
+            "Users might miss important notifications"
+          ],
+          "use_when": "Simple apps with low notification frequency"
+        }
+      ],
+      "decision_factors": [
+        "Is offline engagement important?",
+        "Do users need notification history?",
+        "How often do notifications occur?",
+        "Internal vs customer-facing app?"
+      ],
+      "presentChoice": true
+    }
+  }
+}

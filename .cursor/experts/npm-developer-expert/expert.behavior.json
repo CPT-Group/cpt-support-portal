@@ -1,0 +1,373 @@
+{
+  "name": "npm-developer-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive npm (Node Package Manager) expert covering package management, package.json, semantic versioning, npm scripts, workspaces, npx, scoped packages, private registries, publishing, security auditing, and npm ecosystem best practices",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-01-24",
+    "lastUpdated": "2025-01-24",
+    "author": "AI Expert System",
+    "status": "active",
+    "library_version": "npm latest",
+    "source": "npmjs.com and npm documentation"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "npm Official Website (https://www.npmjs.com/)",
+      "npm Documentation (https://docs.npmjs.com/)",
+      "npm CLI Documentation",
+      "package.json Specification"
+    ],
+    "version_info": "npm (Node Package Manager) - latest stable version"
+  },
+
+  "triggers": {
+    "keywords": [
+      "npm",
+      "node package manager",
+      "package.json",
+      "npm install",
+      "npm publish",
+      "npm script",
+      "semver",
+      "semantic versioning",
+      "package-lock.json",
+      "npm workspace",
+      "npx",
+      "scoped package",
+      "npm registry",
+      "npm audit",
+      "devDependencies",
+      "dependencies",
+      "peerDependencies",
+      "npm link",
+      "npm run",
+      "npm test",
+      "npm start",
+      "npm cache"
+    ],
+    "phrases": [
+      "npm package",
+      "install npm package",
+      "npm dependencies",
+      "package manager",
+      "npm registry",
+      "private npm package",
+      "npm organization",
+      "npm workspace",
+      "monorepo npm",
+      "npm security",
+      "npm audit",
+      "publish npm package"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate package.json configurations",
+      "Explain npm install commands and flags",
+      "Show npm script configuration",
+      "Explain semantic versioning (semver) and version ranges",
+      "Demonstrate npm workspace setup for monorepos",
+      "Show npx usage for running packages",
+      "Configure scoped packages and private registries",
+      "Explain package publishing workflow",
+      "Demonstrate npm security auditing",
+      "Show npm lifecycle scripts",
+      "Explain package-lock.json purpose",
+      "Configure npm with .npmrc files",
+      "Show npm link for local development",
+      "Demonstrate dependency management strategies",
+      "Explain npm cache and troubleshooting"
+    ],
+    "cannot_do": [
+      "Recommend specific packages (opinion-based)",
+      "Choose package versions (depends on project requirements)",
+      "Suggest package names (must be available and follow naming rules)"
+    ]
+  },
+
+  "facts": {
+    "overview": {
+      "what_is_npm": {
+        "statement": "npm (Node Package Manager) is the default package manager for Node.js and the world's largest software registry. npm consists of three components: the website (npmjs.com), the Command Line Interface (CLI), and the registry. npm enables sharing and reusing JavaScript code.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm manages JavaScript packages, their dependencies, and provides tools for package installation, publishing, and versioning"
+      },
+      "npm_components": {
+        "statement": "npm consists of: (1) npm registry - public registry hosting millions of packages, (2) npm CLI - command-line tool for interacting with npm, (3) npm website - web interface for browsing packages and managing accounts.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm install express uses npm CLI to download express package from npm registry"
+      }
+    },
+    "package_json": {
+      "structure": {
+        "statement": "package.json is the manifest file for npm packages. Required fields: name (package name, lowercase, no spaces, can use scopes like @company/package), version (semantic version x.y.z). Important fields: description, main (entry point), scripts, dependencies, devDependencies, keywords, author, license, repository, bugs, homepage.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "{\"name\": \"my-package\", \"version\": \"1.0.0\", \"main\": \"index.js\", \"scripts\": {\"start\": \"node index.js\"}, \"dependencies\": {\"express\": \"^4.18.0\"}}"
+      },
+      "dependency_types": {
+        "statement": "package.json has multiple dependency types: dependencies (runtime dependencies required for package to run), devDependencies (development dependencies, not installed in production), peerDependencies (expected host dependencies, user must install), optionalDependencies (optional, failures don't break install), bundledDependencies (bundled with package).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "dependencies: { \"express\": \"^4.18.0\" }, devDependencies: { \"jest\": \"^29.0.0\" }, peerDependencies: { \"react\": \">= 16.8.0\" }"
+      },
+      "files_field": {
+        "statement": "files field in package.json specifies which files to include in published package (whitelist). .npmignore file (like .gitignore) specifies files to exclude (blacklist). If files not specified, package includes all files except those in .npmignore or default ignores.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "\"files\": [\"lib\", \"README.md\", \"LICENSE\"] includes only lib directory, README, and LICENSE in published package"
+      }
+    },
+    "installation": {
+      "local_installation": {
+        "statement": "npm install <package-name> installs package locally in node_modules folder. Adds entry to dependencies in package.json. Use --save-dev or -D flag to add to devDependencies instead.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm install express --save installs express and adds to dependencies. npm install jest --save-dev adds to devDependencies"
+      },
+      "global_installation": {
+        "statement": "npm install -g <package-name> installs package globally (accessible from command line). Global packages are typically CLI tools. Global install location varies by OS.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm install -g typescript installs TypeScript compiler globally, making tsc command available system-wide"
+      },
+      "version_specification": {
+        "statement": "npm install supports version specification: npm install <package>@<version> (specific version), npm install <package>@latest (latest version), npm install <package>@^4.18.0 (version range).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm install express@4.18.2 installs exact version. npm install express@^4.18.0 installs compatible 4.x version"
+      },
+      "package_lock": {
+        "statement": "package-lock.json locks exact dependency versions for reproducible installs. Automatically generated on npm install. Should be committed to version control. Locked versions take precedence over package.json version ranges.",
+        "confidence": <|uniquepaddingtoken68|>": "npm official documentation",
+        "example": "Running npm install uses package-lock.json to install exact same versions across different machines and environments"
+      }
+    },
+    "semantic_versioning": {
+      "semver_format": {
+        "statement": "Semantic versioning (semver) uses MAJOR.MINOR.PATCH format. MAJOR version for breaking changes (incompatible API), MINOR version for new features (backward compatible), PATCH version for bug fixes (backward compatible).",
+        "confidence": 1.0,
+        "source": "Semver specification",
+        "example": "1.0.0 (MAJOR.MINOR.PATCH). Breaking change: 2.0.0. New feature: 1.1.0. Bug fix: 1.0.1"
+      },
+      "version_ranges": {
+        "statement": "npm supports version ranges: ^4.18.0 (compatible with 4.x, >=4.18.0 <5.0.0, allows MINOR and PATCH updates), ~4.17.21 (compatible with 4.17.x, >=4.17.21 <4.18.0, allows only PATCH updates), 4.18.0 (exact version), >=3.0.0 <4.0.0 (range), * (any version).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "^4.18.0 allows 4.18.1, 4.19.0, but not 5.0.0. ~4.17.21 allows 4.17.22 but not 4.18.0"
+      }
+    },
+    "scripts": {
+      "npm_run": {
+        "statement": "npm run <script-name> executes scripts defined in package.json scripts field. npm start, npm test, npm stop have shortcuts (can run without 'run'). Scripts run in node_modules/.bin in PATH.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "\"scripts\": {\"start\": \"node server.js\", \"test\": \"jest\"} can be run with npm start and npm test"
+      },
+      "lifecycle_scripts": {
+        "statement": "npm lifecycle scripts run automatically: prepublishOnly (before npm publish), preinstall/postinstall (before/after install), prepack/postpack (before/after tarball creation), prepublishOnly (before publish only, not before npm install).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "\"scripts\": {\"prepublishOnly\": \"npm test && npm run build\"} runs tests and build before publishing"
+      },
+      "script_precedence": {
+        "statement": "Scripts with 'pre' and 'post' prefixes run automatically: pre<name> runs before <name>, post<name> runs after <name>. Example: pretest runs before test, posttest runs after test.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "\"pretest\": \"echo 'before test'\", \"test\": \"jest\", \"posttest\": \"echo 'after test'\" runs pretest, test, posttest in sequence"
+      }
+    },
+    "workspaces": {
+      "workspace_setup": {
+        "statement": "npm workspaces (npm 7+) allow managing multiple packages in monorepo. Define workspaces array in root package.json. All workspace packages share single node_modules at root with hoisted dependencies.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "\"workspaces\": [\"packages/*\", \"apps/*\"] manages all packages in packages/ and apps/ directories"
+      },
+      "workspace_commands": {
+        "statement": "npm commands support --workspaces flag to run across all workspaces, or --workspace=<name> to run in specific workspace. npm install installs dependencies for all workspaces.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm run test --workspaces runs test script in all workspaces. npm run build --workspace=packages/core runs build only in packages/core"
+      }
+    },
+    "npx": {
+      "npx_usage": {
+        "statement": "npx (npm package executor) runs packages without installing globally. Downloads package if not found, runs it, then deletes. Useful for one-time commands and trying packages without permanent install.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npx create-react-app my-app runs create-react-app without installing globally. npx jest runs jest from node_modules if installed locally"
+      },
+      "npx_execution": {
+        "statement": "npx searches for executable: (1) local node_modules/.bin, (2) installed globally, (3) downloads temporarily if not found. Can execute local scripts with npx ./script.js.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npx eslint . runs eslint from local node_modules. npx -p <package> <command> ensures package is available before running command"
+      }
+    },
+    "publishing": {
+      "publish_process": {
+        "statement": "npm publish publishes package to npm registry. Requires: (1) npm login to authenticate, (2) package.json with name and version, (3) valid package structure. Publishes to current registry (public or private).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm login then npm publish publishes package to npm registry with version from package.json"
+      },
+      "publish_tags": {
+        "statement": "npm publish --tag <tag> publishes with specific tag. Default tag is 'latest'. Tags allow multiple versions: npm publish --tag beta publishes as beta tag, users install with npm install <package>@beta.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm publish --tag beta publishes version as beta tag. npm install my-package@beta installs beta version"
+      },
+      "unpublish": {
+        "statement": "npm unpublish <package-name>@<version> removes package version from registry. Can only unpublish within 72 hours of publishing unless using --force (requires support interaction).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm unpublish my-package@1.0.0 removes version 1.0.0 from registry (within 72 hours)"
+      }
+    },
+    "version_management": {
+      "npm_version": {
+        "statement": "npm version patch/minor/major bumps version in package.json and creates git tag. npm version patch (1.0.0 -> 1.0.1), npm version minor (1.0.0 -> 1.1.0), npm version major (1.0.0 -> 2.0.0).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm version patch bumps patch version, commits package.json, creates git tag v1.0.1"
+      },
+      "version_flags": {
+        "statement": "npm version supports flags: -m \"message\" (commit message), --no-git-tag-version (skip git tag), --preid (prerelease identifier for prerelease versions).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm version patch -m \"Version %s\" creates commit with message 'Version 1.0.1'"
+      }
+    },
+    "scoped_packages": {
+      "scope_syntax": {
+        "statement": "Scoped packages use @scope/package-name syntax. Scopes are typically organization names. Scoped packages can be public or private. Publishing requires --access public for public scoped packages (or configuring in package.json).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "@mycompany/utils is scoped package. npm publish --access public publishes public scoped package"
+      },
+      "scope_registry": {
+        "statement": "Scoped packages can use different registries per scope. Configure with npm config set @scope:registry <url>. Allows mixing public npm registry with private registries.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm config set @mycompany:registry https://npm.pkg.github.com/ makes @mycompany packages install from GitHub Packages"
+      }
+    },
+    "private_registries": {
+      "registry_types": {
+        "statement": "npm supports private registries: npm organizations (built-in private packages), self-hosted (npm Enterprise), third-party (GitHub Packages, Azure Artifacts, JFrog Artifactory). Configure with .npmrc or npm config.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "Private packages on npm require paid subscription. GitHub Packages provides private packages with GitHub integration"
+      },
+      "npm_organizations": {
+        "statement": "npm organizations provide team management, private scoped packages, unified billing, and permissions control. Members can publish packages under organization scope.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "@myorg/package can be private package accessible only to organization members"
+      }
+    },
+    "security": {
+      "npm_audit": {
+        "statement": "npm audit scans dependencies for known vulnerabilities. npm audit shows vulnerabilities, npm audit fix automatically fixes non-breaking vulnerabilities, npm audit fix --force attempts breaking changes (use carefully).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm audit lists vulnerabilities. npm audit fix updates packages to fix vulnerabilities without breaking changes"
+      },
+      "audit_reports": {
+        "statement": "npm audit provides vulnerability reports with severity (low, moderate, high, critical), package affected, vulnerability description, and recommended fix.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm audit shows: Package: lodash, Vulnerability: Prototype Pollution, Severity: High, Recommendation: Update to 4.17.21+"
+      }
+    },
+    "configuration": {
+      "npmrc_files": {
+        "statement": "npm configuration uses .npmrc files in priority order: (1) project .npmrc, (2) user .npmrc (~/.npmrc), (3) global .npmrc, (4) npm's built-in .npmrc. Settings in higher priority override lower priority.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "Project .npmrc: registry=https://registry.npmjs.org/. User .npmrc: save-exact=true"
+      },
+      "config_commands": {
+        "statement": "npm config set <key> <value> sets configuration. npm config get <key> reads configuration. npm config list shows all configuration. npm config edit opens .npmrc in editor.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm config set registry https://registry.npmjs.org/. npm config set save-exact true"
+      },
+      "environment_variables": {
+        "statement": "npm recognizes NPM_CONFIG_* environment variables. NODE_ENV affects npm behavior (production mode skips devDependencies).",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "NPM_CONFIG_REGISTRY=https://custom.registry.com npm install uses custom registry from environment variable"
+      }
+    },
+    "cache": {
+      "cache_management": {
+        "statement": "npm cache stores downloaded packages. npm cache clean --force clears cache. npm cache verify checks cache integrity. Cache location: npm config get cache.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm cache clean --force clears all cached packages. Useful for troubleshooting installation issues"
+      }
+    },
+    "package_management": {
+      "list_packages": {
+        "statement": "npm list shows installed packages and their dependency tree. npm list --depth=0 shows only top-level packages. npm list -g shows globally installed packages.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm list displays dependency tree. npm list express shows express and its dependencies"
+      },
+      "outdated_packages": {
+        "statement": "npm outdated shows packages with newer versions available. Compares installed versions with versions in package.json ranges and latest versions in registry.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm outdated shows: Package: express, Current: 4.18.0, Wanted: 4.18.2, Latest: 4.19.0"
+      },
+      "update_packages": {
+        "statement": "npm update updates packages within version ranges in package.json. npm install <package>@latest installs latest version. Updates package-lock.json with new versions.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm update updates all packages to latest compatible versions. npm install express@latest installs latest express version regardless of range"
+      },
+      "uninstall": {
+        "statement": "npm uninstall <package-name> removes package from node_modules and package.json. Use --save or --save-dev to specify dependency type removal.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm uninstall express removes express from node_modules and dependencies. npm uninstall jest --save-dev removes from devDependencies"
+      }
+    },
+    "npm_link": {
+      "linking_packages": {
+        "statement": "npm link creates symlink for local package development. In package directory: npm link creates global link. In consuming project: npm link <package-name> links local package. npm unlink removes link.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "cd my-package && npm link, then cd ../my-app && npm link my-package allows testing my-package changes in my-app without publishing"
+      }
+    },
+    "package_search": {
+      "search_commands": {
+        "statement": "npm search <query> searches npm registry. npm view <package-name> shows package information. npm view <package-name> versions shows all versions. npm view <package-name> readme shows README.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm search react router finds packages matching query. npm view express shows express package details"
+      }
+    },
+    "package_bundling": {
+      "npm_pack": {
+        "statement": "npm pack creates tarball (.tgz file) of package. npm pack --dry-run shows what would be included without creating file. Useful for testing package contents before publishing.",
+        "confidence": 1.0,
+        "source": "npm official documentation",
+        "example": "npm pack creates my-package-1.0.0.tgz. npm install ./my-package-1.0.0.tgz installs from tarball"
+      }
+    }
+  }
+}
+

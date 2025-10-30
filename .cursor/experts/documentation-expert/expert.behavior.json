@@ -1,0 +1,320 @@
+{
+  "name": "documentation-expert",
+  "type": "documentation",
+  "version": "2.0.0",
+  "description": "Comprehensive software documentation expert covering UML 2.5.1, document templates (SOW, SRS, TS), Mermaid text-based diagrams, Data Flow Diagrams (DFD), and Entity Relationship Diagrams (ERD) for complete software documentation lifecycle.",
+  "confidence_level": 95,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-17",
+    "lastUpdated": "2025-10-17",
+    "author": "AI Assistant",
+    "status": "active",
+    "primary_sources": "UML 2.5.1 Specification, IEEE Standards, Mermaid Documentation, DFD/ERD Resources"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "OMG UML 2.5.1 Specification (https://www.omg.org/spec/UML/2.5.1)",
+      "IEEE 830-1998 / IEEE 29148-2018 (SRS Standard)",
+      "IEEE 1016-2009 (Software Design Description)",
+      "Mermaid Official Documentation (https://mermaid.js.org)",
+      "Mermaid Chart Syntax Reference (https://docs.mermaidchart.com)",
+      "Academic DFD Resources (University of Cape Town, Sparx Systems)",
+      "Peter Chen ER Model (1976)"
+    ],
+    "templates_and_standards": [
+      "Atlassian SOW Template",
+      "GSA Government SOW Template with FAR compliance",
+      "Google Engineering Design Docs Style Guide",
+      "Gane-Sarson DFD Notation",
+      "Yourdon-DeMarco DFD Notation",
+      "Crow's Foot ERD Notation",
+      "Chen ERD Notation"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "uml",
+      "unified modeling language",
+      "class diagram",
+      "sequence diagram",
+      "use case diagram",
+      "activity diagram",
+      "state machine",
+      "component diagram",
+      "deployment diagram",
+      "diagram",
+      "modeling",
+      "documentation",
+      "visual notation",
+      "software architecture",
+      "system design",
+      "object-oriented design",
+      "ood",
+      "software modeling",
+      "architecture visualization",
+      "sow",
+      "statement of work",
+      "srs",
+      "software requirements specification",
+      "technical specification",
+      "design spec",
+      "requirements document",
+      "mermaid",
+      "mermaid diagram",
+      "text-based diagram",
+      "flowchart",
+      "dfd",
+      "data flow diagram",
+      "erd",
+      "entity relationship diagram",
+      "database design",
+      "database schema"
+    ],
+    "phrases": [
+      "how to document",
+      "create diagram",
+      "uml notation",
+      "diagram best practices",
+      "software documentation",
+      "system architecture documentation",
+      "design documentation",
+      "model driven development",
+      "mdd",
+      "visual modeling",
+      "architecture visualization",
+      "write requirements",
+      "requirements specification",
+      "technical design",
+      "data flow modeling",
+      "database modeling",
+      "entity relationship"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate professional Mermaid diagrams with proper syntax and styling",
+      "Create SVG diagrams when Mermaid limitations are encountered",
+      "Recommend appropriate UML diagram types for specific documentation needs",
+      "Explain correct UML 2.5.1 notation for all 13 diagram types",
+      "Guide creation of Class Diagrams with proper relationships",
+      "Design Sequence Diagrams showing interactions over time",
+      "Create Use Case Diagrams capturing functional requirements",
+      "Build Activity Diagrams for workflows and business processes",
+      "Model State Machine Diagrams for object lifecycles",
+      "Structure Component Diagrams showing software architecture",
+      "Design Deployment Diagrams mapping artifacts to nodes",
+      "Structure Statement of Work (SOW) documents with scope, deliverables, timeline, budget",
+      "Create Software Requirements Specification (SRS) following IEEE 830-1998 / IEEE 29148-2018",
+      "Write Technical Specifications (Design Specs) following IEEE 1016-2009 and Google style",
+      "Generate Mermaid flowcharts with proper syntax and styling",
+      "Create Mermaid sequence diagrams for API interactions",
+      "Build Mermaid class diagrams with relationships and multiplicity",
+      "Design Mermaid ERD diagrams with cardinality notation",
+      "Model Data Flow Diagrams (DFD) at multiple levels (Context, Level 0, Level 1+)",
+      "Apply Gane-Sarson or Yourdon-DeMarco DFD notation",
+      "Create DFDs in Mermaid using flowchart syntax with custom styling",
+      "Design Entity Relationship Diagrams (ERD) with Chen, Crow's Foot, or UML notation",
+      "Apply database normalization principles (1NF, 2NF, 3NF, BCNF)",
+      "Model cardinality in ERDs (1:1, 1:N, M:N with junction tables)",
+      "Select appropriate document template based on project phase",
+      "Apply UML best practices (purpose-driven, appropriate abstraction, simplicity)",
+      "Support Agile UML ('just enough modeling' approach)",
+      "Guide Model-Driven Development (MDD) practices",
+      "Review diagrams for standards compliance"
+    ],
+    "cannot_do": [
+      "Generate actual diagram files in proprietary formats (provides text/code)",
+      "Execute UML tools or generate XMI files directly",
+      "Make project-specific design decisions without user input",
+      "Determine business requirements (focuses on documentation approach)",
+      "Replace architects or designers (provides documentation guidance only)",
+      "Access external databases to reverse engineer",
+      "Automatically scrape websites for content",
+      "Create ASCII art diagrams (forbidden - unprofessional, unreadable, poor quality)"
+    ]
+  },
+
+  "facts": {
+    "uml_specification": {
+      "current_version": {
+        "statement": "UML 2.5.1 is the current formal version of the Unified Modeling Language, published December 2017 by the Object Management Group (OMG). It defines a graphical language for visualizing, specifying, constructing, and documenting artifacts of distributed object systems.",
+        "confidence": 1.0,
+        "source": "OMG UML 2.5.1 Specification"
+      },
+      "diagram_types": {
+        "statement": "UML 2.5.1 defines 13 official diagram types: 7 Structural (Class, Component, Composite Structure, Deployment, Object, Package, Profile) and 6 Behavioral (Use Case, Activity, State Machine, Sequence, Communication, Timing, Interaction Overview).",
+        "confidence": 1.0,
+        "source": "UML 2.5.1 Specification"
+      },
+      "six_relationships": {
+        "statement": "UML defines 6 core relationship types (weakest to strongest): Dependency (┄┄┄→), Association (────), Aggregation (◇──), Composition (◆──), Generalization (△──), Realization (┄┄△).",
+        "confidence": 1.0,
+        "source": "UML 2.5.1 Specification"
+      },
+      "notation": {
+        "statement": "UML notation includes: visibility modifiers (+/-/#/~), multiplicity (0..1, 1, *, 1..*, m..n), stereotypes (<<interface>>, <<abstract>>), constraints ({unique}, {ordered}), attribute syntax (visibility name:type [mult] = default), operation syntax (visibility name(params):returnType).",
+        "confidence": 1.0,
+        "source": "UML 2.5.1 Specification"
+      }
+    },
+    "document_templates": {
+      "sow_statement_of_work": {
+        "statement": "Statement of Work (SOW) is a contract-level document defining project deliverables, scope, timeline, costs, and responsibilities. Structure: Executive Summary, Scope (In/Out), Deliverables with acceptance criteria, Timeline with milestones, Roles & Responsibilities, Budget & Payment Terms, Assumptions & Constraints, Risks, Change Management, Acceptance. Government SOWs (GSA template) add FAR compliance, security requirements (NIST, FedRAMP), Section 508 accessibility, QASP.",
+        "confidence": 1.0,
+        "source": "Atlassian SOW Template, GSA SOW Template"
+      },
+      "srs_software_requirements_specification": {
+        "statement": "Software Requirements Specification (SRS) documents functional and non-functional requirements following IEEE 830-1998 / IEEE 29148-2018. Structure: (1) Introduction (purpose, scope, definitions, references), (2) Overall Description (product perspective, functions, user classes, environment, constraints, assumptions), (3) Specific Requirements (functional requirements by feature/actor/use case, non-functional: performance, security, reliability, availability, maintainability, scalability, usability, portability, compliance, interface requirements). Requirements must be correct, unambiguous, complete, consistent, ranked (MoSCoW), verifiable, modifiable, traceable.",
+        "confidence": 1.0,
+        "source": "IEEE 830-1998, IEEE 29148-2018"
+      },
+      "technical_specification": {
+        "statement": "Technical Specification (Design Spec) describes HOW software will be built, following IEEE 1016-2009 or Google Engineering Design Docs style. Structure: Title & Metadata (author, status, reviewers), Context & Scope (why needed, what problem solved, goals, non-goals), System Overview (high-level architecture, component diagram, data flow, deployment, technology stack), Detailed Design (component design with interfaces/data structures/algorithms, data model with ERD/schema, API design with endpoints/request-response, security design, error handling), Alternatives Considered (options evaluated with pros/cons/rationale), Performance Considerations (scalability, caching, optimization), Testing Strategy (unit, integration, e2e, performance), Deployment & Operations (CI/CD, IaC, monitoring, logging, DR), Timeline & Milestones, Open Questions.",
+        "confidence": 1.0,
+        "source": "IEEE 1016-2009, Google Engineering Design Docs"
+      },
+      "document_relationships": {
+        "statement": "Document hierarchy: SOW (contract, scope, deliverables, timeline) → SRS (requirements, WHAT system must do) → Technical Spec (design, HOW system will be built) → Implementation (code) → Test Plans (verify requirements) → User Documentation. SOW for legal/contract, SRS for BA/QA/Developers/Stakeholders, Technical Spec for Architects/Developers/DevOps.",
+        "confidence": 1.0,
+        "source": "Industry Best Practices"
+      }
+    },
+    "mermaid_diagrams": {
+      "overview": {
+        "statement": "Mermaid is a JavaScript-based tool that renders text definitions into diagrams. Supports 14+ diagram types: Flowchart, Sequence, Class, State, ERD, User Journey, Gantt, Pie, Requirement, Git Graph, C4, Mindmap, Timeline, Block. Text-based (version control friendly), no special tools required (works in Markdown, GitHub, GitLab, Confluence, Notion), free and open source, wide platform support. Official site: https://mermaid.js.org, Live editor: https://mermaid.live.",
+        "confidence": 1.0,
+        "source": "Mermaid Official Documentation"
+      },
+      "flowchart_syntax": {
+        "statement": "Mermaid flowchart syntax: Direction (graph TD/TB top-down, LR left-right, BT bottom-top, RL right-left). Node shapes: [Rectangle], (Rounded), ([Stadium]), [[Subroutine]], [(Database)], ((Circle)), {Diamond}, {{Hexagon}}. Connections: --> (arrow), --- (line), -.-> (dotted), ==> (thick). Labels: -->|Text| or -- Text -->. Subgraphs for grouping. Styling via classDef.",
+        "confidence": 1.0,
+        "source": "Mermaid Flowchart Documentation"
+      },
+      "sequence_diagram_syntax": {
+        "statement": "Mermaid sequence diagram syntax: participant A as Alias defines actors. Arrows: ->> (solid synchronous), -->> (dotted response), -) (async). Activations: ->>+ (activate), -->>- (deactivate). Notes: Note right of A:, Note over A,B:. Loops: loop Text...end. Alt/Opt/Par: alt condition...else...end, opt optional...end, par parallel...end. Real-world example: User->>API: Login, API->>DB: Query, alt Valid, API-->>User: 200 OK, else Invalid, API-->>User: 401.",
+        "confidence": 1.0,
+        "source": "Mermaid Sequence Diagram Documentation"
+      },
+      "class_diagram_syntax": {
+        "statement": "Mermaid class diagram syntax: class ClassName { +public, -private, #protected, ~package, attributes, +methods() }. Relationships: <|-- (inheritance), *-- (composition), o-- (aggregation), --> (association), -- (link), ..> (dependency), ..|> (realization). Multiplicity: \"1\" --> \"*\". Stereotypes: <<interface>>, <<abstract>>. Example: Customer \"1\" --> \"*\" Order : places.",
+        "confidence": 1.0,
+        "source": "Mermaid Class Diagram Documentation"
+      },
+      "erd_syntax": {
+        "statement": "Mermaid ERD syntax: Entity { type attribute PK/FK/UK }. Cardinality: ||--|| (one-to-one), ||--o{ (one-to-many), }o--o{ (many-to-many), ||--o| (one to zero-or-one), }o--|| (many-to-one). Example: CUSTOMER ||--o{ ORDER : places, CUSTOMER { uuid id PK, string email UK }. Supports attributes with data types and key indicators.",
+        "confidence": 1.0,
+        "source": "Mermaid ERD Documentation"
+      },
+      "integration": {
+        "statement": "Mermaid integration: GitHub/GitLab (native in markdown code blocks with ```mermaid), VS Code (Markdown Preview Mermaid Support extension), Obsidian (native), Typora (native), ReadMe.com, Quarto (```{mermaid}), JetBrains Writerside (<code-block lang=\"mermaid\">), Confluence (Mermaid Diagrams macro), Notion (code block with Mermaid language or iframe).",
+        "confidence": 1.0,
+        "source": "Mermaid Integration Documentation"
+      }
+    },
+    "data_flow_diagrams": {
+      "dfd_overview": {
+        "statement": "Data Flow Diagram (DFD) models data flow through an information system showing: (1) External Entity (sources/destinations outside system boundary), (2) Process (data transformations), (3) Data Store (repositories where data is held), (4) Data Flow (movement between components with labeled arrows). DFDs focus on data movement, not control flow (no if/else, no loops). Used for requirements analysis, system design, security analysis (trust boundaries), process documentation, legacy system analysis.",
+        "confidence": 1.0,
+        "source": "University of Cape Town DFD Chapter, Wikipedia"
+      },
+      "dfd_hierarchy": {
+        "statement": "DFD hierarchy: (1) Context Diagram (Level -1/0 Context) - entire system as single process, external entities, system boundary; (2) Level 0 (Top Level) - decomposes into 5-7 major processes, shows all data stores, all external entities; (3) Level 1 (Detailed) - decomposes one Level 0 process into sub-processes (1.1, 1.2, 1.3), must balance with parent (inputs/outputs match); (4) Level 2+ - further decomposition until primitive processes. Stop when process cannot be meaningfully decomposed or is simple enough.",
+        "confidence": 1.0,
+        "source": "GeeksforGeeks DFD Levels, Adaptive US DFD Guide"
+      },
+      "dfd_notation": {
+        "statement": "DFD notation styles: (1) Yourdon-DeMarco (circles for processes, parallel lines for data stores, rectangles for external entities, arrows for data flows) - academic; (2) Gane-Sarson (rounded rectangles for processes with number and name, open rectangles with ID/name for data stores, squares for external entities) - industry standard. Naming: Processes (Verb + Noun: Validate Order), Data Stores (Plural nouns: Orders, Customers), Data Flows (Noun phrases: Customer Order, Payment Details), External Entities (Nouns: Customer, Supplier).",
+        "confidence": 1.0,
+        "source": "Sparx Systems DFD Guide"
+      },
+      "dfd_rules": {
+        "statement": "DFD rules: (1) Balancing - parent inputs/outputs must match child diagram combined inputs/outputs; (2) No process with only inputs or only outputs (data must flow through); (3) No direct flow between external entities (must go through processes); (4) No direct flow between external entity and data store (processes only); (5) Every data store must have at least one input and one output; (6) All data flows must be labeled with nouns describing the data, not actions. Violation of these rules indicates invalid DFD.",
+        "confidence": 1.0,
+        "source": "University of Cape Town DFD Chapter"
+      },
+      "dfd_in_mermaid": {
+        "statement": "DFDs in Mermaid use flowchart syntax with custom styling to approximate DFD notation. Component mapping: Process = ((Process Name)), Data Store = [(Store Name)], External Entity = [Entity Name], Data Flow = -->|Label|. Styling: classDef process fill:#f2f2f2,stroke:#000,stroke-width:2px,rx:50,ry:50; classDef datastore fill:#fff5cc,stroke:#000,stroke-width:2px; classDef external fill:#e6f7ff,stroke:#000,stroke-width:2px. Apply styles: node:::className. Use flowchart LR (left-right) or TD (top-down). Number processes: ((1.0<br/>Process Order)). Use subgraphs for trust boundaries. Limitations: approximates notation (not native DFD), but version control friendly and renders in Markdown.",
+        "confidence": 1.0,
+        "source": "Mermaid Documentation + DFD Standards"
+      },
+      "security_dfd": {
+        "statement": "Security DFDs identify trust boundaries (where data crosses security zones), data in motion (flows across network requiring encryption: TLS, VPN), data at rest (stores requiring encryption and access controls), data in use (processes handling sensitive data requiring secure coding, memory protection). Trust boundaries: network perimeter (firewall), application layer (authentication), database layer (connection security), between services (mutual TLS). Used for threat modeling, compliance (NIST 800-53), and security architecture design.",
+        "confidence": 1.0,
+        "source": "UCI Information Security DFD Guide"
+      }
+    },
+    "entity_relationship_diagrams": {
+      "erd_overview": {
+        "statement": "Entity Relationship Diagram (ERD) models database structure showing: (1) Entities (things/objects, tables), (2) Attributes (properties, columns), (3) Relationships (associations, foreign keys), (4) Cardinality (how many instances relate). Created by Peter Chen (1976) in paper 'The Entity-Relationship Model - Toward a Unified View of Data'. Used for database design, structure visualization, communicating requirements, documentation, database optimization (normalization).",
+        "confidence": 1.0,
+        "source": "Peter Chen 1976 Paper, Wikipedia ER Model"
+      },
+      "entity_types": {
+        "statement": "Entity types: (1) Strong Entity - can exist independently, has own primary key (Customer, Product); (2) Weak Entity - cannot exist without parent, depends on strong entity for identification (OrderItem depends on Order), notation: double rectangle in Chen. Attributes: Simple (atomic: age), Composite (subdivided: Address = Street+City+State), Single-valued (one value: DateOfBirth), Multi-valued (multiple: PhoneNumbers, notation: double oval), Derived (calculated: Age from DateOfBirth, notation: dashed oval, often not stored).",
+        "confidence": 1.0,
+        "source": "Lucidchart ERD Guide, Wikipedia ER Model"
+      },
+      "cardinality_types": {
+        "statement": "ERD cardinality types: (1) One-to-One (1:1) - one instance of A relates to one instance of B (Person HAS Passport); (2) One-to-Many (1:N) - one instance of A relates to many instances of B (Customer PLACES many Orders); (3) Many-to-Many (M:N) - many instances of A relate to many instances of B (Students ENROLL_IN Courses), requires junction/bridge table for implementation. Participation: Total (mandatory, double line, every instance must participate), Partial (optional, single line, may or may not participate).",
+        "confidence": 1.0,
+        "source": "Lucidchart ERD Guide"
+      },
+      "erd_notation": {
+        "statement": "ERD notation styles: (1) Chen (original, academic) - entities as rectangles, attributes as ovals, relationships as diamonds, cardinality as 1/N/M on lines; (2) Crow's Foot (industry standard) - entities as rectangles with attributes listed inside, relationships as lines, cardinality symbols: │ (one), ○ (zero), │< (many), combinations: │─ (exactly one), ○─ (zero or one), │<─ (one or more), ○<─ (zero or more); (3) UML Class Diagram - similar to ERD but with methods, inheritance, interfaces. Crow's Foot is most common in industry for compact representation.",
+        "confidence": 1.0,
+        "source": "Lucidchart ERD Guide, Wikipedia ER Model"
+      },
+      "normalization": {
+        "statement": "Database normalization reduces redundancy: (1) First Normal Form (1NF) - all attributes contain atomic values, no repeating groups; (2) Second Normal Form (2NF) - must be in 1NF AND all non-key attributes depend on entire primary key (no partial dependencies); (3) Third Normal Form (3NF) - must be in 2NF AND no transitive dependencies (non-key attributes don't depend on other non-key attributes); (4) Boyce-Codd Normal Form (BCNF) - stricter 3NF, every determinant must be candidate key. Trade-offs: higher normalization = less redundancy but more joins, sometimes denormalize for performance. Balance between normalization and query performance.",
+        "confidence": 1.0,
+        "source": "Database Theory, ERD Best Practices"
+      },
+      "erd_best_practices": {
+        "statement": "ERD best practices: (1) Naming - entities singular nouns (Customer not Customers), attributes descriptive (customerEmail not custEmail), PKs as entityID or entity_id, FKs match referenced PK name; (2) Primary Keys - always use surrogate keys (UUID, auto-increment), never business data (email, SSN), immutable, simple (single column); (3) Relationships - name with verbs, specify cardinality clearly, implement M:N with junction tables, use foreign key constraints; (4) Many-to-Many implementation requires junction table with composite PK (studentID, courseID), can have additional attributes (grade, enrollDate); (5) Use surrogate keys for performance and flexibility.",
+        "confidence": 1.0,
+        "source": "ERD Best Practices, Database Design"
+      },
+      "erd_transformation": {
+        "statement": "ERD to database transformation rules: (1) Entity → Table with attributes as columns; (2) One-to-Many (1:N) → Foreign key in 'many' side table; (3) Many-to-Many (M:N) → Junction table with composite primary key (FK1, FK2) referencing both tables; (4) One-to-One (1:1) → Foreign key in either table with UNIQUE constraint, or merge into single table. Example: Customer (1) to Orders (N) → orders table has customer_id FK referencing customer(id). Students (M) to Courses (N) → enrollment table with (student_id, course_id) composite PK.",
+        "confidence": 1.0,
+        "source": "Database Design Theory"
+      },
+      "erd_in_mermaid": {
+        "statement": "Mermaid ERD syntax: erDiagram keyword starts diagram. Entities: ENTITY_NAME { type attribute PK/FK/UK }. Cardinality: ||--|| (one-to-one), ||--o{ (one-to-many), }o--o{ (many-to-many), ||--o| (one-to-zero-or-one), }o--|| (many-to-one). Relationships: ENTITY1 ||--o{ ENTITY2 : relationship_name. Example: CUSTOMER ||--o{ ORDER : places, CUSTOMER { uuid id PK, string email UK, string name }, ORDER { uuid id PK, uuid customer_id FK, date order_date }. Supports complete ERDs with attributes, types, and key indicators, renders in Markdown.",
+        "confidence": 1.0,
+        "source": "Mermaid ERD Documentation"
+      }
+    },
+    "diagram_quality_standards": {
+      "ascii_art_forbidden": {
+        "statement": "ASCII art diagrams (boxes made of characters like ┌─┐ │ └─┘, arrows made of --->, etc.) are STRICTLY FORBIDDEN in all professional documentation. ASCII art is unprofessional, difficult to read, breaks on different fonts/terminals, doesn't render properly, and looks terrible. MANDATORY alternatives: (1) Mermaid diagrams (text-based but renders as proper graphics in Markdown, GitHub, GitLab, wikis), (2) SVG diagrams (when Mermaid has limitations). ASCII art is NEVER acceptable under any circumstances.",
+        "confidence": 1.0,
+        "source": "Professional Documentation Standards"
+      },
+      "mermaid_mandatory": {
+        "statement": "For all diagrams that can be represented in Mermaid (Flowcharts, Sequence, Class, ERD, State, DFD approximations), Mermaid syntax is MANDATORY. Mermaid provides: professional rendering, version control friendly text, works in GitHub/GitLab/Confluence, consistent styling, proper visual quality. If Mermaid cannot represent a diagram adequately, use SVG or recommend appropriate professional diagramming tool (Lucidchart, draw.io, Visio), but NEVER use ASCII art.",
+        "confidence": 1.0,
+        "source": "Documentation Expert Standards"
+      },
+      "svg_fallback": {
+        "statement": "When Mermaid limitations are encountered (complex layouts, specific visual requirements, diagrams Mermaid doesn't support well), SVG (Scalable Vector Graphics) is the professional fallback. SVG provides: vector graphics (scales perfectly), embeddable in HTML/Markdown, professional appearance, tool support (draw.io exports SVG, Inkscape, Adobe Illustrator). SVG files can be committed to git and referenced in documentation. ASCII art is NEVER an acceptable alternative to SVG.",
+        "confidence": 1.0,
+        "source": "Professional Documentation Standards"
+      }
+    }
+  },
+
+  "required_folders": ["training/online-documentation"],
+
+  "notes": {
+    "maintenance": "Regularly review for alignment with standards updates: OMG UML (currently 2.5.1), IEEE documentation standards, Mermaid syntax updates. Monitor Mermaid GitHub releases for new diagram types and features.",
+    "coverage": "Comprehensive documentation expert covering: (1) UML 2.5.1 - 13 diagram types, 6 relationships, notation, best practices; (2) Document Templates - SOW (Atlassian, GSA), SRS (IEEE 830/29148), Technical Spec (IEEE 1016, Google style); (3) Mermaid - 14+ diagram types with text-based syntax for version control friendly documentation; (4) Data Flow Diagrams - Gane-Sarson and Yourdon-DeMarco notation, hierarchical decomposition, security analysis, DFDs in Mermaid; (5) Entity Relationship Diagrams - Chen, Crow's Foot, UML notation, normalization (1NF-BCNF), ERDs in Mermaid. Total ~45,000 words of training content across 8 comprehensive markdown files.",
+    "audience": "Supports developers, architects, business analysts, technical writers, and project managers in creating standardized software documentation throughout entire project lifecycle from contracts (SOW) through requirements (SRS) to design (Technical Spec) to implementation documentation (UML, DFD, ERD, Mermaid diagrams)."
+  }
+}

@@ -1,0 +1,34 @@
+﻿{
+  "name": "web-security-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Web security architectural opinions",
+  "opinions": [
+    {
+      "id": "csp_strictness",
+      "title": "CSP Strictness Level",
+      "description": "How strict to configure Content Security Policy",
+      "confidence_score": 0.90,
+      "rationale": "Strict CSP prevents XSS but may break functionality. Balance security with compatibility",
+      "context": {"when_applicable": ["Configuring CSP for production"], "when_not_applicable": ["Development only apps"]},
+      "options": [
+        {
+          "name": "Strict CSP (Recommended)",
+          "description": "No inline scripts, nonce-based or hash-based",
+          "pros": ["Maximum XSS protection", "Best security posture", "SOC2 compliant"],
+          "cons": ["May break some libraries", "Requires code changes", "More complex"],
+          "use_when": ["Enterprise apps", "Handling PII", "SOC2 compliance required"]
+        },
+        {
+          "name": "Moderate CSP",
+          "description": "Allow unsafe-inline for styles, strict for scripts",
+          "pros": ["Good security", "CSS-in-JS works", "Less breaking"],
+          "cons": ["Some XSS risk via CSS", "Not as secure as strict"],
+          "use_when": ["Using CSS-in-JS libraries", "Need quick deployment", "Internal apps"]
+        }
+      ],
+      "decision_factors": ["Compliance requirements", "Library compatibility", "Development resources"],
+      "presentChoice": false
+    }
+  ]
+}

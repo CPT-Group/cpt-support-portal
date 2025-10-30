@@ -1,0 +1,248 @@
+{
+  "name": "redux-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Redux architectural opinions and decision frameworks",
+
+  "opinions": [
+    {
+      "id": "redux_vs_alternatives",
+      "title": "Redux vs Alternative State Management",
+      "description": "When to use Redux vs lighter alternatives",
+      "confidence_score": 0.92,
+      "rationale": "Redux has overhead but provides structure, debugging tools, and patterns essential for large enterprise apps. Lighter alternatives better for simple apps",
+      "context": {
+        "when_applicable": [
+          "Choosing state management solution",
+          "Starting new React project",
+          "Evaluating Redux adoption"
+        ],
+        "when_not_applicable": [
+          "Already committed to solution",
+          "Very simple app with minimal state"
+        ]
+      },
+      "options": [
+        {
+          "name": "Redux Toolkit (Enterprise Standard)",
+          "description": "Full-featured state management with Redux Toolkit",
+          "pros": [
+            "Time-travel debugging",
+            "Middleware ecosystem",
+            "Predictable patterns",
+            "Audit trail (SOC2)",
+            "Large team collaboration",
+            "Redux DevTools",
+            "Battle-tested"
+          ],
+          "cons": [
+            "Learning curve",
+            "Boilerplate (even with Toolkit)",
+            "Overkill for simple apps"
+          ],
+          "use_when": [
+            "Enterprise applications",
+            "Complex state requirements",
+            "Need audit trails",
+            "Large teams",
+            "SOC2 compliance",
+            "Multiple async flows",
+            "State persistence critical"
+          ]
+        },
+        {
+          "name": "Zustand (Lightweight)",
+          "description": "Minimal state management with hooks-based API",
+          "pros": [
+            "Minimal boilerplate",
+            "Small bundle size",
+            "Simple API",
+            "No Provider needed",
+            "Good TypeScript support"
+          ],
+          "cons": [
+            "Less structure",
+            "No DevTools (limited)",
+            "Smaller ecosystem",
+            "Less debugging capability"
+          ],
+          "use_when": [
+            "Simple to medium apps",
+            "Prototypes/MVPs",
+            "Want minimal setup",
+            "Small teams",
+            "No complex debugging needs"
+          ]
+        },
+        {
+          "name": "Context API (Built-in)",
+          "description": "React's built-in Context API for state sharing",
+          "pros": [
+            "No dependencies",
+            "Simple",
+            "Part of React",
+            "Good for theme/auth"
+          ],
+          "cons": [
+            "Not optimized for frequent updates",
+            "No DevTools",
+            "Can cause unnecessary re-renders",
+            "No middleware"
+          ],
+          "use_when": [
+            "Very simple state",
+            "Infrequent updates",
+            "Theme/auth only",
+            "Want zero dependencies"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "App complexity",
+        "Team size",
+        "Debugging requirements",
+        "Compliance needs (SOC2)",
+        "State persistence needs",
+        "Bundle size constraints"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "async_middleware",
+      "title": "Redux Thunk vs Redux Saga",
+      "description": "Choosing async middleware for Redux",
+      "confidence_score": 0.88,
+      "rationale": "Redux Thunk simpler and built-in, good for 90% of cases. Redux Saga better for complex async flows with cancellation, racing, debouncing",
+      "context": {
+        "when_applicable": [
+          "Implementing async logic in Redux",
+          "Need advanced async patterns"
+        ],
+        "when_not_applicable": ["Using React Query or SWR for data fetching"]
+      },
+      "options": [
+        {
+          "name": "Redux Thunk (Built-in, Recommended)",
+          "description": "Use Redux Thunk for async logic",
+          "pros": [
+            "Included in Redux Toolkit",
+            "Simple to understand",
+            "Works with createAsyncThunk",
+            "Sufficient for most cases",
+            "Less code"
+          ],
+          "cons": [
+            "Limited features",
+            "No cancellation",
+            "Complex flows get messy"
+          ],
+          "use_when": [
+            "Standard API calls",
+            "Simple async logic",
+            "Most applications",
+            "Team new to Redux",
+            "Want simplicity"
+          ]
+        },
+        {
+          "name": "Redux Saga",
+          "description": "Use Redux Saga for complex async patterns",
+          "pros": [
+            "Cancellation support",
+            "Debouncing/throttling",
+            "Racing conditions",
+            "Sequential/parallel flows",
+            "Better testability",
+            "Generator-based"
+          ],
+          "cons": [
+            "Steeper learning curve",
+            "More code",
+            "Additional dependency",
+            "Generators less familiar"
+          ],
+          "use_when": [
+            "Complex async flows",
+            "Need cancellation",
+            "Polling/websockets",
+            "Race conditions",
+            "Advanced error handling"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Async complexity",
+        "Team expertise",
+        "Need for cancellation",
+        "Testing requirements"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "persistence_strategy",
+      "title": "Redux State Persistence Strategy",
+      "description": "What and how to persist Redux state for PWA",
+      "confidence_score": 0.85,
+      "rationale": "Not all state should be persisted. Persist critical data for offline, exclude transient UI state. Encrypt PII before persisting",
+      "context": {
+        "when_applicable": [
+          "PWA with offline functionality",
+          "Need to restore state on reload"
+        ],
+        "when_not_applicable": [
+          "Server-side rendering",
+          "No offline requirements"
+        ]
+      },
+      "options": [
+        {
+          "name": "Selective Persistence with Encryption",
+          "description": "Persist only critical reducers, encrypt PII",
+          "pros": [
+            "Smaller storage footprint",
+            "Better performance",
+            "PII encrypted (SOC2)",
+            "Faster rehydration"
+          ],
+          "cons": ["More configuration", "Must decide what to persist"],
+          "use_when": [
+            "Enterprise PWA",
+            "Have PII",
+            "SOC2 compliance",
+            "Large state trees",
+            "Want optimization"
+          ]
+        },
+        {
+          "name": "Full State Persistence",
+          "description": "Persist entire Redux state",
+          "pros": [
+            "Simple configuration",
+            "Complete state restoration",
+            "No decisions needed"
+          ],
+          "cons": [
+            "Larger storage",
+            "Slower rehydration",
+            "May persist unnecessary data",
+            "PII unencrypted"
+          ],
+          "use_when": [
+            "Small state tree",
+            "No PII",
+            "Prototypes",
+            "Want simplicity"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "State size",
+        "PII presence",
+        "Compliance requirements",
+        "Performance needs",
+        "Offline functionality requirements"
+      ],
+      "presentChoice": false
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "name": "tailwind-css-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive Tailwind CSS utility-first CSS framework expert covering Tailwind v4.1, utility classes, responsive design, dark mode, CSS variables, P3 colors, grid layout, filters, transitions, cascade layers, logical properties, container queries, gradients, 3D transforms, and production optimization",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-01-24",
+    "lastUpdated": "2025-01-24",
+    "author": "AI Expert System",
+    "status": "active",
+    "library_version": "v4.1",
+    "source": "tailwindcss.com"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Tailwind CSS Official Documentation (tailwindcss.com)",
+      "Tailwind CSS v4.1 Release Notes",
+      "Tailwind Playground"
+    ],
+    "version_info": "Tailwind CSS v4.1"
+  },
+
+  "triggers": {
+    "keywords": [
+      "tailwind",
+      "tailwindcss",
+      "utility-first",
+      "utility class",
+      "flex",
+      "grid",
+      "responsive",
+      "dark mode",
+      "breakpoint",
+      "sm:",
+      "md:",
+      "lg:",
+      "xl:",
+      "container query",
+      "@container",
+      "gradient",
+      "transition",
+      "animation",
+      "css variables",
+      "@theme",
+      "cascade layers",
+      "@layer",
+      "logical properties",
+      "rtl",
+      "ltr",
+      "p3 colors",
+      "wide gamut"
+    ],
+    "phrases": [
+      "tailwind css",
+      "utility-first css",
+      "tailwind class",
+      "responsive design tailwind",
+      "dark mode tailwind",
+      "tailwind grid",
+      "tailwind flex",
+      "tailwind colors",
+      "tailwind spacing",
+      "tailwind typography",
+      "tailwind installation",
+      "tailwind setup",
+      "tailwind purge",
+      "tailwind production"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Explain Tailwind CSS utility-first approach and philosophy",
+      "Provide Tailwind CSS class names and utilities",
+      "Show responsive design patterns with breakpoint prefixes",
+      "Explain dark mode implementation with dark: prefix",
+      "Demonstrate CSS variables theme customization with @theme",
+      "Show P3 wide gamut color usage",
+      "Explain CSS grid layout utilities",
+      "Provide filter and backdrop filter utilities",
+      "Show transitions and animation utilities",
+      "Explain cascade layers (@layer theme, base, components, utilities)",
+      "Demonstrate logical properties for RTL/LTR support",
+      "Show container query patterns with @container",
+      "Provide gradient utility classes",
+      "Explain 3D transform utilities",
+      "Show installation and setup process",
+      "Explain automatic CSS purging and production optimization",
+      "Recommend Tailwind Plus components and templates",
+      "Show integration with React/Next.js",
+      "Explain performance benefits (typically < 10kB CSS)"
+    ],
+    "cannot_do": [
+      "Write custom CSS (focuses on utility classes)",
+      "Design complete layouts (provides utilities, not designs)",
+      "Override utility classes directly (uses cascade layers instead)"
+    ]
+  },
+
+  "facts": {
+    "overview": {
+      "what_is_tailwind": {
+        "statement": "Tailwind CSS is a utility-first CSS framework that uses classes directly in HTML markup instead of separate CSS files. Classes like flex, pt-4, text-center, rotate-90 can be composed to build any design. Version 4.1 is current.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS official documentation",
+        "example": "<div class=\"flex items-center justify-between p-4 bg-blue-500\">Content</div>"
+      },
+      "philosophy": {
+        "statement": "Utility-first approach: build designs by composing small, single-purpose utility classes rather than writing custom CSS. Enables rapid development without leaving HTML.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "Use flex flex-col items-center instead of writing .container { display: flex; flex-direction: column; align-items: center; }"
+      }
+    },
+    "responsive_design": {
+      "breakpoints": {
+        "statement": "Tailwind uses mobile-first responsive design with breakpoint prefixes: sm: (small), md: (medium), lg: (large), xl: (extra large). Add breakpoint prefix before any utility class to apply at that screen size. Base classes apply to mobile by default.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"flex flex-col md:flex-row lg:grid lg:grid-cols-3\" applies flex-column on mobile, flex-row on medium, grid with 3 columns on large screens"
+      },
+      "mobile_first": {
+        "statement": "Default utilities apply to mobile screens. Add sm:, md:, lg:, xl: prefixes for larger breakpoints. This is mobile-first responsive design pattern.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"text-sm md:text-base lg:text-lg\" - small text on mobile, base on medium, large on large screens"
+      }
+    },
+    "dark_mode": {
+      "dark_mode_implementation": {
+        "statement": "Add dark: prefix to any color class to apply it in dark mode. Tailwind automatically handles dark mode detection based on user's system preferences or manual toggle.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"bg-white dark:bg-gray-800 text-gray-900 dark:text-white\" - white background on light mode, gray-800 on dark mode"
+      }
+    },
+    "theme_customization": {
+      "css_variables": {
+        "statement": "Customize Tailwind theme using CSS variables in @theme block. Define custom fonts, colors, spacing, typography scales using CSS custom properties. Uses oklch() color space for wide gamut colors.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS v4.1 documentation",
+        "example": "@theme { --font-sans: \"Inter\", sans-serif; --color-mint-500: oklch(0.7 0.28 145); }"
+      },
+      "p3_colors": {
+        "statement": "Tailwind v4.1 uses P3 wide gamut color palette automatically, providing more vibrant colors without requiring manual configuration. Full color range: red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose. Each color has shades 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS v4.1 documentation",
+        "example": "class=\"bg-blue-500 text-white\" or \"bg-gradient-to-r from-purple-600 to-pink-600\""
+      }
+    },
+    "layout": {
+      "flexbox": {
+        "statement": "Flexbox utilities: flex (display: flex), flex-col (flex-direction: column), flex-row (flex-direction: row), items-center (align-items: center), justify-between (justify-content: space-between), gap-{size} (gap spacing).",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"flex flex-col items-center gap-4\""
+      },
+      "grid": {
+        "statement": "CSS Grid utilities: grid (display: grid), grid-cols-{n} (grid-template-columns: repeat(n, minmax(0, 1fr))), grid-rows-{n}, gap-{size} (gap), auto-cols-{size}. Grid can be used directly in HTML markup.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4\""
+      },
+      "container_queries": {
+        "statement": "Container queries allow children to adapt to container size, not viewport. Use @container class on parent, then @sm:, @md:, @lg: prefixes on children for container-based responsive design.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS v4.1 documentation",
+        "example": "<div class=\"@container\"><div class=\"grid grid-cols-1 @sm:grid-cols-2\">Content</div></div>"
+      }
+    },
+    "spacing": {
+      "padding_margin": {
+        "statement": "Spacing utilities: p-{size} (padding all sides), px-{size} (padding horizontal), py-{size} (padding vertical), pt/pb/pl/pr-{size} (padding single side). Same pattern for margin: m-, mx-, my-, mt-, mb-, ml-, mr-. Size scale: 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"p-4 px-6 py-2 mt-8 mb-4\""
+      }
+    },
+    "typography": {
+      "text_utilities": {
+        "statement": "Typography utilities: text-{size} (font-size), font-{weight} (font-weight: normal, medium, semibold, bold), text-{align} (text-align: left, center, right, justify), leading-{size} (line-height), tracking-{size} (letter-spacing).",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"text-lg font-semibold text-center leading-relaxed\""
+      }
+    },
+    "colors": {
+      "background_text": {
+        "statement": "Color utilities: bg-{color}-{shade} (background-color), text-{color}-{shade} (color), border-{color}-{shade} (border-color). Full palette with wide gamut P3 colors: red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose. Shades: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"bg-blue-500 text-white border-purple-600\""
+      }
+    },
+    "effects": {
+      "filters": {
+        "statement": "Filter utilities: blur-{size} (blur-sm, blur-md, blur-lg), brightness-{value}, grayscale, contrast-{value}, saturate-{value}, sepia. Can be stacked for multiple effects.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"blur-sm brightness-150 grayscale\""
+      },
+      "gradients": {
+        "statement": "Gradient utilities: bg-gradient-to-{direction} (to-r, to-l, to-t, to-b, to-tr, to-tl, to-br, to-bl), from-{color}-{shade}, via-{color}-{shade}, to-{color}-{shade}.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"bg-gradient-to-r from-blue-500 via-purple-600 to-pink-600\""
+      },
+      "shadows": {
+        "statement": "Shadow utilities: shadow-{size} (shadow-sm, shadow, shadow-md, shadow-lg, shadow-xl, shadow-2xl), shadow-{color}-{shade} for colored shadows.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"shadow-xl shadow-blue-500/50\""
+      }
+    },
+    "transforms": {
+      "2d_transforms": {
+        "statement": "Transform utilities: scale-{value} (scale-50, scale-100, scale-125), rotate-{deg} (rotate-45, rotate-90, rotate-180), translate-x-{size}, translate-y-{size}, skew-x-{deg}, skew-y-{deg}.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"scale-110 rotate-45 translate-x-4\""
+      },
+      "3d_transforms": {
+        "statement": "3D transform utilities: perspective-{size}, preserve-3d, transform-style: preserve-3d for 3D space transformations. Can scale, rotate, and translate elements in 3D.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS v4.1 documentation",
+        "example": "class=\"perspective-1000 preserve-3d\""
+      }
+    },
+    "transitions": {
+      "transition_utilities": {
+        "statement": "Transition utilities: transition (transition property), duration-{ms} (duration-150, duration-300, duration-500, duration-750), ease-{type} (ease-linear, ease-out, ease-in-out, ease-in), delay-{ms}. Can be combined.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"transition duration-300 ease-out hover:scale-110\""
+      }
+    },
+    "advanced_features": {
+      "cascade_layers": {
+        "statement": "Tailwind uses CSS cascade layers (@layer) to avoid specificity issues. Layers defined: theme (CSS variables), base (Preflight styles), components (custom components), utilities (utility classes). Order: @layer theme, base, components, utilities;",
+        "confidence": 1.0,
+        "source": "Tailwind CSS v4.1 documentation",
+        "example": "@layer theme { :root { --color-primary: blue; } } @layer components { .btn { @apply px-4 py-2; } }"
+      },
+      "logical_properties": {
+        "statement": "Tailwind supports logical properties for RTL/LTR text direction. Classes automatically adapt based on text direction. Utilities use logical properties internally (start/end instead of left/right).",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "class=\"ps-4 pe-4\" (padding-start, padding-end) works for both LTR and RTL"
+      }
+    },
+    "installation": {
+      "setup": {
+        "statement": "Install Tailwind CSS: npm install -D tailwindcss. Then in CSS file: @import \"tailwindcss\";. Use utilities directly in HTML/JSX className prop. Tailwind scans files for class usage and generates only used CSS.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "In React: <div className=\"flex items-center p-4\">Content</div>"
+      }
+    },
+    "production": {
+      "optimization": {
+        "statement": "Tailwind automatically removes all unused CSS when building for production. Final CSS bundle is minimal - most Tailwind projects ship less than 10kB of CSS to the client. This is automatic purging based on class usage scanning.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "Build process scans HTML/JSX files, finds all utility classes used, generates only those CSS rules"
+      }
+    },
+    "integration": {
+      "react_nextjs": {
+        "statement": "Tailwind works seamlessly with React (className prop) and Next.js (automatic optimization). Can be used alongside component libraries like PrimeReact. TypeScript support for type-safe class names.",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "Next.js: automatically optimizes Tailwind CSS, works with className prop in JSX"
+      }
+    },
+    "resources": {
+      "tailwind_plus": {
+        "statement": "Tailwind Plus provides ready-made components: Templates (React/Next.js site templates), UI Blocks (500+ responsive components), UI Kit (starter kit for component systems). Additional resources: Headless UI (accessible components), Heroicons (SVG icons).",
+        "confidence": 1.0,
+        "source": "Tailwind CSS documentation",
+        "example": "Use Tailwind Plus for pre-built components to accelerate development"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,235 @@
+{
+  "name": "i18next-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "i18next and react-i18next internationalization expert for enterprise React applications, covering centralized i18n in private NPM packages, namespace organization, translation management, pluralization, RTL support, and type-safe translations",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert Builder",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "i18next.com (https://www.i18next.com/)",
+      "react-i18next Documentation (https://react.i18next.com/)",
+      "i18next Best Practices",
+      "Internationalization API (Intl)"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "i18next",
+      "react-i18next",
+      "internationalization",
+      "i18n",
+      "localization",
+      "l10n",
+      "translation",
+      "multilingual",
+      "locale",
+      "language",
+      "pluralization",
+      "RTL",
+      "right-to-left"
+    ],
+    "phrases": [
+      "translation management",
+      "language detection",
+      "namespace organization",
+      "translation keys",
+      "language switching",
+      "date formatting",
+      "number formatting",
+      "currency formatting"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Setup i18next configuration",
+      "Integrate react-i18next with React apps",
+      "Organize translations by namespaces",
+      "Implement language detection",
+      "Create centralized i18n private NPM package",
+      "Handle pluralization rules",
+      "Implement interpolation",
+      "Support RTL (right-to-left) languages",
+      "Format dates and numbers per locale",
+      "Create type-safe translations with TypeScript",
+      "Dynamic translation loading",
+      "Translation testing strategies"
+    ],
+    "cannot_do": [
+      "Choose between i18next vs alternatives (opinion)",
+      "Decide translation management platform (opinion)",
+      "Choose specific languages to support (business decision)"
+    ]
+  },
+
+  "facts": {
+    "core_concepts": {
+      "i18next_definition": {
+        "statement": "i18next is an internationalization framework for JavaScript. It provides complete solution for localizing applications with features: translation loading, pluralization, interpolation, formatting, language detection, and extensibility via plugins",
+        "confidence": 1.0,
+        "source": "i18next.com"
+      },
+      "react_i18next": {
+        "statement": "react-i18next is React integration for i18next. Provides hooks (useTranslation), HOCs (withTranslation), and components (Trans) for using translations in React components. Uses React Context and Suspense for optimal performance",
+        "confidence": 1.0,
+        "source": "react-i18next.com"
+      }
+    },
+
+    "setup": {
+      "installation": {
+        "statement": "Install with: npm install i18next react-i18next i18next-browser-languagedetector i18next-http-backend. Core packages: i18next (core framework), react-i18next (React bindings), optional: language detector, HTTP backend for loading translations",
+        "confidence": 1.0,
+        "source": "i18next Installation Guide"
+      },
+      "initialization": {
+        "statement": "Initialize i18next with: i18n.use(initReactI18next).init({ resources, lng, fallbackLng, ns, defaultNS, interpolation }). Must call before rendering React app. Use I18nextProvider to pass i18n instance to React tree",
+        "confidence": 1.0,
+        "source": "i18next Configuration",
+        "example": "i18n.use(initReactI18next).init({ resources, fallbackLng: 'en', defaultNS: 'common' });"
+      }
+    },
+
+    "react_integration": {
+      "use_translation_hook": {
+        "statement": "useTranslation(namespace) hook returns { t, i18n, ready }. t(key, options) translates key. i18n provides i18n instance. ready indicates if translations loaded. Can specify namespace: useTranslation('cases')",
+        "confidence": 1.0,
+        "source": "react-i18next hooks",
+        "example": "const { t } = useTranslation('cases'); return <h1>{t('title')}</h1>;"
+      },
+      "trans_component": {
+        "statement": "Trans component for complex translations with HTML/React components. Syntax: <Trans i18nKey=\"key\" values={{ name }}>Hello <strong>{{name}}</strong></Trans>. Keeps HTML structure in translations",
+        "confidence": 1.0,
+        "source": "react-i18next Trans component"
+      }
+    },
+
+    "namespaces": {
+      "definition": {
+        "statement": "Namespaces organize translations by feature/domain. Separate files: common.json, cases.json, auth.json. Configure with ns: ['common', 'cases'], defaultNS: 'common'. Access with t('cases:title') or useTranslation('cases')",
+        "confidence": 1.0,
+        "source": "i18next Namespaces"
+      },
+      "best_practices": {
+        "statement": "Organize namespaces by feature, not by type. Use common namespace for shared translations. Keep namespaces focused and cohesive. Typical structure: common (buttons, labels), feature namespaces (cases, reports), domain namespaces (auth, validation)",
+        "confidence": 1.0,
+        "source": "i18next Best Practices"
+      }
+    },
+
+    "translation_keys": {
+      "structure": {
+        "statement": "Use hierarchical keys with dot notation: 'cases.list.title', 'auth.login.error'. Benefits: organization, context, easier maintenance. Avoid flat keys like 'casesListTitle'",
+        "confidence": 1.0,
+        "source": "i18next Key Structure"
+      },
+      "interpolation": {
+        "statement": "Interpolation inserts dynamic values: 'Hello, {{name}}!'. Use with t('key', { name: 'John' }). Supports nesting: {{user.name}}. Can format: {{value, number}} for numbers",
+        "confidence": 1.0,
+        "source": "i18next Interpolation",
+        "example": "t('greeting', { name: 'John' }) returns 'Hello, John!'"
+      }
+    },
+
+    "pluralization": {
+      "rules": {
+        "statement": "Pluralization uses language-specific rules. English: key_one, key_other. Use with count: t('case', { count: 5 }). i18next automatically selects correct plural form based on language rules",
+        "confidence": 1.0,
+        "source": "i18next Pluralization",
+        "example": "{ \"case_one\": \"{{count}} case\", \"case_other\": \"{{count}} cases\" }"
+      },
+      "language_specific": {
+        "statement": "Different languages have different plural rules. English: 2 forms (one, other). Russian: 3 forms (one, few, many). Arabic: 6 forms. i18next handles automatically via Intl.PluralRules",
+        "confidence": 1.0,
+        "source": "Unicode CLDR Plural Rules"
+      }
+    },
+
+    "language_detection": {
+      "strategy": {
+        "statement": "i18next-browser-languagedetector detects language from: querystring (?lng=es), cookie, localStorage, navigator, HTML lang attribute. Configure detection order and caching strategy",
+        "confidence": 1.0,
+        "source": "i18next-browser-languagedetector"
+      },
+      "configuration": {
+        "statement": "Configure with detection: { order: ['querystring', 'cookie', 'localStorage', 'navigator'], caches: ['localStorage', 'cookie'] }. Caches remember user preference across sessions",
+        "confidence": 1.0,
+        "source": "Language Detection Config"
+      }
+    },
+
+    "private_npm_package": {
+      "structure": {
+        "statement": "Create @company/i18n package with: locales/ (translation files), config.ts (i18next setup), hooks.ts (custom React hooks), components.ts (reusable components). Export everything via index.ts. Benefits: single source of truth, consistent configuration, easy updates",
+        "confidence": 1.0,
+        "source": "Enterprise i18n Patterns"
+      },
+      "usage": {
+        "statement": "Apps install @company/i18n and import i18n instance: import i18n from '@company/i18n'. Wrap app with I18nextProvider. Use hooks: import { useTranslation } from '@company/i18n'. All translation management centralized",
+        "confidence": 1.0,
+        "source": "Private NPM Package Pattern"
+      }
+    },
+
+    "formatting": {
+      "dates": {
+        "statement": "Use Intl.DateTimeFormat for locale-aware dates: new Intl.DateTimeFormat(locale, options).format(date). i18next can integrate via format postprocessor. Example: t('date', { value: date, formatParams: { value: { year: 'numeric', month: 'long' } } })",
+        "confidence": 1.0,
+        "source": "Intl.DateTimeFormat API"
+      },
+      "numbers_currency": {
+        "statement": "Use Intl.NumberFormat for numbers/currency: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(amount). Automatically handles locale-specific separators, decimal points, currency symbols",
+        "confidence": 1.0,
+        "source": "Intl.NumberFormat API"
+      }
+    },
+
+    "rtl_support": {
+      "implementation": {
+        "statement": "RTL (right-to-left) for Arabic, Hebrew, etc. i18n.dir(lng) returns 'rtl' or 'ltr'. Set on document: document.documentElement.setAttribute('dir', i18n.dir()). CSS: html[dir='rtl'] { direction: rtl; }",
+        "confidence": 1.0,
+        "source": "i18next RTL Support"
+      }
+    },
+
+    "typescript": {
+      "type_safety": {
+        "statement": "Generate types from translation files: type Translations = typeof import('./locales/en/common.json'). Use with useTranslation<'namespace'>('namespace') for autocomplete. Ensures translation keys exist at compile time",
+        "confidence": 1.0,
+        "source": "react-i18next TypeScript"
+      }
+    },
+
+    "performance": {
+      "code_splitting": {
+        "statement": "Load translations dynamically with i18next-http-backend: backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' }. Reduces initial bundle size. Loads namespaces on-demand",
+        "confidence": 1.0,
+        "source": "i18next Backend Loading"
+      },
+      "lazy_loading": {
+        "statement": "Lazy load namespaces with useTranslation('ns', { useSuspense: false }). Returns ready boolean. Show loading state until translations loaded. Reduces initial load time",
+        "confidence": 1.0,
+        "source": "react-i18next Lazy Loading"
+      }
+    },
+
+    "testing": {
+      "unit_tests": {
+        "statement": "Test translations by wrapping components in I18nextProvider with test i18n instance. Can change language for testing: await i18n.changeLanguage('es'). Mock translations or use real translation files",
+        "confidence": 1.0,
+        "source": "Testing with react-i18next"
+      }
+    }
+  }
+}

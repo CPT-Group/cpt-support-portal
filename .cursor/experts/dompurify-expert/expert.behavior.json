@@ -1,0 +1,269 @@
+{
+  "name": "dompurify-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "DOMPurify HTML sanitization expert for preventing XSS attacks in React applications, covering sanitization strategies, configuration options, React integration, centralized security patterns, and SOC2 compliance",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert Builder",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "DOMPurify GitHub (https://github.com/cure53/DOMPurify)",
+      "OWASP XSS Prevention Cheat Sheet",
+      "MDN Web Security",
+      "React Security Best Practices"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "DOMPurify",
+      "sanitize",
+      "sanitization",
+      "XSS",
+      "Cross-Site Scripting",
+      "dangerouslySetInnerHTML",
+      "HTML sanitization",
+      "user-generated content",
+      "rich text",
+      "XSS prevention"
+    ],
+    "phrases": [
+      "sanitize HTML",
+      "prevent XSS",
+      "render HTML safely",
+      "clean user input",
+      "sanitize user content",
+      "XSS protection"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Sanitize HTML to prevent XSS attacks",
+      "Configure allowed tags and attributes",
+      "Integrate with React components",
+      "Create reusable sanitization utilities",
+      "Implement sanitization levels (strict, moderate, lenient)",
+      "Sanitize rich text editor output",
+      "Sanitize markdown converted to HTML",
+      "Handle user comments and forum posts",
+      "Memoize sanitization for performance",
+      "Test sanitization rules",
+      "Centralize in @company/security package"
+    ],
+    "cannot_do": [
+      "Decide business rules for what content is allowed (opinion)",
+      "Choose between sanitizing at storage vs render time (opinion)"
+    ]
+  },
+
+  "facts": {
+    "core_concepts": {
+      "dompurify_definition": {
+        "statement": "DOMPurify is a DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML, and SVG. It sanitizes HTML by parsing, filtering, and reconstructing it to remove malicious content while preserving safe elements. De facto standard for XSS prevention in web applications",
+        "confidence": 1.0,
+        "source": "DOMPurify GitHub"
+      },
+      "xss_prevention": {
+        "statement": "Cross-Site Scripting (XSS) occurs when untrusted data is rendered as HTML without sanitization. Attackers inject <script> tags, event handlers (onerror, onclick), or javascript: URLs to execute malicious code. DOMPurify prevents XSS by removing all potentially dangerous elements and attributes",
+        "confidence": 1.0,
+        "source": "OWASP XSS Prevention"
+      }
+    },
+
+    "installation": {
+      "npm_install": {
+        "statement": "Install DOMPurify with: npm install dompurify. For TypeScript: npm install --save-dev @types/dompurify. DOMPurify is client-side only (requires DOM). For SSR use isomorphic-dompurify",
+        "confidence": 1.0,
+        "source": "DOMPurify Installation"
+      }
+    },
+
+    "basic_usage": {
+      "sanitize_method": {
+        "statement": "DOMPurify.sanitize(html, config?) sanitizes HTML string and returns clean string. Takes dirty HTML as input, optional config object. Returns sanitized HTML safe to render. Example: const clean = DOMPurify.sanitize(dirtyHtml);",
+        "confidence": 1.0,
+        "source": "DOMPurify API",
+        "example": "import DOMPurify from 'dompurify'; const clean = DOMPurify.sanitize('<img src=x onerror=alert(1)>'); // Returns: <img src=\"x\">"
+      },
+      "react_integration": {
+        "statement": "In React, use DOMPurify with dangerouslySetInnerHTML: <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />. NEVER use dangerouslySetInnerHTML without sanitization for user content",
+        "confidence": 1.0,
+        "source": "React Security Best Practices"
+      }
+    },
+
+    "configuration": {
+      "allowed_tags": {
+        "statement": "ALLOWED_TAGS config option whitelists HTML tags. Example: { ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'a'] }. Only specified tags are kept, all others removed. Whitelist approach is safest",
+        "confidence": 1.0,
+        "source": "DOMPurify Configuration"
+      },
+      "allowed_attr": {
+        "statement": "ALLOWED_ATTR config option whitelists attributes. Example: { ALLOWED_ATTR: ['href', 'title'] }. Only specified attributes kept on elements. Critical for preventing event handler attacks (onclick, onerror)",
+        "confidence": 1.0,
+        "source": "DOMPurify Configuration"
+      },
+      "forbid_tags": {
+        "statement": "FORBID_TAGS config option blacklists specific tags. Example: { FORBID_TAGS: ['script', 'style', 'iframe'] }. Specified tags always removed. Use with ALLOWED_TAGS for defense in depth",
+        "confidence": 1.0,
+        "source": "DOMPurify Configuration"
+      },
+      "allow_data_attr": {
+        "statement": "ALLOW_DATA_ATTR config option controls data-* attributes. Default: true. Set to false for stricter sanitization. Example: { ALLOW_DATA_ATTR: false } removes all data-* attributes",
+        "confidence": 1.0,
+        "source": "DOMPurify Configuration"
+      },
+      "return_dom": {
+        "statement": "RETURN_DOM and RETURN_DOM_FRAGMENT options return DOM node or DocumentFragment instead of string. Useful for programmatic DOM manipulation. Example: { RETURN_DOM: true }",
+        "confidence": 1.0,
+        "source": "DOMPurify Configuration"
+      }
+    },
+
+    "sanitization_levels": {
+      "strict": {
+        "statement": "Strict sanitization for user comments, forum posts, untrusted input. Allow only: bold, italic, emphasis, strong, links, line breaks. Forbid: images, custom classes, data attributes. Example config: { ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'br'], ALLOWED_ATTR: ['href'], ALLOW_DATA_ATTR: false }",
+        "confidence": 1.0,
+        "source": "Security Best Practices"
+      },
+      "moderate": {
+        "statement": "Moderate sanitization for rich text editors, internal content. Allow: paragraphs, headings, lists, formatting, links, code blocks. Forbid: scripts, iframes, objects. Example config: { ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'code', 'pre', 'a'], ALLOWED_ATTR: ['href', 'title', 'class'] }",
+        "confidence": 1.0,
+        "source": "Security Best Practices"
+      },
+      "lenient": {
+        "statement": "Lenient sanitization for trusted internal sources, admin content. Allow: full formatting, images, tables, divs. Still forbid: scripts, iframes, dangerous event handlers. Example config: { ALLOWED_TAGS: ['p', 'div', 'span', 'h1-h6', 'ul', 'ol', 'li', 'img', 'table', 'tr', 'td'], ALLOW_DATA_ATTR: true }",
+        "confidence": 1.0,
+        "source": "Security Best Practices"
+      }
+    },
+
+    "use_cases": {
+      "rich_text_editors": {
+        "statement": "Rich text editor output (Quill, TinyMCE, Draft.js) must be sanitized before rendering. Editors may allow HTML that can be exploited. Use moderate sanitization: allow formatting tags, forbid dangerous tags",
+        "confidence": 1.0,
+        "source": "Rich Text Security"
+      },
+      "user_comments": {
+        "statement": "User comments require strict sanitization. Allow only basic formatting (bold, italic, links). Forbid: scripts, images, custom styling. Prevents user-to-user XSS attacks",
+        "confidence": 1.0,
+        "source": "User Content Security"
+      },
+      "markdown_html": {
+        "statement": "Markdown converted to HTML (via marked, showdown, etc.) must be sanitized. Markdown parsers may generate HTML with XSS vectors. Sanitize after conversion with moderate config",
+        "confidence": 1.0,
+        "source": "Markdown Security"
+      },
+      "external_api_content": {
+        "statement": "Content from external APIs must be sanitized with strict config. Treat as untrusted. External sources may be compromised or malicious. Never trust external HTML without sanitization",
+        "confidence": 1.0,
+        "source": "API Security"
+      }
+    },
+
+    "react_patterns": {
+      "safe_html_component": {
+        "statement": "Create reusable SafeHtml component that encapsulates DOMPurify.sanitize with dangerouslySetInnerHTML. Props: html (string), config (optional). Prevents developers from using dangerouslySetInnerHTML directly",
+        "confidence": 1.0,
+        "source": "React Security Patterns",
+        "example": "function SafeHtml({ html, config }) { const clean = DOMPurify.sanitize(html, config); return <div dangerouslySetInnerHTML={{ __html: clean }} />; }"
+      },
+      "use_safe_html_hook": {
+        "statement": "Create useSafeHtml hook that memoizes DOMPurify.sanitize with useMemo. Only re-sanitizes when HTML changes. Improves performance. Example: const clean = useSafeHtml(html, config);",
+        "confidence": 1.0,
+        "source": "React Performance Patterns"
+      }
+    },
+
+    "centralization": {
+      "security_package": {
+        "statement": "Centralize DOMPurify configuration in @company/security private NPM package. Export HtmlSanitizer class with predefined levels (strict, moderate, lenient). Ensures consistency across all applications. Single source of truth for sanitization rules",
+        "confidence": 1.0,
+        "source": "Enterprise Security Patterns"
+      },
+      "sanitizer_class": {
+        "statement": "HtmlSanitizer class provides static methods: sanitize(html, config), sanitizeComment(html), sanitizeRichText(html), sanitizeTrustedHtml(html). Each method uses predefined config for specific use case. Exported from @company/security",
+        "confidence": 1.0,
+        "source": "Enterprise Patterns",
+        "example": "import { HtmlSanitizer } from '@company/security'; const clean = HtmlSanitizer.sanitizeComment(userComment);"
+      }
+    },
+
+    "performance": {
+      "memoization": {
+        "statement": "Memoize DOMPurify.sanitize in React components with useMemo. Sanitization is computationally expensive. Only re-sanitize when HTML changes: useMemo(() => DOMPurify.sanitize(html), [html])",
+        "confidence": 1.0,
+        "source": "Performance Best Practices"
+      },
+      "batch_sanitization": {
+        "statement": "When sanitizing arrays of content (lists of comments), sanitize all items in single pass. Reduces overhead. Example: items.map(item => DOMPurify.sanitize(item))",
+        "confidence": 1.0,
+        "source": "Performance Optimization"
+      }
+    },
+
+    "testing": {
+      "xss_tests": {
+        "statement": "Test sanitization removes common XSS vectors: <script> tags, event handlers (onerror, onclick), javascript: URLs, data: URLs with scripts. Assert malicious content removed, safe content preserved",
+        "confidence": 1.0,
+        "source": "Security Testing"
+      },
+      "config_tests": {
+        "statement": "Test sanitization configs: strict removes images and divs, moderate allows headings and lists, lenient allows tables and images. Assert each level's behavior is correct",
+        "confidence": 1.0,
+        "source": "Configuration Testing"
+      }
+    },
+
+    "security_best_practices": {
+      "always_sanitize": {
+        "statement": "ALWAYS sanitize HTML before using dangerouslySetInnerHTML. Even for content from database (defense in depth). Never trust any source of HTML. This is non-negotiable for security",
+        "confidence": 1.0,
+        "source": "Security Best Practices"
+      },
+      "strict_for_users": {
+        "statement": "Use strict sanitization for user-generated content. Users should only format text (bold, italic, links). No images, no custom styling, no data attributes. Prevents user-to-user XSS",
+        "confidence": 1.0,
+        "source": "User Content Security"
+      },
+      "defense_in_depth": {
+        "statement": "Sanitize at multiple layers: on input (before storage), on output (before render). If sanitization rules change, old data still safe. Also use CSP headers as additional protection",
+        "confidence": 1.0,
+        "source": "Defense in Depth"
+      },
+      "audit_config": {
+        "statement": "Document why specific tags/attributes are allowed. Review sanitization config regularly. As application evolves, sanitization rules may need updating. Comment each ALLOWED_TAGS and ALLOWED_ATTR decision",
+        "confidence": 1.0,
+        "source": "Security Governance"
+      }
+    },
+
+    "common_pitfalls": {
+      "ssr_incompatibility": {
+        "statement": "DOMPurify requires DOM API, doesn't work in Node.js SSR by default. For SSR, use isomorphic-dompurify package which works in both browser and Node.js environments",
+        "confidence": 1.0,
+        "source": "SSR Security"
+      },
+      "over_sanitizing": {
+        "statement": "Avoid over-sanitizing rich text content. If config too strict (only <br> allowed), users lose formatting ability. Balance security with usability. Use appropriate sanitization level for use case",
+        "confidence": 1.0,
+        "source": "Usability vs Security"
+      },
+      "sanitize_storage_vs_render": {
+        "statement": "Consider sanitizing before storage (database) AND before render. If only sanitize at render, changing sanitization rules doesn't protect old data. Sanitizing at storage provides defense in depth",
+        "confidence": 1.0,
+        "source": "Storage Security"
+      }
+    }
+  }
+}

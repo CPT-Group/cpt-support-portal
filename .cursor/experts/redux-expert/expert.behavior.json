@@ -1,0 +1,259 @@
+﻿{
+  "name": "redux-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Redux and Redux Toolkit state management expert for enterprise React PWA applications, covering store setup, slices, async thunks, state persistence, middleware, DevTools, and JSON-driven UI integration",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert Builder",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Redux.js.org (https://redux.js.org/)",
+      "Redux Toolkit Documentation (https://redux-toolkit.js.org/)",
+      "React-Redux Documentation (https://react-redux.js.org/)",
+      "Redux Persist (https://github.com/rt2zz/redux-persist)",
+      "Reselect (https://github.com/reduxjs/reselect)"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "Redux",
+      "Redux Toolkit",
+      "RTK",
+      "state management",
+      "global state",
+      "useSelector",
+      "useDispatch",
+      "createSlice",
+      "createAsyncThunk",
+      "Redux Persist",
+      "Redux DevTools",
+      "Redux Thunk",
+      "Redux Saga",
+      "Reselect",
+      "middleware"
+    ],
+    "phrases": [
+      "Redux store",
+      "Redux middleware",
+      "time-travel debugging",
+      "memoized selectors",
+      "state persistence",
+      "Redux actions",
+      "Redux reducers"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Implement Redux Toolkit store with configureStore",
+      "Create slices with createSlice (reducers + actions)",
+      "Setup async thunks with createAsyncThunk",
+      "Configure state persistence with redux-persist",
+      "Implement custom middleware (logging, audit, analytics)",
+      "Integrate Redux DevTools",
+      "Create memoized selectors with Reselect",
+      "Setup TypeScript types for Redux",
+      "Implement Redux Saga for complex async flows",
+      "Normalize state with createEntityAdapter",
+      "Integrate with React using hooks"
+    ],
+    "cannot_do": [
+      "Decide when to use Redux vs alternatives (opinion)",
+      "Choose project structure without context (opinion)",
+      "Make state persistence strategy decisions (opinion)"
+    ]
+  },
+
+  "facts": {
+    "core_concepts": {
+      "redux_definition": {
+        "statement": "Redux is a predictable state container with three principles: single source of truth (one store), state is read-only (dispatch actions to change), changes via pure functions (reducers)",
+        "confidence": 1.0,
+        "source": "Redux.js.org Core Concepts"
+      },
+      "redux_toolkit": {
+        "statement": "Redux Toolkit is the official, opinionated, batteries-included toolset for Redux. It includes configureStore, createSlice, createAsyncThunk, and reduces boilerplate by 80%. Always use Redux Toolkit over vanilla Redux",
+        "confidence": 1.0,
+        "source": "Redux Toolkit Documentation"
+      }
+    },
+
+    "store_setup": {
+      "configure_store": {
+        "statement": "configureStore() from Redux Toolkit sets up Redux store with good defaults: Redux DevTools enabled, Redux Thunk middleware included, immutability checks in dev. Syntax: configureStore({ reducer: rootReducer })",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - configureStore",
+        "example": "const store = configureStore({ reducer: { cases: casesReducer, user: userReducer } });"
+      }
+    },
+
+    "slices": {
+      "create_slice": {
+        "statement": "createSlice() generates action creators and reducers together. Takes name, initialState, reducers object. Returns slice with .actions and .reducer. Eliminates action type constants and switch statements",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - createSlice",
+        "example": "const casesSlice = createSlice({ name: 'cases', initialState, reducers: { addCase: (state, action) => { state.items.push(action.payload); } } });"
+      },
+      "immer_integration": {
+        "statement": "Redux Toolkit uses Immer internally, allowing you to write 'mutating' logic in reducers. state.items.push() is actually safe and creates immutable update",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - Immer Integration"
+      }
+    },
+
+    "async_logic": {
+      "create_async_thunk": {
+        "statement": "createAsyncThunk() generates thunk that dispatches pending/fulfilled/rejected actions automatically. Syntax: createAsyncThunk('actionType', async (arg, thunkAPI) => { return await fetch() })",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - createAsyncThunk",
+        "example": "export const fetchCases = createAsyncThunk('cases/fetch', async (filters) => { const response = await fetch('/api/cases'); return response.json(); });"
+      },
+      "extra_reducers": {
+        "statement": "Handle async thunk states in slice extraReducers using builder.addCase(). Lifecycle: .pending, .fulfilled, .rejected",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - extraReducers"
+      },
+      "redux_thunk": {
+        "statement": "Redux Thunk middleware included by default in Redux Toolkit. Allows action creators to return functions instead of actions. Good for simple async logic",
+        "confidence": 1.0,
+        "source": "Redux Thunk Documentation"
+      },
+      "redux_saga": {
+        "statement": "Redux Saga uses ES6 generators for complex async flows. Better for: cancellation, debouncing, racing, sequential/parallel tasks, complex error handling. Not included by default, must add middleware",
+        "confidence": 1.0,
+        "source": "Redux Saga Documentation"
+      }
+    },
+
+    "react_integration": {
+      "use_selector": {
+        "statement": "useSelector(selector) hook extracts data from Redux store. Subscribes to store updates. Returns data from selector function. Selector receives full state: useSelector((state) => state.cases.items)",
+        "confidence": 1.0,
+        "source": "React-Redux - useSelector"
+      },
+      "use_dispatch": {
+        "statement": "useDispatch() hook returns dispatch function to dispatch actions. const dispatch = useDispatch(); dispatch(fetchCases())",
+        "confidence": 1.0,
+        "source": "React-Redux - useDispatch"
+      },
+      "provider": {
+        "statement": "Wrap app in <Provider store={store}> to make Redux store available to all components",
+        "confidence": 1.0,
+        "source": "React-Redux - Provider"
+      }
+    },
+
+    "persistence": {
+      "redux_persist": {
+        "statement": "redux-persist saves Redux state to storage (localStorage, sessionStorage, IndexedDB) and rehydrates on app load. Essential for PWA offline functionality",
+        "confidence": 1.0,
+        "source": "Redux Persist Documentation"
+      },
+      "persist_config": {
+        "statement": "persistConfig defines: key (storage key), storage (storage engine), whitelist (reducers to persist), blacklist (reducers to exclude), transforms (encryption, compression)",
+        "confidence": 1.0,
+        "source": "Redux Persist - Configuration"
+      },
+      "encryption": {
+        "statement": "Use redux-persist-transform-encrypt to encrypt persisted state (critical for PII). Creates encrypted transform with secretKey",
+        "confidence": 1.0,
+        "source": "redux-persist-transform-encrypt"
+      }
+    },
+
+    "middleware": {
+      "middleware_definition": {
+        "statement": "Redux middleware is (store) => (next) => (action) => { /* logic */ return next(action); }. Intercepts actions before they reach reducers. Use for: logging, analytics, API calls, crash reporting",
+        "confidence": 1.0,
+        "source": "Redux - Middleware"
+      },
+      "adding_middleware": {
+        "statement": "Add middleware in configureStore: middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(customMiddleware)",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - Middleware"
+      }
+    },
+
+    "devtools": {
+      "redux_devtools": {
+        "statement": "Redux DevTools browser extension provides: time-travel debugging (replay actions), state inspection, action history, export/import state, dispatch actions manually. Enabled by default in Redux Toolkit dev mode",
+        "confidence": 1.0,
+        "source": "Redux DevTools Documentation"
+      },
+      "time_travel": {
+        "statement": "Time-travel debugging lets you replay past actions, jump to any state, and see how actions affect state changes. Critical for debugging complex state flows",
+        "confidence": 1.0,
+        "source": "Redux DevTools - Time Travel"
+      }
+    },
+
+    "selectors": {
+      "reselect": {
+        "statement": "Reselect library (re-exported from Redux Toolkit as createSelector) creates memoized selectors. Only recomputes when input selectors' values change. Prevents unnecessary re-renders",
+        "confidence": 1.0,
+        "source": "Reselect Documentation"
+      },
+      "create_selector": {
+        "statement": "createSelector([input selectors], resultFunction). Result only recomputes when inputs change. Example: createSelector([selectCases, selectFilters], (cases, filters) => cases.filter(...))",
+        "confidence": 1.0,
+        "source": "Reselect - createSelector",
+        "example": "const selectFilteredCases = createSelector([selectAllCases, selectFilters], (cases, filters) => cases.filter(c => c.status === filters.status));"
+      }
+    },
+
+    "normalization": {
+      "create_entity_adapter": {
+        "statement": "createEntityAdapter() provides CRUD methods for normalized state: addOne, addMany, updateOne, removeOne. Maintains items as { ids: [], entities: {} }. Includes selectors: selectAll, selectById, selectIds",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - createEntityAdapter"
+      },
+      "normalized_benefits": {
+        "statement": "Normalized state benefits: no duplication, easier updates (update by ID), better performance (no nested searches), consistent data structure",
+        "confidence": 1.0,
+        "source": "Redux - Normalizing State"
+      }
+    },
+
+    "typescript": {
+      "typed_hooks": {
+        "statement": "Create typed hooks for TypeScript: export const useAppDispatch = () => useDispatch<AppDispatch>(); export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - TypeScript",
+        "example": "const cases = useAppSelector((state) => state.cases.items); // Fully typed"
+      },
+      "root_state_type": {
+        "statement": "Infer RootState type: export type RootState = ReturnType<typeof store.getState>; Infer AppDispatch: export type AppDispatch = typeof store.dispatch;",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - TypeScript"
+      }
+    },
+
+    "best_practices": {
+      "feature_structure": {
+        "statement": "Structure Redux by feature, not by type. Each feature folder contains: slice, selectors, components. Example: features/cases/casesSlice.js, features/user/userSlice.js",
+        "confidence": 1.0,
+        "source": "Redux Style Guide"
+      },
+      "minimal_state": {
+        "statement": "Keep state minimal. Don't store: derived data (use selectors), UI state (use local component state), non-serializable values (functions, Promises, class instances)",
+        "confidence": 1.0,
+        "source": "Redux Style Guide"
+      },
+      "use_toolkit": {
+        "statement": "Always use Redux Toolkit, not vanilla Redux. Toolkit reduces boilerplate by 80%, includes best practices, and has better DX",
+        "confidence": 1.0,
+        "source": "Redux Toolkit - Why Redux Toolkit"
+      }
+    }
+  }
+}

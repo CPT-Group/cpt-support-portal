@@ -1,0 +1,316 @@
+{
+  "name": "react-error-boundary-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "React error boundary and comprehensive error handling expert for enterprise PWA applications with multi-level boundaries, recovery strategies, and graceful degradation",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-23",
+    "lastUpdated": "2025-10-23",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary - React Error Boundaries Official Documentation",
+      "https://github.com/bvaughn/react-error-boundary - react-error-boundary Library"
+    ],
+    "training_materials": [
+      ".cursor-knowledge-base/experts/react-error-boundary-expert/training/online-documentation/01-React-Error-Handling-Complete-Guide.md"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "error boundary",
+      "error handling",
+      "componentDidCatch",
+      "getDerivedStateFromError",
+      "react-error-boundary",
+      "useErrorHandler",
+      "fallback UI",
+      "error recovery",
+      "graceful degradation",
+      "network error",
+      "validation error",
+      "error classification",
+      "error reporting",
+      "try-catch",
+      "white screen of death",
+      "WSOD",
+      "app crash"
+    ],
+    "phrases": [
+      "handle errors in React",
+      "catch errors in components",
+      "error boundary hierarchy",
+      "multi-level error boundaries",
+      "retry failed requests",
+      "show error message to user",
+      "graceful error handling",
+      "fallback component",
+      "error recovery strategy",
+      "classify errors",
+      "report errors to Sentry",
+      "prevent app crash",
+      "handle network errors",
+      "handle validation errors",
+      "error boundary best practices"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Design multi-level error boundary hierarchies (global, layout, page, component)",
+      "Implement React Error Boundaries with class components or react-error-boundary library",
+      "Create comprehensive error recovery strategies (retry, reset, fallback)",
+      "Build user-friendly error messages with clear next steps",
+      "Handle network errors (timeouts, offline, 4xx, 5xx)",
+      "Handle validation errors (form, API response)",
+      "Handle business logic errors (custom domain errors)",
+      "Classify errors by type, severity, and recoverability",
+      "Implement graceful degradation patterns",
+      "Integrate with error tracking services (Sentry, LogRocket)",
+      "Build reusable fallback UI component libraries",
+      "Implement exponential backoff retry logic",
+      "Test error boundaries and error scenarios",
+      "Prevent white screen of death (WSOD)"
+    ],
+    "cannot_do": [
+      "Catch errors in event handlers (must use try/catch manually)",
+      "Catch errors in async code (must use try/catch or .catch())",
+      "Catch errors in server-side rendering",
+      "Catch errors in the error boundary itself",
+      "Prevent all errors from occurring (only handle them gracefully)",
+      "Fix underlying bugs (only provide graceful handling)"
+    ]
+  },
+
+  "facts": {
+    "error_boundary_basics": {
+      "error_boundary_definition": {
+        "statement": "Error Boundaries are React components that catch JavaScript errors in their child component tree, log errors, and display fallback UI instead of crashing the entire app",
+        "confidence": 1.0,
+        "source": "React Official Documentation",
+        "example": "class ErrorBoundary extends Component { static getDerivedStateFromError(error) { return { hasError: true }; } componentDidCatch(error, errorInfo) { logErrorToService(error, errorInfo); } render() { if (this.state.hasError) return <Fallback />; return this.props.children; } }"
+      },
+      "getDerivedStateFromError": {
+        "statement": "getDerivedStateFromError is a static lifecycle method called during the render phase to update state when an error is thrown, causing the next render to show fallback UI",
+        "confidence": 1.0,
+        "source": "React Official Documentation",
+        "example": "static getDerivedStateFromError(error: Error): State { return { hasError: true, error }; }"
+      },
+      "componentDidCatch": {
+        "statement": "componentDidCatch is a lifecycle method called during the commit phase after an error is thrown, used for side effects like logging errors to error tracking services",
+        "confidence": 1.0,
+        "source": "React Official Documentation",
+        "example": "componentDidCatch(error: Error, errorInfo: ErrorInfo) { Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } }); }"
+      },
+      "error_boundary_limitations": {
+        "statement": "Error Boundaries do NOT catch errors in event handlers, async code (setTimeout, Promises), server-side rendering, or errors in the error boundary itself - these must be handled with try/catch",
+        "confidence": 1.0,
+        "source": "React Official Documentation",
+        "example": "// ❌ Not caught by error boundary: async function handleClick() { throw new Error('async error'); } // ✅ Caught: function handleClick() { throw new Error('sync error'); }"
+      }
+    },
+
+    "react_error_boundary_library": {
+      "ErrorBoundary_component": {
+        "statement": "react-error-boundary library provides ErrorBoundary component with FallbackComponent, onError, onReset props for declarative error handling with automatic reset capability",
+        "confidence": 1.0,
+        "source": "react-error-boundary documentation",
+        "example": "<ErrorBoundary FallbackComponent={ErrorFallback} onError={(error, errorInfo) => logError(error)} onReset={() => resetState()}><MyApp /></ErrorBoundary>"
+      },
+      "useErrorHandler_hook": {
+        "statement": "useErrorHandler hook from react-error-boundary allows throwing errors from event handlers and async code that will be caught by nearest error boundary",
+        "confidence": 1.0,
+        "source": "react-error-boundary documentation",
+        "example": "const handleError = useErrorHandler(); async function handleSubmit() { try { await submitForm(); } catch (error) { handleError(error); } }"
+      },
+      "resetErrorBoundary": {
+        "statement": "resetErrorBoundary function is passed to FallbackComponent allowing users to reset error state and retry the failed operation",
+        "confidence": 1.0,
+        "source": "react-error-boundary documentation",
+        "example": "function ErrorFallback({ error, resetErrorBoundary }) { return <div><p>{error.message}</p><button onClick={resetErrorBoundary}>Try Again</button></div>; }"
+      }
+    },
+
+    "error_hierarchy": {
+      "multi_level_boundaries": {
+        "statement": "Multi-level error boundaries isolate failures at different scopes: global (app-level), layout (section-level), page (page-level), component (widget-level) for granular error isolation",
+        "confidence": 1.0,
+        "source": "React error handling best practices",
+        "example": "App (Global) → RootLayout → Header (Local) + MainContent → Dashboard (Page) → Widget1 (Component) + Widget2 (Component)"
+      },
+      "isolated_failures": {
+        "statement": "Component-level error boundaries prevent a single widget failure from crashing the entire page or application, enabling graceful degradation",
+        "confidence": 1.0,
+        "source": "React error handling best practices",
+        "example": "<Dashboard><ErrorBoundary fallback={<WidgetFallback />}><SalesChart /></ErrorBoundary><ErrorBoundary fallback={<WidgetFallback />}><UserActivity /></ErrorBoundary></Dashboard>"
+      }
+    },
+
+    "recovery_strategies": {
+      "retry_with_exponential_backoff": {
+        "statement": "Exponential backoff retry strategy attempts failed operations multiple times with increasing delays: initialDelay * 2^attempt, capped at maxDelay, useful for transient network errors",
+        "confidence": 1.0,
+        "source": "Network resilience patterns",
+        "example": "async function retry(fn, maxRetries = 3, initialDelay = 1000) { for (let i = 0; i <= maxRetries; i++) { try { return await fn(); } catch (error) { if (i < maxRetries) await sleep(Math.min(initialDelay * Math.pow(2, i), 10000)); else throw error; } } }"
+      },
+      "reset_error_boundary": {
+        "statement": "Resetting error boundaries clears error state and re-renders children, allowing users to retry failed operations manually via button or automatically via onReset callback",
+        "confidence": 1.0,
+        "source": "react-error-boundary documentation",
+        "example": "<ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { queryClient.invalidateQueries(); }}><MyComponent /></ErrorBoundary>"
+      },
+      "fallback_to_cached_data": {
+        "statement": "Keeping previous data on error with React Query keepPreviousData option allows showing stale cached data when live fetch fails, providing better UX than empty state",
+        "confidence": 1.0,
+        "source": "React Query documentation",
+        "example": "const { data, error } = useQuery('cases', fetchCases, { keepPreviousData: true, retry: 3 }); if (error && data) return <><Banner>Showing cached data</Banner><CaseTable cases={data} /></>;"
+      },
+      "graceful_degradation": {
+        "statement": "Graceful degradation disables failing features while keeping the rest of the app functional, using feature toggles to hide broken components and notify users",
+        "confidence": 1.0,
+        "source": "Error handling best practices",
+        "example": "const [enabled, setEnabled] = useState(true); <ErrorBoundary onError={() => { setEnabled(false); toast.warning('Feature disabled'); }}>{enabled && <Feature />}</ErrorBoundary>"
+      }
+    },
+
+    "user_facing_messages": {
+      "message_guidelines": {
+        "statement": "User-friendly error messages must include: what happened (context), why it happened (if helpful), what to do next (clear action), and reassurance (data saved, team notified) - avoid technical jargon",
+        "confidence": 1.0,
+        "source": "UX writing best practices",
+        "example": "✅ 'Unable to load your cases. Please check your internet connection and try again.' ❌ 'Error 500: Internal Server Error'"
+      },
+      "error_message_component": {
+        "statement": "Reusable ErrorMessage component should have title, description, suggested actions, and severity (error, warning, info) with appropriate icons and action buttons",
+        "confidence": 1.0,
+        "source": "Component design patterns",
+        "example": "<ErrorMessage title=\"Unable to load cases\" description=\"Check your connection\" actions={[{ label: 'Try Again', onClick: refetch }]} severity=\"warning\" />"
+      }
+    },
+
+    "network_errors": {
+      "network_error_detection": {
+        "statement": "Network errors include: fetch failures (TypeError: Failed to fetch), timeouts (AbortError), HTTP errors (4xx, 5xx), and offline state (navigator.onLine === false)",
+        "confidence": 1.0,
+        "source": "Fetch API and network error handling",
+        "example": "if (error instanceof TypeError && error.message === 'Failed to fetch') { /* network error */ } if (error.name === 'AbortError') { /* timeout */ }"
+      },
+      "axios_error_interceptor": {
+        "statement": "Axios response interceptors transform errors into classified NetworkError objects with statusCode, isTimeout, isOffline properties for consistent error handling",
+        "confidence": 1.0,
+        "source": "Axios documentation",
+        "example": "axios.interceptors.response.use(res => res, error => { const networkError = new NetworkError(error.message, error.response?.status); return Promise.reject(networkError); });"
+      },
+      "offline_detection": {
+        "statement": "Online/offline status is detected with navigator.onLine and window online/offline events, allowing apps to show offline banners and queue operations",
+        "confidence": 1.0,
+        "source": "Navigator API documentation",
+        "example": "const [isOnline, setIsOnline] = useState(navigator.onLine); useEffect(() => { window.addEventListener('online', () => setIsOnline(true)); window.addEventListener('offline', () => setIsOnline(false)); }, []);"
+      }
+    },
+
+    "validation_errors": {
+      "form_validation": {
+        "statement": "Form validation errors are handled by react-hook-form with schema validation (Zod, Yup) providing field-level error messages via formState.errors",
+        "confidence": 1.0,
+        "source": "react-hook-form documentation",
+        "example": "const { formState: { errors } } = useForm({ resolver: zodResolver(schema) }); <Input {...register('email')} error={errors.email?.message} />"
+      },
+      "api_validation_errors": {
+        "statement": "API validation errors (422 Unprocessable Entity) should be transformed into ValidationError with fields object mapping field names to error messages for display",
+        "confidence": 1.0,
+        "source": "API error handling patterns",
+        "example": "if (error.response?.status === 422) { throw new ValidationError('Validation failed', error.response.data.errors); }"
+      }
+    },
+
+    "business_logic_errors": {
+      "custom_domain_errors": {
+        "statement": "Custom domain errors (CaseLockedError, InsufficientPermissionsError, CaseNotFoundError) extend Error with typed properties for business-specific error handling",
+        "confidence": 1.0,
+        "source": "Domain-driven design patterns",
+        "example": "class CaseLockedError extends Error { constructor(public caseId: string, public lockedBy: string) { super(`Case ${caseId} locked by ${lockedBy}`); } }"
+      },
+      "business_error_handling": {
+        "statement": "Business logic errors are caught with type guards and handled with specific user messages and recovery actions appropriate to the business scenario",
+        "confidence": 1.0,
+        "source": "Error handling best practices",
+        "example": "try { await updateCase(id, data); } catch (error) { if (error instanceof CaseLockedError) { showDialog({ title: 'Case Locked', message: `Locked by ${error.lockedBy}` }); } }"
+      }
+    },
+
+    "error_classification": {
+      "error_taxonomy": {
+        "statement": "Errors are classified by three dimensions: type (network, validation, auth, authorization, business_logic, unknown), severity (low, medium, high, critical), recoverability (transient, permanent, user_fixable)",
+        "confidence": 1.0,
+        "source": "Error classification patterns",
+        "example": "{ type: 'network', severity: 'high', recoverability: 'transient', userMessage: 'You appear to be offline', suggestedAction: 'Check connection' }"
+      },
+      "error_classifier": {
+        "statement": "Error classifier function analyzes errors and returns ClassifiedError object with type, severity, recoverability, userMessage, technicalMessage, and suggestedAction",
+        "confidence": 1.0,
+        "source": "Error handling patterns",
+        "example": "function classifyError(error: unknown): ClassifiedError { if (isNetworkError(error) && error.isOffline) return { type: 'network', severity: 'high', recoverability: 'transient', ... }; }"
+      }
+    },
+
+    "error_reporting": {
+      "sentry_integration": {
+        "statement": "Sentry error tracking is integrated with beforeSend hook for filtering sensitive data and adding error classification as tags and contexts",
+        "confidence": 1.0,
+        "source": "Sentry documentation",
+        "example": "Sentry.captureException(error, { level: 'error', tags: { errorType: 'network', severity: 'high' }, contexts: { classification } });"
+      },
+      "error_reporter": {
+        "statement": "ErrorReporter service classifies errors, logs to console in dev, sends to Sentry with context, logs to backend API, and notifies users based on severity",
+        "confidence": 1.0,
+        "source": "Error reporting patterns",
+        "example": "ErrorReporter.report(error, { userId, componentName: 'CaseList' }); // Logs, sends to Sentry, notifies user"
+      }
+    },
+
+    "fallback_components": {
+      "generic_error_fallback": {
+        "statement": "Generic error fallback shows error icon, classified user message, suggested action, and retry button if error is transient",
+        "confidence": 1.0,
+        "source": "Error handling UI patterns",
+        "example": "function ErrorFallback({ error, resetErrorBoundary }) { const classification = classifyError(error); return <div><ErrorIcon /><p>{classification.userMessage}</p>{classification.recoverability === 'transient' && <Button onClick={resetErrorBoundary}>Try Again</Button>}</div>; }"
+      },
+      "page_error_fallback": {
+        "statement": "Page-level error fallback provides prominent error message with actions to reload page or go back to previous page",
+        "confidence": 1.0,
+        "source": "Error handling UI patterns",
+        "example": "function PageErrorFallback({ resetErrorBoundary }) { return <div><h1>Page Error</h1><Button onClick={resetErrorBoundary}>Reload</Button><Button onClick={() => history.back()}>Go Back</Button></div>; }"
+      },
+      "widget_fallback": {
+        "statement": "Widget fallback shows minimal error state for failed component while keeping rest of page functional",
+        "confidence": 1.0,
+        "source": "Error handling UI patterns",
+        "example": "function WidgetFallback({ name }) { return <div><WarningIcon /><p>{name} temporarily unavailable</p></div>; }"
+      }
+    },
+
+    "testing": {
+      "testing_error_boundaries": {
+        "statement": "Error boundaries are tested by creating components that throw errors and asserting fallback UI is rendered and onError callback is called",
+        "confidence": 1.0,
+        "source": "React Testing Library patterns",
+        "example": "function ThrowError() { throw new Error('Test'); } render(<ErrorBoundary><ThrowError /></ErrorBoundary>); expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();"
+      },
+      "testing_error_recovery": {
+        "statement": "Error recovery is tested by mocking API to fail, asserting error message appears, clicking retry button, mocking success, and asserting success",
+        "confidence": 1.0,
+        "source": "React Testing Library patterns",
+        "example": "server.use(rest.get('/api/cases', (req, res, ctx) => res(ctx.status(500)))); render(<CaseList />); const retry = await screen.findByRole('button', { name: /try again/i }); fireEvent.click(retry);"
+      }
+    }
+  }
+}

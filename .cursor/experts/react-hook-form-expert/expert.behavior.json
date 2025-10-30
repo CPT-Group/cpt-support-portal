@@ -1,0 +1,308 @@
+{
+  "name": "react-hook-form-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Comprehensive React Hook Form expert covering form management, validation, performance optimization, field arrays, schema integration, and best practices for React applications",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-01-24",
+    "lastUpdated": "2025-01-24",
+    "author": "AI Expert System",
+    "status": "active",
+    "library_version": "React Hook Form v7+",
+    "react_requirement": "React 16.8+ (hooks support required)"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "React Hook Form Official Documentation (react-hook-form.com)",
+      "React Hook Form GitHub Repository",
+      "React Hook Form API Reference"
+    ],
+    "version_info": "React Hook Form v7+"
+  },
+
+  "triggers": {
+    "keywords": [
+      "react-hook-form",
+      "react hook form",
+      "useForm",
+      "register",
+      "handleSubmit",
+      "formState",
+      "errors",
+      "watch",
+      "setValue",
+      "getValues",
+      "reset",
+      "trigger",
+      "controller",
+      "useController",
+      "useFieldArray",
+      "form validation",
+      "react form",
+      "form library",
+      "hook form",
+      "rhf"
+    ],
+    "phrases": [
+      "react hook form",
+      "react form validation",
+      "useForm hook",
+      "register input",
+      "form errors",
+      "form state",
+      "react form library",
+      "hook form validation",
+      "dynamic form fields",
+      "react form performance"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Create forms with useForm hook",
+      "Register form inputs with register function",
+      "Implement form validation (built-in and custom)",
+      "Handle form submission with handleSubmit",
+      "Access and display form errors",
+      "Watch form field values",
+      "Programmatically set field values with setValue",
+      "Get form values with getValues",
+      "Reset form to default values",
+      "Trigger validation manually",
+      "Use Controller for controlled components",
+      "Manage dynamic form fields with useFieldArray",
+      "Integrate with Yup and Zod schema validators",
+      "Configure validation modes (onChange, onBlur, onSubmit)",
+      "Optimize form performance with minimal re-renders",
+      "Handle async validation",
+      "Customize error messages",
+      "Access form state properties (isDirty, isValid, isSubmitting, etc.)"
+    ],
+    "cannot_do": [
+      "Make architectural decisions about form library selection (defer to architecture-expert)",
+      "Choose between React Hook Form and Formik without context (defer to architecture-expert)",
+      "Design form UI/UX (defer to design-expert)",
+      "Recommend validation library without project context (defer to architecture-expert)"
+    ]
+  },
+
+  "facts": {
+    "installation": {
+      "npm_install": {
+        "statement": "React Hook Form installed via npm: npm install react-hook-form. Or yarn: yarn add react-hook-form. No additional dependencies required. Lightweight library (~9KB gzipped). Requires React 16.8+ for hooks support.",
+        "confidence": 1.0,
+        "source": "React Hook Form Installation Documentation",
+        "example": "npm install react-hook-form"
+      }
+    },
+    "basic_usage": {
+      "useForm_hook": {
+        "statement": "useForm hook is main entry point. Returns object with methods: register, handleSubmit, formState, watch, reset, setValue, getValues, trigger, control, etc. Usage: const { register, handleSubmit, formState: { errors } } = useForm();",
+        "confidence": 1.0,
+        "source": "React Hook Form useForm Documentation",
+        "example": "const { register, handleSubmit, formState: { errors } } = useForm();"
+      },
+      "register_function": {
+        "statement": "register function registers input with form. Spread operator pattern: {...register('fieldName')}. Accepts validation rules as second argument. Returns ref, name, onChange, onBlur props. Usage: <input {...register('email', { required: true })} />",
+        "confidence": 1.0,
+        "source": "React Hook Form Register Documentation",
+        "example": "<input {...register('email', { required: 'Email required', pattern: { value: /^\\S+@\\S+$/i, message: 'Invalid email' } })} />"
+      },
+      "handleSubmit": {
+        "statement": "handleSubmit wraps form submission. Takes submit handler function. Validates form before calling handler. Handles form event.preventDefault(). Usage: <form onSubmit={handleSubmit(onSubmit)}>. Handler receives validated data: const onSubmit = (data) => { console.log(data); }",
+        "confidence": 1.0,
+        "source": "React Hook Form handleSubmit Documentation",
+        "example": "const onSubmit = (data) => { console.log(data); }; <form onSubmit={handleSubmit(onSubmit)}>"
+      }
+    },
+    "validation": {
+      "built_in_rules": {
+        "statement": "Built-in validation rules: required (boolean or string message), min/max (number), minLength/maxLength (string length), pattern (RegExp with value and message), validate (custom function). All rules support string message for errors.",
+        "confidence": 1.0,
+        "source": "React Hook Form Validation Documentation",
+        "example": "register('email', { required: 'Required', minLength: { value: 3, message: 'Min 3 chars' }, pattern: { value: /^\\S+@\\S+$/i, message: 'Invalid email' } })"
+      },
+      "custom_validation": {
+        "statement": "Custom validation via validate function. Can be single function or object with multiple validators. Return true/undefined for valid, string for error message. Async supported: validate: async (value) => await checkUnique(value) || 'Already exists'",
+        "confidence": 1.0,
+        "source": "React Hook Form Custom Validation Documentation",
+        "example": "register('username', { validate: { notAdmin: v => v !== 'admin' || 'Nice try!', unique: async v => await isUnique(v) || 'Taken' } })"
+      },
+      "error_messages": {
+        "statement": "Error messages: string for required, object with message for pattern/validate. Access via formState.errors.fieldName.message. Display: {errors.email && <span>{errors.email.message}</span>}. Error object has type, message, ref properties.",
+        "confidence": 1.0,
+        "source": "React Hook Form Error Handling Documentation",
+        "example": "const { formState: { errors } } = useForm(); {errors.email && <span>{errors.email.message}</span>}"
+      }
+    },
+    "form_state": {
+      "formState_properties": {
+        "statement": "formState properties: errors (validation errors), isDirty (form modified), isValid (form valid), isSubmitting (currently submitting), isSubmitted (has been submitted), submitCount (submission attempts), touchedFields (touched field names), dirtyFields (modified field names). Access: const { formState: { errors, isDirty } } = useForm();",
+        "confidence": 1.0,
+        "source": "React Hook Form FormState Documentation",
+        "example": "const { formState: { errors, isDirty, isValid, isSubmitting } } = useForm();"
+      }
+    },
+    "advanced_features": {
+      "watch": {
+        "statement": "watch subscribes to form values. Single field: watch('fieldName'). Multiple: watch(['field1', 'field2']). All fields: watch(). Returns current values. Can cause re-renders, use sparingly. Usage: const email = watch('email');",
+        "confidence": 1.0,
+        "source": "React Hook Form Watch Documentation",
+        "example": "const email = watch('email'); const { email, password } = watch(['email', 'password']); const allValues = watch();"
+      },
+      "setValue": {
+        "statement": "setValue programmatically sets field value. setValue('fieldName', 'value'). Options: { shouldValidate: true, shouldDirty: true, shouldTouch: true }. Use for dependent fields, async updates. Usage: setValue('email', 'new@email.com', { shouldValidate: true });",
+        "confidence": 1.0,
+        "source": "React Hook Form setValue Documentation",
+        "example": "setValue('email', 'value', { shouldValidate: true, shouldDirty: true, shouldTouch: true });"
+      },
+      "getValues": {
+        "statement": "getValues gets current form values without subscription. Single: getValues('fieldName'). Multiple: getValues(['field1', 'field2']). All: getValues(). Doesn't trigger re-render. Usage: const email = getValues('email');",
+        "confidence": 1.0,
+        "source": "React Hook Form getValues Documentation",
+        "example": "const email = getValues('email'); const values = getValues(['email', 'password']); const allValues = getValues();"
+      },
+      "reset": {
+        "statement": "reset resets form to default values. Reset to defaults: reset(). Reset with new values: reset({ email: 'value', password: '' }). Options: { keepValues: true, keepErrors: true, keepDirty: true, keepIsSubmitted: true, keepTouched: true, keepIsValid: true, keepSubmitCount: true }.",
+        "confidence": 1.0,
+        "source": "React Hook Form Reset Documentation",
+        "example": "reset(); reset({ email: 'new@email.com', password: '' }); reset({}, { keepErrors: true });"
+      },
+      "trigger": {
+        "statement": "trigger manually validates fields. Single: await trigger('fieldName'). Multiple: await trigger(['field1', 'field2']). All: await trigger(). Returns boolean (true if valid). Usage: const isValid = await trigger('email');",
+        "confidence": 1.0,
+        "source": "React Hook Form Trigger Documentation",
+        "example": "await trigger('email'); await trigger(['email', 'password']); const isValid = await trigger();"
+      },
+      "resetField": {
+        "statement": "resetField resets single field. resetField('fieldName'). Options: { defaultValue, keepError, keepDirty, keepTouched, keepIsValid }. Usage: resetField('email', { defaultValue: '' });",
+        "confidence": 1.0,
+        "source": "React Hook Form resetField Documentation",
+        "example": "resetField('email', { defaultValue: '', keepError: false });"
+      }
+    },
+    "controller": {
+      "controller_component": {
+        "statement": "Controller wraps controlled components or third-party UI libraries. Requires control, name, rules. Render prop receives { field, fieldState } object. field has value, onChange, onBlur, ref. fieldState has error, invalid, isDirty, isTouched. Usage: <Controller name='field' control={control} render={({ field }) => <CustomInput {...field} />} />",
+        "confidence": 1.0,
+        "source": "React Hook Form Controller Documentation",
+        "example": "<Controller name='email' control={control} rules={{ required: true }} render={({ field, fieldState }) => <CustomInput {...field} error={fieldState.error} />} />"
+      }
+    },
+    "validation_modes": {
+      "mode_options": {
+        "statement": "Validation modes: mode: 'onChange' (validate on change), 'onBlur' (validate on blur), 'onSubmit' (default, validate on submit), 'onTouched' (validate on first blur, then change), 'all' (validate on blur and change). reValidateMode: 'onChange', 'onBlur', or 'onSubmit' (re-validation mode after first submission).",
+        "confidence": 1.0,
+        "source": "React Hook Form Validation Modes Documentation",
+        "example": "useForm({ mode: 'onChange', reValidateMode: 'onChange' });"
+      }
+    },
+    "field_arrays": {
+      "useFieldArray": {
+        "statement": "useFieldArray manages dynamic form fields (arrays). Requires control and name. Returns: fields (array with id), append (add to end), prepend (add to start), remove (by index), swap (two indices), move (from/to index), insert (at index), replace (replace all). Usage: const { fields, append, remove } = useFieldArray({ control, name: 'users' });",
+        "confidence": 1.0,
+        "source": "React Hook Form useFieldArray Documentation",
+        "example": "const { fields, append, remove } = useFieldArray({ control, name: 'users' }); fields.map((field, i) => <input key={field.id} {...register(`users.${i}.name`)} />); append({ name: '' }); remove(0);"
+      }
+    },
+    "schema_integration": {
+      "yup_integration": {
+        "statement": "Yup integration via @hookform/resolvers/yup. Install: npm install @hookform/resolvers yup. Import: import { yupResolver } from '@hookform/resolvers/yup'. Use: useForm({ resolver: yupResolver(schema) }). Schema defines validation rules with Yup.",
+        "confidence": 1.0,
+        "source": "React Hook Form Yup Integration Documentation",
+        "example": "import { yupResolver } from '@hookform/resolvers/yup'; import * as yup from 'yup'; const schema = yup.object({ email: yup.string().email().required() }); useForm({ resolver: yupResolver(schema) });"
+      },
+      "zod_integration": {
+        "statement": "Zod integration via @hookform/resolvers/zod. Install: npm install @hookform/resolvers zod. Import: import { zodResolver } from '@hookform/resolvers/zod'. Use: useForm({ resolver: zodResolver(schema) }). Schema defines validation with Zod.",
+        "confidence": 1.0,
+        "source": "React Hook Form Zod Integration Documentation",
+        "example": "import { zodResolver } from '@hookform/resolvers/zod'; import { z } from 'zod'; const schema = z.object({ email: z.string().email() }); useForm({ resolver: zodResolver(schema) });"
+      }
+    },
+    "performance": {
+      "isolated_rerenders": {
+        "statement": "React Hook Form isolates re-renders to only fields that change, not entire form. Uncontrolled components (via register) don't cause component re-renders. Only subscribers to specific field state re-render. Better performance than controlled forms.",
+        "confidence": 1.0,
+        "source": "React Hook Form Performance Documentation",
+        "example": "With register, only subscribed components re-render, not entire form"
+      },
+      "minimal_rerenders": {
+        "statement": "Minimal re-renders: React Hook Form uses uncontrolled components for inputs (via register), which don't trigger re-renders. Only components explicitly watching values re-render. Subscriptions can be granular (single field) or form-wide.",
+        "confidence": 1.0,
+        "source": "React Hook Form Performance Documentation",
+        "example": "Uncontrolled inputs with register avoid unnecessary re-renders"
+      },
+      "faster_mounting": {
+        "statement": "Faster mounting: React Hook Form has fewer component mounts and faster total mount time compared to controlled form libraries. No controlled component overhead. Faster initial render.",
+        "confidence": 1.0,
+        "source": "React Hook Form Performance Documentation",
+        "example": "React Hook Form: 1 mount, 1 commit, 1800ms vs Others: 6-17 mounts, 2070-2380ms"
+      }
+    },
+    "default_values": {
+      "defaultValues": {
+        "statement": "defaultValues sets initial form state. Pass object to useForm: useForm({ defaultValues: { email: '', password: '' } }). Values used by reset() without arguments. Can be function for lazy initialization. Usage: useForm({ defaultValues: async () => await fetchDefaults() });",
+        "confidence": 1.0,
+        "source": "React Hook Form defaultValues Documentation",
+        "example": "useForm({ defaultValues: { email: 'test@email.com', password: '' } });"
+      }
+    },
+    "advanced_validation": {
+      "async_validation": {
+        "statement": "Async validation: validate function can be async. Return Promise resolving to true/string. Useful for server-side checks (unique email, API validation). Usage: validate: async (value) => { const exists = await checkEmail(value); return !exists || 'Email taken'; }",
+        "confidence": 1.0,
+        "source": "React Hook Form Async Validation Documentation",
+        "example": "register('email', { validate: async (value) => await isUnique(value) || 'Already exists' });"
+      },
+      "dependent_validation": {
+        "statement": "Dependent validation: Access other field values in validate function using getValues(). Compare fields (password confirmation, conditional rules). Usage: validate: (value) => value === getValues('password') || 'Passwords must match';",
+        "confidence": 1.0,
+        "source": "React Hook Form Dependent Validation Documentation",
+        "example": "register('confirmPassword', { validate: (value) => value === getValues('password') || 'Must match password' });"
+      }
+    }
+  },
+
+  "examples": {
+    "basic_form": {
+      "title": "Basic Form with Validation",
+      "description": "Simple form with email and password validation",
+      "code": "import { useForm } from 'react-hook-form';\n\nfunction LoginForm() {\n  const { register, handleSubmit, formState: { errors } } = useForm();\n  \n  const onSubmit = (data) => console.log(data);\n  \n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      <input\n        {...register('email', {\n          required: 'Email required',\n          pattern: { value: /^\\S+@\\S+$/i, message: 'Invalid email' }\n        })}\n      />\n      {errors.email && <span>{errors.email.message}</span>}\n      \n      <input\n        type=\"password\"\n        {...register('password', { required: 'Password required' })}\n      />\n      {errors.password && <span>{errors.password.message}</span>}\n      \n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}",
+      "source": "React Hook Form Basic Example"
+    },
+    "dynamic_fields": {
+      "title": "Dynamic Form Fields",
+      "description": "Form with addable/removable field arrays",
+      "code": "import { useForm, useFieldArray } from 'react-hook-form';\n\nfunction DynamicForm() {\n  const { control, register, handleSubmit } = useForm({\n    defaultValues: { users: [{ name: '' }] }\n  });\n  \n  const { fields, append, remove } = useFieldArray({\n    control,\n    name: 'users'\n  });\n  \n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      {fields.map((field, index) => (\n        <div key={field.id}>\n          <input {...register(`users.${index}.name`)} />\n          <button type=\"button\" onClick={() => remove(index)}>Remove</button>\n        </div>\n      ))}\n      <button type=\"button\" onClick={() => append({ name: '' })}>Add</button>\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}",
+      "source": "React Hook Form useFieldArray Example"
+    },
+    "controller_example": {
+      "title": "Controller with Custom Component",
+      "description": "Using Controller for third-party UI library",
+      "code": "import { useForm, Controller } from 'react-hook-form';\n\nfunction Form() {\n  const { control, handleSubmit } = useForm();\n  \n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      <Controller\n        name=\"email\"\n        control={control}\n        rules={{ required: true }}\n        render={({ field, fieldState }) => (\n          <CustomInput\n            {...field}\n            error={fieldState.error?.message}\n          />\n        )}\n      />\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}",
+      "source": "React Hook Form Controller Example"
+    }
+  },
+
+  "integration": {
+    "works_with": [
+      "react-expert",
+      "typescript-expert"
+    ],
+    "defers_to": [
+      "architecture-validation-expert (for form library selection decisions)"
+    ]
+  },
+
+  "notes": {
+    "maintenance": "Update when React Hook Form releases new versions or adds new features. Check react-hook-form.com/docs for latest API changes and migration guides",
+    "coverage": "Covers React Hook Form v7+ with useForm, register, validation, Controller, useFieldArray, schema integration (Yup/Zod), performance optimization. Update for new APIs and validation features.",
+    "training_source": "Documentation scraped from react-hook-form.com on 2025-01-24"
+  }
+}
+

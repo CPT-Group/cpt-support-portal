@@ -1,0 +1,176 @@
+{
+  "name": "pwa-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "PWA architectural opinions and decision frameworks",
+  
+  "opinions": [
+    {
+      "id": "caching_strategy_selection",
+      "title": "Caching Strategy Selection",
+      "description": "How to choose the appropriate caching strategy based on resource type and requirements",
+      "confidence_score": 0.95,
+      "rationale": "Different resources have different freshness requirements. Static assets benefit from cache-first (fastest), APIs need network-first (freshest), semi-static content works with stale-while-revalidate (balanced)",
+      "context": {
+        "when_applicable": ["Implementing service worker fetch handlers", "Optimizing offline experience", "Balancing performance vs freshness"],
+        "when_not_applicable": ["No offline support needed", "All resources must be real-time", "No service worker"]
+      },
+      "options": [
+        {
+          "name": "Cache First (Cache Falling Back to Network)",
+          "description": "Check cache first, use network as fallback",
+          "pros": ["Fastest response time", "Works offline", "Reduces server load", "Best user experience for static content"],
+          "cons": ["May serve stale content", "Requires update mechanism", "Not suitable for dynamic data"],
+          "use_when": ["Static assets (CSS, JS, images, fonts)", "Content that rarely changes", "Performance is critical"],
+          "code_example": "async function cacheFirst(req) { return (await caches.match(req)) || fetch(req); }"
+        },
+        {
+          "name": "Network First (Network Falling Back to Cache)",
+          "description": "Try network first, use cache as fallback",
+          "pros": ["Always tries for fresh content", "Graceful offline fallback", "Caches for future offline use"],
+          "cons": ["Slower (waits for network)", "Uses more data", "Requires network attempt even when cached"],
+          "use_when": ["API calls", "Dynamic content", "Frequently changing data", "User-generated content"],
+          "code_example": "async function networkFirst(req) { try { const res = await fetch(req); cache.put(req, res.clone()); return res; } catch { return caches.match(req); } }"
+        },
+        {
+          "name": "Stale While Revalidate",
+          "description": "Return cache immediately, update in background",
+          "pros": ["Fast response", "Updates cache in background", "Always improving freshness"],
+          "cons": ["May show outdated content temporarily", "Uses network even when cached", "More complex"],
+          "use_when": ["News articles", "Blog posts", "User profiles", "Content that changes occasionally"],
+          "code_example": "Return cached, fetch() in background to update cache"
+        }
+      ],
+      "decision_factors": [
+        "Content freshness requirements",
+        "Resource type (static vs dynamic)",
+        "User experience priorities (speed vs freshness)",
+        "Offline support needs",
+        "Network reliability"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "workbox_vs_custom",
+      "title": "Workbox vs Custom Service Worker",
+      "description": "Whether to use Workbox library or write custom service worker code",
+      "confidence_score": 0.92,
+      "rationale": "Workbox provides battle-tested patterns and reduces boilerplate, but adds dependency. Custom service workers give full control but require more code and testing",
+      "context": {
+        "when_applicable": ["Starting new PWA project", "Deciding on service worker implementation approach"],
+        "when_not_applicable": ["Service worker already implemented", "No build tooling available"]
+      },
+      "options": [
+        {
+          "name": "Workbox",
+          "description": "Use Google's Workbox library for service worker implementation",
+          "pros": ["Battle-tested patterns", "Less boilerplate code", "Plugin ecosystem", "Active maintenance", "Precaching with build tools"],
+          "cons": ["Additional dependency (~20KB)", "Requires build step", "Learning curve for configuration", "Less control over internals"],
+          "use_when": ["Production PWAs", "Teams new to service workers", "Standard caching needs", "Build tooling available"],
+          "code_example": "importScripts('workbox-sw.js'); workbox.routing.registerRoute(/\\.png$/, new workbox.strategies.CacheFirst());"
+        },
+        {
+          "name": "Custom Service Worker",
+          "description": "Write service worker code from scratch",
+          "pros": ["Full control", "No dependencies", "Smaller bundle", "Custom logic easy to implement", "No build step required"],
+          "cons": ["More code to write", "More testing needed", "Reinventing patterns", "Maintenance burden", "More bugs initially"],
+          "use_when": ["Simple PWAs", "Specific custom requirements", "No build tooling", "Bundle size critical", "Educational purposes"],
+          "code_example": "self.addEventListener('fetch', event => { event.respondWith(customFetchLogic(event.request)); });"
+        }
+      },
+      "decision_factors": [
+        "Team experience with service workers",
+        "Project complexity",
+        "Build tooling availability",
+        "Bundle size constraints",
+        "Time to market"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "installation_prompt_timing",
+      "title": "Installation Prompt Timing",
+      "description": "When to show PWA installation prompt to users",
+      "confidence_score": 0.89,
+      "rationale": "Installation prompts should enhance user experience, not interrupt it. Timing affects acceptance rate and user perception",
+      "context": {
+        "when_applicable": ["Implementing PWA installation", "Optimizing install conversion rate"],
+        "when_not_applicable": ["iOS Safari (no beforeinstallprompt)", "Non-installable apps"]
+      },
+      "options": [
+        {
+          "name": "After Engagement (Recommended)",
+          "description": "Show prompt after user has engaged with app (60+ seconds, multiple page views)",
+          "pros": ["Higher acceptance rate", "User understands value", "Less intrusive", "Respects user journey"],
+          "cons": ["Delayed installation", "User may leave before prompt", "Requires tracking engagement"],
+          "use_when": ["Most PWAs", "User engagement is measurable", "Want high acceptance rate"]
+        },
+        {
+          "name": "Contextual Prompt",
+          "description": "Show prompt when user performs specific valuable action",
+          "pros": ["Highly relevant", "User sees immediate value", "Best acceptance rates", "Feels natural"],
+          "cons": ["Requires feature detection", "May not trigger for all users", "More complex logic"],
+          "use_when": ["E-commerce (after adding to cart)", "Productivity apps (after saving work)", "Clear valuable actions exist"]
+        },
+        {
+          "name": "Persistent Install Button",
+          "description": "Provide subtle, always-visible install button (no automatic prompt)",
+          "pros": ["User-initiated", "No interruption", "Professional", "Accessibility friendly"],
+          "cons": ["Lower discovery", "Requires UI space", "May be overlooked"],
+          "use_when": ["Enterprise apps", "User-initiated preferred", "UI space available"]
+        }
+      ],
+      "decision_factors": [
+        "User engagement patterns",
+        "Acceptance rate goals",
+        "App complexity",
+        "Target audience sophistication",
+        "Available UI space"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "offline_experience_depth",
+      "title": "Offline Experience Depth",
+      "description": "How comprehensive the offline functionality should be",
+      "confidence_score": 0.88,
+      "rationale": "Offline capabilities range from simple fallback pages to full offline functionality. The right level depends on use cases and development resources",
+      "context": {
+        "when_applicable": ["Designing PWA offline experience", "Determining caching scope"],
+        "when_not_applicable": ["Real-time only apps", "No offline use cases"]
+      },
+      "options": [
+        {
+          "name": "Full Offline Functionality",
+          "description": "App fully functional offline with local data storage and sync",
+          "pros": ["Best user experience", "Works anywhere", "Truly offline-first", "Competitive advantage"],
+          "cons": ["Most complex", "Requires IndexedDB/storage", "Sync logic needed", "Conflict resolution"],
+          "use_when": ["Productivity apps", "Field work apps", "Critical workflows", "Poor connectivity expected"]
+        },
+        {
+          "name": "Read-Only Offline",
+          "description": "Users can view cached content offline, but not create/edit",
+          "pros": ["Simpler than full offline", "Good user experience", "No sync conflicts", "Easier to implement"],
+          "cons": ["Limited offline capability", "Can't save work offline", "May frustrate users"],
+          "use_when": ["Content apps", "News/blog apps", "Reference apps", "Read-heavy workflows"]
+        },
+        {
+          "name": "Offline Fallback Page Only",
+          "description": "Show custom offline page when no connectivity",
+          "pros": ["Simplest implementation", "Better than blank page", "Minimal development", "Clear communication"],
+          "cons": ["No offline functionality", "Worst user experience", "Missed PWA benefits"],
+          "use_when": ["Real-time apps", "Minimal offline need", "Limited development resources", "MVP/prototype"]
+        }
+      ],
+      "decision_factors": [
+        "User workflows and needs",
+        "Connectivity reliability",
+        "Development resources",
+        "Data sync complexity",
+        "Competitive requirements"
+      ],
+      "presentChoice": false
+    }
+  ]
+}
+

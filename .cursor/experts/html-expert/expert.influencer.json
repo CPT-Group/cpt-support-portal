@@ -1,0 +1,362 @@
+{
+  "expert_name": "html-expert",
+  "applies_to": ["html-expert"],
+  "version": "1.0.0",
+  
+  "sources": {
+    "curated_content": [
+      {
+        "type": "documentation",
+        "name": "MDN Web Docs - HTML Best Practices",
+        "source": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto",
+        "confidence_weight": 0.95
+      },
+      {
+        "type": "documentation",
+        "name": "WHATWG HTML Living Standard",
+        "source": "https://html.spec.whatwg.org/",
+        "confidence_weight": 0.98
+      },
+      {
+        "type": "best_practices",
+        "name": "W3C Accessibility Guidelines (WCAG 2.1/2.2)",
+        "source": "https://www.w3.org/WAI/standards-guidelines/wcag/",
+        "confidence_weight": 0.96
+      }
+    ]
+  },
+  
+  "facts": {
+    "accessibility": {
+      "alt_text_required": {
+        "statement": "The alt attribute is required on all <img> elements for accessibility and SEO; use descriptive text for meaningful images, empty alt=\"\" for decorative images (never omit the attribute)",
+        "confidence": 1.0,
+        "source": "WCAG 2.1, WHATWG HTML Living Standard",
+        "applies_to": "All img elements in HTML documents"
+      },
+      "labels_required": {
+        "statement": "All form inputs must have associated <label> elements for accessibility; clicking label focuses input and screen readers announce the label text",
+        "confidence": 1.0,
+        "source": "WCAG 2.1, WHATWG HTML Living Standard",
+        "applies_to": "All form input, select, and textarea elements"
+      }
+    },
+    "semantic_html": {
+      "use_semantic_elements": {
+        "statement": "Semantic HTML elements (<header>, <nav>, <main>, <article>, <section>, <aside>, <footer>) should be used instead of generic <div> elements when appropriate for accessibility and SEO",
+        "confidence": 1.0,
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        "applies_to": "HTML document structure"
+      }
+    }
+  },
+  
+  "opinions": {
+    "semantic_html_usage": {
+      "prefer_semantic_elements": {
+        "title": "Prefer Semantic HTML Elements Over Generic Containers",
+        "description": "Choose semantic HTML5 elements (<header>, <nav>, <main>, <article>, <section>, <aside>, <footer>) instead of generic <div> elements when the content has semantic meaning",
+        "confidence_score": 0.96,
+        "rationale": "Semantic HTML provides meaning to content structure, improving accessibility (screen readers understand document structure), SEO (search engines understand content hierarchy), maintainability (code is self-documenting), and follows HTML Living Standard guidance. Generic containers should only be used for styling/layout when no semantic element fits.",
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        
+        "context": {
+          "when_applicable": [
+            "Structuring HTML document layout",
+            "Creating navigation menus",
+            "Defining main content areas",
+            "Organizing articles or blog posts",
+            "Creating page headers and footers"
+          ],
+          "when_not_applicable": [
+            "Pure styling/layout wrappers with no semantic meaning",
+            "Containers for JavaScript manipulation only",
+            "Grid or flexbox layout containers"
+          ]
+        },
+        
+        "options": [
+          {
+            "name": "Semantic HTML Elements",
+            "confidence": 0.96,
+            "reason": "HTML Living Standard recommended approach: provides meaning, accessibility, SEO benefits",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Accessibility: Screen readers understand document structure and can navigate by landmarks",
+                "SEO: Search engines understand content hierarchy and importance",
+                "Maintainability: Code is self-documenting, intent is clear",
+                "Standards compliance: Follows HTML Living Standard best practices",
+                "Future-proof: Semantic meaning persists across updates",
+                "No additional cost: Same as using <div>, just different element name"
+              ],
+              "cons": [
+                "Learning curve: Developers must understand which semantic element to use",
+                "Older browsers: Very old browsers (IE8-) may need polyfills (rare concern in 2025)",
+                "Flexibility: Cannot use same element for multiple semantic purposes"
+              ]
+            },
+            "context_requirements": [
+              "Content has semantic meaning (not just styling container)",
+              "Modern browser target (essentially all browsers in 2025)",
+              "Want accessibility and SEO benefits"
+            ]
+          },
+          {
+            "name": "Generic Containers (div, span)",
+            "confidence": 0.55,
+            "reason": "Only appropriate when content has NO semantic meaning; acceptable for styling/layout wrappers",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Flexibility: Can be used for any purpose without semantic constraints",
+                "Simplicity: No need to choose correct semantic element",
+                "Universal browser support: Works everywhere including very old browsers"
+              ],
+              "cons": [
+                "No accessibility benefit: Screen readers cannot identify content purpose",
+                "No SEO benefit: Search engines cannot understand content hierarchy",
+                "Not self-documenting: Code intent unclear without additional class names",
+                "Violates best practices: Does not follow HTML Living Standard guidance",
+                "Missed opportunities: Loses semantic meaning that could benefit users"
+              ]
+            },
+            "context_requirements": [
+              "Content has NO semantic meaning (pure styling/layout wrapper)",
+              "No appropriate semantic element exists",
+              "Container for JavaScript manipulation or CSS styling only"
+            ]
+          }
+        ],
+        
+        "decision_factors": [
+          "Content meaning: Has semantic meaning? → Semantic element (yes) or <div> (no)",
+          "Document structure: Header/navigation/main/footer? → Semantic elements (header/nav/main/footer)",
+          "Content type: Article/blog post? → <article>; Section of content? → <section>",
+          "Navigation: Menu or navigation links? → <nav>",
+          "Sidebar: Tangentially related content? → <aside>",
+          "Styling only: Pure layout/styling wrapper? → <div> acceptable",
+          "Best practice: Follow HTML Living Standard? → Semantic elements (yes, always recommended)"
+        ],
+        
+        "presentChoice": false
+      }
+    },
+    
+    "form_validation": {
+      "use_html5_validation": {
+        "title": "Use HTML5 Validation Attributes as Base Layer",
+        "description": "Implement HTML5 validation attributes (required, pattern, min/max, minlength/maxlength) as the base validation layer, optionally enhanced with JavaScript for complex validation",
+        "confidence_score": 0.91,
+        "rationale": "HTML5 validation provides immediate validation feedback, works without JavaScript, is accessible by default, and follows progressive enhancement principles. JavaScript validation should enhance, not replace, HTML5 validation. This approach ensures validation works even if JavaScript fails to load.",
+        "source": "WHATWG HTML Living Standard, MDN Web Docs",
+        
+        "context": {
+          "when_applicable": [
+            "Implementing form validation",
+            "Creating user input forms",
+            "Need basic validation (required, format, length, range)",
+            "Want accessibility and progressive enhancement"
+          ],
+          "when_not_applicable": [
+            "Complex validation requiring external data (e.g., username availability check)",
+            "Cross-field validation (e.g., password confirmation match)",
+            "Need custom error message positioning/styling (can still use HTML5 + JavaScript enhancement)"
+          ]
+        },
+        
+        "options": [
+          {
+            "name": "HTML5 Validation Attributes (Base Layer)",
+            "confidence": 0.91,
+            "reason": "Standards-based, accessible, works without JavaScript, progressive enhancement",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Works without JavaScript: Validation even if JS fails to load",
+                "Progressive enhancement: Base functionality always available",
+                "Accessible: Built-in browser validation messages are accessible",
+                "No code required: Just attributes, no JavaScript",
+                "Mobile friendly: Appropriate keyboards (email, number, tel)",
+                "Standards-compliant: Follows HTML Living Standard",
+                "Browser support: Universal support in modern browsers"
+              ],
+              "cons": [
+                "Limited customization: Error message styling varies by browser",
+                "No cross-field validation: Cannot validate field relationships",
+                "No async validation: Cannot check against server (e.g., unique username)",
+                "Pattern complexity: Regular expressions can be complex",
+                "Browser differences: Slight UI differences across browsers"
+              ]
+            },
+            "context_requirements": [
+              "Basic validation needs (required, format, length, range)",
+              "Want validation even without JavaScript",
+              "Acceptable to have browser default error messages",
+              "Modern browser target"
+            ]
+          },
+          {
+            "name": "JavaScript Validation (Enhancement Layer)",
+            "confidence": 0.85,
+            "reason": "Enhances HTML5 validation for complex scenarios, custom UI, async validation",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Custom error messages: Full control over error text and positioning",
+                "Custom UI: Style error messages to match design",
+                "Cross-field validation: Validate relationships (password match, date ranges)",
+                "Async validation: Check against server (username availability, email uniqueness)",
+                "Complex logic: Business rules beyond simple format validation",
+                "Real-time validation: Validate as user types"
+              ],
+              "cons": [
+                "Requires JavaScript: If JS fails, only HTML5 validation remains",
+                "More code: Must write validation logic and error handling",
+                "Accessibility considerations: Must ensure custom errors are accessible",
+                "Maintenance: More code to maintain and test",
+                "Performance: Real-time validation can impact performance if complex"
+              ]
+            },
+            "context_requirements": [
+              "Complex validation needs (cross-field, async, business rules)",
+              "Need custom error message UI to match design",
+              "JavaScript is available and working",
+              "Have development resources for implementation"
+            ]
+          },
+          {
+            "name": "No Validation (Server-Only)",
+            "confidence": 0.40,
+            "reason": "Poor user experience; not recommended except for very simple forms",
+            "severity": "discouraged",
+            "tradeoffs": {
+              "pros": [
+                "Simple: No client-side validation code",
+                "Server validation required anyway: Validation in one place"
+              ],
+              "cons": [
+                "Poor UX: User must submit form to see errors (full page reload)",
+                "Increased server load: Invalid submissions reach server",
+                "Accessibility issues: No immediate feedback",
+                "Violates best practices: HTML5 validation is free and easy",
+                "Not progressive enhancement: Worse experience for all users"
+              ]
+            },
+            "context_requirements": [
+              "Extremely simple form with one or two fields",
+              "Very low traffic (server load not a concern)",
+              "Acceptable to have poor user experience"
+            ]
+          }
+        ],
+        
+        "decision_factors": [
+          "Validation complexity: Simple (format, length, required)? → HTML5 only; Complex (cross-field, async)? → HTML5 + JavaScript",
+          "Custom UI needed: Browser errors OK? → HTML5 only; Need custom styling? → HTML5 + JavaScript",
+          "Progressive enhancement: Want validation without JS? → HTML5 base + JS enhancement",
+          "Development resources: Limited? → HTML5 only; Available? → HTML5 + JavaScript enhancement",
+          "Best practice: Follow standards? → HTML5 validation always, optionally enhanced with JavaScript"
+        ],
+        
+        "presentChoice": false
+      }
+    },
+    
+    "image_optimization": {
+      "use_responsive_images": {
+        "title": "Use Responsive Images (srcset/sizes) for Performance",
+        "description": "Implement responsive images using srcset and sizes attributes to serve appropriately sized images based on device, improving performance and reducing bandwidth",
+        "confidence_score": 0.88,
+        "rationale": "Responsive images reduce bandwidth (mobile users don't download desktop-sized images), improve performance (faster page loads), enhance user experience, and are supported by all modern browsers. The browser automatically selects the best image based on device characteristics.",
+        "source": "MDN Web Docs, WHATWG HTML Living Standard",
+        
+        "context": {
+          "when_applicable": [
+            "Images displayed at different sizes on different devices",
+            "Performance optimization is important",
+            "Large images (>200KB) on page",
+            "Mobile users are significant portion of traffic"
+          ],
+          "when_not_applicable": [
+            "Small images (<50KB) where multiple sizes aren't worth the effort",
+            "Images always displayed at exact same size across all devices",
+            "Icons or logos that are already small"
+          ]
+        },
+        
+        "options": [
+          {
+            "name": "Responsive Images (srcset/sizes)",
+            "confidence": 0.88,
+            "reason": "Modern standard for performance-optimized images, automatic browser selection",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Performance: Mobile devices download smaller images (faster load, less bandwidth)",
+                "Automatic: Browser selects best image based on device capabilities",
+                "User experience: Faster page loads improve satisfaction",
+                "SEO: Page speed is ranking factor for search engines",
+                "Cost savings: Reduced bandwidth usage for users on limited data plans",
+                "Universal support: All modern browsers support srcset/sizes"
+              ],
+              "cons": [
+                "Setup effort: Must generate multiple image sizes",
+                "Storage: Multiple versions of each image stored",
+                "Build process: May require image processing in build pipeline",
+                "Complexity: srcset/sizes syntax more complex than simple src",
+                "Not automatic: Requires planning which sizes to generate"
+              ]
+            },
+            "context_requirements": [
+              "Images displayed at different sizes on different viewports",
+              "Performance optimization is priority",
+              "Can generate multiple image sizes (manually or automated)",
+              "Modern browser target"
+            ]
+          },
+          {
+            "name": "Single Image (src only)",
+            "confidence": 0.65,
+            "reason": "Simple but suboptimal for performance; acceptable for small images or when effort outweighs benefit",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Simple: Only one image file to manage",
+                "No build process: No need to generate multiple sizes",
+                "Less storage: Only one image file stored",
+                "Easier to implement: Just src attribute"
+              ],
+              "cons": [
+                "Performance cost: Mobile users download oversized images",
+                "Bandwidth waste: Downloading pixels that won't be displayed",
+                "Slower page loads: Larger file sizes take longer to download",
+                "Poor mobile experience: Long load times on slow connections",
+                "SEO impact: Page speed affects search rankings",
+                "User experience: Frustrating for users on limited data plans"
+              ]
+            },
+            "context_requirements": [
+              "Small images (<50KB) where optimization won't provide significant benefit",
+              "Images always displayed at same size across all devices",
+              "Development time very limited",
+              "Performance is not a concern (internal tools, high-bandwidth users)"
+            ]
+          }
+        ],
+        
+        "decision_factors": [
+          "Image size: Large images (>200KB)? → Responsive images (yes) or Single (no if <50KB)",
+          "Device variation: Different sizes on mobile/desktop? → Responsive images (yes) or Single (no if same size)",
+          "Performance priority: Important? → Responsive images (yes) or Single (no if not critical)",
+          "Mobile traffic: Significant mobile users? → Responsive images (yes) or Single (no if desktop-only)",
+          "Development resources: Can generate multiple sizes? → Responsive images (yes) or Single (no if limited)",
+          "Best practice: Follow performance recommendations? → Responsive images (yes, for non-trivial images)"
+        ],
+        
+        "presentChoice": false
+      }
+    }
+  }
+}
+

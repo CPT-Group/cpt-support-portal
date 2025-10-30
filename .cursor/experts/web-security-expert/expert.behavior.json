@@ -1,0 +1,14 @@
+﻿{
+  "name": "web-security-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "Web security expert for enterprise PWA covering CSP, OWASP Top 10, PII encryption, SOC2 compliance, security headers, XSS/CSRF prevention",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+  "metadata": {"created": "2025-10-23", "status": "active"},
+  "sources": {"official_documentation": ["OWASP.org", "MDN Security", "SOC2 Compliance Guides", "NIST Cybersecurity Framework"]},
+  "triggers": {"keywords": ["CSP", "Content Security Policy", "OWASP", "XSS", "CSRF", "security headers", "PII encryption", "SOC2", "HSTS", "rate limiting", "audit logging"], "phrases": ["web security", "security compliance", "prevent XSS", "CSRF token", "secure cookies"]},
+  "capabilities": {"can_do": ["Implement CSP", "Configure security headers", "Setup PII encryption", "Implement CSRF protection", "Configure rate limiting", "Setup audit logging", "Input validation", "Secure authentication"], "cannot_do": ["Make security architecture decisions (opinion)", "Choose encryption algorithms (opinion)"]},
+  "facts": {"csp": {"definition": {"statement": "Content Security Policy (CSP) prevents XSS by whitelisting allowed sources for scripts, styles, images. Configured via CSP header. Critical directives: script-src, style-src, default-src, frame-ancestors", "confidence": 1.0}}, "owasp_top10": {"list": {"statement": "OWASP Top 10 2021: 1.Broken Access Control, 2.Cryptographic Failures, 3.Injection, 4.Insecure Design, 5.Security Misconfiguration, 6.Vulnerable Components, 7.Auth Failures, 8.Data Integrity Failures, 9.Logging Failures, 10.SSRF", "confidence": 1.0}}}
+}

@@ -1,0 +1,93 @@
+{
+  "name": "code-writing-rules-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Project-specific code writing standards, conventions, and best practices for consistent code quality",
+  "confidence_level": 90,
+  "opinions_enabled": true,
+  "neural_access": "limited",
+
+  "metadata": {
+    "created": "2025-10-20",
+    "lastUpdated": "2025-10-20",
+    "author": "DevTeamJiraTools Development Team",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Project coding standards",
+      "Team conventions and style guide",
+      "Industry best practices"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "code",
+      "write",
+      "create",
+      "implement",
+      "function",
+      "class",
+      "method",
+      "generate",
+      "build",
+      "develop"
+    ],
+    "phrases": [
+      "write code",
+      "create function",
+      "implement method",
+      "build service",
+      "generate code",
+      "create class",
+      "write script",
+      "develop feature"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Provide code writing standards and conventions",
+      "Recommend naming patterns for variables, functions, and classes",
+      "Guide error handling strategies",
+      "Suggest code structure and organization",
+      "Define documentation requirements",
+      "Specify testing standards",
+      "Enforce import organization",
+      "Guide file and folder structure"
+    ],
+    "cannot_do": [
+      "Write actual code (delegates to technology experts)",
+      "Override language syntax rules (defers to typescript-expert, etc.)",
+      "Make business logic decisions",
+      "Choose external libraries without context"
+    ]
+  },
+
+  "facts": {
+    "standard_triggers": {
+      "always_consult": {
+        "statement": "This expert should be consulted whenever code is being written, regardless of language or framework",
+        "confidence": 1.0,
+        "source": "Expert system design",
+        "notes": "Ensures consistent code quality across all generated code"
+      },
+      "opinion_based": {
+        "statement": "All recommendations from this expert are opinions (confidence < 1.0) and can be adjusted based on project needs",
+        "confidence": 1.0,
+        "source": "Expert system design",
+        "notes": "Allows flexibility while maintaining standards"
+      }
+    }
+  },
+
+  "required_folders": ["training/"],
+
+  "notes": {
+    "customization": "Add your team's specific rules to expert.influencer.json",
+    "confidence": "Adjust confidence scores based on how strongly you want rules enforced (0.50-0.99)",
+    "evolution": "Update rules as your team's standards evolve"
+  }
+}

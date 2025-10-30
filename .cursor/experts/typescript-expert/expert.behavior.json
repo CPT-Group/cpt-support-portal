@@ -1,0 +1,1832 @@
+{
+  "name": "typescript-expert",
+  "type": "technology",
+  "version": "2.0.0",
+  "description": "TypeScript and JavaScript language expert covering TypeScript type system, JavaScript runtime behavior, standard library, and Node.js integration for deterministic code generation",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+  "language": "typescript",
+  "frameworks": ["TypeScript", "Node.js", "JavaScript", "ECMAScript"],
+
+  "metadata": {
+    "created": "2025-10-13",
+    "lastUpdated": "2025-10-23",
+    "author": "TypeScript Official Documentation + MDN JavaScript Documentation",
+    "status": "comprehensive",
+    "documentation_source": "https://www.typescriptlang.org/docs/ + https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    "typescript_version": "5.9+",
+    "javascript_version": "ECMAScript 2023+",
+    "node_version": "18+",
+    "total_facts": 650,
+    "coverage_areas": [
+      "Type System",
+      "Syntax",
+      "Compiler Options",
+      "Modules",
+      "Classes",
+      "Generics",
+      "Utility Types",
+      "Declaration Files",
+      "Node.js Integration",
+      "Build Tools",
+      "JavaScript Runtime Behavior",
+      "JavaScript Standard Library",
+      "Array Methods",
+      "Object Methods",
+      "String Methods",
+      "Promises and Async/Await",
+      "Error Handling",
+      "Iterators and Generators",
+      "Symbols",
+      "Maps and Sets",
+      "Proxy and Reflect"
+    ]
+  },
+
+  "sources": {
+    "official_documentation": [
+      "https://www.typescriptlang.org/docs/handbook/intro.html",
+      "https://www.typescriptlang.org/docs/handbook/2/basic-types.html",
+      "https://www.typescriptlang.org/tsconfig",
+      "https://www.typescriptlang.org/cheatsheets",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide"
+    ],
+    "version_info": "TypeScript 5.9+ / ECMAScript 2023+",
+    "mdn_documentation_scraped": "500+ pages from MDN JavaScript documentation",
+    "last_scrape_date": "2025-10-23"
+  },
+
+  "outputs": {
+    "file_types": [".ts", ".tsx", ".d.ts", "tsconfig.json", "package.json"],
+    "systems": ["typescript-compiler", "node-runtime", "npm-packages"]
+  },
+
+  "communication_interface": "separate_chat_expert",
+
+  "triggers": {
+    "keywords": [
+      "typescript",
+      "ts",
+      "javascript",
+      "js",
+      "type",
+      "interface",
+      "generic",
+      "tsconfig",
+      "tsc",
+      "node",
+      "npm",
+      "type annotation",
+      "type inference",
+      "utility type",
+      "type guard",
+      "union type",
+      "intersection type",
+      "mapped type",
+      "conditional type",
+      "module",
+      "namespace",
+      "decorator",
+      "jsx",
+      "tsx",
+      "declaration file",
+      "d.ts",
+      "promise",
+      "async",
+      "await",
+      "prototype",
+      "closure",
+      "hoisting",
+      "coercion",
+      "array method",
+      "object method",
+      "string method",
+      "map",
+      "set",
+      "weakmap",
+      "weakset",
+      "proxy",
+      "reflect",
+      "symbol",
+      "iterator",
+      "generator",
+      "event loop"
+    ],
+    "phrases": [
+      "typescript syntax",
+      "javascript syntax",
+      "type system",
+      "compile typescript",
+      "typescript configuration",
+      "typescript types",
+      "typescript generics",
+      "typescript classes",
+      "typescript modules",
+      "typescript compiler",
+      "node.js typescript",
+      "typescript best practices",
+      "type definition",
+      "type checking",
+      "javascript runtime",
+      "javascript behavior",
+      "array methods",
+      "object methods",
+      "string methods",
+      "promise handling",
+      "async await",
+      "error handling",
+      "prototype chain",
+      "garbage collection",
+      "type coercion",
+      "es6 features",
+      "ecmascript"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate TypeScript code with correct syntax",
+      "Generate JavaScript code with proper runtime behavior",
+      "Define TypeScript types and interfaces",
+      "Implement generic types",
+      "Configure tsconfig.json correctly",
+      "Create declaration files (.d.ts)",
+      "Generate Node.js TypeScript projects",
+      "Provide compiler option specifications",
+      "Define module structures",
+      "Implement utility types",
+      "Generate type-safe code patterns",
+      "Explain JavaScript runtime behavior (closures, hoisting, prototypes)",
+      "Provide correct usage of JavaScript standard library methods",
+      "Implement async/await and Promise patterns correctly",
+      "Use JavaScript array, object, and string methods appropriately",
+      "Implement iterators and generators",
+      "Use Map, Set, WeakMap, WeakSet correctly",
+      "Implement Proxy and Reflect patterns",
+      "Handle JavaScript type coercion correctly",
+      "Explain JavaScript event loop and execution model"
+    ],
+    "cannot_do": [
+      "Provide subjective design pattern opinions",
+      "Recommend architectural decisions",
+      "Make framework-specific choices",
+      "Suggest coding style preferences beyond TypeScript rules",
+      "Provide browser-specific DOM APIs (use separate expert for browser APIs)",
+      "Provide Node.js-specific APIs beyond TypeScript integration"
+    ]
+  },
+
+  "facts": {
+    "basic_types": {
+      "boolean": {
+        "statement": "TypeScript boolean type represents true/false values",
+        "syntax": "let isDone: boolean = false;",
+        "primitive": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "number": {
+        "statement": "TypeScript number type represents all numeric values (integers and floats)",
+        "syntax": "let decimal: number = 6;",
+        "supports": ["decimal", "hex", "binary", "octal"],
+        "primitive": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "string": {
+        "statement": "TypeScript string type represents textual data",
+        "syntax": "let color: string = 'blue';",
+        "supports_template_literals": true,
+        "primitive": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "array": {
+        "statement": "TypeScript arrays can be typed in two ways: Type[] or Array<Type>",
+        "syntax": [
+          "let list: number[] = [1, 2, 3];",
+          "let list: Array<number> = [1, 2, 3];"
+        ],
+        "generic_syntax": "Array<Type>",
+        "shorthand_syntax": "Type[]",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "tuple": {
+        "statement": "Tuple types allow expressing an array with fixed number of elements whose types are known",
+        "syntax": "let x: [string, number] = ['hello', 10];",
+        "fixed_length": true,
+        "type_order_matters": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "enum": {
+        "statement": "Enums allow defining a set of named constants",
+        "syntax": "enum Color { Red, Green, Blue }",
+        "numeric_default": true,
+        "string_enums_supported": true,
+        "heterogeneous_supported": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/enums.html"
+      },
+
+      "any": {
+        "statement": "Type 'any' disables type checking for a value",
+        "syntax": "let obj: any = { x: 0 };",
+        "opt_out_of_type_checking": true,
+        "use_sparingly": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "unknown": {
+        "statement": "Type 'unknown' is type-safe counterpart of any",
+        "syntax": "let value: unknown;",
+        "requires_type_checking": true,
+        "safer_than_any": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "void": {
+        "statement": "Type 'void' represents absence of a value, typically used for functions that don't return",
+        "syntax": "function warnUser(): void { console.log('warning'); }",
+        "typical_use": "function return type",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "null_and_undefined": {
+        "statement": "TypeScript has both null and undefined types",
+        "syntax": ["let u: undefined = undefined;", "let n: null = null;"],
+        "strict_null_checks": "Controlled by strictNullChecks compiler option",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "never": {
+        "statement": "Type 'never' represents values that never occur",
+        "syntax": "function error(message: string): never { throw new Error(message); }",
+        "use_cases": ["Functions that never return", "Exhaustiveness checking"],
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      },
+
+      "object": {
+        "statement": "Type 'object' represents any non-primitive type",
+        "syntax": "declare function create(o: object | null): void;",
+        "excludes": [
+          "number",
+          "string",
+          "boolean",
+          "symbol",
+          "null",
+          "undefined"
+        ],
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      }
+    },
+
+    "type_annotations": {
+      "variable_annotations": {
+        "statement": "Variables can have explicit type annotations",
+        "syntax": "let variableName: type = value;",
+        "optional": "TypeScript infers types when not specified",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "function_parameter_annotations": {
+        "statement": "Function parameters require type annotations in most cases",
+        "syntax": "function greet(name: string): void { }",
+        "required_in_strict_mode": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "function_return_annotations": {
+        "statement": "Function return types can be explicitly annotated",
+        "syntax": "function add(a: number, b: number): number { return a + b; }",
+        "inference": "TypeScript can infer return types",
+        "explicit_recommended": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "type_inference": {
+        "statement": "TypeScript automatically infers types when possible",
+        "example": "let x = 3; // inferred as number",
+        "applies_to": [
+          "variable initialization",
+          "function returns",
+          "default parameters"
+        ],
+        "source": "https://www.typescriptlang.org/docs/handbook/type-inference.html"
+      }
+    },
+
+    "interfaces": {
+      "interface_definition": {
+        "statement": "Interfaces define the shape of an object",
+        "syntax": "interface Person { name: string; age: number; }",
+        "purpose": "Contract for object structure",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "optional_properties": {
+        "statement": "Interface properties can be marked as optional with ?",
+        "syntax": "interface Config { color?: string; }",
+        "marker": "?",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "readonly_properties": {
+        "statement": "Properties can be marked as readonly to prevent modification after creation",
+        "syntax": "interface Point { readonly x: number; }",
+        "immutable_after_creation": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "function_types": {
+        "statement": "Interfaces can describe function types",
+        "syntax": "interface SearchFunc { (source: string, subString: string): boolean; }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "indexable_types": {
+        "statement": "Interfaces can describe types with index signatures",
+        "syntax": "interface StringArray { [index: number]: string; }",
+        "index_types": ["number", "string"],
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "extending_interfaces": {
+        "statement": "Interfaces can extend other interfaces",
+        "syntax": "interface Shape { color: string; } interface Square extends Shape { sideLength: number; }",
+        "multiple_inheritance": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "hybrid_types": {
+        "statement": "Interfaces can describe objects that work as both functions and objects",
+        "syntax": "interface Counter { (start: number): string; interval: number; }",
+        "source": "https://www.typescriptlang.org/docs/handbook/interfaces.html"
+      }
+    },
+
+    "type_aliases": {
+      "type_alias_definition": {
+        "statement": "Type aliases create a new name for a type",
+        "syntax": "type Point = { x: number; y: number; };",
+        "keyword": "type",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "union_types": {
+        "statement": "Union types represent a value that can be one of several types",
+        "syntax": "type ID = number | string;",
+        "operator": "|",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "intersection_types": {
+        "statement": "Intersection types combine multiple types into one",
+        "syntax": "type Combined = Type1 & Type2;",
+        "operator": "&",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+      },
+
+      "literal_types": {
+        "statement": "Literal types represent exact values",
+        "syntax": "type Direction = 'up' | 'down' | 'left' | 'right';",
+        "use_case": "Restricting values to specific constants",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "type_vs_interface": {
+        "statement": "Type aliases and interfaces are similar but have key differences",
+        "differences": [
+          "Interfaces can be extended and implemented",
+          "Types can use unions and intersections",
+          "Interfaces can be merged (declaration merging)",
+          "Types are more flexible for complex types"
+        ],
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      }
+    },
+
+    "generics": {
+      "generic_functions": {
+        "statement": "Generic functions work with multiple types while maintaining type safety",
+        "syntax": "function identity<T>(arg: T): T { return arg; }",
+        "type_parameter": "T",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+      },
+
+      "generic_interfaces": {
+        "statement": "Interfaces can be generic",
+        "syntax": "interface GenericIdentityFn<T> { (arg: T): T; }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+      },
+
+      "generic_classes": {
+        "statement": "Classes can have generic type parameters",
+        "syntax": "class GenericNumber<T> { zeroValue: T; add: (x: T, y: T) => T; }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+      },
+
+      "generic_constraints": {
+        "statement": "Generic types can be constrained to types with certain properties",
+        "syntax": "function getProperty<T, K extends keyof T>(obj: T, key: K) { return obj[key]; }",
+        "keyword": "extends",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+      },
+
+      "default_generic_types": {
+        "statement": "Generic types can have default type parameters",
+        "syntax": "interface Container<T = string> { value: T; }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+      }
+    },
+
+    "classes": {
+      "class_definition": {
+        "statement": "Classes define blueprints for objects with properties and methods",
+        "syntax": "class Greeter { greeting: string; constructor(message: string) { this.greeting = message; } }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "constructors": {
+        "statement": "Constructor is a special function called when creating class instances",
+        "syntax": "constructor(params) { }",
+        "keyword": "constructor",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "inheritance": {
+        "statement": "Classes can inherit from other classes using extends",
+        "syntax": "class Dog extends Animal { }",
+        "keyword": "extends",
+        "single_inheritance": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "access_modifiers": {
+        "public": {
+          "statement": "Public members are accessible from anywhere",
+          "syntax": "public name: string;",
+          "default": true,
+          "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+        },
+        "private": {
+          "statement": "Private members are only accessible within the class",
+          "syntax": "private id: number;",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+        },
+        "protected": {
+          "statement": "Protected members are accessible within the class and subclasses",
+          "syntax": "protected name: string;",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+        }
+      },
+
+      "readonly_modifier": {
+        "statement": "Readonly properties must be initialized at declaration or in constructor",
+        "syntax": "readonly name: string;",
+        "immutable_after_initialization": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "parameter_properties": {
+        "statement": "Constructor parameters with modifiers automatically create and initialize class properties",
+        "syntax": "constructor(public name: string) { }",
+        "shorthand": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "abstract_classes": {
+        "statement": "Abstract classes cannot be instantiated and may contain abstract methods",
+        "syntax": "abstract class Animal { abstract makeSound(): void; }",
+        "keyword": "abstract",
+        "can_have_implementation": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      },
+
+      "static_members": {
+        "statement": "Static members belong to the class itself, not instances",
+        "syntax": "static className = 'MyClass';",
+        "keyword": "static",
+        "accessed_via": "ClassName.memberName",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/classes.html"
+      }
+    },
+
+    "functions": {
+      "function_types": {
+        "statement": "Functions can be typed with parameter and return types",
+        "syntax": "let myAdd: (x: number, y: number) => number;",
+        "arrow_syntax": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "optional_parameters": {
+        "statement": "Function parameters can be optional using ?",
+        "syntax": "function buildName(firstName: string, lastName?: string) { }",
+        "marker": "?",
+        "must_be_last": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "default_parameters": {
+        "statement": "Parameters can have default values",
+        "syntax": "function buildName(firstName: string, lastName = 'Smith') { }",
+        "type_inferred_from_default": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "rest_parameters": {
+        "statement": "Rest parameters gather remaining arguments into an array",
+        "syntax": "function buildName(firstName: string, ...restOfName: string[]) { }",
+        "syntax_marker": "...",
+        "type_must_be_array": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "function_overloads": {
+        "statement": "Functions can have multiple signatures (overloads)",
+        "syntax": "function add(a: number, b: number): number; function add(a: string, b: string): string; function add(a: any, b: any): any { return a + b; }",
+        "implementation_must_match_all": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      },
+
+      "arrow_functions": {
+        "statement": "Arrow functions provide shorter syntax and lexical this binding",
+        "syntax": "const add = (x: number, y: number): number => x + y;",
+        "this_binding": "lexical",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+      }
+    },
+
+    "modules": {
+      "es6_modules": {
+        "statement": "TypeScript uses ES6 module syntax (import/export)",
+        "export_syntax": "export { ZipCodeValidator };",
+        "import_syntax": "import { ZipCodeValidator } from './ZipCodeValidator';",
+        "default_export": "export default class { }",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+      },
+
+      "export_statements": {
+        "named_export": {
+          "statement": "Named exports allow exporting multiple values from a module",
+          "syntax": "export const pi = 3.14; export function calculate() { }",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+        },
+        "default_export": {
+          "statement": "Each module can have one default export",
+          "syntax": "export default class MyClass { }",
+          "import_syntax": "import MyClass from './MyClass';",
+          "one_per_module": true,
+          "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+        }
+      },
+
+      "import_statements": {
+        "named_import": {
+          "statement": "Import specific exports from a module",
+          "syntax": "import { ZipCodeValidator } from './ZipCodeValidator';",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+        },
+        "namespace_import": {
+          "statement": "Import entire module as a single object",
+          "syntax": "import * as validator from './ZipCodeValidator';",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+        },
+        "default_import": {
+          "statement": "Import the default export",
+          "syntax": "import MyClass from './MyClass';",
+          "source": "https://www.typescriptlang.org/docs/handbook/2/modules.html"
+        }
+      },
+
+      "module_resolution": {
+        "statement": "TypeScript uses module resolution strategies to locate modules",
+        "strategies": ["Classic", "Node"],
+        "default": "Node",
+        "configurable_via": "moduleResolution in tsconfig.json",
+        "source": "https://www.typescriptlang.org/docs/handbook/module-resolution.html"
+      }
+    },
+
+    "utility_types": {
+      "partial": {
+        "statement": "Partial<T> makes all properties of T optional",
+        "syntax": "type PartialPerson = Partial<Person>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "required": {
+        "statement": "Required<T> makes all properties of T required",
+        "syntax": "type RequiredPerson = Required<Person>;",
+        "opposite_of": "Partial",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "readonly": {
+        "statement": "Readonly<T> makes all properties of T readonly",
+        "syntax": "type ReadonlyPerson = Readonly<Person>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "record": {
+        "statement": "Record<K, T> constructs type with keys K and values T",
+        "syntax": "type PageInfo = Record<string, number>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "pick": {
+        "statement": "Pick<T, K> creates type by picking set of properties K from T",
+        "syntax": "type PersonName = Pick<Person, 'name' | 'age'>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "omit": {
+        "statement": "Omit<T, K> creates type by omitting set of properties K from T",
+        "syntax": "type PersonWithoutAge = Omit<Person, 'age'>;",
+        "opposite_of": "Pick",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "exclude": {
+        "statement": "Exclude<T, U> excludes from T types assignable to U",
+        "syntax": "type T = Exclude<'a' | 'b' | 'c', 'a'>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "extract": {
+        "statement": "Extract<T, U> extracts from T types assignable to U",
+        "syntax": "type T = Extract<'a' | 'b' | 'c', 'a' | 'f'>;",
+        "opposite_of": "Exclude",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "nonnullable": {
+        "statement": "NonNullable<T> excludes null and undefined from T",
+        "syntax": "type T = NonNullable<string | number | undefined>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "returntype": {
+        "statement": "ReturnType<T> obtains the return type of a function type",
+        "syntax": "type T = ReturnType<() => string>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "parameters": {
+        "statement": "Parameters<T> obtains parameter types of a function type as a tuple",
+        "syntax": "type T = Parameters<(s: string) => void>;",
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      },
+
+      "awaited": {
+        "statement": "Awaited<T> unwraps the type from a Promise",
+        "syntax": "type T = Awaited<Promise<string>>;",
+        "recursive": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/utility-types.html"
+      }
+    },
+
+    "advanced_types": {
+      "conditional_types": {
+        "statement": "Conditional types select one of two types based on a condition",
+        "syntax": "T extends U ? X : Y",
+        "ternary_like": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html"
+      },
+
+      "mapped_types": {
+        "statement": "Mapped types transform properties of a type",
+        "syntax": "type Readonly<T> = { readonly [P in keyof T]: T[P]; }",
+        "iterates_over_keys": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html"
+      },
+
+      "template_literal_types": {
+        "statement": "Template literal types build new string literal types from existing ones",
+        "syntax": "type Greeting = `Hello ${World}`;",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html"
+      },
+
+      "indexed_access_types": {
+        "statement": "Indexed access types look up a specific property on another type",
+        "syntax": "type Age = Person['age'];",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html"
+      },
+
+      "typeof_operator": {
+        "statement": "typeof operator in type context gets the type of a value",
+        "syntax": "let s = 'hello'; type S = typeof s;",
+        "type_context_only": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/typeof-types.html"
+      },
+
+      "keyof_operator": {
+        "statement": "keyof operator takes an object type and produces string or numeric literal union of its keys",
+        "syntax": "type Keys = keyof Person;",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/keyof-types.html"
+      }
+    },
+
+    "compiler_options": {
+      "target": {
+        "statement": "target specifies the ECMAScript target version",
+        "values": [
+          "ES3",
+          "ES5",
+          "ES2015",
+          "ES2016",
+          "ES2017",
+          "ES2018",
+          "ES2019",
+          "ES2020",
+          "ES2021",
+          "ES2022",
+          "ESNext"
+        ],
+        "default": "ES3",
+        "affects": "Output JavaScript version",
+        "source": "https://www.typescriptlang.org/tsconfig#target"
+      },
+
+      "module": {
+        "statement": "module specifies the module code generation method",
+        "values": [
+          "none",
+          "commonjs",
+          "amd",
+          "system",
+          "umd",
+          "es2015",
+          "es2020",
+          "es2022",
+          "esnext",
+          "node16",
+          "nodenext"
+        ],
+        "default": "commonjs",
+        "source": "https://www.typescriptlang.org/tsconfig#module"
+      },
+
+      "lib": {
+        "statement": "lib specifies library files to be included in compilation",
+        "example": { "lib": ["ES2015", "DOM"] },
+        "affects": "Available global APIs",
+        "source": "https://www.typescriptlang.org/tsconfig#lib"
+      },
+
+      "strict": {
+        "statement": "strict enables all strict type checking options",
+        "enables": [
+          "strictNullChecks",
+          "strictFunctionTypes",
+          "strictBindCallApply",
+          "strictPropertyInitialization",
+          "noImplicitThis",
+          "alwaysStrict"
+        ],
+        "recommended": true,
+        "source": "https://www.typescriptlang.org/tsconfig#strict"
+      },
+
+      "esModuleInterop": {
+        "statement": "esModuleInterop enables interoperability between CommonJS and ES Modules",
+        "enables": "import * as namespace syntax with CommonJS modules",
+        "recommended": true,
+        "source": "https://www.typescriptlang.org/tsconfig#esModuleInterop"
+      },
+
+      "moduleResolution": {
+        "statement": "moduleResolution specifies module resolution strategy",
+        "values": ["node", "classic", "node16", "nodenext"],
+        "default": "Depends on module option",
+        "recommended": "node or node16",
+        "source": "https://www.typescriptlang.org/tsconfig#moduleResolution"
+      },
+
+      "outDir": {
+        "statement": "outDir specifies output directory for compiled files",
+        "syntax": "\"outDir\": \"./dist\"",
+        "required_for_organized_output": true,
+        "source": "https://www.typescriptlang.org/tsconfig#outDir"
+      },
+
+      "rootDir": {
+        "statement": "rootDir specifies root directory of source files",
+        "syntax": "\"rootDir\": \"./src\"",
+        "affects": "Output directory structure",
+        "source": "https://www.typescriptlang.org/tsconfig#rootDir"
+      },
+
+      "declaration": {
+        "statement": "declaration generates .d.ts files",
+        "required_for_libraries": true,
+        "generates": "Type definition files",
+        "source": "https://www.typescriptlang.org/tsconfig#declaration"
+      },
+
+      "sourceMap": {
+        "statement": "sourceMap generates .map files for debugging",
+        "enables": "Source-level debugging",
+        "recommended_for_development": true,
+        "source": "https://www.typescriptlang.org/tsconfig#sourceMap"
+      },
+
+      "skipLibCheck": {
+        "statement": "skipLibCheck skips type checking of declaration files",
+        "improves": "Compilation speed",
+        "recommended": true,
+        "source": "https://www.typescriptlang.org/tsconfig#skipLibCheck"
+      },
+
+      "forceConsistentCasingInFileNames": {
+        "statement": "forceConsistentCasingInFileNames ensures file name casing is consistent",
+        "prevents": "Cross-platform casing issues",
+        "recommended": true,
+        "source": "https://www.typescriptlang.org/tsconfig#forceConsistentCasingInFileNames"
+      },
+
+      "resolveJsonModule": {
+        "statement": "resolveJsonModule allows importing JSON files",
+        "enables": "import * as data from './data.json'",
+        "generates_types": true,
+        "source": "https://www.typescriptlang.org/tsconfig#resolveJsonModule"
+      },
+
+      "allowSyntheticDefaultImports": {
+        "statement": "allowSyntheticDefaultImports allows default imports from modules without default export",
+        "syntax_sugar": true,
+        "affects_type_checking_only": true,
+        "source": "https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports"
+      }
+    },
+
+    "declaration_files": {
+      "d_ts_files": {
+        "statement": "Declaration files (.d.ts) provide type information for JavaScript code",
+        "extension": ".d.ts",
+        "contains": "Type declarations only, no implementation",
+        "source": "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html"
+      },
+
+      "declare_keyword": {
+        "statement": "declare keyword describes shapes that exist elsewhere",
+        "syntax": "declare var jQuery: (selector: string) => any;",
+        "ambient_declaration": true,
+        "no_implementation": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html"
+      },
+
+      "triple_slash_directives": {
+        "statement": "Triple-slash directives are single-line comments containing XML tags for compiler instructions",
+        "syntax": "/// <reference types=\"node\" />",
+        "use_cases": ["Type dependencies", "Library references"],
+        "source": "https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html"
+      },
+
+      "type_export": {
+        "statement": "Types can be exported from declaration files",
+        "syntax": "export type MyType = { };",
+        "source": "https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html"
+      }
+    },
+
+    "node_integration": {
+      "node_types": {
+        "statement": "Node.js types are provided by @types/node package",
+        "package": "@types/node",
+        "install": "npm install --save-dev @types/node",
+        "required_for": "Node.js API type checking",
+        "source": "https://www.npmjs.com/package/@types/node"
+      },
+
+      "package_json_types": {
+        "statement": "package.json types field specifies location of type definitions",
+        "field": "types",
+        "syntax": "\"types\": \"./dist/index.d.ts\"",
+        "alternative": "typings",
+        "source": "https://www.typescriptlang.org/docs/handbook/declaration-files/publishing.html"
+      },
+
+      "node_module_resolution": {
+        "statement": "TypeScript uses Node.js module resolution by default",
+        "looks_in": ["node_modules", "@types folders"],
+        "automatic": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/module-resolution.html"
+      },
+
+      "esm_support": {
+        "statement": "TypeScript supports ES modules in Node.js via type: module in package.json",
+        "package_json_field": "\"type\": \"module\"",
+        "file_extensions": [".mts", ".cts", ".ts"],
+        "module_option": "node16 or nodenext",
+        "source": "https://www.typescriptlang.org/docs/handbook/esm-node.html"
+      }
+    },
+
+    "project_structure": {
+      "tsconfig_json": {
+        "statement": "tsconfig.json is TypeScript project configuration file",
+        "location": "Project root",
+        "required": "For TypeScript project",
+        "format": "JSON with comments allowed",
+        "source": "https://www.typescriptlang.org/docs/handbook/tsconfig-json.html"
+      },
+
+      "extends": {
+        "statement": "tsconfig.json can extend another configuration file",
+        "syntax": "\"extends\": \"./base-config.json\"",
+        "use_case": "Sharing configuration across projects",
+        "source": "https://www.typescriptlang.org/tsconfig#extends"
+      },
+
+      "include_exclude": {
+        "statement": "include and exclude specify files to include or exclude from compilation",
+        "include_example": "\"include\": [\"src/**/*\"]",
+        "exclude_example": "\"exclude\": [\"node_modules\", \"dist\"]",
+        "glob_patterns": true,
+        "source": "https://www.typescriptlang.org/tsconfig#include"
+      },
+
+      "files": {
+        "statement": "files specifies an explicit list of files to include",
+        "syntax": "\"files\": [\"core.ts\", \"sys.ts\"]",
+        "no_glob_patterns": true,
+        "source": "https://www.typescriptlang.org/tsconfig#files"
+      }
+    },
+
+    "type_guards": {
+      "typeof_guards": {
+        "statement": "typeof guards narrow types based on typeof operator",
+        "syntax": "if (typeof x === 'string') { }",
+        "checks": [
+          "string",
+          "number",
+          "bigint",
+          "boolean",
+          "symbol",
+          "undefined",
+          "object",
+          "function"
+        ],
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      },
+
+      "instanceof_guards": {
+        "statement": "instanceof guards check if value is instance of a class",
+        "syntax": "if (x instanceof Date) { }",
+        "works_with": "Classes and constructor functions",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      },
+
+      "in_operator": {
+        "statement": "in operator checks if property exists in object",
+        "syntax": "if ('swim' in animal) { }",
+        "narrows_type": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      },
+
+      "custom_type_guards": {
+        "statement": "Custom type guard functions use 'is' predicates",
+        "syntax": "function isFish(pet: Fish | Bird): pet is Fish { return (pet as Fish).swim !== undefined; }",
+        "return_type": "parameter is Type",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      },
+
+      "discriminated_unions": {
+        "statement": "Discriminated unions use a common property to narrow types",
+        "pattern": "Common literal property in each type",
+        "example": "type Shape = Circle | Square; each with kind: 'circle' | 'square'",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+      }
+    },
+
+    "async_await": {
+      "promise_type": {
+        "statement": "Promise<T> represents an asynchronous operation that returns type T",
+        "syntax": "function fetchData(): Promise<string> { }",
+        "generic_type": "T",
+        "source": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+      },
+
+      "async_function": {
+        "statement": "async functions always return a Promise",
+        "syntax": "async function getData(): Promise<Data> { }",
+        "keyword": "async",
+        "implicit_promise_wrapping": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-7.html"
+      },
+
+      "await_keyword": {
+        "statement": "await unwraps Promise values in async functions",
+        "syntax": "const result = await promise;",
+        "only_in_async": true,
+        "pauses_execution": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-7.html"
+      }
+    },
+
+    "decorators": {
+      "experimental_decorators": {
+        "statement": "Decorators are experimental feature requiring compiler flag",
+        "compiler_option": "experimentalDecorators",
+        "syntax": "@decorator",
+        "applies_to": ["Classes", "Methods", "Properties", "Parameters"],
+        "source": "https://www.typescriptlang.org/docs/handbook/decorators.html"
+      },
+
+      "class_decorators": {
+        "statement": "Class decorators modify or replace class definition",
+        "syntax": "@sealed class BugReport { }",
+        "signature": "(constructor: Function) => void",
+        "source": "https://www.typescriptlang.org/docs/handbook/decorators.html"
+      },
+
+      "method_decorators": {
+        "statement": "Method decorators modify method definitions",
+        "syntax": "@enumerable(false) method() { }",
+        "signature": "(target: any, propertyKey: string, descriptor: PropertyDescriptor) => void",
+        "source": "https://www.typescriptlang.org/docs/handbook/decorators.html"
+      }
+    },
+
+    "jsx_tsx": {
+      "tsx_files": {
+        "statement": ".tsx files contain TypeScript with JSX syntax",
+        "extension": ".tsx",
+        "jsx_support": true,
+        "requires": "jsx compiler option",
+        "source": "https://www.typescriptlang.org/docs/handbook/jsx.html"
+      },
+
+      "jsx_compiler_option": {
+        "statement": "jsx compiler option controls how JSX is transformed",
+        "values": [
+          "react",
+          "react-jsx",
+          "react-jsxdev",
+          "preserve",
+          "react-native"
+        ],
+        "default": "react",
+        "source": "https://www.typescriptlang.org/tsconfig#jsx"
+      },
+
+      "jsx_element_type": {
+        "statement": "JSX elements have type JSX.Element",
+        "type": "JSX.Element",
+        "global_namespace": "JSX",
+        "source": "https://www.typescriptlang.org/docs/handbook/jsx.html"
+      }
+    },
+
+    "namespaces": {
+      "namespace_declaration": {
+        "statement": "Namespaces (formerly internal modules) organize code",
+        "syntax": "namespace Validation { }",
+        "keyword": "namespace",
+        "legacy_feature": "Prefer ES6 modules",
+        "source": "https://www.typescriptlang.org/docs/handbook/namespaces.html"
+      },
+
+      "namespace_merging": {
+        "statement": "Multiple namespace declarations with same name merge",
+        "declaration_merging": true,
+        "source": "https://www.typescriptlang.org/docs/handbook/declaration-merging.html"
+      }
+    },
+
+    "javascript_runtime": {
+      "prototype_chain": {
+        "statement": "JavaScript uses prototypal inheritance where objects inherit from other objects",
+        "mechanism": "All objects have internal [[Prototype]] property",
+        "access": "Object.getPrototypeOf() or __proto__",
+        "inheritance": "Properties are looked up through prototype chain",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain"
+      },
+
+      "this_binding": {
+        "statement": "Value of 'this' depends on how function is called",
+        "rules": [
+          "Method call: this is the object",
+          "Function call: this is global/undefined (strict)",
+          "Arrow function: lexical this from enclosing scope",
+          "new: this is new object",
+          "call/apply/bind: this is first argument"
+        ],
+        "strict_mode": "undefined instead of global object",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this"
+      },
+
+      "closures": {
+        "statement": "Closure is function bundled with references to its lexical environment",
+        "preserves": "Variables from outer scope",
+        "use_cases": ["Data privacy", "Partial application", "Event handlers"],
+        "memory": "Outer variables kept alive while closure exists",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures"
+      },
+
+      "hoisting": {
+        "statement": "Variable and function declarations are moved to top of scope during compilation",
+        "var_hoisting": "var declarations hoisted, initialized as undefined",
+        "let_const_hoisting": "let/const hoisted but in temporal dead zone",
+        "function_hoisting": "Function declarations fully hoisted",
+        "function_expressions": "Not hoisted",
+        "source": "https://developer.mozilla.org/en-US/docs/Glossary/Hoisting"
+      },
+
+      "event_loop": {
+        "statement": "JavaScript uses event loop for asynchronous execution",
+        "call_stack": "Synchronous code execution",
+        "task_queue": "Callbacks from setTimeout, I/O",
+        "microtask_queue": "Promises, queueMicrotask",
+        "execution_order": "Call stack -> Microtasks -> Tasks",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop"
+      },
+
+      "coercion": {
+        "statement": "JavaScript performs implicit type conversion (coercion)",
+        "to_string": "String(value) or '' + value",
+        "to_number": "Number(value) or +value",
+        "to_boolean": "Boolean(value) or !!value",
+        "falsy_values": [false, 0, "", null, undefined, NaN],
+        "equality": "== performs coercion, === does not",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness"
+      },
+
+      "garbage_collection": {
+        "statement": "JavaScript automatically manages memory via garbage collection",
+        "algorithm": "Mark-and-sweep",
+        "reachability": "Objects reachable from roots are kept",
+        "circular_references": "Handled by mark-and-sweep",
+        "memory_leaks": "Unintended references prevent collection",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_management"
+      }
+    },
+
+    "javascript_array_methods": {
+      "array_map": {
+        "statement": "map() creates new array with results of calling function on every element",
+        "syntax": "arr.map(callback(element, index, array))",
+        "returns": "New array",
+        "does_not_mutate": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+      },
+
+      "array_filter": {
+        "statement": "filter() creates new array with elements that pass test function",
+        "syntax": "arr.filter(callback(element, index, array))",
+        "returns": "New array with filtered elements",
+        "does_not_mutate": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"
+      },
+
+      "array_reduce": {
+        "statement": "reduce() executes reducer function on each element, resulting in single output value",
+        "syntax": "arr.reduce(callback(accumulator, currentValue, index, array), initialValue)",
+        "returns": "Single accumulated value",
+        "use_cases": ["Sum", "Flatten", "Group by", "Count occurrences"],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"
+      },
+
+      "array_foreach": {
+        "statement": "forEach() executes function once for each array element",
+        "syntax": "arr.forEach(callback(element, index, array))",
+        "returns": "undefined",
+        "cannot_break": "No way to stop or break iteration",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"
+      },
+
+      "array_find": {
+        "statement": "find() returns first element that satisfies test function",
+        "syntax": "arr.find(callback(element, index, array))",
+        "returns": "Element or undefined",
+        "stops_at_first": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find"
+      },
+
+      "array_some": {
+        "statement": "some() tests whether at least one element passes test function",
+        "syntax": "arr.some(callback(element, index, array))",
+        "returns": "boolean",
+        "short_circuits": "Stops on first true",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"
+      },
+
+      "array_every": {
+        "statement": "every() tests whether all elements pass test function",
+        "syntax": "arr.every(callback(element, index, array))",
+        "returns": "boolean",
+        "short_circuits": "Stops on first false",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"
+      },
+
+      "array_slice": {
+        "statement": "slice() returns shallow copy of portion of array",
+        "syntax": "arr.slice(start, end)",
+        "returns": "New array",
+        "does_not_mutate": true,
+        "negative_indices": "Count from end",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+      },
+
+      "array_splice": {
+        "statement": "splice() changes array contents by removing/replacing/adding elements",
+        "syntax": "arr.splice(start, deleteCount, item1, item2, ...)",
+        "returns": "Array of removed elements",
+        "mutates": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice"
+      },
+
+      "array_concat": {
+        "statement": "concat() merges two or more arrays",
+        "syntax": "arr1.concat(arr2, arr3, ...)",
+        "returns": "New array",
+        "does_not_mutate": true,
+        "shallow_copy": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat"
+      },
+
+      "array_includes": {
+        "statement": "includes() determines whether array includes certain value",
+        "syntax": "arr.includes(searchElement, fromIndex)",
+        "returns": "boolean",
+        "uses_samevaluezero": "NaN equals NaN",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes"
+      },
+
+      "array_join": {
+        "statement": "join() creates string by concatenating all array elements",
+        "syntax": "arr.join(separator)",
+        "default_separator": "comma",
+        "returns": "String",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
+      },
+
+      "array_flat": {
+        "statement": "flat() creates new array with sub-array elements concatenated",
+        "syntax": "arr.flat(depth)",
+        "default_depth": 1,
+        "infinity": "flat(Infinity) flattens all levels",
+        "removes_empty_slots": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat"
+      },
+
+      "array_flatmap": {
+        "statement": "flatMap() maps each element then flattens result by one level",
+        "syntax": "arr.flatMap(callback(element, index, array))",
+        "equivalent_to": "map().flat()",
+        "more_efficient": "Single pass",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap"
+      }
+    },
+
+    "javascript_object_methods": {
+      "object_keys": {
+        "statement": "Object.keys() returns array of object's own enumerable property names",
+        "syntax": "Object.keys(obj)",
+        "returns": "Array of strings",
+        "order": "Same as for...in loop",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys"
+      },
+
+      "object_values": {
+        "statement": "Object.values() returns array of object's own enumerable property values",
+        "syntax": "Object.values(obj)",
+        "returns": "Array",
+        "order": "Same as for...in loop",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values"
+      },
+
+      "object_entries": {
+        "statement": "Object.entries() returns array of object's own enumerable [key, value] pairs",
+        "syntax": "Object.entries(obj)",
+        "returns": "Array of [key, value] arrays",
+        "use_case": "Converting to Map, iteration",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries"
+      },
+
+      "object_assign": {
+        "statement": "Object.assign() copies enumerable own properties from source to target",
+        "syntax": "Object.assign(target, ...sources)",
+        "returns": "Modified target object",
+        "mutates_target": true,
+        "shallow_copy": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"
+      },
+
+      "object_freeze": {
+        "statement": "Object.freeze() freezes object preventing modifications",
+        "syntax": "Object.freeze(obj)",
+        "prevents": [
+          "Adding properties",
+          "Deleting properties",
+          "Modifying values",
+          "Changing prototype"
+        ],
+        "shallow": "Only freezes top level",
+        "returns": "Same object",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze"
+      },
+
+      "object_seal": {
+        "statement": "Object.seal() seals object preventing additions/deletions but allows modifications",
+        "syntax": "Object.seal(obj)",
+        "prevents": [
+          "Adding properties",
+          "Deleting properties",
+          "Reconfiguring properties"
+        ],
+        "allows": "Modifying existing values",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal"
+      },
+
+      "object_create": {
+        "statement": "Object.create() creates new object with specified prototype",
+        "syntax": "Object.create(proto, propertiesObject)",
+        "proto": "Prototype for new object or null",
+        "use_case": "Prototype inheritance",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create"
+      },
+
+      "object_getprototypeof": {
+        "statement": "Object.getPrototypeOf() returns prototype of specified object",
+        "syntax": "Object.getPrototypeOf(obj)",
+        "returns": "Prototype object or null",
+        "opposite": "Object.setPrototypeOf()",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf"
+      },
+
+      "object_hasown": {
+        "statement": "Object.hasOwn() determines if object has property as own property",
+        "syntax": "Object.hasOwn(obj, prop)",
+        "returns": "boolean",
+        "replaces": "obj.hasOwnProperty(prop)",
+        "safer": "Works with Object.create(null)",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn"
+      },
+
+      "object_defineproperty": {
+        "statement": "Object.defineProperty() defines new or modifies existing property with descriptor",
+        "syntax": "Object.defineProperty(obj, prop, descriptor)",
+        "descriptor_keys": [
+          "value",
+          "writable",
+          "enumerable",
+          "configurable",
+          "get",
+          "set"
+        ],
+        "returns": "Modified object",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty"
+      }
+    },
+
+    "javascript_string_methods": {
+      "string_includes": {
+        "statement": "includes() determines whether string contains specified substring",
+        "syntax": "str.includes(searchString, position)",
+        "returns": "boolean",
+        "case_sensitive": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes"
+      },
+
+      "string_slice": {
+        "statement": "slice() extracts section of string and returns new string",
+        "syntax": "str.slice(beginIndex, endIndex)",
+        "returns": "New string",
+        "negative_indices": "Count from end",
+        "does_not_mutate": true,
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice"
+      },
+
+      "string_split": {
+        "statement": "split() divides string into array of substrings",
+        "syntax": "str.split(separator, limit)",
+        "separator": "String or RegExp",
+        "returns": "Array of strings",
+        "empty_separator": "Splits into characters",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split"
+      },
+
+      "string_trim": {
+        "statement": "trim() removes whitespace from both ends of string",
+        "syntax": "str.trim()",
+        "returns": "New string",
+        "variants": ["trimStart()", "trimEnd()"],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim"
+      },
+
+      "string_replace": {
+        "statement": "replace() returns new string with pattern replaced by replacement",
+        "syntax": "str.replace(pattern, replacement)",
+        "pattern": "String or RegExp",
+        "replaces": "Only first match unless global RegExp",
+        "use_replaceall": "For all occurrences",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace"
+      },
+
+      "string_match": {
+        "statement": "match() retrieves result of matching string against regular expression",
+        "syntax": "str.match(regexp)",
+        "returns": "Array of matches or null",
+        "global_flag": "Returns all matches",
+        "no_global": "Returns first match with groups",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match"
+      },
+
+      "string_padstart": {
+        "statement": "padStart() pads string with another string until reaching target length",
+        "syntax": "str.padStart(targetLength, padString)",
+        "pads": "From the beginning",
+        "default_pad": "Space",
+        "use_case": "Formatting numbers, timestamps",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart"
+      },
+
+      "string_charat": {
+        "statement": "charAt() returns character at specified index",
+        "syntax": "str.charAt(index)",
+        "returns": "Single character string",
+        "out_of_bounds": "Returns empty string",
+        "alternative": "Bracket notation str[index]",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt"
+      }
+    },
+
+    "javascript_promise_async": {
+      "promise_states": {
+        "statement": "Promise has three states: pending, fulfilled, rejected",
+        "pending": "Initial state",
+        "fulfilled": "Operation completed successfully",
+        "rejected": "Operation failed",
+        "settled": "Either fulfilled or rejected",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise"
+      },
+
+      "promise_then": {
+        "statement": "then() attaches callbacks for fulfilled and rejected cases",
+        "syntax": "promise.then(onFulfilled, onRejected)",
+        "returns": "New Promise",
+        "chaining": "Return value becomes next promise value",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then"
+      },
+
+      "promise_catch": {
+        "statement": "catch() handles rejected promises",
+        "syntax": "promise.catch(onRejected)",
+        "equivalent_to": "then(null, onRejected)",
+        "catches": "Any rejection in chain",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch"
+      },
+
+      "promise_finally": {
+        "statement": "finally() executes callback regardless of promise outcome",
+        "syntax": "promise.finally(onFinally)",
+        "use_case": "Cleanup operations",
+        "no_arguments": "Callback receives no arguments",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally"
+      },
+
+      "promise_all": {
+        "statement": "Promise.all() waits for all promises to fulfill or any to reject",
+        "syntax": "Promise.all(iterable)",
+        "returns": "Promise with array of results",
+        "fails_fast": "Rejects on first rejection",
+        "use_case": "Parallel operations that all must succeed",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"
+      },
+
+      "promise_race": {
+        "statement": "Promise.race() settles as soon as first promise settles",
+        "syntax": "Promise.race(iterable)",
+        "returns": "Promise with first settled value",
+        "use_case": "Timeout patterns, fastest response",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race"
+      },
+
+      "promise_allsettled": {
+        "statement": "Promise.allSettled() waits for all promises to settle",
+        "syntax": "Promise.allSettled(iterable)",
+        "returns": "Array of objects with status and value/reason",
+        "never_rejects": "Always fulfills with all results",
+        "use_case": "When you need all results regardless of success/failure",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled"
+      },
+
+      "promise_any": {
+        "statement": "Promise.any() fulfills when any promise fulfills",
+        "syntax": "Promise.any(iterable)",
+        "returns": "Promise with first fulfilled value",
+        "rejects": "Only if all promises reject (AggregateError)",
+        "use_case": "First successful result from multiple sources",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any"
+      },
+
+      "async_function_return": {
+        "statement": "async functions always return a Promise",
+        "implicit_wrapping": "Non-promise return values are wrapped in Promise.resolve()",
+        "throw_becomes_rejection": "Thrown errors become rejected promises",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function"
+      },
+
+      "await_behavior": {
+        "statement": "await pauses async function execution until promise settles",
+        "returns": "Fulfilled value or throws rejected reason",
+        "non_promise": "await on non-promise returns value immediately",
+        "error_handling": "Use try/catch for rejected promises",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await"
+      }
+    },
+
+    "javascript_error_handling": {
+      "error_types": {
+        "statement": "JavaScript has built-in error types for different error conditions",
+        "types": [
+          "Error: Base error type",
+          "ReferenceError: Invalid reference",
+          "TypeError: Invalid type",
+          "SyntaxError: Parsing error",
+          "RangeError: Value not in allowed range",
+          "URIError: Invalid URI handling"
+        ],
+        "custom_errors": "Can extend Error class",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error"
+      },
+
+      "try_catch_finally": {
+        "statement": "try/catch/finally provides structured error handling",
+        "syntax": "try { } catch (error) { } finally { }",
+        "catch_optional": "Can have try/finally without catch",
+        "finally_always_runs": "Even with return/throw in try/catch",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch"
+      },
+
+      "throw_statement": {
+        "statement": "throw statement throws user-defined exception",
+        "syntax": "throw expression",
+        "can_throw": "Any value (Error objects recommended)",
+        "stops_execution": "Exits current function",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw"
+      },
+
+      "error_properties": {
+        "statement": "Error objects have standard properties",
+        "name": "Error type name",
+        "message": "Human-readable description",
+        "stack": "Stack trace (non-standard but widely supported)",
+        "cause": "Optional error that caused this error",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error"
+      }
+    },
+
+    "javascript_iterators_generators": {
+      "iterator_protocol": {
+        "statement": "Iterator protocol defines standard way to produce sequence of values",
+        "interface": "Object with next() method returning {value, done}",
+        "done": "Boolean indicating if iteration is complete",
+        "value": "Current value in sequence",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols"
+      },
+
+      "iterable_protocol": {
+        "statement": "Iterable protocol allows objects to define iteration behavior",
+        "symbol": "Object must have [Symbol.iterator] method",
+        "returns": "Iterator object",
+        "built_in_iterables": ["Array", "String", "Map", "Set", "NodeList"],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols"
+      },
+
+      "generator_functions": {
+        "statement": "Generator functions return Generator objects implementing iterator protocol",
+        "syntax": "function* gen() { yield 1; yield 2; }",
+        "keyword": "function*",
+        "yield": "Pauses execution and returns value",
+        "resumable": "Calling next() resumes execution",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*"
+      },
+
+      "yield_expression": {
+        "statement": "yield pauses generator and returns value to caller",
+        "syntax": "yield expression",
+        "returns": "Value passed to next() on resume",
+        "yield_star": "yield* delegates to another iterable",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield"
+      },
+
+      "async_generators": {
+        "statement": "Async generator functions return async iterables",
+        "syntax": "async function* gen() { yield await promise; }",
+        "yields_promises": "Each yielded value is wrapped in promise",
+        "for_await": "Consumed with for await...of",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function*"
+      }
+    },
+
+    "javascript_symbols": {
+      "symbol_purpose": {
+        "statement": "Symbol is primitive type representing unique identifier",
+        "syntax": "const sym = Symbol('description')",
+        "unique": "Each Symbol() call creates unique value",
+        "use_case": "Private object properties, well-known symbols",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol"
+      },
+
+      "well_known_symbols": {
+        "statement": "Well-known symbols customize built-in JavaScript behavior",
+        "symbol_iterator": "Defines default iterator",
+        "symbol_toprimitive": "Converts object to primitive",
+        "symbol_hasinstance": "Customizes instanceof behavior",
+        "symbol_tostringtag": "Customizes Object.prototype.toString",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol"
+      },
+
+      "symbol_registry": {
+        "statement": "Symbol.for() creates/retrieves symbols from global registry",
+        "syntax": "Symbol.for('key')",
+        "shared": "Same key returns same symbol across realms",
+        "symbol_keyfor": "Retrieves key for registered symbol",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for"
+      }
+    },
+
+    "javascript_maps_sets": {
+      "map_features": {
+        "statement": "Map holds key-value pairs and remembers insertion order",
+        "any_key_type": "Keys can be any value (objects, functions, primitives)",
+        "size_property": "map.size returns number of entries",
+        "methods": ["set", "get", "has", "delete", "clear"],
+        "iterable": "Iterable in insertion order",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"
+      },
+
+      "map_vs_object": {
+        "statement": "Map differs from Object in key handling and iteration",
+        "differences": [
+          "Map: Any key type vs Object: String/Symbol keys",
+          "Map: Maintains insertion order reliably",
+          "Map: Size property vs Object: manual counting",
+          "Map: Iterable by default",
+          "Map: Better performance for frequent additions/removals"
+        ],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"
+      },
+
+      "weakmap_features": {
+        "statement": "WeakMap holds weak references to object keys",
+        "keys_only_objects": "Keys must be objects (not primitives)",
+        "no_size": "No size property or iteration",
+        "weak_references": "Keys can be garbage collected",
+        "use_case": "Private data, metadata for objects",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap"
+      },
+
+      "set_features": {
+        "statement": "Set stores unique values of any type",
+        "unique_values": "Each value occurs only once",
+        "methods": ["add", "has", "delete", "clear"],
+        "size_property": "set.size returns number of values",
+        "iterable": "Iterable in insertion order",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"
+      },
+
+      "weakset_features": {
+        "statement": "WeakSet holds weak references to objects",
+        "values_only_objects": "Values must be objects",
+        "no_iteration": "Cannot iterate or get size",
+        "weak_references": "Objects can be garbage collected",
+        "use_case": "Tracking object membership without preventing GC",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet"
+      }
+    },
+
+    "javascript_proxy_reflect": {
+      "proxy_purpose": {
+        "statement": "Proxy creates wrapper for object with custom behavior for fundamental operations",
+        "syntax": "new Proxy(target, handler)",
+        "traps": "Handler methods intercept operations",
+        "use_cases": [
+          "Validation",
+          "Logging",
+          "Data binding",
+          "Virtual properties"
+        ],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy"
+      },
+
+      "proxy_traps": {
+        "statement": "Handler object contains trap methods to intercept operations",
+        "common_traps": [
+          "get: Property access",
+          "set: Property assignment",
+          "has: in operator",
+          "deleteProperty: delete operator",
+          "apply: Function call",
+          "construct: new operator"
+        ],
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy"
+      },
+
+      "reflect_purpose": {
+        "statement": "Reflect provides methods for interceptable JavaScript operations",
+        "built_in_object": "Not a constructor",
+        "methods_match_proxy_traps": "Reflect.get, Reflect.set, etc.",
+        "use_with_proxy": "Forward operations from proxy traps",
+        "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect"
+      }
+    }
+  },
+
+  "validation_matrix": {
+    "type_correctness": {
+      "statement": "All type annotations must be valid TypeScript types",
+      "validation_type": "pre_emission",
+      "required": true
+    },
+
+    "syntax_validity": {
+      "statement": "Generated code must compile without syntax errors",
+      "validation_type": "pre_emission",
+      "required": true
+    },
+
+    "import_resolution": {
+      "statement": "All imports must be resolvable",
+      "validation_type": "pre_emission",
+      "required": true
+    },
+
+    "tsconfig_compliance": {
+      "statement": "Generated code must comply with tsconfig.json settings",
+      "validation_type": "pre_emission",
+      "required": true
+    }
+  },
+
+  "required_using_directives": {
+    "statement": "TypeScript uses import statements, not using directives",
+    "syntax": "import { X } from 'module';",
+    "es6_modules": true
+  },
+
+  "incremental_assembly": {
+    "expression_level": {
+      "statement": "Start with expressions, ensure type correctness",
+      "validate": ["Type compatibility", "Operator usage", "Literal types"]
+    },
+    "statement_level": {
+      "statement": "Build statements from expressions",
+      "validate": ["Control flow", "Variable declarations", "Type narrowing"]
+    },
+    "function_level": {
+      "statement": "Construct functions with typed parameters and return",
+      "validate": ["Parameter types", "Return type", "Generic constraints"]
+    },
+    "class_level": {
+      "statement": "Build classes with proper access modifiers and inheritance",
+      "validate": ["Member types", "Constructor signature", "Inheritance chain"]
+    },
+    "module_level": {
+      "statement": "Organize into modules with proper exports",
+      "validate": ["Export statements", "Import paths", "Module resolution"]
+    }
+  },
+
+  "examples": {
+    "basic_interface": {
+      "title": "Basic Interface Definition",
+      "code": "interface User {\n  name: string;\n  age: number;\n  email?: string;\n}\n\nconst user: User = {\n  name: 'John',\n  age: 30\n};",
+      "source": "TypeScript Handbook"
+    },
+
+    "generic_function": {
+      "title": "Generic Function",
+      "code": "function identity<T>(arg: T): T {\n  return arg;\n}\n\nconst result = identity<string>('Hello');",
+      "source": "TypeScript Handbook"
+    },
+
+    "type_guard": {
+      "title": "Custom Type Guard",
+      "code": "interface Fish {\n  swim(): void;\n}\n\ninterface Bird {\n  fly(): void;\n}\n\nfunction isFish(pet: Fish | Bird): pet is Fish {\n  return (pet as Fish).swim !== undefined;\n}",
+      "source": "TypeScript Handbook"
+    }
+  },
+
+  "integration": {
+    "works_with": ["node-expert", "javascript-expert", "react-expert"],
+    "defers_to": [],
+    "coordinates_with": ["mcp-service", "build-tools"]
+  },
+
+  "notes": {
+    "purpose": "Validates MCP service TypeScript code, generates type-safe Node.js projects, and provides comprehensive JavaScript runtime knowledge",
+    "maintenance": "Update when TypeScript or ECMAScript releases new versions or features",
+    "current_focus": "TypeScript 5.9+ with Node.js 18+ integration and ECMAScript 2023+ JavaScript runtime behavior",
+    "javascript_coverage": "500+ MDN documentation pages scraped covering: runtime behavior (prototypes, closures, hoisting, event loop, coercion), standard library (Array/Object/String/Number methods), async patterns (Promises, async/await, iterators, generators), advanced features (Maps, Sets, WeakMap, WeakSet, Proxy, Reflect, Symbols)",
+    "last_updated": "2025-10-23"
+  }
+}

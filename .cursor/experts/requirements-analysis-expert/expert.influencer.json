@@ -1,0 +1,217 @@
+{
+  "name": "requirements-analysis-expert",
+  "type": "influence",
+  "version": "1.0.0",
+  "description": "Provides guidance and opinions on requirements analysis approaches and techniques",
+  "opinions_enabled": true,
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-10-21",
+    "author": "Enterprise Architecture Team",
+    "status": "active"
+  },
+
+  "opinions": {
+    "requirements_gathering_approach": {
+      "title": "Stakeholder Interview vs Assumption-Based Design",
+      "description": "How to gather requirements before architecture design",
+      "confidence_score": 0.95,
+      "rationale": "Assumption-based design leads to fundamental architectural errors that are expensive to fix. Stakeholder interviews take 1-2 hours but prevent weeks of rework.",
+      "context": {
+        "when_applicable": [
+          "Any architecture or design project",
+          "System integration projects",
+          "Multi-system architectures",
+          "Projects with multiple user types",
+          "Projects with unclear requirements"
+        ],
+        "when_not_applicable": [
+          "Well-documented existing systems with zero changes",
+          "Pure code refactoring with no business logic changes"
+        ]
+      },
+      "options": [
+        {
+          "name": "Stakeholder Interview First (RECOMMENDED)",
+          "pros": [
+            "Prevents fundamental architectural errors",
+            "Identifies all user types and their actual needs",
+            "Catches illogical assumptions early (e.g., external users in internal JIRA)",
+            "Builds stakeholder buy-in and confidence",
+            "1-2 hours investment prevents weeks of rework"
+          ],
+          "cons": [
+            "Requires 1-2 hours upfront",
+            "Stakeholders may not be immediately available"
+          ],
+          "when_to_use": "Always, for any architecture project with unclear requirements"
+        },
+        {
+          "name": "Assumption-Based Design (NOT RECOMMENDED)",
+          "pros": ["Faster initial turnaround", "Can start design immediately"],
+          "cons": [
+            "High risk of fundamental errors",
+            "May design for wrong users or wrong problem",
+            "Expensive rework when assumptions are wrong",
+            "Loss of stakeholder confidence",
+            "May get you fired if presented to executives"
+          ],
+          "when_to_use": "Never, unless you enjoy career-limiting mistakes"
+        }
+      ],
+      "decision_factors": [
+        {
+          "factor": "Project Complexity",
+          "weight": "high",
+          "guidance": "More complex = more critical to interview stakeholders first"
+        },
+        {
+          "factor": "User Type Clarity",
+          "weight": "high",
+          "guidance": "Unclear who uses what systems = mandatory stakeholder interview"
+        },
+        {
+          "factor": "Integration Count",
+          "weight": "medium",
+          "guidance": "More integrations = more critical to understand business justification for each"
+        },
+        {
+          "factor": "Executive Visibility",
+          "weight": "critical",
+          "guidance": "High visibility = zero tolerance for fundamental errors"
+        }
+      ],
+      "presentChoice": false,
+      "recommendation": "ALWAYS conduct stakeholder interviews before architecture design. The 1-2 hour investment prevents career-limiting mistakes."
+    },
+    "validation_before_design": {
+      "title": "Present User-System Matrix for Approval vs Proceed with Assumptions",
+      "description": "Whether to validate user-to-system mapping before generating architecture diagrams",
+      "confidence_score": 0.98,
+      "rationale": "A simple user-to-system matrix takes 5 minutes to create and catches 90% of architectural errors before any design work begins",
+      "context": {
+        "when_applicable": [
+          "Multi-system architectures",
+          "Multiple user types (external and internal)",
+          "Integration projects",
+          "Any architecture with unclear user access patterns"
+        ],
+        "when_not_applicable": [
+          "Single system, single user type",
+          "Well-documented existing system with no changes"
+        ]
+      },
+      "options": [
+        {
+          "name": "Present User-System Matrix for Approval (MANDATORY)",
+          "pros": [
+            "5-minute investment catches 90% of errors",
+            "Forces explicit thinking about who uses what",
+            "Stakeholder reviews and catches illogical mappings",
+            "Prevents generating 9 documents with fundamental errors",
+            "Shows professionalism and diligence"
+          ],
+          "cons": [
+            "Requires 5 minutes to create matrix",
+            "Requires stakeholder review (1-5 minutes)"
+          ],
+          "when_to_use": "ALWAYS, before any architecture diagram or documentation"
+        },
+        {
+          "name": "Proceed with Assumptions (NEVER DO THIS)",
+          "pros": ["None. Seriously, there are no pros."],
+          "cons": [
+            "High risk of fundamental errors",
+            "May show external users in internal JIRA (career-limiting)",
+            "Generates 9 documents with errors throughout",
+            "Stakeholder loses confidence in your work",
+            "CTO may fire you"
+          ],
+          "when_to_use": "Never. This is the path to unemployment."
+        }
+      ],
+      "decision_factors": [
+        {
+          "factor": "Time Investment",
+          "weight": "low",
+          "guidance": "5 minutes to create matrix vs weeks to fix errors"
+        },
+        {
+          "factor": "Error Prevention",
+          "weight": "critical",
+          "guidance": "Prevents 90% of fundamental architectural errors"
+        },
+        {
+          "factor": "Stakeholder Confidence",
+          "weight": "high",
+          "guidance": "Shows diligence and prevents 'how did you miss this?' questions"
+        }
+      ],
+      "presentChoice": false,
+      "recommendation": "ALWAYS create and present user-system matrix for approval before generating any architecture diagrams or documentation."
+    },
+    "external_user_access_validation": {
+      "title": "External Users and Internal System Access",
+      "description": "When (if ever) external users should access internal systems like JIRA, internal CRM, internal project management tools",
+      "confidence_score": 0.99,
+      "rationale": "External users accessing internal systems is almost always an architectural error unless there is explicit, documented business justification (e.g., vendor portal)",
+      "context": {
+        "when_applicable": [
+          "Any architecture with external users (customers, partners)",
+          "Architectures integrating internal systems (JIRA, internal CRM, admin tools)"
+        ],
+        "when_not_applicable": [
+          "Pure internal architecture with no external users"
+        ]
+      },
+      "options": [
+        {
+          "name": "External Users Access Internal Systems (RARE, NEEDS JUSTIFICATION)",
+          "pros": [
+            "May be justified for vendor portals",
+            "May be justified for partner integrations with specific business cases"
+          ],
+          "cons": [
+            "Security risk (exposing internal systems)",
+            "Licensing costs (additional user licenses)",
+            "Complexity (managing external user permissions in internal systems)",
+            "Usually indicates architectural misunderstanding"
+          ],
+          "when_to_use": "Only with explicit business justification and security review (e.g., vendor portal for suppliers)"
+        },
+        {
+          "name": "External Users Access External-Facing Systems Only (CORRECT 99% OF TIME)",
+          "pros": [
+            "Security isolation (internal systems protected)",
+            "Lower licensing costs",
+            "Simpler permission management",
+            "Industry best practice",
+            "Prevents accidental data exposure"
+          ],
+          "cons": ["None for typical scenarios"],
+          "when_to_use": "Default approach for 99% of architectures"
+        }
+      ],
+      "decision_factors": [
+        {
+          "factor": "Security Risk",
+          "weight": "critical",
+          "guidance": "External users in internal systems = high security risk"
+        },
+        {
+          "factor": "Business Justification",
+          "weight": "critical",
+          "guidance": "Requires explicit, documented business justification"
+        },
+        {
+          "factor": "Licensing Cost",
+          "weight": "high",
+          "guidance": "Internal system licenses for external users are expensive"
+        }
+      ],
+      "presentChoice": true,
+      "recommendation": "External users should ONLY access external-facing systems (self-service portals, public APIs). If architecture shows external users in JIRA, internal CRM, or internal tools, STOP and validate business justification."
+    }
+  }
+}

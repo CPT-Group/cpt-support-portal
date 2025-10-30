@@ -1,0 +1,355 @@
+{
+  "name": "react-expert",
+  "type": "technology",
+  "version": "1.1.0",
+  "description": "Comprehensive React library technology expert covering React 18+, functional components, hooks, JSX, state management, routing, React Developer Tools, and best practices",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-21",
+    "lastUpdated": "2025-01-24",
+    "author": "AI Expert System",
+    "status": "active"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "React Official Documentation (react.dev)",
+      "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+      "React Router Documentation",
+      "Create React App Documentation"
+    ]
+  },
+
+  "triggers": {
+    "keywords": [
+      "react",
+      "jsx",
+      "hooks",
+      "component",
+      "usestate",
+      "useeffect",
+      "props",
+      "state",
+      "virtual dom",
+      "react-router",
+      "react devtools",
+      "react developer tools",
+      "react profiler",
+      "components panel"
+    ],
+    "phrases": [
+      "react component",
+      "react hook",
+      "functional component",
+      "react app",
+      "jsx syntax",
+      "component props",
+      "react developer tools",
+      "react devtools",
+      "debug react",
+      "profile react performance"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Generate React functional components with hooks",
+      "Create JSX markup and components",
+      "Implement state management with useState and useReducer",
+      "Use side effects with useEffect",
+      "Implement routing with React Router",
+      "Handle forms and user input",
+      "Optimize performance with React.memo, useMemo, useCallback",
+      "Use Context API for prop drilling avoidance",
+      "Create custom hooks",
+      "Use React Developer Tools for debugging and profiling",
+      "Install and configure React DevTools browser extension",
+      "Use Components panel to inspect component tree and props",
+      "Use Profiler to identify performance bottlenecks",
+      "Apply React best practices and patterns"
+    ],
+    "cannot_do": [
+      "Make architectural decisions (defer to architecture-expert)",
+      "Choose between React and Angular (defer to frontend-architecture-expert)",
+      "Design UI/UX (defer to design-expert)"
+    ]
+  },
+
+  "facts": {
+    "react_basics": {
+      "what_is_react": {
+        "statement": "React is a JavaScript library for building user interfaces, developed by Meta (Facebook). Uses component-based architecture, virtual DOM for performance, and declarative programming model. React 18+ is current major version.",
+        "confidence": 1.0,
+        "source": "React official documentation",
+        "example": "React components: function App() { return <div>Hello World</div>; }"
+      },
+      "jsx": {
+        "statement": "JSX (JavaScript XML) is syntax extension allowing HTML-like code in JavaScript. Compiled to React.createElement() calls by Babel. Rules: use className (not class), htmlFor (not for), camelCase props, self-closing tags, single root element (or React.Fragment/<>)",
+        "confidence": 1.0,
+        "source": "React JSX documentation",
+        "example": "const element = <h1 className=\"title\">Hello {name}</h1>; // Expressions in {}"
+      },
+      "virtual_dom": {
+        "statement": "Virtual DOM is in-memory representation of real DOM. React compares virtual DOM (diffing), calculates minimal changes, and updates real DOM efficiently (reconciliation). Makes React fast.",
+        "confidence": 1.0,
+        "source": "React reconciliation documentation",
+        "example": "When state changes, React creates new virtual DOM, diffs with previous, updates only changed real DOM nodes"
+      },
+      "create_react_app": {
+        "statement": "Create React App (CRA) is official tool to set up React projects with webpack, Babel, ESLint pre-configured. Command: npx create-react-app my-app. Alternative modern tools: Vite (faster), Next.js (full-stack)",
+        "confidence": 1.0,
+        "source": "Create React App documentation",
+        "example": "npx create-react-app my-app --template typescript"
+      }
+    },
+    "components": {
+      "functional_components": {
+        "statement": "Functional components (modern, recommended): JavaScript functions returning JSX. Use hooks for state and side effects. Simpler than class components, easier to test, better performance.",
+        "confidence": 1.0,
+        "source": "React components documentation",
+        "example": "function Welcome(props) { return <h1>Hello, {props.name}</h1>; }"
+      },
+      "class_components": {
+        "statement": "Class components (legacy): ES6 classes extending React.Component. Have render() method, this.state, lifecycle methods (componentDidMount, componentDidUpdate, componentWillUnmount). Use functional components for new code.",
+        "confidence": 1.0,
+        "source": "React class components documentation",
+        "example": "class Welcome extends React.Component { render() { return <h1>Hello, {this.props.name}</h1>; } }"
+      },
+      "props": {
+        "statement": "Props (properties) pass data from parent to child components. Read-only (immutable). Access: props.name in function, this.props.name in class. Can destructure: function Welcome({ name }) { }",
+        "confidence": 1.0,
+        "source": "React props documentation",
+        "example": "<Welcome name=\"Sara\" /> // Pass prop. function Welcome({ name }) { return <h1>Hello, {name}</h1>; }"
+      },
+      "children_prop": {
+        "statement": "props.children is special prop containing content between component opening/closing tags. Used for composition and layout components.",
+        "confidence": 1.0,
+        "source": "React composition documentation",
+        "example": "<Card><p>Content</p></Card> // Inside Card: function Card({ children }) { return <div className=\"card\">{children}</div>; }"
+      }
+    },
+    "hooks": {
+      "usestate": {
+        "statement": "useState hook adds state to functional components. Returns [stateValue, setStateFunction]. Updates trigger re-render. Initialize: useState(initialValue). Functional updates: setState(prev => prev + 1)",
+        "confidence": 1.0,
+        "source": "React useState documentation",
+        "example": "const [count, setCount] = useState(0); setCount(count + 1); // or setCount(c => c + 1);"
+      },
+      "useeffect": {
+        "statement": "useEffect hook for side effects (API calls, subscriptions, DOM manipulation). Runs after render. Cleanup with return function. Dependencies array controls when it runs: [] (once), [dep] (when dep changes), no array (every render)",
+        "confidence": 1.0,
+        "source": "React useEffect documentation",
+        "example": "useEffect(() => { const timer = setTimeout(() => {}, 1000); return () => clearTimeout(timer); }, [dependency]);"
+      },
+      "usecontext": {
+        "statement": "useContext hook accesses Context value without Consumer wrapper. Context provides data to component tree without prop drilling. Create: React.createContext(), provide: <Context.Provider value={}>, consume: useContext(Context)",
+        "confidence": 1.0,
+        "source": "React useContext documentation",
+        "example": "const ThemeContext = React.createContext('light'); function App() { return <ThemeContext.Provider value=\"dark\"><Child /></ThemeContext.Provider>; } function Child() { const theme = useContext(ThemeContext); }"
+      },
+      "usereducer": {
+        "statement": "useReducer hook for complex state logic (alternative to useState). Like Redux reducer: (state, action) => newState. Returns [state, dispatch]. Good for multiple sub-values or when next state depends on previous.",
+        "confidence": 1.0,
+        "source": "React useReducer documentation",
+        "example": "const [state, dispatch] = useReducer(reducer, initialState); dispatch({ type: 'increment' });"
+      },
+      "useref": {
+        "statement": "useRef hook creates mutable ref object that persists across renders. Use for: DOM element access, storing mutable values without re-render. Access: ref.current",
+        "confidence": 1.0,
+        "source": "React useRef documentation",
+        "example": "const inputRef = useRef(null); <input ref={inputRef} />; inputRef.current.focus();"
+      },
+      "usememo": {
+        "statement": "useMemo hook memoizes expensive computation result. Only recomputes when dependencies change. Returns memoized value. Use for performance optimization of expensive calculations.",
+        "confidence": 1.0,
+        "source": "React useMemo documentation",
+        "example": "const expensiveValue = useMemo(() => computeExpensive(a, b), [a, b]);"
+      },
+      "usecallback": {
+        "statement": "useCallback hook memoizes function itself (not result). Returns memoized callback. Prevents child re-renders when passing callbacks. Dependencies array controls when function recreated.",
+        "confidence": 1.0,
+        "source": "React useCallback documentation",
+        "example": "const handleClick = useCallback(() => { doSomething(a, b); }, [a, b]);"
+      },
+      "custom_hooks": {
+        "statement": "Custom hooks are JavaScript functions starting with 'use' that can call other hooks. Extract component logic into reusable functions. Follow hooks rules (only call at top level, only in React functions)",
+        "confidence": 1.0,
+        "source": "React custom hooks documentation",
+        "example": "function useWindowWidth() { const [width, setWidth] = useState(window.innerWidth); useEffect(() => { const handleResize = () => setWidth(window.innerWidth); window.addEventListener('resize', handleResize); return () => window.removeEventListener('resize', handleResize); }, []); return width; }"
+      },
+      "hooks_rules": {
+        "statement": "Rules of Hooks: (1) Only call hooks at top level (not in loops, conditions, nested functions), (2) Only call hooks from React functions (components or custom hooks). ESLint plugin: eslint-plugin-react-hooks enforces rules.",
+        "confidence": 1.0,
+        "source": "React hooks rules documentation",
+        "example": "// WRONG: if (condition) { useState(0); } // RIGHT: const [state, setState] = useState(0); if (condition) { setState(1); }"
+      }
+    },
+    "event_handling": {
+      "events": {
+        "statement": "React events: camelCase names (onClick not onclick), pass function (not string), preventDefault() explicit (no return false). SyntheticEvent wrapper provides cross-browser compatibility.",
+        "confidence": 1.0,
+        "source": "React events documentation",
+        "example": "<button onClick={handleClick}>Click</button> // function handleClick(e) { e.preventDefault(); }"
+      },
+      "event_handlers": {
+        "statement": "Event handler patterns: inline arrow function <button onClick={() => func(arg)}>  (creates new function each render), bind in constructor (class components), arrow function in class property, useCallback for optimization",
+        "confidence": 1.0,
+        "source": "React event handling patterns",
+        "example": "const handleClick = useCallback((id) => { /* ... */ }, [dependencies]);"
+      }
+    },
+    "conditional_rendering": {
+      "conditionals": {
+        "statement": "Conditional rendering: if/else statements, ternary operator (condition ? <A /> : <B />), logical AND (condition && <Component />), early return. null/undefined/false/true don't render.",
+        "confidence": 1.0,
+        "source": "React conditional rendering",
+        "example": "{isLoggedIn ? <UserGreeting /> : <GuestGreeting />} {messages.length > 0 && <MessageList />}"
+      }
+    },
+    "lists_and_keys": {
+      "rendering_lists": {
+        "statement": "Render lists with array.map(). Each element needs unique 'key' prop for React to track identity. Keys should be stable, unique IDs (not array index unless list never changes). Keys help React optimize rendering.",
+        "confidence": 1.0,
+        "source": "React lists and keys documentation",
+        "example": "{items.map(item => <li key={item.id}>{item.name}</li>)}"
+      }
+    },
+    "forms": {
+      "controlled_components": {
+        "statement": "Controlled components (recommended): React state is single source of truth. Input value from state, onChange updates state. Gives React control, enables validation, formatting.",
+        "confidence": 1.0,
+        "source": "React forms documentation",
+        "example": "const [value, setValue] = useState(''); <input value={value} onChange={e => setValue(e.target.value)} />"
+      },
+      "uncontrolled_components": {
+        "statement": "Uncontrolled components: DOM is source of truth, use ref to access value. Use for: integration with non-React code, file inputs (always uncontrolled). Less React code but less control.",
+        "confidence": 1.0,
+        "source": "React uncontrolled components documentation",
+        "example": "const inputRef = useRef(); <input ref={inputRef} /> const value = inputRef.current.value;"
+      },
+      "form_submission": {
+        "statement": "Form submission: use onSubmit on <form>, call event.preventDefault(), gather form data from state (controlled) or refs (uncontrolled), validate, submit to API.",
+        "confidence": 1.0,
+        "source": "React forms documentation",
+        "example": "<form onSubmit={handleSubmit}> function handleSubmit(e) { e.preventDefault(); // submit logic }"
+      }
+    },
+    "lifecycle_and_effects": {
+      "component_lifecycle": {
+        "statement": "Functional component lifecycle with hooks: useEffect with [] = componentDidMount, useEffect no deps = componentDidUpdate, useEffect cleanup = componentWillUnmount. useLayoutEffect for DOM measurements (runs before paint).",
+        "confidence": 1.0,
+        "source": "React lifecycle documentation",
+        "example": "useEffect(() => { /* mount/update logic */ return () => { /* cleanup */ }; }, [deps]);"
+      }
+    },
+    "context_api": {
+      "context": {
+        "statement": "Context API avoids prop drilling for global data (theme, auth, locale). Create: createContext(), Provide: <Context.Provider value={}>, Consume: useContext(Context) or <Context.Consumer>. Don't overuse - consider composition first.",
+        "confidence": 1.0,
+        "source": "React Context API documentation",
+        "example": "const UserContext = createContext(null); <UserContext.Provider value={user}><App /></UserContext.Provider> const user = useContext(UserContext);"
+      }
+    },
+    "react_router": {
+      "routing": {
+        "statement": "React Router for client-side routing. Install: react-router-dom. Components: BrowserRouter (wrap app), Routes, Route (path + element), Link (navigation), Navigate (redirect), useNavigate (programmatic navigation), useParams (route params)",
+        "confidence": 1.0,
+        "source": "React Router documentation",
+        "example": "<BrowserRouter><Routes><Route path=\"/\" element={<Home />} /><Route path=\"/about\" element={<About />} /></Routes></BrowserRouter>"
+      },
+      "route_parameters": {
+        "statement": "Route parameters: <Route path=\"/user/:id\" element={<User />} />. Access with useParams hook: const { id } = useParams(). Query params with useSearchParams hook.",
+        "confidence": 1.0,
+        "source": "React Router params documentation",
+        "example": "function User() { const { id } = useParams(); const [searchParams] = useSearchParams(); }"
+      }
+    },
+    "performance": {
+      "react_memo": {
+        "statement": "React.memo is HOC that memoizes component. Only re-renders if props change (shallow comparison). Use for expensive components with same props. Custom comparison: React.memo(Component, areEqual)",
+        "confidence": 1.0,
+        "source": "React performance optimization",
+        "example": "const MemoizedComponent = React.memo(function MyComponent(props) { /* ... */ });"
+      },
+      "optimization_tips": {
+        "statement": "Performance tips: Use production build (npm run build), code splitting (React.lazy + Suspense), memoization (useMemo, useCallback, React.memo), virtualize long lists (react-window), avoid inline object/array literals in JSX, use key prop correctly",
+        "confidence": 1.0,
+        "source": "React performance guide",
+        "example": "const Component = React.lazy(() => import('./Component')); <Suspense fallback={<Loading />}><Component /></Suspense>"
+      }
+    },
+    "best_practices": {
+      "component_design": {
+        "statement": "Component best practices: Keep components small and focused, use functional components + hooks, composition over inheritance, destructure props, use PropTypes or TypeScript for type checking, extract reusable logic to custom hooks",
+        "confidence": 1.0,
+        "source": "React best practices",
+        "example": "function Button({ onClick, children, ...otherProps }) { return <button onClick={onClick} {...otherProps}>{children}</button>; }"
+      },
+      "state_management": {
+        "statement": "State management: useState for simple local state, useReducer for complex state logic, Context API for global state (small/medium apps), external libraries (Redux, Zustand, Jotai) for large apps with complex state",
+        "confidence": 1.0,
+        "source": "React state management patterns",
+        "example": "Local state → useState, Complex state → useReducer, Global state → Context API or Redux"
+      },
+      "error_handling": {
+        "statement": "Error handling: Error Boundaries catch JavaScript errors in component tree (class component with componentDidCatch and getDerivedStateFromError). Use for: logging errors, showing fallback UI. Note: doesn't catch errors in event handlers (use try/catch)",
+        "confidence": 1.0,
+        "source": "React error boundaries",
+        "example": "class ErrorBoundary extends React.Component { componentDidCatch(error, info) { logError(error, info); } render() { if (this.state.hasError) return <h1>Something went wrong.</h1>; return this.props.children; } }"
+      }
+    },
+    "developer_tools": {
+      "installation_browser_extension": {
+        "statement": "React Developer Tools browser extension is easiest way to debug React websites. Install for Chrome, Firefox, or Edge. After installation, visit React website and open DevTools (F12) to see Components and Profiler panels. Extension automatically detects React applications.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "Install extension from Chrome Web Store. Visit React app, press F12, see Components and Profiler tabs in DevTools."
+      },
+      "installation_standalone": {
+        "statement": "For Safari and other browsers without extension support, use standalone react-devtools: npm install -g react-devtools or yarn global add react-devtools. Run: react-devtools. Add script tag to <head>: <script src=\"http://localhost:8097\"></script>. Reload website to connect. Standalone runs on localhost:8097 by default.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "npm install -g react-devtools && react-devtools. Add <script src=\"http://localhost:8097\"></script> to HTML <head>."
+      },
+      "components_panel": {
+        "statement": "Components panel shows React component tree hierarchy. Features: view component tree structure, inspect and edit props, inspect and edit state, view hooks and their values, search for components, filter components. Select component in tree to view props/state/hooks in right panel. Edit values directly to see live updates (development mode only).",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "Open DevTools, click Components tab, select component, view/edit props and state in right panel."
+      },
+      "profiler_panel": {
+        "statement": "Profiler panel identifies performance problems. Features: record component render times, flame graph visualization, ranked chart (components by render time), detailed timing information, commit analysis. Usage: Click Record, interact with app, click Stop, analyze performance data. Metrics: render time, commit time, re-renders, wasted renders (unnecessary re-renders).",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "Click Profiler tab, click Record button, interact with app, click Stop, analyze flame graph and ranked chart."
+      },
+      "component_inspection": {
+        "statement": "Inspect component feature: click inspect icon in React DevTools, click element in app, component highlighted in Components tree. Edit props and state: select component, click prop/state value, edit directly, change reflects immediately (dev mode only). Component filtering: use search box to filter by component name, display name, or props values.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "Click inspect icon, click button in app, see Button component selected in Components tree."
+      },
+      "development_mode_only": {
+        "statement": "React Developer Tools only works with React applications in development mode. In production builds, DevTools will not appear. DevTools requires React to be in development mode to inject debugging capabilities.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "DevTools visible in npm start (development) but not in npm run build (production)."
+      },
+      "react_native_support": {
+        "statement": "React Native has built-in React Developer Tools support through React Native DevTools. All features work identically to browser extension: component inspection, props/state editing, performance profiling, native element highlighting. For React Native versions earlier than 0.76, use standalone build following Safari guide.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "React Native apps automatically support DevTools features same as browser React apps."
+      },
+      "version_compatibility": {
+        "statement": "React Developer Tools supports React 16.8+ (hooks support), React 17.x, React 18.x, and React 19.x. Requires React version with hooks support (16.8+) for full functionality.",
+        "confidence": 1.0,
+        "source": "React Developer Tools Documentation (react.dev/learn/react-developer-tools)",
+        "example": "React 16.8+, 17, 18, 19 all supported. React 16.7 and earlier have limited support."
+      }
+    }
+  }
+}

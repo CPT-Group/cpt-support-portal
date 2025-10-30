@@ -1,0 +1,723 @@
+{
+  "name": "infrastructure-architecture-expert",
+  "type": "technology",
+  "version": "2.1.0",
+  "description": "Azure infrastructure architecture expert with comprehensive knowledge of cloud design patterns, architecture styles, Well-Architected Framework, cloud technologies, and Azure database services (SQL Server and PostgreSQL)",
+  "confidence_level": 100,
+  "opinions_enabled": false,
+  "neural_access": "none",
+
+  "metadata": {
+    "created": "2025-10-16",
+    "lastUpdated": "2025-10-17",
+    "author": "Development Team",
+    "status": "active",
+    "last_source_update": "Azure Architecture Center October 2024 + Pluralsight 2024"
+  },
+
+  "sources": {
+    "official_documentation": [
+      "Microsoft Azure Architecture Center",
+      "Azure Well-Architected Framework Documentation",
+      "Azure Service Documentation",
+      "Azure SQL Database Documentation",
+      "Azure SQL Managed Instance Documentation",
+      "Azure PostgreSQL Flexible Server Documentation",
+      "Azure PostgreSQL Hyperscale Documentation",
+      "Azure Database Migration Service Documentation",
+      "NIST SP 800-207 (Zero Trust Architecture)",
+      "SOC 2 Trust Services Criteria",
+      "IRS Publication 1075"
+    ],
+    "training_content": [
+      "Pluralsight Professional Training - 37 courses",
+      "Azure Architecture, Microservices, Data Architecture, Enterprise Architecture, Security Tools",
+      "Azure Database Services Documentation - 4 comprehensive guides (~69,000 words)"
+    ],
+    "version_info": "Azure services as of October 2024, Pluralsight content 2024, Azure Database Services October 2025"
+  },
+
+  "triggers": {
+    "keywords": [
+      "azure",
+      "architecture",
+      "cloud",
+      "microservices",
+      "well-architected",
+      "design pattern",
+      "availability",
+      "reliability",
+      "kubernetes",
+      "aks",
+      "expressroute",
+      "landing zone",
+      "migration",
+      "data mesh",
+      "data fabric",
+      "azure sql",
+      "sql database",
+      "sql managed instance",
+      "postgresql",
+      "postgres",
+      "database",
+      "data store",
+      "database migration",
+      "dms",
+      "ssma",
+      "togaf",
+      "zero trust",
+      "terrascan"
+    ],
+    "phrases": [
+      "azure architecture",
+      "cloud design patterns",
+      "well-architected framework",
+      "microservices architecture",
+      "data mesh architecture",
+      "enterprise architecture",
+      "disaster recovery",
+      "high availability",
+      "cost optimization",
+      "infrastructure as code",
+      "azure sql database",
+      "sql managed instance",
+      "postgresql flexible server",
+      "database migration",
+      "database selection",
+      "paas database",
+      "iaas database",
+      "database optimization",
+      "azure hybrid benefit",
+      "reserved capacity"
+    ]
+  },
+
+  "capabilities": {
+    "can_do": [
+      "Explain Azure cloud design patterns (37 patterns)",
+      "Recommend architecture styles based on requirements",
+      "Apply Well-Architected Framework principles (5 pillars)",
+      "Guide Azure service selection (compute, data, networking)",
+      "Design landing zone architectures",
+      "Plan cloud migration strategies (7 Rs)",
+      "Explain microservices patterns and anti-patterns",
+      "Compare data mesh vs data fabric architectures",
+      "Describe enterprise architecture frameworks (TOGAF, Zachman)",
+      "Provide high availability and disaster recovery patterns",
+      "Explain Zero Trust architecture principles",
+      "Guide IaC security scanning (Terrascan)",
+      "Compare Azure database deployment models (SQL Database, SQL MI, PostgreSQL Flexible, Hyperscale)",
+      "Recommend database selection based on requirements (SQL Server vs PostgreSQL)",
+      "Explain database migration strategies and tools (DMS, SSMA)",
+      "Provide database cost optimization guidance (AHUB, Reserved Capacity)",
+      "Describe database HA and DR configurations",
+      "Guide Azure database service integrations (Synapse, Power BI, Data Factory)"
+    ],
+    "cannot_do": [
+      "Make specific architectural decisions without context (opinion-based)",
+      "Choose between equally valid approaches without requirements",
+      "Provide organization-specific recommendations",
+      "Make cost-benefit trade-off decisions without business context",
+      "Determine security risk appetite (organization-specific)",
+      "Choose technology stack (requires business and team context)"
+    ]
+  },
+
+  "facts": {
+    "cloud_design_patterns": {
+      "pattern_catalog": {
+        "statement": "Azure Architecture Center documents 37 cloud design patterns organized into 8 categories: Design & Implementation, Resiliency, Data Management, Messaging, Performance & Scalability, Security, Management & Monitoring, and Availability",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - Cloud Design Patterns",
+        "categories": [
+          "Design & Implementation",
+          "Resiliency",
+          "Data Management",
+          "Messaging",
+          "Performance & Scalability",
+          "Security",
+          "Management & Monitoring",
+          "Availability"
+        ]
+      },
+      "circuit_breaker": {
+        "statement": "Circuit Breaker pattern prevents an application from repeatedly trying to execute an operation that's likely to fail. It has three states: Closed (normal operation), Open (fast-fail), and Half-Open (testing recovery)",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - Circuit Breaker Pattern",
+        "azure_implementation": ["Azure Service Bus", "Polly library"],
+        "use_case": "Prevents cascade failures, provides fast failure"
+      },
+      "retry_pattern": {
+        "statement": "Retry pattern handles transient failures by transparently retrying failed operations with strategies like exponential backoff, fixed interval, or incremental intervals. Operations must be idempotent for safe retries",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - Retry Pattern",
+        "strategies": [
+          "Exponential backoff",
+          "Fixed interval",
+          "Incremental intervals"
+        ],
+        "requirement": "Idempotency is mandatory for safe retries"
+      },
+      "cqrs": {
+        "statement": "CQRS (Command Query Responsibility Segregation) separates read and update operations for a data store, using different models optimized for each. Enables independent scaling and optimized query performance but introduces eventual consistency",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - CQRS Pattern",
+        "when_to_use": [
+          "Collaborative domains",
+          "Complex domain logic",
+          "Read and write workloads differ significantly"
+        ],
+        "when_not_to_use": [
+          "Simple CRUD applications",
+          "Strong consistency required"
+        ]
+      }
+    },
+
+    "architecture_styles": {
+      "eight_styles": {
+        "statement": "There are 8 fundamental architecture styles for cloud applications: N-tier, Web-Queue-Worker, Microservices, Event-Driven, Big Data, CQRS, Serverless, and Space-Based. Each has specific characteristics, benefits, challenges, and appropriate use cases",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - Architecture Styles",
+        "styles": [
+          "N-tier",
+          "Web-Queue-Worker",
+          "Microservices",
+          "Event-Driven",
+          "Big Data",
+          "CQRS",
+          "Serverless",
+          "Space-Based"
+        ]
+      },
+      "microservices": {
+        "statement": "Microservices architecture composes applications from small, independent services that communicate through well-defined APIs. Benefits include independent deployment, independent scaling, technology diversity, fault isolation, and team autonomy. Challenges include distributed system complexity, eventual consistency, and requiring DevOps maturity",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center + Pluralsight Microservices Training",
+        "azure_services": [
+          "Azure Kubernetes Service",
+          "Azure Container Apps",
+          "Azure Service Fabric",
+          "Azure API Management",
+          "Azure Service Bus"
+        ],
+        "when_to_use": [
+          "Large complex applications",
+          "Rapid release cycles",
+          "Independent scaling requirements",
+          "Multiple autonomous teams"
+        ],
+        "when_not_to_use": [
+          "Small applications",
+          "Teams new to distributed systems",
+          "Low DevOps maturity"
+        ],
+        "anti_patterns": [
+          "Distributed monoliths",
+          "Premature microservices adoption",
+          "No clear bounded contexts"
+        ]
+      },
+      "event_driven": {
+        "statement": "Event-Driven Architecture uses events to communicate between decoupled services. Producers don't know consumers, and consumers decide which events to handle. Three models: Event Streaming (continuous flow), Simple Event Processing (immediate action), Complex Event Processing (pattern analysis)",
+        "confidence": 1.0,
+        "source": "Azure Architecture Center - Event-Driven Architecture",
+        "azure_services": [
+          "Azure Event Grid",
+          "Azure Event Hubs",
+          "Azure Service Bus",
+          "Azure Functions",
+          "Azure Stream Analytics"
+        ],
+        "when_to_use": [
+          "Real-time processing",
+          "System integration",
+          "IoT and streaming",
+          "Complex event processing"
+        ]
+      }
+    },
+
+    "well_architected_framework": {
+      "five_pillars": {
+        "statement": "Azure Well-Architected Framework consists of five pillars: Reliability (system recovery and continuity), Security (defense-in-depth and identity), Cost Optimization (resource efficiency and waste elimination), Operational Excellence (deployment practices and monitoring), and Performance Efficiency (scaling to meet demands)",
+        "confidence": 1.0,
+        "source": "Azure Well-Architected Framework Documentation",
+        "pillars": [
+          "Reliability",
+          "Security",
+          "Cost Optimization",
+          "Operational Excellence",
+          "Performance Efficiency"
+        ],
+        "assessment_tools": [
+          "Azure Well-Architected Review",
+          "Azure Advisor",
+          "Microsoft Defender for Cloud"
+        ]
+      },
+      "reliability": {
+        "statement": "Reliability is the ability of a system to recover from failures and continue to function. Key metrics: MTBF (Mean Time Between Failures), MTTR (Mean Time To Recovery), RTO (Recovery Time Objective), RPO (Recovery Point Objective), SLA (Service Level Agreement)",
+        "confidence": 1.0,
+        "source": "Azure Well-Architected Framework - Reliability",
+        "design_principles": [
+          "Define availability targets",
+          "Build in resilience",
+          "Test with simulated failures",
+          "Embrace continuous operations"
+        ],
+        "patterns": [
+          "Circuit Breaker",
+          "Retry",
+          "Bulkhead",
+          "Health Endpoint Monitoring",
+          "Throttling"
+        ],
+        "azure_services": [
+          "Availability Zones",
+          "Azure Site Recovery",
+          "Azure Monitor",
+          "Azure Backup"
+        ]
+      },
+      "security": {
+        "statement": "Security in Azure follows defense-in-depth strategy with 7 layers: Physical security (Azure's responsibility), Identity and access, Perimeter, Network, Compute, Application, and Data. Identity is the primary security perimeter in cloud",
+        "confidence": 1.0,
+        "source": "Azure Well-Architected Framework - Security",
+        "principles": [
+          "Least privilege",
+          "Encryption at rest and in transit",
+          "Continuous monitoring",
+          "Zero Trust"
+        ],
+        "azure_services": [
+          "Microsoft Entra ID",
+          "Azure Key Vault",
+          "Azure Firewall",
+          "Microsoft Defender for Cloud"
+        ],
+        "compliance_frameworks": [
+          "ISO 27001",
+          "SOC 1/2/3",
+          "HIPAA",
+          "GDPR",
+          "PCI DSS",
+          "FedRAMP"
+        ]
+      },
+      "cost_optimization": {
+        "statement": "Cost optimization strategies include right-sizing resources, using Reserved Instances (up to 72% savings), Azure Hybrid Benefit (up to 40% for VMs, up to 55% for SQL), Spot VMs (up to 90% savings), auto-scaling, serverless, and storage tiering",
+        "confidence": 1.0,
+        "source": "Azure Well-Architected Framework - Cost Optimization + Pluralsight Training",
+        "azure_tools": [
+          "Azure Cost Management + Billing",
+          "Azure Advisor",
+          "Azure Pricing Calculator"
+        ],
+        "anti_patterns": [
+          "Over-provisioning",
+          "Not using auto-scaling",
+          "Leaving dev resources running 24/7",
+          "Using Reserved Instances for 90%+ of capacity"
+        ]
+      }
+    },
+
+    "azure_services": {
+      "compute_options": {
+        "statement": "Azure offers 10+ compute services spanning IaaS to serverless: Virtual Machines (full control), AKS (Kubernetes), Container Apps (serverless containers), Container Instances, App Service (PaaS web apps), Functions (serverless FaaS), Static Web Apps, Batch (HPC), Logic Apps (workflow automation)",
+        "confidence": 1.0,
+        "source": "Azure Compute Services Documentation",
+        "decision_factors": [
+          "Control level",
+          "Containerization",
+          "Event-driven nature",
+          "Orchestration needs",
+          "Management preference"
+        ]
+      },
+      "availability_zones": {
+        "statement": "Availability Zones are physically separate locations within an Azure region, each with independent power, cooling, and networking. They provide 99.99% SLA for VMs deployed across zones (vs 99.9% for single-zone). Minimum 3 zones per supported region",
+        "confidence": 1.0,
+        "source": "Azure Availability Zones Documentation + Pluralsight HA Training",
+        "vs_availability_sets": "Zones = datacenter-level isolation, Sets = rack-level isolation within single datacenter",
+        "supported_services": [
+          "VMs",
+          "Managed Disks",
+          "Load Balancer",
+          "SQL Database",
+          "Storage"
+        ]
+      },
+      "vm_scale_sets": {
+        "statement": "VM Scale Sets create and manage a group of load-balanced VMs with auto-scaling based on CPU, memory, or custom metrics. Supports up to 1000 VMs with platform images, 600 with custom images. Provides automatic OS upgrades and load balancing integration",
+        "confidence": 1.0,
+        "source": "Azure VM Scale Sets Documentation + Pluralsight Training",
+        "scaling_modes": [
+          "Automatic (based on metrics)",
+          "Manual (set instance count)",
+          "Scheduled (time-based)"
+        ]
+      },
+      "site_recovery": {
+        "statement": "Azure Site Recovery (ASR) provides disaster recovery for VMs and physical servers, replicating to Azure or secondary site. Supports Azure-to-Azure, VMware-to-Azure, Hyper-V-to-Azure, and Physical-to-Azure. RPO typically 30 seconds to 5 minutes",
+        "confidence": 1.0,
+        "source": "Azure Site Recovery Documentation + Pluralsight DR Training",
+        "vs_backup": "ASR = disaster recovery (RTO minutes), Backup = data protection (RTO hours)"
+      }
+    },
+
+    "landing_zones": {
+      "definition": {
+        "statement": "Azure landing zones are pre-configured environments with governance, security, and networking infrastructure. Seven design areas: Management, Governance, Security, Network topology, Identity, Platform automation, Resource organization",
+        "confidence": 1.0,
+        "source": "Azure Landing Zones Documentation",
+        "design_areas": [
+          "Management",
+          "Governance",
+          "Security",
+          "Network topology",
+          "Identity",
+          "Platform automation",
+          "Resource organization"
+        ],
+        "implementation_options": [
+          "Start small and expand",
+          "Enterprise-scale",
+          "CAF Terraform modules"
+        ]
+      }
+    },
+
+    "migration_strategies": {
+      "seven_rs": {
+        "statement": "The 7 Rs of cloud migration: Rehost (lift-and-shift), Replatform (lift-tinker-shift), Refactor (re-architect), Rebuild (redesign from scratch), Replace (drop and shop SaaS), Retire (decommission), Retain (revisit later)",
+        "confidence": 1.0,
+        "source": "Azure Migration Documentation",
+        "strategies": [
+          "Rehost",
+          "Replatform",
+          "Refactor",
+          "Rebuild",
+          "Replace",
+          "Retire",
+          "Retain"
+        ],
+        "tool": "Azure Migrate for assessment and migration"
+      }
+    },
+
+    "microservices_patterns": {
+      "communication": {
+        "statement": "Microservices communication patterns: RPI (Request/Response) for synchronous calls, Messaging (event-based) for asynchronous. Use API Gateway pattern for external clients, Service Registry for discovery, Circuit Breaker for fault tolerance",
+        "confidence": 1.0,
+        "source": "Pluralsight Microservices Training",
+        "patterns": [
+          "API Gateway",
+          "Service Registry",
+          "Circuit Breaker",
+          "Saga (distributed transactions)",
+          "Event Sourcing",
+          "CQRS"
+        ],
+        "anti_patterns": [
+          "Distributed monolith",
+          "Chatty services",
+          "Shared database",
+          "Lack of bounded contexts"
+        ]
+      },
+      "bounded_contexts": {
+        "statement": "Bounded contexts from Domain-Driven Design define clear boundaries for microservices. Each service owns its domain model and data. Services are small, autonomous, and built around business capabilities (2-pizza team rule)",
+        "confidence": 1.0,
+        "source": "Pluralsight Microservices Training",
+        "characteristics": [
+          "Single responsibility",
+          "Autonomous deployment",
+          "Own database",
+          "Small team ownership",
+          "Independent scaling"
+        ]
+      }
+    },
+
+    "data_architecture": {
+      "data_mesh": {
+        "statement": "Data mesh is decentralized data architecture with four core principles: (1) Domain-oriented data ownership - each business domain owns its data, (2) Data as a product - teams treat datasets with product thinking, (3) Self-serve data infrastructure - platform for domains to publish/consume independently, (4) Federated computational governance - policies defined collectively but enforced locally",
+        "confidence": 1.0,
+        "source": "Pluralsight Data Architecture Training",
+        "when_to_use": [
+          "Large organizations with multiple business domains",
+          "Need for domain autonomy",
+          "Decentralized team structure"
+        ],
+        "challenges": [
+          "Cultural transformation required",
+          "Coordination overhead",
+          "Governance complexity"
+        ]
+      },
+      "data_fabric": {
+        "statement": "Data fabric is unified architecture with metadata-driven automation for seamless data access across heterogeneous systems. Features: automated data integration, centralized governance, real-time and batch processing, unified access layer",
+        "confidence": 1.0,
+        "source": "Pluralsight Data Architecture Training",
+        "when_to_use": [
+          "Need seamless system-wide integration",
+          "Centralized control required",
+          "Rapid integration across legacy systems"
+        ],
+        "vs_mesh": "Fabric = centralized with unified access, Mesh = decentralized with domain ownership"
+      }
+    },
+
+    "enterprise_architecture": {
+      "togaf": {
+        "statement": "TOGAF (The Open Group Architecture Framework) provides methodology for enterprise architecture with Architecture Development Method (ADM) - 8-phase iterative cycle: Preliminary, Architecture Vision, Business Architecture, Information Systems Architecture, Technology Architecture, Opportunities & Solutions, Migration Planning, Implementation Governance, Architecture Change Management",
+        "confidence": 1.0,
+        "source": "Pluralsight Enterprise Architecture Training",
+        "phases": [
+          "Preliminary",
+          "Architecture Vision",
+          "Business Architecture",
+          "Information Systems",
+          "Technology Architecture",
+          "Opportunities & Solutions",
+          "Migration Planning",
+          "Implementation Governance"
+        ],
+        "deliverables": [
+          "Architecture Vision",
+          "Architecture Definition",
+          "Requirements",
+          "Implementation Plan"
+        ]
+      },
+      "zachman": {
+        "statement": "Zachman Framework is classification schema for organizing enterprise architecture artifacts using 6x6 matrix: rows (Planner, Owner, Designer, Builder, Implementer, Worker) × columns (What, How, Where, Who, When, Why)",
+        "confidence": 1.0,
+        "source": "Pluralsight Enterprise Architecture Training",
+        "purpose": "Classification and organization of architecture artifacts, not a methodology"
+      }
+    },
+
+    "compliance": {
+      "zero_trust": {
+        "statement": "NIST SP 800-207 Zero Trust Architecture has 7 tenets: (1) All data sources and computing services are resources, (2) All communication secured regardless of location, (3) Access granted per-session, (4) Access determined by dynamic policy, (5) Monitor and measure integrity and posture, (6) Authentication and authorization are dynamic and strictly enforced, (7) Collect info about asset/network/communications",
+        "confidence": 1.0,
+        "source": "NIST SP 800-207",
+        "tenets": 7,
+        "azure_implementation": [
+          "Microsoft Entra ID",
+          "Conditional Access",
+          "Azure Firewall",
+          "Network Security Groups",
+          "Just-In-Time Access"
+        ]
+      },
+      "soc2": {
+        "statement": "SOC 2 Trust Services Criteria has 5 categories: Security (common criteria for all), Availability, Processing Integrity, Confidentiality, Privacy. Based on COSO framework with 17 common criteria for security",
+        "confidence": 1.0,
+        "source": "SOC 2 Compliance Documentation",
+        "categories": [
+          "Security (mandatory)",
+          "Availability",
+          "Processing Integrity",
+          "Confidentiality",
+          "Privacy"
+        ]
+      }
+    },
+
+    "iac_security": {
+      "terrascan": {
+        "statement": "Terrascan is open-source static code analyzer for IaC scanning Terraform, CloudFormation, Kubernetes manifests, and Dockerfiles. Implements NIST Cybersecurity Framework. Can run as pre-commit hook, standalone server, GitHub action, or CLI. Covers 500+ rules across AWS, Azure, GCP, Kubernetes",
+        "confidence": 1.0,
+        "source": "Pluralsight Security Tools Training",
+        "implementations": [
+          "Pre-commit hook",
+          "GitHub Action",
+          "Server mode",
+          "CLI"
+        ],
+        "severity_levels": ["low", "medium", "high", "critical"],
+        "recommendation": "Use as pre-commit hook to block high/critical violations before commit"
+      }
+    },
+
+    "sustainability": {
+      "renewable_regions": {
+        "statement": "Azure sustainability practices include renewable energy regions, blob storage lifecycle management (hot/cool/cold/archive tiers), right-sizing to eliminate waste, using Azure Sustainability Calculator for carbon footprint tracking",
+        "confidence": 1.0,
+        "source": "Pluralsight Cloud Sustainability Training",
+        "tools": [
+          "Microsoft Sustainability Calculator",
+          "Azure Advisor",
+          "Carbon footprint tracking"
+        ],
+        "practices": [
+          "Select renewable energy regions",
+          "Use storage tiering",
+          "Right-size resources",
+          "Eliminate orphaned resources"
+        ]
+      }
+    },
+
+    "azure_databases": {
+      "sql_database_paas": {
+        "statement": "Azure SQL Database is fully managed PaaS with 99.99% SLA. Deployment: Single Database or Elastic Pools. Purchasing: DTU (bundled) or vCore (flexible). Tiers: Basic/Standard/Premium (DTU), General Purpose/Business Critical/Hyperscale (vCore). Max size: 100TB (Hyperscale). Features: automatic backups (7-35 days), point-in-time restore, geo-replication, read scale-out, serverless tier",
+        "confidence": 1.0,
+        "source": "Microsoft Azure SQL Database Documentation",
+        "use_cases": [
+          "Modern cloud-native applications",
+          "SaaS applications",
+          "Microservices",
+          "Serverless workloads"
+        ],
+        "limitations": [
+          "No SQL Server Agent",
+          "No cross-database queries",
+          "No CLR assemblies",
+          "No Service Broker"
+        ]
+      },
+      "sql_managed_instance": {
+        "statement": "Azure SQL Managed Instance is PaaS with near 100% SQL Server compatibility. Features: SQL Server Agent, cross-database queries, CLR assemblies, Service Broker, linked servers. Requires VNet integration. Tiers: General Purpose (99.99% SLA, 4-80 vCores, 32GB-16TB) and Business Critical (99.99-99.995% SLA, 4-80 vCores, 32GB-4TB, local SSD, in-memory OLTP)",
+        "confidence": 1.0,
+        "source": "Microsoft Azure SQL Managed Instance Documentation",
+        "use_cases": [
+          "Lift-and-shift SQL Server migrations",
+          "Applications requiring cross-database queries",
+          "Applications using SQL Server Agent",
+          "Enterprise applications with instance-level features"
+        ],
+        "migration_tools": [
+          "Azure Database Migration Service",
+          "Native backup/restore to Blob Storage",
+          "Transactional replication"
+        ]
+      },
+      "sql_server_vm": {
+        "statement": "SQL Server on Azure VMs is IaaS with full SQL Server compatibility. Full control over SQL Server installation, any version (2008-2022), any edition. Storage: Premium SSD or Ultra Disk. HA options: Always On Availability Groups, Failover Cluster Instances, Azure Site Recovery. SQL IaaS Extension: automated backup, automated patching, Azure Key Vault integration",
+        "confidence": 1.0,
+        "source": "Microsoft SQL Server in Azure VMs Documentation",
+        "use_cases": [
+          "Applications requiring full SQL Server features",
+          "Specific SQL Server version requirements",
+          "OS-level access needed",
+          "Custom configurations",
+          "Third-party applications"
+        ],
+        "licensing": [
+          "Pay-as-you-go (license included)",
+          "Azure Hybrid Benefit (BYOL, save up to 55%)",
+          "Dev/Test discounts"
+        ]
+      },
+      "postgresql_flexible": {
+        "statement": "Azure Database for PostgreSQL Flexible Server is recommended PaaS for PostgreSQL (versions 11-16). Tiers: Burstable (1-2 vCores, dev/test), General Purpose (2-64 vCores, balanced), Memory Optimized (2-64 vCores, high-performance). Storage: 32GB-32TB Premium SSD, auto-grow, max 20,000 IOPS. HA: zone-redundant (99.99% SLA, < 120s RPO, < 60s RTO). Features: Built-in PgBouncer, read replicas (up to 5), 50+ extensions (PostGIS, TimescaleDB, pg_cron)",
+        "confidence": 1.0,
+        "source": "Microsoft Azure PostgreSQL Flexible Server Documentation",
+        "use_cases": [
+          "Modern cloud applications",
+          "Web and mobile apps",
+          "SaaS applications",
+          "E-commerce",
+          "Content management systems"
+        ],
+        "extensions": [
+          "PostGIS",
+          "TimescaleDB",
+          "pg_stat_statements",
+          "pg_cron",
+          "pg_partman",
+          "pgcrypto"
+        ]
+      },
+      "postgresql_hyperscale": {
+        "statement": "Azure Database for PostgreSQL Hyperscale (Citus) is distributed PostgreSQL for massive scale using sharding. Architecture: 1 coordinator node + 2-20 worker nodes. Sharding: hash (default) or append distribution. Features: linear scalability, parallel query execution, distributed JOINs, 10-100x faster for sharded workloads. Max size: petabytes (distributed). 99.99% SLA with shard replication",
+        "confidence": 1.0,
+        "source": "Microsoft Azure PostgreSQL Hyperscale Documentation",
+        "use_cases": [
+          "Multi-tenant SaaS (100+ to millions of tenants)",
+          "Real-time analytics on large datasets",
+          "High-throughput transactional workloads",
+          "Time-series data and IoT",
+          "Database > 100GB and growing"
+        ],
+        "sharding_strategies": [
+          "Tenant ID sharding (multi-tenant)",
+          "User ID sharding (social networks)",
+          "Time-based sharding (time-series)"
+        ]
+      },
+      "database_selection": {
+        "statement": "Database selection criteria: (1) Technology - SQL Server (existing apps, Microsoft ecosystem, AHUB), PostgreSQL (open-source, advanced features, lower cost), MySQL (LAMP stack, simplicity); (2) Deployment - PaaS (minimal management) vs IaaS (full control); (3) Scale - Single-node (< 100GB) vs Hyperscale (> 100GB, massive scale); (4) Cost - PostgreSQL 30-50% lower than SQL Server without AHUB",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Database Comparison Documentation",
+        "decision_factors": [
+          "Existing expertise and investment",
+          "Licensing costs (SQL Server commercial, PostgreSQL free)",
+          "Feature requirements",
+          "Scale needs",
+          "Management overhead tolerance"
+        ],
+        "paas_vs_iaas": "PaaS = automatic patching/backup/HA, limited features; IaaS = full control, self-managed, 100% compatibility"
+      },
+      "cost_optimization": {
+        "statement": "Azure database cost optimization: (1) Azure Hybrid Benefit - up to 55% savings with SQL Server licenses+SA for SQL Database, SQL MI, SQL VM; (2) Reserved Capacity - 1-3 year commitment, save up to 80% for SQL and 65% for PostgreSQL; (3) Elastic Pools - share resources among multiple SQL databases; (4) Serverless tier - auto-pause, pay only for compute used; (5) Right-sizing based on metrics; (6) Burstable tier PostgreSQL - stop/start capability for dev/test",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Cost Optimization Documentation",
+        "ahub_eligibility": "SQL Server Enterprise or Standard with Software Assurance",
+        "reserved_capacity_commitment": "1-year or 3-year prepayment",
+        "cost_comparison": "8 vCores, 512GB, HA: PostgreSQL $1,200/month vs SQL Database $2,400/month (without AHUB) or $1,800/month (with AHUB)"
+      },
+      "migration_tools": {
+        "statement": "Azure Database Migration Service (DMS) supports online (minimal downtime) and offline migrations. Scenarios: SQL Server → SQL Database/MI/VM, PostgreSQL → Flexible Server/Hyperscale, MySQL → Flexible Server, Oracle → PostgreSQL/SQL (via SSMA), AWS RDS → Azure. Features: assessment reports, schema migration, data migration, validation, cutover coordination. SQL Server Migration Assistant (SSMA) converts Oracle, MySQL, PostgreSQL, SAP ASE, Access to SQL Server/Azure SQL",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Database Migration Service Documentation",
+        "migration_phases": [
+          "Pre-migration (discovery, assessment, planning)",
+          "Migration (schema, data, code, testing)",
+          "Post-migration (tuning, monitoring, decommissioning)"
+        ],
+        "online_migration": "Continuous data sync with minimal downtime (minutes), best for production",
+        "offline_migration": "Downtime during migration, faster, best for non-production or maintenance windows"
+      },
+      "service_integrations": {
+        "statement": "Azure database integrations: (1) Analytics - Synapse Analytics (data warehousing), Power BI (Direct Query or Import); (2) ETL - Data Factory (100+ connectors, orchestration), Event Hubs (event streaming); (3) Application - Functions (serverless APIs, SQL bindings), Logic Apps (workflow automation); (4) Monitoring - Azure Monitor (metrics/alerts), Application Insights (APM), Log Analytics; (5) Security - Azure AD (authentication), Key Vault (secrets), Private Link (network security)",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Integration Documentation",
+        "synapse_integration": "PolyBase for querying SQL Database from Synapse, Copy Activity for ETL",
+        "power_bi_modes": "Direct Query (real-time, live connection) or Import (faster rendering, scheduled refresh)",
+        "managed_identity": "Password-less authentication using Azure managed identities for apps to databases"
+      },
+      "high_availability": {
+        "statement": "Azure database HA: (1) SQL Database - 99.99% SLA (Premium/BC), automatic backups every 5-10min, geo-replication (up to 4 readable secondaries), auto-failover groups; (2) SQL MI - 99.99-99.995% SLA, Always On built-in, zone-redundant (BC tier), auto-failover groups for DR; (3) PostgreSQL Flexible - 99.9% SLA (same-zone) or 99.99% SLA (zone-redundant), synchronous replication, automatic failover < 120s RPO, < 60s RTO; (4) PostgreSQL Hyperscale - 99.99% SLA, shard replication (1-2 replicas per shard)",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Database HA Documentation",
+        "rpo_rto": "RPO = Recovery Point Objective (data loss tolerance), RTO = Recovery Time Objective (downtime tolerance)",
+        "zone_redundancy": "Distributes replicas across availability zones for datacenter-level resilience"
+      },
+      "security_compliance": {
+        "statement": "Azure database security: All services support TLS 1.2/1.3 encryption (in-transit), AES-256 encryption (at-rest), Azure AD authentication, Private Link/VNet integration, customer-managed keys (Key Vault), row-level security, auditing, threat detection. Compliance: HIPAA, PCI DSS, SOC 1/2/3, ISO 27001, ISO 27018, GDPR, IRS 1075, FedRAMP (SQL services). SQL Server specific: Transparent Data Encryption (TDE), Always Encrypted, Dynamic Data Masking",
+        "confidence": 1.0,
+        "source": "Microsoft Azure Security and Compliance Documentation",
+        "authentication_methods": [
+          "Azure AD (recommended, MFA, conditional access)",
+          "SQL authentication (username/password)",
+          "Windows authentication (SQL VM only)"
+        ],
+        "private_link": "Access database over private IP in VNet, no public internet exposure, required for many compliance scenarios"
+      }
+    }
+  },
+
+  "required_folders": ["training/", "outputs/"],
+
+  "notes": {
+    "maintenance": "Update when Azure releases new services, patterns, Well-Architected Framework updates, or database service updates",
+    "coverage": "Covers 37 cloud design patterns, 8 architecture styles, 5 Well-Architected pillars, microservices patterns, data architecture (mesh/fabric), enterprise architecture (TOGAF/Zachman), compliance (Zero Trust, SOC 2, IRS 1075), IaC security, and Azure database services (SQL Server and PostgreSQL deployment models, selection frameworks, migrations, integrations)",
+    "version_history": "v2.0.0 - Complete rebuild to match expert design specification (2025-10-17); v2.1.0 - Added Azure database services documentation (2025-10-17)"
+  }
+}

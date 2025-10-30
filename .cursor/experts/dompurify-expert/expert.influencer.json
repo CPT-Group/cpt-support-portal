@@ -1,0 +1,172 @@
+{
+  "name": "dompurify-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "DOMPurify architectural opinions and decision frameworks",
+
+  "opinions": [
+    {
+      "id": "sanitization_timing",
+      "title": "When to Sanitize HTML (Storage vs Render)",
+      "description": "Whether to sanitize HTML before storage, at render time, or both",
+      "confidence_score": 0.88,
+      "rationale": "Sanitizing at both storage and render provides defense in depth. Storage-time sanitization protects against rule changes. Render-time sanitization is final safeguard. Trade-off: performance vs security",
+      "context": {
+        "when_applicable": [
+          "Storing user-generated HTML",
+          "Rendering HTML from database",
+          "SOC2 compliance requirements"
+        ],
+        "when_not_applicable": [
+          "Static HTML content",
+          "Ephemeral content (not stored)"
+        ]
+      },
+      "options": [
+        {
+          "name": "Sanitize at Both Storage and Render (Recommended)",
+          "description": "Sanitize HTML before storing in database AND before rendering",
+          "pros": [
+            "Defense in depth",
+            "Protected against rule changes",
+            "Old data remains safe if rules tightened",
+            "SOC2 compliant",
+            "Reduced risk"
+          ],
+          "cons": [
+            "Sanitize twice (performance cost)",
+            "More complex",
+            "Storage overhead if HTML changes"
+          ],
+          "use_when": [
+            "Enterprise applications",
+            "SOC2 compliance required",
+            "Long-lived content",
+            "Security-critical data",
+            "Want maximum protection"
+          ]
+        },
+        {
+          "name": "Sanitize Only at Render",
+          "description": "Store unsanitized HTML, sanitize when rendering",
+          "pros": [
+            "Simple",
+            "Single sanitization point",
+            "Can adjust rules without re-sanitizing storage",
+            "Better performance (sanitize once)"
+          ],
+          "cons": [
+            "Vulnerable if renderer bypassed",
+            "Old data vulnerable if rules loosened then tightened",
+            "No protection at storage layer"
+          ],
+          "use_when": [
+            "Internal tools",
+            "Trusted content",
+            "Performance critical",
+            "Frequent rule changes expected"
+          ]
+        },
+        {
+          "name": "Sanitize Only at Storage",
+          "description": "Sanitize before storage, trust stored content",
+          "pros": [
+            "Performance (no render-time sanitization)",
+            "Stored content always clean",
+            "Simpler rendering code"
+          ],
+          "cons": [
+            "Cannot tighten rules for old content",
+            "Must re-sanitize entire database if rules change",
+            "No final safeguard at render"
+          ],
+          "use_when": [
+            "Rare rule changes",
+            "Want rendering performance",
+            "Storage is write-once"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Security requirements",
+        "Compliance needs (SOC2)",
+        "Performance constraints",
+        "Content lifetime",
+        "Rule change frequency"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "sanitization_centralization",
+      "title": "Centralized vs Decentralized Sanitization",
+      "description": "Whether to centralize sanitization in @company/security or allow per-app configuration",
+      "confidence_score": 0.92,
+      "rationale": "Centralized sanitization in @company/security ensures consistency, easier auditing, and single source of truth. Prevents developers from using unsafe configurations",
+      "context": {
+        "when_applicable": [
+          "Multiple applications",
+          "Need consistency",
+          "SOC2 compliance",
+          "Security governance"
+        ],
+        "when_not_applicable": ["Single application", "Rapid prototyping"]
+      },
+      "options": [
+        {
+          "name": "Centralized in @company/security (Recommended)",
+          "description": "All sanitization logic and configs in private NPM package",
+          "pros": [
+            "Single source of truth",
+            "Consistent across all apps",
+            "Easier security audits",
+            "Prevents unsafe configs",
+            "Version controlled",
+            "Update once, affects all apps"
+          ],
+          "cons": [
+            "Less flexibility per app",
+            "Package versioning complexity",
+            "Must update package for rule changes"
+          ],
+          "use_when": [
+            "Multiple applications",
+            "Enterprise scale",
+            "SOC2 compliance",
+            "Need governance",
+            "Want consistency"
+          ]
+        },
+        {
+          "name": "Decentralized (Per-App)",
+          "description": "Each app maintains own DOMPurify configurations",
+          "pros": [
+            "App-specific customization",
+            "No shared package needed",
+            "Faster to change rules"
+          ],
+          "cons": [
+            "Inconsistent sanitization",
+            "Duplicate configurations",
+            "Hard to audit",
+            "Each app can make unsafe choices",
+            "No governance"
+          ],
+          "use_when": [
+            "Single application",
+            "Apps have very different needs",
+            "Prototyping",
+            "No compliance requirements"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Number of applications",
+        "Compliance requirements",
+        "Security governance needs",
+        "Team size",
+        "Audit requirements"
+      ],
+      "presentChoice": false
+    }
+  ]
+}

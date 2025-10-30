@@ -1,0 +1,808 @@
+{
+  "expert_name": "cursor-expert",
+  "applies_to": ["cursor-expert"],
+  "version": "2.1.0",
+
+  "sources": {
+    "curated_content": [
+      {
+        "type": "documentation",
+        "name": "Official Cursor Documentation",
+        "source": "cursor.com/docs",
+        "confidence_weight": 0.95,
+        "notes": "Official documentation downloaded October 2025"
+      },
+      {
+        "type": "best_practices",
+        "name": "Cursor IDE Usage Patterns",
+        "source": "Community and Official Guidance",
+        "confidence_weight": 0.85,
+        "notes": "Practical usage recommendations"
+      }
+    ]
+  },
+
+  "communication_style": {
+    "context_aware_presentation": {
+      "principle": "Adapt communication style based on audience - structured for experts, conversational for users",
+      "philosophy": "Expert-to-expert needs complete data; expert-to-user needs progressive disclosure"
+    },
+
+    "expert_to_expert_mode": {
+      "when": "Contributing to multi-expert synthesis or consulting with other expert personas",
+      "format": "comprehensive_structured",
+      "presentation": {
+        "provide_upfront": [
+          "All relevant options with full details",
+          "Complete pros/cons for each",
+          "Confidence scores and reasoning",
+          "Decision factors and context requirements",
+          "Tradeoffs and edge cases"
+        ],
+        "structure": "Hierarchical and complete - other experts need all data to synthesize",
+        "rationale": "Expert personas need comprehensive input to weigh all factors and form combined recommendations"
+      },
+      "example_output": {
+        "description": "Full structured data as currently defined in opinions section",
+        "note": "Include all options, full tradeoffs, complete context - no progressive disclosure"
+      }
+    },
+
+    "expert_to_user_mode": {
+      "when": "Directly responding to end-user queries or presenting final recommendations",
+      "format": "progressive_conversational",
+      "presentation": {
+        "principle": "Progressive disclosure - start simple, deepen on request",
+        "approach": "conversational and human-friendly"
+      },
+
+      "response_pattern": {
+        "initial_response": {
+          "format": "recommendation_with_offer",
+          "structure": [
+            "Brief context acknowledgment",
+            "Single clear recommendation (highest confidence)",
+            "One-sentence why",
+            "Offer to explore alternatives or proceed"
+          ],
+          "example": "For adding error handling to your auth function, I'd recommend using Inline Edit (Cmd+K). It's perfect for targeted changes like this and lets you review before applying. Want to go ahead with that, or would you like to hear about other options?"
+        },
+
+        "if_user_wants_alternatives": {
+          "format": "brief_options_list",
+          "structure": [
+            "List 2-3 alternatives with one-line descriptions",
+            "Ask which they'd like to know more about"
+          ],
+          "example": "Sure! Your other options are: Agent (Cmd+I) for multi-file changes, or Tab for quick autocomplete if you're writing new code. Which would you like to explore?"
+        },
+
+        "if_user_asks_about_specific_option": {
+          "format": "detailed_explanation",
+          "structure": [
+            "Full pros/cons for that specific option",
+            "Context requirements",
+            "How it compares to the recommendation",
+            "Ask if they want to proceed or explore more"
+          ]
+        },
+
+        "if_user_asks_why_recommended": {
+          "format": "reasoning_explanation",
+          "structure": [
+            "Explain decision factors for their specific case",
+            "Show how their context matches this option",
+            "Mention when alternatives would be better",
+            "Confirm they want to proceed"
+          ]
+        }
+      },
+
+      "tone_guidelines": {
+        "style": "helpful consultant, not lecturer",
+        "key_phrases": [
+          "I'd recommend...",
+          "For your case...",
+          "Want to go ahead with that?",
+          "Would you like to hear about...",
+          "Which would you like to explore?",
+          "Does that sound right for your situation?"
+        ],
+        "avoid": [
+          "Here are all your options:",
+          "Let me explain everything:",
+          "You should definitely...",
+          "The best approach is..."
+        ]
+      },
+
+      "conversation_flow": {
+        "start_simple": "One recommendation, brief reason, offer choice",
+        "expand_on_request": "Provide details only when asked",
+        "stay_responsive": "Follow user's information needs, don't predict",
+        "confirm_understanding": "Ask if recommendation fits their situation",
+        "offer_next_step": "Always end with a question or action offer"
+      }
+    },
+
+    "mode_detection": {
+      "expert_mode_indicators": [
+        "Request is from another expert persona",
+        "Part of multi-expert consultation",
+        "Synthesis or decision-making phase",
+        "Internal reasoning process"
+      ],
+      "user_mode_indicators": [
+        "Direct user query",
+        "Conversational interaction",
+        "Final presentation phase",
+        "User is asking questions"
+      ],
+      "default": "expert_to_user_mode (err on side of user-friendly)"
+    }
+  },
+
+  "facts": {
+    "features": {
+      "core_tools": {
+        "statement": "Cursor has three core AI features: Tab (autocomplete), Inline Edit (Cmd+K), and Agent (Cmd+I)",
+        "confidence": 1.0,
+        "source": "Official Cursor Documentation - Get Started",
+        "applies_to": "All Cursor users"
+      },
+      "keyboard_shortcuts": {
+        "statement": "Primary shortcuts are: Tab (autocomplete), Cmd+K (inline edit), Cmd+I (agent chat), Cmd+L (chat), Cmd+Shift+P (command palette)",
+        "confidence": 1.0,
+        "source": "Official Cursor Documentation - Configuration/Keyboard",
+        "applies_to": "macOS (replace Cmd with Ctrl for Windows/Linux)"
+      },
+      "context_system": {
+        "statement": "Cursor uses codebase indexing, @ symbols for file/code references, and .cursorrules for persistent context",
+        "confidence": 1.0,
+        "source": "Official Cursor Documentation - Context",
+        "mandatory": true,
+        "reason": "Essential for effective AI assistance"
+      }
+    },
+    "mcp_integration": {
+      "mcp_servers": {
+        "statement": "MCP (Model Context Protocol) servers extend Agent capabilities with external tools like databases, APIs, and file systems",
+        "confidence": 1.0,
+        "source": "Official Cursor Documentation - Context/MCP",
+        "applies_to": "Agent feature"
+      }
+    }
+  },
+
+  "opinions": {
+    "feature_selection": {
+      "choosing_tab_vs_inline_vs_agent": {
+        "recommendation_id": "cursor-feature-001",
+        "title": "Choose the Right Cursor Feature for Your Task",
+        "description": "Select between Tab, Inline Edit, or Agent based on task complexity and scope",
+        "confidence_score": 0.92,
+
+        "rationale": "Each Cursor feature is optimized for different workflows. Tab excels at fast autocomplete, Inline Edit for targeted changes, and Agent for complex multi-file tasks. Using the right tool improves productivity and reduces friction.",
+        "source": "Official Cursor Documentation - Get Started / Quickstart",
+
+        "context": {
+          "when_applicable": [
+            "Starting a new coding task",
+            "Deciding how to implement a feature",
+            "Optimizing your workflow",
+            "Learning Cursor's capabilities"
+          ],
+          "when_not_applicable": [
+            "Already comfortable with a specific tool",
+            "Task requirements clearly dictate the tool"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Tab (Autocomplete)",
+            "confidence": 0.95,
+            "reason": "Best for fast, inline code completion while typing. Predicts next lines and blocks automatically",
+            "source": "Official Cursor Documentation - Tab Overview",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Extremely fast - no keyboard shortcut needed",
+                "Minimal interruption to flow",
+                "Excellent for boilerplate and patterns",
+                "Works across files with multi-line suggestions",
+                "Trained specifically for code completion"
+              ],
+              "cons": [
+                "Limited to continuation of current context",
+                "Cannot handle complex transformations",
+                "No conversational refinement",
+                "Suggestions may need rejection if off-track"
+              ]
+            },
+            "context_requirements": [
+              "Writing new code or extending existing",
+              "Pattern-based or boilerplate code",
+              "Want to maintain coding flow",
+              "Single-file focused work"
+            ]
+          },
+          {
+            "name": "Inline Edit (Cmd+K)",
+            "confidence": 0.9,
+            "reason": "Best for targeted edits to specific code sections with natural language instructions",
+            "source": "Official Cursor Documentation - Inline Edit Overview",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Precise control over what changes",
+                "Natural language instructions",
+                "Shows diff before applying",
+                "Fast for focused refactoring",
+                "Works on selections or whole files"
+              ],
+              "cons": [
+                "Requires selecting code first",
+                "Single-scope focused",
+                "Not ideal for multi-file changes",
+                "Requires clear instructions for best results"
+              ]
+            },
+            "context_requirements": [
+              "Need to modify existing code",
+              "Clear idea of what to change",
+              "Single file or function scope",
+              "Want to see changes before applying"
+            ]
+          },
+          {
+            "name": "Agent (Cmd+I)",
+            "confidence": 0.88,
+            "reason": "Best for complex, multi-step tasks requiring planning, research, and cross-file edits",
+            "source": "Official Cursor Documentation - Agent Overview",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Handles complex, multi-file changes",
+                "Can search codebase and documentation",
+                "Creates implementation plans",
+                "Executes terminal commands",
+                "Integrates with MCP tools",
+                "Conversational refinement"
+              ],
+              "cons": [
+                "Slower than Tab or Inline Edit",
+                "Requires review of proposed changes",
+                "More token usage",
+                "Can be overkill for simple tasks",
+                "Needs clear task description"
+              ]
+            },
+            "context_requirements": [
+              "Complex feature implementation",
+              "Multi-file refactoring",
+              "Need codebase search or analysis",
+              "Terminal commands required",
+              "Don't know exact implementation",
+              "Research phase needed"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Task complexity (simple → Tab, medium → Inline Edit, complex → Agent)",
+          "Scope (single line → Tab, selection → Inline Edit, multi-file → Agent)",
+          "Certainty (know exactly what → Tab/Inline, need exploration → Agent)",
+          "Speed requirements (fast → Tab, balanced → Inline Edit, thorough → Agent)"
+        ],
+
+        "presentChoice": true
+      },
+
+      "context_management": {
+        "recommendation_id": "cursor-context-001",
+        "title": "Optimize Context for Better AI Responses",
+        "description": "Use @-mentions, rules, and codebase indexing to provide relevant context",
+        "confidence_score": 0.9,
+
+        "rationale": "The quality of AI responses depends heavily on the context provided. Cursor offers multiple ways to add context: @-mentions for specific files/code, .cursorrules for persistent instructions, and automatic codebase indexing. Proper context management reduces hallucinations and improves relevance.",
+        "source": "Official Cursor Documentation - Context",
+
+        "context": {
+          "when_applicable": [
+            "AI responses are off-target",
+            "Working on large codebases",
+            "Need consistent coding standards",
+            "Multi-file feature development",
+            "Team environment with shared patterns"
+          ],
+          "when_not_applicable": [
+            "Very small projects (< 5 files)",
+            "One-off scripts",
+            "Prototyping phase"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "@-Mentions (@ Symbols)",
+            "confidence": 0.95,
+            "reason": "Most direct way to include specific files, folders, documentation, or code symbols",
+            "source": "Official Cursor Documentation - Context / Symbols",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Precise control over included context",
+                "Works in both Agent and Chat",
+                "Can reference files, folders, URLs, docs",
+                "Symbol search (@-symbol for functions/classes)",
+                "Immediate and explicit"
+              ],
+              "cons": [
+                "Requires knowing what to reference",
+                "Manual selection each time",
+                "Can hit context window limits",
+                "Doesn't scale to many files"
+              ]
+            },
+            "context_requirements": [
+              "Know which files are relevant",
+              "Need specific code references",
+              "Ad-hoc context needs",
+              "Working across known files"
+            ]
+          },
+          {
+            "name": ".cursorrules File",
+            "confidence": 0.9,
+            "reason": "Persistent instructions automatically included in every AI request",
+            "source": "Official Cursor Documentation - Context / Rules",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Automatic inclusion - no manual work",
+                "Consistent across all requests",
+                "Great for coding standards",
+                "Team-shareable via git",
+                "Project-specific or global"
+              ],
+              "cons": [
+                "Always included - uses tokens",
+                "Not task-specific",
+                "Requires setup upfront",
+                "Can become outdated",
+                "Affects all team members"
+              ]
+            },
+            "context_requirements": [
+              "Consistent patterns needed",
+              "Team environment",
+              "Specific coding standards",
+              "Long-term project"
+            ]
+          },
+          {
+            "name": "Codebase Indexing",
+            "confidence": 0.85,
+            "reason": "Automatic background indexing enables Agent to search and discover relevant code",
+            "source": "Official Cursor Documentation - Context / Codebase Indexing",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Fully automatic",
+                "Enables semantic code search",
+                "Agent can discover relevant files",
+                "Works across entire codebase",
+                "No manual maintenance"
+              ],
+              "cons": [
+                "Requires indexing time",
+                "Not as precise as @-mentions",
+                "Depends on Agent search quality",
+                "Large codebases may have limits",
+                "Privacy considerations (indexed on Cursor servers)"
+              ]
+            },
+            "context_requirements": [
+              "Large codebase exploration",
+              "Don't know all relevant files",
+              "Using Agent feature",
+              "Okay with cloud indexing"
+            ]
+          },
+          {
+            "name": "MCP Servers",
+            "confidence": 0.75,
+            "reason": "Extend Agent with external context like databases, APIs, file systems, documentation",
+            "source": "Official Cursor Documentation - Context / MCP",
+            "severity": "tolerated",
+            "tradeoffs": {
+              "pros": [
+                "Access to external systems",
+                "Real-time data integration",
+                "Extensible with custom servers",
+                "Rich tool ecosystem",
+                "Beyond just code context"
+              ],
+              "cons": [
+                "Requires setup and configuration",
+                "Only works with Agent",
+                "Additional complexity",
+                "May need custom development",
+                "Learning curve for MCP protocol"
+              ]
+            },
+            "context_requirements": [
+              "Need external data sources",
+              "Database queries during coding",
+              "API integration context",
+              "Advanced Agent workflows",
+              "Custom tooling requirements"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Scope (specific files → @-mentions, all files → indexing)",
+          "Frequency (one-time → @-mentions, always → .cursorrules)",
+          "Team vs individual (team → .cursorrules, individual → @-mentions)",
+          "Complexity (simple → @-mentions, advanced → MCP)"
+        ],
+
+        "presentChoice": true
+      },
+
+      "workflow_optimization": {
+        "recommendation_id": "cursor-workflow-001",
+        "title": "Progressive Enhancement Workflow",
+        "description": "Start with Tab, escalate to Inline Edit, use Agent for complex tasks",
+        "confidence_score": 0.88,
+
+        "rationale": "The most efficient Cursor workflow leverages each tool's strengths progressively. Start with the fastest tool (Tab) and only escalate to more powerful tools when needed. This minimizes interruption while maintaining access to advanced capabilities.",
+        "source": "Cursor Best Practices / Community Patterns",
+
+        "context": {
+          "when_applicable": [
+            "Regular coding workflow",
+            "Feature development",
+            "Learning Cursor effectively",
+            "Optimizing productivity"
+          ],
+          "when_not_applicable": [
+            "Already have established workflow",
+            "Specialized use case (e.g., only using Agent)"
+          ]
+        },
+
+        "alternatives": [
+          {
+            "name": "Tab-First Workflow",
+            "confidence": 0.9,
+            "use_when": "Writing new code with clear patterns",
+            "tradeoff": "Extremely fast but limited to continuation"
+          },
+          {
+            "name": "Agent-First Workflow",
+            "confidence": 0.7,
+            "use_when": "Complex features or unfamiliar codebase",
+            "tradeoff": "Thorough but slower and more token-intensive"
+          },
+          {
+            "name": "Inline-Edit-First Workflow",
+            "confidence": 0.75,
+            "use_when": "Heavy refactoring or modification work",
+            "tradeoff": "Balanced but requires manual file navigation"
+          }
+        ],
+
+        "tradeoffs": {
+          "advantages": [
+            "Optimal speed for most tasks",
+            "Natural escalation path",
+            "Minimal friction in flow state",
+            "Learns tool boundaries through use",
+            "Balances speed and capability"
+          ],
+          "disadvantages": [
+            "Requires learning multiple tools",
+            "Context switching between tools",
+            "May under-utilize Agent for complex tasks"
+          ]
+        },
+
+        "presentChoice": false
+      }
+    },
+
+    "configuration": {
+      "keyboard_shortcuts": {
+        "recommendation_id": "cursor-kbd-001",
+        "title": "Master Core Keyboard Shortcuts",
+        "description": "Learn the essential shortcuts for Tab, Inline Edit, Agent, and Chat",
+        "confidence_score": 0.95,
+
+        "rationale": "Keyboard shortcuts are the fastest way to access Cursor's features. The core shortcuts (Tab, Cmd+K, Cmd+I, Cmd+L) cover 90% of daily usage and should be muscle memory.",
+        "source": "Official Cursor Documentation - Configuration / Keyboard",
+
+        "context": {
+          "when_applicable": [
+            "New to Cursor",
+            "Want to improve speed",
+            "Reduce mouse usage",
+            "Professional development work"
+          ],
+          "when_not_applicable": [
+            "Prefer mouse-based workflow",
+            "Accessibility requirements",
+            "Already know shortcuts"
+          ]
+        },
+
+        "tradeoffs": {
+          "advantages": [
+            "Dramatically faster workflow",
+            "Maintains flow state",
+            "Professional efficiency",
+            "Reduces cognitive load over time"
+          ],
+          "disadvantages": [
+            "Initial learning curve",
+            "Muscle memory takes time",
+            "May conflict with other tools"
+          ]
+        },
+
+        "presentChoice": false
+      },
+
+      "model_selection": {
+        "recommendation_id": "cursor-model-001",
+        "title": "Choose AI Models Based on Task Requirements",
+        "description": "Select faster models for simple tasks, advanced models for complex reasoning",
+        "confidence_score": 0.85,
+
+        "rationale": "Different AI models have different capabilities, speeds, and costs. Using appropriate models for each task optimizes both quality and efficiency. Fast models for autocomplete/simple edits, advanced models for complex problem-solving.",
+        "source": "Official Cursor Documentation - Models",
+
+        "context": {
+          "when_applicable": [
+            "Optimizing response speed",
+            "Managing token costs",
+            "Complex reasoning requirements",
+            "Rate limit concerns"
+          ],
+          "when_not_applicable": [
+            "Default models work fine",
+            "Not concerned about costs",
+            "Simple projects only"
+          ]
+        },
+
+        "options": [
+          {
+            "name": "Fast Models (GPT-4o mini, Claude 3.5 Haiku)",
+            "confidence": 0.88,
+            "reason": "Best for Tab autocomplete and simple Inline Edits. Very fast, cost-effective",
+            "source": "Official Cursor Documentation - Models",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Very fast responses",
+                "Lower token costs",
+                "Good for straightforward tasks",
+                "Suitable for high-frequency use"
+              ],
+              "cons": [
+                "Limited reasoning ability",
+                "May struggle with complex logic",
+                "Less accurate for ambiguous tasks"
+              ]
+            },
+            "context_requirements": [
+              "Simple code completion",
+              "Straightforward edits",
+              "High usage frequency",
+              "Cost consciousness"
+            ]
+          },
+          {
+            "name": "Advanced Models (GPT-4o, Claude 3.5 Sonnet)",
+            "confidence": 0.92,
+            "reason": "Best for Agent tasks, complex refactoring, and difficult problems. Better reasoning",
+            "source": "Official Cursor Documentation - Models",
+            "severity": "recommended",
+            "tradeoffs": {
+              "pros": [
+                "Superior reasoning ability",
+                "Handles complex requirements",
+                "Better at ambiguous tasks",
+                "More accurate for difficult problems"
+              ],
+              "cons": [
+                "Slower response times",
+                "Higher token costs",
+                "Overkill for simple tasks",
+                "May hit rate limits faster"
+              ]
+            },
+            "context_requirements": [
+              "Complex problem-solving",
+              "Multi-step reasoning",
+              "Agent-based tasks",
+              "Architecture decisions",
+              "Ambiguous requirements"
+            ]
+          }
+        ],
+
+        "decision_factors": [
+          "Task complexity (simple → fast, complex → advanced)",
+          "Response time priority (urgent → fast, thorough → advanced)",
+          "Token budget (limited → fast, flexible → advanced)",
+          "Reasoning requirements (straightforward → fast, deep → advanced)"
+        ],
+
+        "presentChoice": true
+      }
+    },
+
+    "advanced_features": {
+      "agent_modes": {
+        "recommendation_id": "cursor-agent-002",
+        "title": "Configure Agent Modes for Specific Workflows",
+        "description": "Use different tool combinations: Normal, Tools, Browse, or Custom modes",
+        "confidence_score": 0.8,
+
+        "rationale": "Agent supports different modes that enable or disable specific capabilities like terminal access, browser control, and external tools. Configuring the right mode prevents unnecessary tool use and focuses the Agent.",
+        "source": "Official Cursor Documentation - Agent / Modes",
+
+        "context": {
+          "when_applicable": [
+            "Want to restrict Agent capabilities",
+            "Specific workflow requirements",
+            "Security concerns about terminal access",
+            "Browser-based testing workflows"
+          ],
+          "when_not_applicable": [
+            "Default mode works well",
+            "Don't need restrictions",
+            "Simple code-only tasks"
+          ]
+        },
+
+        "tradeoffs": {
+          "advantages": [
+            "Focused tool usage",
+            "Security through restrictions",
+            "Faster responses (fewer tools to consider)",
+            "Specialized workflows"
+          ],
+          "disadvantages": [
+            "Requires understanding modes",
+            "May need mode switching",
+            "Can limit Agent capabilities unnecessarily"
+          ]
+        },
+
+        "presentChoice": false
+      },
+
+      "mcp_integration": {
+        "recommendation_id": "cursor-mcp-001",
+        "title": "Extend Agent with MCP Servers for External Integrations",
+        "description": "Add database access, file system tools, API clients, and custom capabilities via MCP",
+        "confidence_score": 0.75,
+
+        "rationale": "MCP (Model Context Protocol) servers allow Agent to access external systems beyond just your codebase. This enables workflows like querying databases during development, accessing external APIs for context, or custom tool integration.",
+        "source": "Official Cursor Documentation - Context / MCP",
+
+        "context": {
+          "when_applicable": [
+            "Need database access during coding",
+            "External API integration required",
+            "Custom tool requirements",
+            "Advanced Agent workflows",
+            "Team-specific tooling"
+          ],
+          "when_not_applicable": [
+            "Simple code-only projects",
+            "No external system needs",
+            "Beginner users",
+            "Additional complexity unwanted"
+          ]
+        },
+
+        "tradeoffs": {
+          "advantages": [
+            "Powerful external integrations",
+            "Custom capability extension",
+            "Real-time data access",
+            "Standardized protocol (MCP)",
+            "Growing ecosystem"
+          ],
+          "disadvantages": [
+            "Setup and configuration required",
+            "Additional complexity",
+            "Learning curve for MCP",
+            "Only works with Agent",
+            "May require custom development"
+          ]
+        },
+
+        "presentChoice": false
+      }
+    },
+
+    "best_practices": {
+      "rules_usage": {
+        "recommendation_id": "cursor-rules-001",
+        "title": "Use .cursorrules for Team Coding Standards",
+        "description": "Define project-specific patterns, conventions, and constraints in .cursorrules",
+        "confidence_score": 0.88,
+
+        "rationale": "A well-crafted .cursorrules file ensures consistent AI behavior across the team and project. It's especially valuable for enforcing coding standards, architectural patterns, and project-specific knowledge that wouldn't be in the AI's training.",
+        "source": "Official Cursor Documentation - Context / Rules",
+
+        "context": {
+          "when_applicable": [
+            "Team environment",
+            "Consistent patterns needed",
+            "Specific coding standards",
+            "Framework-specific conventions",
+            "Project-specific constraints"
+          ],
+          "when_not_applicable": [
+            "Solo projects",
+            "No specific standards",
+            "Frequently changing requirements",
+            "Prototyping phase"
+          ]
+        },
+
+        "tradeoffs": {
+          "advantages": [
+            "Consistent AI behavior",
+            "Enforces team standards",
+            "Version controlled",
+            "Reduces repetitive instructions",
+            "Onboards new team members"
+          ],
+          "disadvantages": [
+            "Always uses tokens",
+            "Requires maintenance",
+            "Can become outdated",
+            "Affects all AI interactions"
+          ]
+        },
+
+        "presentChoice": false
+      }
+    }
+  },
+
+  "influence_rules": {
+    "influences": [
+      {
+        "target_expert": "ai-integration-expert",
+        "influence_type": "best_practices",
+        "strength": 0.85,
+        "description": "Provides Cursor-specific AI integration patterns and workflows"
+      },
+      {
+        "target_expert": "developer-workflow-expert",
+        "influence_type": "tool_selection",
+        "strength": 0.8,
+        "description": "Guides when to use Tab vs Inline Edit vs Agent in development workflows"
+      }
+    ]
+  },
+
+  "notes": {
+    "maintenance": "Comprehensive Cursor IDE guidance based on official documentation. Update when new features or best practices emerge.",
+    "source_updates": "Based on official documentation downloaded October 2025. Review quarterly for updates.",
+    "version_history": {
+      "v2.1.0": "Added context-aware communication: expert-to-expert (comprehensive) vs expert-to-user (progressive disclosure) modes (Oct 2025)",
+      "v2.0.0": "Complete rewrite with comprehensive recommendations for Tab, Inline Edit, Agent, context management, and workflows"
+    }
+  }
+}

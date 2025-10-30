@@ -1,0 +1,685 @@
+{
+  "name": "typescript-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "TypeScript best practices, design patterns, and strategic recommendations",
+
+  "metadata": {
+    "created": "2025-10-13",
+    "lastUpdated": "2025-10-13",
+    "author": "TypeScript Community Best Practices",
+    "source": "TypeScript Official Documentation + Industry Standards"
+  },
+
+  "facts": {
+    "security_standards": {
+      "strict_mode_required": {
+        "statement": "TypeScript strict mode must be enabled for production code",
+        "rationale": "Prevents entire classes of runtime errors",
+        "confidence": 1.0,
+        "source": "TypeScript Official Recommendations"
+      },
+
+      "no_any_in_production": {
+        "statement": "The 'any' type should not be used in production library code",
+        "rationale": "Defeats type safety and defeats the purpose of TypeScript",
+        "confidence": 1.0,
+        "exceptions": ["Migration scenarios", "Truly dynamic data"],
+        "source": "TypeScript Best Practices"
+      },
+
+      "explicit_return_types_for_public_apis": {
+        "statement": "Public API functions must have explicit return types",
+        "rationale": "Prevents accidental API changes",
+        "confidence": 1.0,
+        "source": "TypeScript Best Practices"
+      }
+    },
+
+    "compilation_standards": {
+      "declaration_files_required": {
+        "statement": "Libraries must generate declaration files (.d.ts)",
+        "compiler_option": "declaration: true",
+        "confidence": 1.0,
+        "source": "TypeScript Library Publishing Guidelines"
+      },
+
+      "source_maps_for_debugging": {
+        "statement": "Development builds should include source maps",
+        "compiler_option": "sourceMap: true",
+        "confidence": 1.0,
+        "source": "TypeScript Debugging Best Practices"
+      }
+    }
+  },
+
+  "opinions": {
+    "type_system_usage": {
+      "prefer_interfaces_for_objects": {
+        "statement": "Prefer interfaces over type aliases for object shapes",
+        "confidence": 0.8,
+        "rationale": "Interfaces provide better error messages and support declaration merging",
+        "alternatives": [
+          {
+            "approach": "Use type aliases",
+            "when": "Need union types, conditional types, or mapped types",
+            "confidence": 0.75
+          }
+        ],
+        "tradeoffs": {
+          "interface_pros": [
+            "Better error messages",
+            "Declaration merging",
+            "Extends syntax"
+          ],
+          "interface_cons": ["Cannot express unions or mapped types"],
+          "type_alias_pros": ["More flexible", "Supports all type operations"],
+          "type_alias_cons": ["Slightly less readable error messages"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Community Conventions"
+      },
+
+      "explicit_return_types": {
+        "statement": "Always specify return types for exported functions",
+        "confidence": 0.9,
+        "rationale": "Prevents accidental breaking changes and improves documentation",
+        "alternatives": [
+          {
+            "approach": "Rely on type inference",
+            "when": "Private/internal functions with obvious return types",
+            "confidence": 0.6
+          }
+        ],
+        "tradeoffs": {
+          "explicit_pros": [
+            "Clear API contracts",
+            "Better IntelliSense",
+            "Prevents mistakes"
+          ],
+          "explicit_cons": ["More verbose", "Duplication of obvious types"],
+          "inference_pros": ["Less code", "Faster to write"],
+          "inference_cons": ["Accidental API changes", "Less clear intent"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Best Practices"
+      },
+
+      "avoid_enums": {
+        "statement": "Consider using const objects or union types instead of enums",
+        "confidence": 0.7,
+        "rationale": "Enums generate runtime code and have quirks; alternatives are more type-safe",
+        "alternatives": [
+          {
+            "approach": "Use const objects with 'as const'",
+            "syntax": "const Direction = { Up: 'UP', Down: 'DOWN' } as const; type Direction = typeof Direction[keyof typeof Direction];",
+            "confidence": 0.85,
+            "benefits": [
+              "No runtime code",
+              "More flexible",
+              "Better tree-shaking"
+            ]
+          },
+          {
+            "approach": "Use string literal union types",
+            "syntax": "type Direction = 'up' | 'down' | 'left' | 'right';",
+            "confidence": 0.8,
+            "benefits": ["No runtime code", "Simple", "Type-safe"]
+          },
+          {
+            "approach": "Use numeric enums when needed",
+            "when": "Need bidirectional mapping or bitwise operations",
+            "confidence": 0.65
+          }
+        ],
+        "tradeoffs": {
+          "enum_pros": [
+            "Familiar syntax",
+            "Bidirectional mapping",
+            "Namespace"
+          ],
+          "enum_cons": [
+            "Runtime code",
+            "Quirky behavior",
+            "Reverse mapping confusion"
+          ],
+          "const_object_pros": ["No runtime overhead", "Type-safe", "Flexible"],
+          "const_object_cons": ["More verbose", "Requires 'as const'"]
+        },
+        "presentChoice": true,
+        "source": "TypeScript Community Debates"
+      },
+
+      "strict_null_checks": {
+        "statement": "Always enable strictNullChecks in tsconfig.json",
+        "confidence": 0.95,
+        "rationale": "Catches null/undefined errors at compile time, preventing runtime crashes",
+        "alternatives": [
+          {
+            "approach": "Disable strictNullChecks",
+            "when": "Migrating large JavaScript codebase incrementally",
+            "confidence": 0.4,
+            "temporary": true
+          }
+        ],
+        "tradeoffs": {
+          "enabled_pros": [
+            "Catches null pointer errors",
+            "More explicit code",
+            "Better safety"
+          ],
+          "enabled_cons": ["More null checks required", "Migration effort"],
+          "disabled_pros": ["Easier migration", "Less code changes"],
+          "disabled_cons": ["Runtime null errors", "False sense of safety"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Core Team Recommendations"
+      },
+
+      "no_implicit_any": {
+        "statement": "Enable noImplicitAny to require explicit type annotations",
+        "confidence": 0.9,
+        "rationale": "Prevents accidental implicit any types which defeat type safety",
+        "alternatives": [
+          {
+            "approach": "Allow implicit any during migration",
+            "when": "Converting large JavaScript codebase",
+            "confidence": 0.5,
+            "temporary": true
+          }
+        ],
+        "tradeoffs": {
+          "enabled_pros": [
+            "Forces type awareness",
+            "Catches mistakes",
+            "Better documentation"
+          ],
+          "enabled_cons": ["More annotations required", "Migration effort"],
+          "disabled_pros": ["Easier to write code quickly"],
+          "disabled_cons": ["Defeats purpose of TypeScript", "Hidden bugs"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Best Practices"
+      }
+    },
+
+    "code_organization": {
+      "prefer_named_exports": {
+        "statement": "Prefer named exports over default exports",
+        "confidence": 0.75,
+        "rationale": "Named exports provide better refactoring support and prevent naming inconsistencies",
+        "alternatives": [
+          {
+            "approach": "Use default exports for main component/class",
+            "when": "Single primary export per module",
+            "confidence": 0.65
+          }
+        ],
+        "tradeoffs": {
+          "named_pros": [
+            "Better refactoring",
+            "Consistent naming",
+            "Multiple exports easy"
+          ],
+          "named_cons": ["Slightly more verbose imports"],
+          "default_pros": ["Shorter import syntax", "Flexibility in naming"],
+          "default_cons": ["Inconsistent names", "Poor refactoring support"]
+        },
+        "presentChoice": false,
+        "source": "JavaScript/TypeScript Community Conventions"
+      },
+
+      "barrel_exports": {
+        "statement": "Use index.ts barrel exports to create clean public APIs",
+        "confidence": 0.7,
+        "rationale": "Simplifies imports and provides clear API surface",
+        "pattern": "// index.ts\nexport { ClassA } from './ClassA';\nexport { ClassB } from './ClassB';",
+        "alternatives": [
+          {
+            "approach": "Import directly from source files",
+            "when": "Small projects or avoiding re-export overhead",
+            "confidence": 0.6
+          }
+        ],
+        "tradeoffs": {
+          "barrel_pros": ["Clean imports", "Clear API", "Easy reorganization"],
+          "barrel_cons": [
+            "Potential circular dependencies",
+            "Larger bundle sizes"
+          ],
+          "direct_pros": [
+            "Explicit paths",
+            "Smaller bundles",
+            "No circular deps"
+          ],
+          "direct_cons": ["Verbose imports", "Harder refactoring"]
+        },
+        "presentChoice": true,
+        "source": "TypeScript Module Patterns"
+      },
+
+      "one_class_per_file": {
+        "statement": "Each class should have its own file",
+        "confidence": 0.8,
+        "rationale": "Improves maintainability and follows single responsibility principle",
+        "alternatives": [
+          {
+            "approach": "Group related classes in one file",
+            "when": "Tightly coupled small classes or type definitions",
+            "confidence": 0.65
+          }
+        ],
+        "tradeoffs": {
+          "separate_pros": [
+            "Easy to find",
+            "Clear responsibilities",
+            "Better version control"
+          ],
+          "separate_cons": ["More files", "More imports"],
+          "grouped_pros": ["Fewer files", "Related code together"],
+          "grouped_cons": ["Harder to navigate", "Coupling"]
+        },
+        "presentChoice": false,
+        "source": "Software Engineering Best Practices"
+      }
+    },
+
+    "type_design": {
+      "immutable_by_default": {
+        "statement": "Make properties readonly unless mutation is required",
+        "confidence": 0.85,
+        "rationale": "Prevents accidental mutations and makes code more predictable",
+        "pattern": "interface Config { readonly apiUrl: string; }",
+        "alternatives": [
+          {
+            "approach": "Use mutable properties by default",
+            "when": "Data structures that need frequent updates",
+            "confidence": 0.5
+          }
+        ],
+        "tradeoffs": {
+          "readonly_pros": [
+            "Prevents bugs",
+            "Clear intent",
+            "Functional style"
+          ],
+          "readonly_cons": ["Less flexible", "Cloning required for updates"],
+          "mutable_pros": ["More flexible", "Simpler updates"],
+          "mutable_cons": ["Bug-prone", "Unclear ownership"]
+        },
+        "presentChoice": false,
+        "source": "Functional Programming Best Practices"
+      },
+
+      "narrow_types": {
+        "statement": "Use narrow, specific types rather than broad types",
+        "confidence": 0.9,
+        "rationale": "Narrow types catch more errors and provide better IntelliSense",
+        "example": "Use 'success' | 'error' | 'pending' instead of string",
+        "alternatives": [
+          {
+            "approach": "Use broader types for flexibility",
+            "when": "Truly dynamic data or migration scenarios",
+            "confidence": 0.4
+          }
+        ],
+        "tradeoffs": {
+          "narrow_pros": [
+            "Type safety",
+            "Better autocomplete",
+            "Self-documenting"
+          ],
+          "narrow_cons": ["Less flexible", "More upfront design"],
+          "broad_pros": ["Flexible", "Quick to write"],
+          "broad_cons": ["Runtime errors", "Poor IntelliSense"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Design Principles"
+      },
+
+      "discriminated_unions_for_state": {
+        "statement": "Use discriminated unions to model state machines and variants",
+        "confidence": 0.95,
+        "rationale": "Discriminated unions make invalid states unrepresentable",
+        "pattern": "type State = { status: 'loading' } | { status: 'success'; data: Data } | { status: 'error'; error: Error }",
+        "alternatives": [
+          {
+            "approach": "Use optional properties",
+            "syntax": "interface State { status: string; data?: Data; error?: Error; }",
+            "confidence": 0.3,
+            "problems": ["Allows invalid combinations", "Loses type safety"]
+          }
+        ],
+        "tradeoffs": {
+          "discriminated_pros": [
+            "Invalid states impossible",
+            "Exhaustive checking",
+            "Type narrowing"
+          ],
+          "discriminated_cons": ["More verbose", "Requires careful design"],
+          "optional_pros": ["Simpler to define"],
+          "optional_cons": ["Bug-prone", "No guarantees", "Poor type inference"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Advanced Patterns"
+      }
+    },
+
+    "generics": {
+      "constrain_generics": {
+        "statement": "Add constraints to generic types when possible",
+        "confidence": 0.85,
+        "rationale": "Constraints provide better type safety and clearer intent",
+        "pattern": "function getProperty<T, K extends keyof T>(obj: T, key: K) { return obj[key]; }",
+        "alternatives": [
+          {
+            "approach": "Use unconstrained generics",
+            "when": "Truly generic utility functions",
+            "confidence": 0.6
+          }
+        ],
+        "tradeoffs": {
+          "constrained_pros": [
+            "Better type safety",
+            "Clearer API",
+            "Better errors"
+          ],
+          "constrained_cons": ["Less flexible", "More complex"],
+          "unconstrained_pros": ["More flexible", "Simpler"],
+          "unconstrained_cons": ["Less safe", "Vague errors"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Generics Best Practices"
+      },
+
+      "avoid_generic_over_engineering": {
+        "statement": "Don't make functions generic unless they need to be",
+        "confidence": 0.8,
+        "rationale": "Over-engineering with generics reduces readability",
+        "alternatives": [
+          {
+            "approach": "Use concrete types when possible",
+            "confidence": 0.85,
+            "when": "Function works with specific types"
+          }
+        ],
+        "tradeoffs": {
+          "concrete_pros": ["Simpler", "Easier to understand", "Better errors"],
+          "concrete_cons": ["Less reusable"],
+          "generic_pros": ["Reusable", "Type-safe across types"],
+          "generic_cons": ["Complex", "Harder to read"]
+        },
+        "presentChoice": false,
+        "source": "Software Design Principles"
+      }
+    },
+
+    "async_patterns": {
+      "prefer_async_await": {
+        "statement": "Prefer async/await over raw Promise chains",
+        "confidence": 0.9,
+        "rationale": "Async/await is more readable and easier to debug",
+        "alternatives": [
+          {
+            "approach": "Use Promise.then() chains",
+            "when": "Simple single-step promises or library code",
+            "confidence": 0.55
+          }
+        ],
+        "tradeoffs": {
+          "async_await_pros": ["Readable", "Easy debugging", "Try/catch works"],
+          "async_await_cons": [
+            "Requires async function",
+            "Sequential by default"
+          ],
+          "promise_chain_pros": ["Functional style", "Easy parallelism"],
+          "promise_chain_cons": ["Callback hell", "Error handling awkward"]
+        },
+        "presentChoice": false,
+        "source": "JavaScript/TypeScript Modern Practices"
+      },
+
+      "type_promise_generics": {
+        "statement": "Always specify Promise generic type",
+        "confidence": 0.95,
+        "rationale": "Explicit Promise types prevent errors and improve IntelliSense",
+        "pattern": "async function fetchData(): Promise<User> { }",
+        "alternatives": [
+          {
+            "approach": "Let TypeScript infer Promise type",
+            "confidence": 0.5,
+            "when": "Internal functions with obvious return"
+          }
+        ],
+        "tradeoffs": {
+          "explicit_pros": ["Clear API", "Type safety", "Better errors"],
+          "explicit_cons": ["Slightly verbose"],
+          "inferred_pros": ["Less code"],
+          "inferred_cons": ["Unclear API", "Accidental changes"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Async Best Practices"
+      }
+    },
+
+    "project_configuration": {
+      "incremental_compilation": {
+        "statement": "Enable incremental compilation for faster builds",
+        "confidence": 0.85,
+        "compiler_option": "\"incremental\": true",
+        "rationale": "Significantly speeds up rebuild times",
+        "alternatives": [
+          {
+            "approach": "Disable incremental compilation",
+            "when": "CI builds or very small projects",
+            "confidence": 0.4
+          }
+        ],
+        "tradeoffs": {
+          "enabled_pros": ["Faster rebuilds", "Better developer experience"],
+          "enabled_cons": [
+            "Extra .tsbuildinfo file",
+            "Slight first-build overhead"
+          ],
+          "disabled_pros": ["Clean builds", "No extra files"],
+          "disabled_cons": ["Slow rebuilds"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Performance Best Practices"
+      },
+
+      "path_mapping": {
+        "statement": "Use path mapping to avoid ../../../ imports",
+        "confidence": 0.8,
+        "compiler_option": "\"paths\": { \"@/*\": [\"src/*\"] }",
+        "rationale": "Cleaner imports and easier refactoring",
+        "alternatives": [
+          {
+            "approach": "Use relative imports",
+            "when": "Very small projects",
+            "confidence": 0.5
+          }
+        ],
+        "tradeoffs": {
+          "path_mapping_pros": [
+            "Clean imports",
+            "Easy refactoring",
+            "Better organization"
+          ],
+          "path_mapping_cons": [
+            "Configuration required",
+            "Bundler setup needed"
+          ],
+          "relative_pros": ["No configuration", "Explicit paths"],
+          "relative_cons": ["Ugly imports", "Hard to refactor"]
+        },
+        "presentChoice": false,
+        "source": "TypeScript Project Organization"
+      },
+
+      "separate_dev_prod_configs": {
+        "statement": "Use separate tsconfig files for development and production",
+        "confidence": 0.75,
+        "pattern": "tsconfig.json (base), tsconfig.build.json (production), tsconfig.dev.json (development)",
+        "rationale": "Different needs for dev (source maps, loose checks) vs prod (optimized, strict)",
+        "alternatives": [
+          {
+            "approach": "Single tsconfig for all environments",
+            "when": "Simple projects with identical needs",
+            "confidence": 0.6
+          }
+        ],
+        "tradeoffs": {
+          "separate_pros": [
+            "Optimized for each",
+            "Clear separation",
+            "Flexible"
+          ],
+          "separate_cons": ["More files", "Potential drift"],
+          "single_pros": ["Simple", "One source of truth"],
+          "single_cons": ["Compromises", "Not optimized"]
+        },
+        "presentChoice": true,
+        "source": "TypeScript Build Patterns"
+      }
+    },
+
+    "testing": {
+      "type_test_files": {
+        "statement": "Test files should also be fully typed",
+        "confidence": 0.8,
+        "rationale": "Type safety in tests prevents test bugs",
+        "alternatives": [
+          {
+            "approach": "Use 'any' in tests for flexibility",
+            "confidence": 0.4,
+            "problems": ["Test bugs", "False confidence"]
+          }
+        ],
+        "tradeoffs": {
+          "typed_pros": [
+            "Catches test bugs",
+            "Refactoring safety",
+            "Documentation"
+          ],
+          "typed_cons": ["More verbose tests"],
+          "untyped_pros": ["Faster to write"],
+          "untyped_cons": ["Test bugs", "Brittle"]
+        },
+        "presentChoice": false,
+        "source": "Testing Best Practices"
+      }
+    },
+
+    "node_specific": {
+      "use_esm": {
+        "statement": "Prefer ES modules over CommonJS for new Node.js projects",
+        "confidence": 0.75,
+        "rationale": "ESM is the future, better tree-shaking, aligns with browser JavaScript",
+        "package_json": "\"type\": \"module\"",
+        "tsconfig": "\"module\": \"node16\" or \"nodenext\"",
+        "alternatives": [
+          {
+            "approach": "Use CommonJS",
+            "when": "Supporting older Node.js versions or legacy systems",
+            "confidence": 0.65
+          }
+        ],
+        "tradeoffs": {
+          "esm_pros": [
+            "Modern standard",
+            "Better tree-shaking",
+            "Browser compatible"
+          ],
+          "esm_cons": [
+            "Less mature tooling",
+            "Migration effort",
+            "Some libraries not compatible"
+          ],
+          "commonjs_pros": ["Universal support", "Mature ecosystem"],
+          "commonjs_cons": ["Legacy", "No tree-shaking"]
+        },
+        "presentChoice": true,
+        "source": "Node.js Best Practices 2025"
+      },
+
+      "type_node_versions": {
+        "statement": "Always install @types/node matching your Node.js version",
+        "confidence": 0.95,
+        "rationale": "Ensures type definitions match available APIs",
+        "command": "npm install --save-dev @types/node@18",
+        "alternatives": [],
+        "tradeoffs": {},
+        "presentChoice": false,
+        "source": "Node.js TypeScript Integration"
+      }
+    },
+
+    "mcp_service_specific": {
+      "explicit_tool_types": {
+        "statement": "MCP tool parameters and return types must be explicitly typed",
+        "confidence": 1.0,
+        "rationale": "MCP SDK requires explicit types for tool registration",
+        "pattern": "interface ToolParams { expertId: string; context: any; } \nasync function tool(params: ToolParams): Promise<ToolResult>",
+        "source": "MCP SDK Documentation"
+      },
+
+      "error_handling_typed": {
+        "statement": "MCP tools should use typed error responses",
+        "confidence": 0.9,
+        "rationale": "Type-safe error handling prevents runtime surprises",
+        "pattern": "type Result<T, E = Error> = { success: true; data: T } | { success: false; error: E }",
+        "alternatives": [
+          {
+            "approach": "Throw exceptions",
+            "confidence": 0.6,
+            "when": "Unrecoverable errors only"
+          }
+        ],
+        "tradeoffs": {
+          "typed_result_pros": [
+            "Explicit error handling",
+            "Type-safe",
+            "Clear API"
+          ],
+          "typed_result_cons": ["More verbose", "Result unwrapping needed"],
+          "exception_pros": ["Simpler code", "Familiar pattern"],
+          "exception_cons": [
+            "Unclear which functions throw",
+            "Easy to miss errors"
+          ]
+        },
+        "presentChoice": false,
+        "source": "Functional Error Handling Patterns"
+      }
+    }
+  },
+
+  "communication_style": {
+    "tone": "technical_consultant",
+    "explanation_depth": "detailed_with_tradeoffs",
+    "provide_alternatives": true,
+    "cite_sources": true,
+    "use_code_examples": true
+  },
+
+  "decision_framework": {
+    "high_confidence_actions": {
+      "confidence_threshold": 0.9,
+      "behavior": "State as strong recommendation with brief rationale"
+    },
+    "medium_confidence_actions": {
+      "confidence_threshold": 0.7,
+      "behavior": "Present as suggestion with alternatives and tradeoffs"
+    },
+    "low_confidence_actions": {
+      "confidence_threshold": 0.5,
+      "behavior": "Present multiple options with equal weight, ask user preference"
+    },
+    "present_choice_flag": {
+      "statement": "When presentChoice is true, always show alternatives and ask user to decide",
+      "even_if_high_confidence": true
+    }
+  }
+}
+

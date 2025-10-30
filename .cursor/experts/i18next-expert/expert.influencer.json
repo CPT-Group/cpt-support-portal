@@ -1,0 +1,203 @@
+{
+  "name": "i18next-expert",
+  "type": "technology",
+  "version": "1.0.0",
+  "description": "i18next architectural opinions and decision frameworks",
+
+  "opinions": [
+    {
+      "id": "centralized_vs_distributed",
+      "title": "Centralized vs Distributed i18n Management",
+      "description": "Whether to centralize translations in private NPM package or keep in each app",
+      "confidence_score": 0.95,
+      "rationale": "Centralized i18n in private NPM package provides single source of truth, consistency, and easier updates. Distributed approach leads to duplication, inconsistency, and maintenance burden",
+      "context": {
+        "when_applicable": [
+          "Multiple React applications",
+          "Shared UI components",
+          "Enterprise applications"
+        ],
+        "when_not_applicable": [
+          "Single application",
+          "No shared components",
+          "Rapid prototyping"
+        ]
+      },
+      "options": [
+        {
+          "name": "Centralized Private NPM Package (Recommended)",
+          "description": "Create @company/i18n package with all translations, configuration, and hooks",
+          "pros": [
+            "Single source of truth",
+            "Consistent translations",
+            "Easy updates (no app redeploy)",
+            "Shared configuration",
+            "Reusable hooks/components",
+            "Version control"
+          ],
+          "cons": [
+            "Initial setup overhead",
+            "Package versioning complexity",
+            "Requires private NPM registry"
+          ],
+          "use_when": [
+            "Multiple apps",
+            "Shared components",
+            "Enterprise scale",
+            "Need consistency",
+            "Long-term maintenance"
+          ]
+        },
+        {
+          "name": "Distributed (Per-App)",
+          "description": "Each app maintains its own translations and i18next configuration",
+          "pros": [
+            "Simple initial setup",
+            "App-specific customization",
+            "No external dependencies"
+          ],
+          "cons": [
+            "Duplication",
+            "Inconsistent translations",
+            "Hard to update",
+            "Each app redeploy for changes",
+            "No sharing"
+          ],
+          "use_when": [
+            "Single app",
+            "Prototypes",
+            "Apps have different languages",
+            "No shared components"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Number of applications",
+        "Shared components",
+        "Update frequency",
+        "Team size",
+        "Maintenance budget"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "namespace_organization",
+      "title": "Namespace Organization Strategy",
+      "description": "How to organize translation namespaces",
+      "confidence_score": 0.9,
+      "rationale": "Feature-based namespaces provide better organization, context, and maintainability compared to type-based namespaces",
+      "context": {
+        "when_applicable": [
+          "Organizing translations",
+          "Large applications",
+          "Multiple features"
+        ],
+        "when_not_applicable": ["Very small apps with few translations"]
+      },
+      "options": [
+        {
+          "name": "Feature-Based (Recommended)",
+          "description": "Organize by feature/domain: common, cases, auth, reports",
+          "pros": [
+            "Clear context",
+            "Easy to find",
+            "Cohesive",
+            "Scales well",
+            "Team alignment"
+          ],
+          "cons": ["Some duplication across features"],
+          "use_when": [
+            "Medium to large apps",
+            "Multiple features",
+            "Team structure by feature",
+            "Want maintainability"
+          ]
+        },
+        {
+          "name": "Type-Based",
+          "description": "Organize by type: buttons, labels, messages, errors",
+          "pros": ["All similar items together", "Easy to see all buttons"],
+          "cons": [
+            "No context",
+            "Hard to find specific translation",
+            "Poor scalability",
+            "Maintenance nightmare"
+          ],
+          "use_when": ["Very small apps", "Single feature", "Simple use case"]
+        }
+      ],
+      "decision_factors": [
+        "App size",
+        "Number of features",
+        "Team structure",
+        "Maintainability needs"
+      ],
+      "presentChoice": false
+    },
+    {
+      "id": "translation_loading",
+      "title": "Translation Loading Strategy",
+      "description": "When and how to load translations",
+      "confidence_score": 0.85,
+      "rationale": "For enterprise apps, loading all translations upfront provides better UX (no loading states) but larger bundle. Lazy loading reduces initial bundle but adds complexity",
+      "context": {
+        "when_applicable": [
+          "Performance optimization",
+          "Large translation files",
+          "Multiple languages"
+        ],
+        "when_not_applicable": ["Small apps", "Single language"]
+      },
+      "options": [
+        {
+          "name": "Upfront Loading (Recommended for Internal Tools)",
+          "description": "Bundle all translations in @company/i18n package, load at app start",
+          "pros": [
+            "Simple",
+            "No loading states",
+            "Immediate translations",
+            "Offline works",
+            "Predictable"
+          ],
+          "cons": ["Larger initial bundle", "All languages loaded"],
+          "use_when": [
+            "Internal tools",
+            "Known user languages",
+            "Want simplicity",
+            "Offline support critical",
+            "Bundle size acceptable"
+          ]
+        },
+        {
+          "name": "Dynamic/Lazy Loading",
+          "description": "Load translations from server on-demand",
+          "pros": [
+            "Smaller initial bundle",
+            "Load only needed languages",
+            "Easy updates (no redeploy)"
+          ],
+          "cons": [
+            "Loading states",
+            "Network dependency",
+            "More complex",
+            "Slower perceived performance"
+          ],
+          "use_when": [
+            "Public apps",
+            "Many languages",
+            "Large translation files",
+            "Bundle size critical"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Bundle size constraints",
+        "Number of languages",
+        "Offline requirements",
+        "Update frequency",
+        "Complexity tolerance"
+      ],
+      "presentChoice": false
+    }
+  ]
+}

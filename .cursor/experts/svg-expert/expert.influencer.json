@@ -1,0 +1,442 @@
+{
+  "expert_name": "svg-expert",
+  "applies_to": [
+    "svg diagrams",
+    "documentation graphics",
+    "icon selection",
+    "diagram tools"
+  ],
+  "version": "1.0.0",
+
+  "sources": {
+    "specifications": [
+      "W3C SVG2 Specification",
+      "Professional Documentation Standards"
+    ],
+    "best_practices": [
+      "SVG Best Practices",
+      "Web Performance Guidelines",
+      "WCAG 2.1 Accessibility Standards"
+    ]
+  },
+
+  "facts": {
+    "ascii_art_prohibition": {
+      "statement": "ASCII art diagrams are strictly forbidden in professional documentation (confidence 1.0). They are unprofessional, unreadable, break rendering, and create user frustration. MANDATORY alternatives: Mermaid (95% of cases) or SVG (5% when Mermaid has limitations). This prohibition is absolute with ZERO exceptions.",
+      "confidence": 1.0,
+      "source": "Professional Documentation Standards, Documentation Expert, User Feedback"
+    }
+  },
+
+  "opinions": {
+    "svg_vs_mermaid": {
+      "title": "Use Mermaid for Standard Diagrams, SVG for Complex Custom Layouts",
+      "description": "For most documentation diagrams (flowcharts, sequence, class, ERD, state, DFD), use Mermaid as it's text-based, renders professionally, and works in GitHub/GitLab/Confluence. For complex custom layouts, pixel-perfect positioning, or diagrams Mermaid cannot represent, use SVG. NEVER use ASCII art.",
+      "confidence_score": 0.92,
+      "rationale": "Mermaid provides 95% of diagram needs with text-based syntax that renders as professional graphics, is version control friendly, and works across all documentation platforms. It's faster to create than hand-coded SVG and maintains the benefits of text-based diagrams (git diff, easy editing). SVG is necessary for the 5% of cases where Mermaid has limitations: complex custom layouts requiring pixel-perfect positioning, diagrams needing advanced styling beyond Mermaid capabilities, or unique diagram types Mermaid doesn't support. ASCII art is never acceptable as both Mermaid and SVG are superior alternatives.",
+      "source": "Documentation Expert, Mermaid Documentation, SVG Best Practices",
+      "context": {
+        "when_applicable": [
+          "All documentation diagrams",
+          "Technical architecture visualization",
+          "Process flows and flowcharts",
+          "System component diagrams",
+          "Data flow diagrams",
+          "Entity relationship diagrams"
+        ],
+        "when_not_applicable": [
+          "Never use ASCII art (forbidden)",
+          "Raster images are not SVG's purpose (use PNG/JPG for photos)",
+          "Extremely simple icons (may use icon libraries directly)"
+        ]
+      },
+      "options": [
+        {
+          "name": "Mermaid (Default for 95% of Diagrams)",
+          "confidence": 0.95,
+          "reason": "Text-based syntax, professional rendering, universal platform support",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "Text-based source (version control friendly, git diff works)",
+              "Professional rendering (NOT ASCII art)",
+              "Universal support (GitHub, GitLab, Confluence, Notion, wikis)",
+              "Quick to create (simpler syntax than hand-coded SVG)",
+              "Living documentation (stays with code in repo)",
+              "Free and open source",
+              "14+ diagram types (Flowchart, Sequence, Class, ERD, State, DFD, etc.)",
+              "Consistent styling across diagrams",
+              "No special tools required"
+            ],
+            "cons": [
+              "Limited customization vs. hand-coded SVG",
+              "May not support very complex custom layouts",
+              "Some advanced styling requires workarounds",
+              "Not all UML features supported"
+            ]
+          },
+          "context_requirements": [
+            "Standard diagram types (flowchart, sequence, class, ERD, state)",
+            "Documentation living in git repository",
+            "Team collaboration (text diffs)",
+            "Quick diagram creation",
+            "Platform compatibility priority"
+          ]
+        },
+        {
+          "name": "SVG (For Complex Custom Layouts)",
+          "confidence": 0.9,
+          "reason": "Unlimited flexibility, pixel-perfect control, advanced styling",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "Unlimited layout flexibility",
+              "Pixel-perfect positioning",
+              "Advanced styling (gradients, patterns, filters)",
+              "Full control over every element",
+              "Reusable symbols and components",
+              "Accessible (semantic markup with title/desc)",
+              "Scalable vector graphics",
+              "Professional quality",
+              "Version control friendly (XML text)",
+              "Embeddable everywhere"
+            ],
+            "cons": [
+              "More verbose than Mermaid",
+              "Requires more time to hand-code",
+              "Git diffs less readable than Mermaid text",
+              "May need visual editor for complex diagrams",
+              "Steeper learning curve than Mermaid"
+            ]
+          },
+          "context_requirements": [
+            "Complex custom layouts Mermaid cannot represent",
+            "Pixel-perfect positioning required",
+            "Advanced styling needs (custom gradients, patterns)",
+            "Unique diagram types not supported by Mermaid",
+            "Integration with design tools (Figma, Illustrator)",
+            "Reusable component libraries needed"
+          ]
+        },
+        {
+          "name": "ASCII Art (FORBIDDEN)",
+          "confidence": 0.0,
+          "reason": "Unprofessional, unreadable, breaks rendering, user frustration",
+          "severity": "forbidden",
+          "tradeoffs": {
+            "pros": [
+              "NONE - There are zero advantages to ASCII art",
+              "Any perceived advantage is better served by Mermaid or SVG"
+            ],
+            "cons": [
+              "Unprofessional appearance (looks like 1980s terminal)",
+              "Unreadable (breaks on different fonts, proportional fonts)",
+              "Inconsistent rendering (looks different everywhere)",
+              "Not maintainable (nightmare to edit, align, update)",
+              "Accessibility nightmare (screen readers fail)",
+              "No styling options (monochrome, fixed size, ugly)",
+              "Breaks in modern editors with proportional fonts",
+              "Communicates lack of professionalism",
+              "User frustration (as evidenced by feedback)",
+              "Rejected in code reviews",
+              "Embarrassing in professional documentation",
+              "STRICTLY FORBIDDEN BY DOCUMENTATION STANDARDS"
+            ]
+          },
+          "context_requirements": [
+            "NEVER USE - This option is forbidden",
+            "Not even as placeholder (use Mermaid instead)",
+            "Not even for quick sketches (Mermaid is just as quick)",
+            "Not even for internal docs (always professional)",
+            "If considering ASCII art, use Mermaid or SVG instead",
+            "Violation of this rule is a critical documentation failure"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Diagram type (standard → Mermaid; custom complex → SVG)",
+        "Complexity (simple/standard → Mermaid; pixel-perfect → SVG)",
+        "Speed priority (quick → Mermaid; detailed → SVG)",
+        "Platform (GitHub/GitLab/wikis → Mermaid works great; standalone → either)",
+        "Team skill (developers → Mermaid easy; designers → SVG familiar)",
+        "Default recommendation → Mermaid for 95% of documentation diagrams, SVG for complex custom needs",
+        "NEVER ASCII art (forbidden with confidence 0.0)"
+      ],
+      "presentChoice": false
+    },
+
+    "icon_library_selection": {
+      "title": "Use Bootstrap Icons for Technical Diagrams, Iconoir for Modern Aesthetic, SVG Repo for Specialized Needs",
+      "description": "For system/infrastructure icons (servers, databases, cloud), use Bootstrap Icons (2,000+, MIT, consistent design). For clean modern aesthetic, use Iconoir (1,671, MIT, minimalist). For specialized/unique needs, search SVG Repo (500,000+). For flowchart-specific symbols (arrows, connectors), use Flaticon.",
+      "confidence_score": 0.9,
+      "rationale": "Bootstrap Icons provides 2,000+ professionally designed, MIT-licensed icons with consistent visual language, perfect for technical diagrams (cloud, server, database, terminal, gear, etc.). The icons are well-documented, available as SVG sprites, and integrate with modern frameworks. Iconoir offers 1,671 minimalist icons with consistent 1.5px stroke width, ideal for professional documentation with clean aesthetic. SVG Repo's 500,000+ icons provide comprehensive coverage for specialized needs. This three-tier approach (Bootstrap for primary, Iconoir for style, SVG Repo for special) covers 99% of documentation diagram needs while maintaining consistency.",
+      "source": "Icon Library Analysis, Professional Documentation Standards",
+      "context": {
+        "when_applicable": [
+          "System architecture diagrams",
+          "Infrastructure diagrams (servers, databases, networks)",
+          "Flowcharts and process diagrams",
+          "UI/UX documentation",
+          "Technical illustrations",
+          "API documentation diagrams"
+        ],
+        "when_not_applicable": [
+          "Custom branded icons (create custom SVG)",
+          "Highly specialized domain-specific symbols (may need custom design)",
+          "Decorative illustrations (not technical diagrams)"
+        ]
+      },
+      "options": [
+        {
+          "name": "Bootstrap Icons (Primary - Technical Diagrams)",
+          "confidence": 0.92,
+          "reason": "Consistent design, comprehensive technical coverage, MIT licensed, excellent documentation",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "2,000+ icons covering technical needs",
+              "MIT License (free for commercial use)",
+              "Consistent design language",
+              "Excellent documentation",
+              "SVG sprites and individual files",
+              "npm package integration",
+              "Icon font available",
+              "Technical icons: cloud, server, database, CPU, terminal, gear, shield, key, etc.",
+              "Diagram-relevant: arrows, layers, stack, grid, diagram-2, diagram-3",
+              "Well-maintained and actively developed"
+            ],
+            "cons": [
+              "Not as minimalist as Iconoir",
+              "May need supplementary library for specialized needs",
+              "Larger set (2,000+) requires searching"
+            ]
+          },
+          "context_requirements": [
+            "System/infrastructure diagrams",
+            "Technical documentation",
+            "Cloud architecture diagrams",
+            "Developer-focused content",
+            "Need consistent icon family"
+          ]
+        },
+        {
+          "name": "Iconoir (Secondary - Modern Aesthetic)",
+          "confidence": 0.88,
+          "reason": "Clean minimalist design, consistent stroke width, professional aesthetic",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "1,671 high-quality icons",
+              "MIT License",
+              "Minimalist, clean design",
+              "Consistent 1.5px stroke width",
+              "24x24 pixel grid",
+              "React/Vue/Flutter components",
+              "Figma and Adobe XD libraries",
+              "Professional modern aesthetic",
+              "High legibility at small sizes",
+              "Perfect for documentation with clean style"
+            ],
+            "cons": [
+              "Smaller set than Bootstrap Icons (1,671 vs 2,000)",
+              "More design-focused, less technical coverage",
+              "May need supplementary library"
+            ]
+          },
+          "context_requirements": [
+            "Modern clean aesthetic priority",
+            "Design-conscious documentation",
+            "Consistent minimalist style",
+            "Framework integration (React, Vue, Flutter)",
+            "High-quality professional appearance"
+          ]
+        },
+        {
+          "name": "SVG Repo (Tertiary - Specialized Needs)",
+          "confidence": 0.85,
+          "reason": "500,000+ icons, comprehensive coverage for any specialized need",
+          "severity": "acceptable",
+          "tradeoffs": {
+            "pros": [
+              "500,000+ icons (massive coverage)",
+              "Open-licensed (various licenses)",
+              "Search by keywords, categories, colors",
+              "Edit colors/sizes before download",
+              "Multiple format downloads (SVG, PNG, PDF)",
+              "Covers virtually any icon need",
+              "Good for specialized/unique requirements"
+            ],
+            "cons": [
+              "Inconsistent design (aggregated from multiple sources)",
+              "Quality varies (community-contributed)",
+              "License varies by icon (check individual licenses)",
+              "May require more searching to find right icon",
+              "Less consistent visual language"
+            ]
+          },
+          "context_requirements": [
+            "Specialized icon needs Bootstrap/Iconoir don't cover",
+            "Unique or rare symbols required",
+            "Broad search for specific concept",
+            "Supplementary to primary icon libraries",
+            "Willing to check individual licenses"
+          ]
+        },
+        {
+          "name": "Flaticon (Flowchart-Specific)",
+          "confidence": 0.82,
+          "reason": "Diagram-specific symbols, flowchart elements, process flow icons",
+          "severity": "acceptable",
+          "tradeoffs": {
+            "pros": [
+              "Thousands of diagram-specific icons",
+              "Flowchart symbols (process, decision, start/end)",
+              "Connectors and arrows (straight, curved, bidirectional)",
+              "Data flow symbols (input, output, process, storage)",
+              "Chart types (bar, pie, line)",
+              "System components (servers, databases, clients)"
+            ],
+            "cons": [
+              "Free tier requires attribution",
+              "Lower download limits on free tier",
+              "Premium ($10/month) for no attribution",
+              "Less comprehensive than SVG Repo for general icons"
+            ]
+          },
+          "context_requirements": [
+            "Flowchart and process diagram creation",
+            "Standard flowchart symbols needed",
+            "Data visualization diagrams",
+            "Can provide attribution (free tier) or budget for Premium"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Use case (technical diagrams → Bootstrap Icons; clean aesthetic → Iconoir; specialized → SVG Repo; flowcharts → Flaticon)",
+        "Consistency priority (high → Bootstrap Icons or Iconoir; low → SVG Repo)",
+        "Budget (free priority → Bootstrap Icons, Iconoir, SVG Repo; can pay → Flaticon Premium)",
+        "Framework integration (React/Vue → Iconoir or Bootstrap; vanilla → any)",
+        "Default workflow: Start with Bootstrap Icons → Supplement with Iconoir → Search SVG Repo for specialized needs → Flaticon for flowchart symbols",
+        "Primary recommendation → Bootstrap Icons (2,000+, MIT) for 80% of technical diagram needs"
+      ],
+      "presentChoice": false
+    },
+
+    "integration_method": {
+      "title": "Use SVG Sprites for Reusable Icons, Inline SVG for Unique Diagrams, External Files for Cacheable Assets",
+      "description": "For icons used multiple times (servers, databases, users), use SVG sprite sheets (define once, reference with <use>). For unique custom diagrams, inline SVG directly in HTML/Markdown. For large standalone diagrams, use external SVG files for caching. Never use ASCII art.",
+      "confidence_score": 0.88,
+      "rationale": "SVG sprite sheets optimize performance for repeated icons: define symbol once in <defs>, reference multiple times with <use href='#id'/>, enables CSS styling of all instances, smaller total file size, easy to update (change symbol, all instances update). Inline SVG works best for unique custom diagrams: full control, no HTTP requests, immediate rendering, can manipulate with CSS/JavaScript. External SVG files suit large standalone diagrams: cacheable, clean HTML, versioned independently. Choice depends on reuse frequency, diagram complexity, and caching needs.",
+      "source": "SVG Best Practices, Web Performance Guidelines",
+      "context": {
+        "when_applicable": [
+          "Documentation with multiple diagram instances",
+          "System architecture diagrams with repeated components",
+          "Icon-heavy technical documentation",
+          "Performance-sensitive documentation sites"
+        ],
+        "when_not_applicable": [
+          "Single-use unique diagrams (inline is simpler)",
+          "Extremely small icons (icon fonts may work)",
+          "Third-party icon libraries (follow their integration docs)"
+        ]
+      },
+      "options": [
+        {
+          "name": "SVG Sprite Sheet (for Repeated Icons)",
+          "confidence": 0.9,
+          "reason": "Optimal for multiple instances of same icons, performance benefits",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "Define once, use many times",
+              "Smaller total file size (symbol defined once)",
+              "Easy to update (change symbol, all instances update)",
+              "CSS styling applies to all instances",
+              "No additional HTTP requests",
+              "Version control friendly",
+              "Maintainable (central definition)"
+            ],
+            "cons": [
+              "Requires inline SVG in HTML (symbol definitions)",
+              "All symbols loaded even if not used",
+              "Slightly more complex setup than direct embedding",
+              "Need to manage symbol IDs (avoid collisions)"
+            ]
+          },
+          "context_requirements": [
+            "Icons/components used multiple times in documentation",
+            "System diagrams with repeated elements (servers, databases)",
+            "Performance optimization priority",
+            "Maintainability priority (update once, reflect everywhere)"
+          ]
+        },
+        {
+          "name": "Inline SVG (for Unique Diagrams)",
+          "confidence": 0.85,
+          "reason": "Full control, no HTTP requests, immediate rendering",
+          "severity": "recommended",
+          "tradeoffs": {
+            "pros": [
+              "Full control over styling",
+              "Can manipulate with CSS/JavaScript",
+              "No external dependencies",
+              "No HTTP requests",
+              "Immediate rendering",
+              "Version control friendly (text in HTML)",
+              "Perfect for unique, one-off diagrams"
+            ],
+            "cons": [
+              "Increases HTML size",
+              "Repeated diagrams duplicate code",
+              "Not cacheable separately",
+              "Large SVGs bloat HTML"
+            ]
+          },
+          "context_requirements": [
+            "Unique custom diagrams (used once)",
+            "Need CSS/JavaScript manipulation",
+            "Small to medium SVG size",
+            "Documentation in single HTML file"
+          ]
+        },
+        {
+          "name": "External SVG Files (for Large Standalone Diagrams)",
+          "confidence": 0.8,
+          "reason": "Cacheable, clean HTML, versioned independently",
+          "severity": "acceptable",
+          "tradeoffs": {
+            "pros": [
+              "Cacheable (browser cache, CDN)",
+              "Clean HTML (no large inline code)",
+              "Versioned independently",
+              "Easy to replace/update (just swap file)",
+              "Smaller HTML payload",
+              "Good for large complex diagrams"
+            ],
+            "cons": [
+              "Additional HTTP request",
+              "Cannot style with CSS (unless using <object>)",
+              "Less flexible than inline",
+              "Need to manage file paths"
+            ]
+          },
+          "context_requirements": [
+            "Large complex diagrams (5KB+ SVG)",
+            "Diagram used across multiple pages (caching beneficial)",
+            "Performance-sensitive sites (reduce HTML payload)",
+            "Diagrams updated independently of HTML"
+          ]
+        }
+      ],
+      "decision_factors": [
+        "Reuse frequency (multiple uses → Sprite; single use → Inline; cross-page → External)",
+        "Diagram size (small → Inline; large → External)",
+        "Performance priority (repeated icons → Sprite; unique → Inline; large → External)",
+        "Maintainability (repeated components → Sprite for easy updates)",
+        "Default recommendation → Sprite for repeated icons, Inline for unique diagrams, External for large standalone diagrams"
+      ],
+      "presentChoice": false
+    }
+  }
+}
