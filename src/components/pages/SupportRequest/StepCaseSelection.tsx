@@ -28,10 +28,12 @@ export const StepCaseSelection = ({
           value={selectedCase}
           onChange={(e) => onCaseChange(e.value)}
           options={CASE_LIST}
-          optionLabel="label"
+          optionLabel="name"
           placeholder="Select a case"
           className="w-full"
           filter
+          scrollHeight="400px"
+          panelClassName="p-dropdown-panel"
           aria-required="true"
           aria-invalid={!!error}
           aria-describedby={error ? 'case-select-error' : undefined}
