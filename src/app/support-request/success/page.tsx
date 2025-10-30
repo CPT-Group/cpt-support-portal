@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { CPTCard, CPTButton } from '@/components/input';
+import { CPTCard, CPTButton, CPTProgressSpinner } from '@/components/input';
 
 const SuccessContent = () => {
   const searchParams = useSearchParams();
@@ -18,7 +18,7 @@ const SuccessContent = () => {
 
   return (
     <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
-      <div className="w-full" style={{ maxWidth: '600px' }}>
+      <div className="w-full max-w-screen-md">
         <CPTCard className="text-center">
           <div className="flex flex-column align-items-center gap-4">
             <i className="pi pi-check-circle text-6xl text-green-500" />
@@ -42,9 +42,15 @@ const SuccessContent = () => {
   );
 };
 
+const LoadingFallback = () => (
+  <div className="flex flex-column align-items-center justify-content-center min-h-screen">
+    <CPTProgressSpinner />
+  </div>
+);
+
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingFallback />}>
       <SuccessContent />
     </Suspense>
   );

@@ -3,9 +3,9 @@ export type StepIndex = 0 | 1 | 2 | 3;
 export interface CaseOption {
   id: string;
   label: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+  name: string;
+  projectName: string;
+  caseID: string;
 }
 
 export interface IssueTypeOption {

@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { CPTSteps, CPTButton, CPTCard } from '@/components/input';
+import { CPTSteps, CPTButton } from '@/components/input';
 import { useSupportRequestForm } from '@/hooks';
 import {
   StepCaseSelection,
@@ -10,10 +11,11 @@ import {
   StepDescriptionUpload,
 } from './';
 import type { CaseOption, ConfirmationEmailOption } from '@/types';
-import { CASE_OPTIONS, ISSUE_TYPE_OPTIONS } from '@/constants';
+import { CASE_LIST, ISSUE_TYPE_OPTIONS } from '@/constants';
 
 export const SupportRequestStepper = () => {
   const router = useRouter();
+  const [stepOpacity, setStepOpacity] = useState(1);
   const {
     formData,
     activeStep,
@@ -22,9 +24,15 @@ export const SupportRequestStepper = () => {
     goToNextStep,
     goToPreviousStep,
     validateStep4,
-    canGoNext,
+    validateField,
     canGoPrevious,
   } = useSupportRequestForm();
+
+  useEffect(() => {
+    setStepOpacity(0);
+    const timer = setTimeout(() => setStepOpacity(1), 50);
+    return () => clearTimeout(timer);
+  }, [activeStep]);
 
   const steps = [
     { label: 'Case Selection' },
@@ -62,7 +70,7 @@ export const SupportRequestStepper = () => {
   };
 
   const handleSubmit = () => {
-    const selectedCase = CASE_OPTIONS.find((c) => c.id === formData.caseId);
+    const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
     const issueTypesLabels = formData.issueTypes
       .map((id) => {
         const option = ISSUE_TYPE_OPTIONS.find((opt) => opt.id === id);
@@ -98,6 +106,7 @@ export const SupportRequestStepper = () => {
             email={formData.email}
             errors={errors}
             onFieldChange={handleFieldChange}
+            onFieldBlur={validateField}
           />
         );
       case 2:
@@ -129,12 +138,12 @@ export const SupportRequestStepper = () => {
 
   return (
     <div className="flex flex-column align-items-center p-4">
-      <div className="w-full" style={{ maxWidth: '800px' }}>
+      <div className="w-full max-w-screen-lg">
         <CPTSteps model={steps} activeIndex={activeStep} />
         <div
           className="mt-4"
           style={{
-            opacity: 1,
+            opacity: stepOpacity,
             transition: 'opacity 0.3s ease-in-out',
           }}
         >

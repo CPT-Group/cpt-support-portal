@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2025-01-27
 
+### Changed - Case List Structure and Data Migration
+- Moved `CASE_LIST` from `supportRequest.ts` to dedicated `CASELIST.ts` file for better organization
+- Updated `CaseOption` type structure:
+  - Changed from: `firstName`, `lastName`, `email`
+  - Changed to: `name`, `projectName`, `caseID`
+- Populated `CASE_LIST` with 1,392 real cases from SQL database CSV export
+- Implemented fast lookup Maps for O(1) access:
+  - `CASE_LIST_BY_ID` - Lookup by ID
+  - `CASE_LIST_BY_CASE_ID` - Lookup by caseID
+  - `CASE_LIST_BY_PROJECT_NAME` - Lookup by projectName
+- Added CSV parsing to extract case data:
+  - Uses `caseName` column for `name` field
+  - Uses `SQLName` column for `projectName` field (removes `_SQL` suffix)
+  - Automatically generates display `label` from name and projectName
+- Optimized `useSupportRequestForm` hook:
+  - Inlined validation logic in `goToNextStep` to fix useCallback dependency issues
+  - Removed unnecessary function dependencies from useCallback
+
 ### Added - Support Ticket Stepper Form MVP
 - Created CPTSteps, CPTCalendar, CPTCard, CPTMessage component wrappers
 - Created support request type definitions (SupportRequestFormData, CaseOption, IssueTypeOption, etc.)

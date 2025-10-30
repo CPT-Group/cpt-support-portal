@@ -17,6 +17,27 @@ export const StepDescriptionUpload = ({
   onDescriptionChange,
   onFilesChange,
 }: StepDescriptionUploadProps) => {
+  const handleFileSelect = (event: { files: File[] | FileList | null }) => {
+    if (event.files) {
+      const fileArray = Array.isArray(event.files)
+        ? event.files
+        : Array.from(event.files);
+      const validFiles = fileArray.filter((file): file is File => file instanceof File);
+      const uniqueFiles = validFiles.filter(
+        (newFile) =>
+          !files.some(
+            (existingFile) =>
+              existingFile.name === newFile.name &&
+              existingFile.size === newFile.size &&
+              existingFile.type === newFile.type
+          )
+      );
+      if (uniqueFiles.length > 0) {
+        onFilesChange([...files, ...uniqueFiles]);
+      }
+    }
+  };
+
   return (
     <CPTCard className="mt-4">
       <div className="flex flex-column gap-3">
@@ -30,28 +51,32 @@ export const StepDescriptionUpload = ({
             onChange={(e) => onDescriptionChange(e.target.value)}
             rows={6}
             className={`w-full ${error ? 'p-invalid' : ''}`}
+            aria-required="true"
+            aria-invalid={!!error}
+            aria-describedby={error ? 'description-error' : undefined}
           />
-          {error && <CPTMessage severity="error" text={error} className="mt-2" />}
+          {error && (
+            <CPTMessage
+              id="description-error"
+              severity="error"
+              text={error}
+              className="mt-2"
+            />
+          )}
         </div>
         <div>
-          <label className="font-semibold block mb-2">
+          <label htmlFor="file-upload" className="font-semibold block mb-2">
             Supporting Images or Screenshots (Optional)
           </label>
           <CPTFileUpload
+            id="file-upload"
             mode="basic"
             name="screenshots[]"
             accept="image/*"
             maxFileSize={5000000}
             chooseLabel="Choose Files"
             className="w-full"
-            onSelect={(e) => {
-              if (e.files) {
-                const selectedFiles = Array.isArray(e.files)
-                  ? e.files.map((f) => f as File)
-                  : Array.from(e.files as FileList);
-                onFilesChange([...files, ...selectedFiles]);
-              }
-            }}
+            onSelect={handleFileSelect}
             auto
           />
         </div>

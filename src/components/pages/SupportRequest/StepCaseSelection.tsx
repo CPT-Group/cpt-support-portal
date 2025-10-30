@@ -1,7 +1,7 @@
 'use client';
 
 import { CPTCard, CPTDropdown, CPTMessage } from '@/components/input';
-import { CASE_OPTIONS } from '@/constants';
+import { CASE_LIST } from '@/constants';
 import type { CaseOption } from '@/types';
 
 interface StepCaseSelectionProps {
@@ -15,7 +15,7 @@ export const StepCaseSelection = ({
   error,
   onCaseChange,
 }: StepCaseSelectionProps) => {
-  const selectedCase = CASE_OPTIONS.find((option) => option.id === selectedCaseId);
+  const selectedCase = CASE_LIST.find((option) => option.id === selectedCaseId);
 
   return (
     <CPTCard className="mt-4">
@@ -27,14 +27,22 @@ export const StepCaseSelection = ({
           id="case-select"
           value={selectedCase}
           onChange={(e) => onCaseChange(e.value)}
-          options={CASE_OPTIONS}
+          options={CASE_LIST}
           optionLabel="label"
           placeholder="Select a case"
           className="w-full"
           filter
+          aria-required="true"
+          aria-invalid={!!error}
+          aria-describedby={error ? 'case-select-error' : undefined}
         />
         {error && (
-          <CPTMessage severity="error" text={error} className="w-full" />
+          <CPTMessage
+            id="case-select-error"
+            severity="error"
+            text={error}
+            className="w-full"
+          />
         )}
       </div>
     </CPTCard>

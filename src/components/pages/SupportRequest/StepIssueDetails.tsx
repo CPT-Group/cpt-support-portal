@@ -54,9 +54,17 @@ export const StepIssueDetails = ({
             placeholder="Select issue types"
             className={`w-full ${errors.issueTypes ? 'p-invalid' : ''}`}
             display="chip"
+            aria-required="true"
+            aria-invalid={!!errors.issueTypes}
+            aria-describedby={errors.issueTypes ? 'issue-types-error' : undefined}
           />
           {errors.issueTypes && (
-            <CPTMessage severity="error" text={errors.issueTypes} className="mt-2" />
+            <CPTMessage
+              id="issue-types-error"
+              severity="error"
+              text={errors.issueTypes}
+              className="mt-2"
+            />
           )}
         </div>
         <div>
@@ -71,9 +79,13 @@ export const StepIssueDetails = ({
             optionLabel="label"
             placeholder="Select an option"
             className={`w-full ${errors.confirmationEmail ? 'p-invalid' : ''}`}
+            aria-required="true"
+            aria-invalid={!!errors.confirmationEmail}
+            aria-describedby={errors.confirmationEmail ? 'confirmation-email-error' : undefined}
           />
           {errors.confirmationEmail && (
             <CPTMessage
+              id="confirmation-email-error"
               severity="error"
               text={errors.confirmationEmail}
               className="mt-2"
