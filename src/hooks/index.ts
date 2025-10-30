@@ -1,3 +1,2 @@
-// Custom hooks will be exported here
-export {};
+export * from './useSupportRequestForm';
 

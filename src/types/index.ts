@@ -1,3 +1,1 @@
-// Type definitions will be exported here
-export {};
-
+export * from './supportRequest';

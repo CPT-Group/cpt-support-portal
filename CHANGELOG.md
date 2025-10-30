@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] - 2025-01-27
 
+### Added - Support Ticket Stepper Form MVP
+- Created CPTSteps, CPTCalendar, CPTCard, CPTMessage component wrappers
+- Created support request type definitions (SupportRequestFormData, CaseOption, IssueTypeOption, etc.)
+- Created useSupportRequestForm hook for state management and validation
+- Created 4 step components:
+  - StepCaseSelection - Case dropdown selection
+  - StepPersonalInfo - First name, last name, email inputs
+  - StepIssueDetails - Issue types multi-select, confirmation email, date picker
+  - StepDescriptionUpload - Description textarea and file upload
+- Created SupportRequestStepper container component using PrimeReact Steps
+- Created success/confirmation page with personalized thank you message
+- Integrated stepper into support-request page
+- Added CSS transitions for step content fade animations
+- Form validation prevents progression without required fields
+- Mobile-responsive design using PrimeFlex utility classes
+
 ### Added - Home Page UI
 - Created `HomeHero` component with welcome message and Begin button
 - Implemented navigation to support request form using Next.js App Router

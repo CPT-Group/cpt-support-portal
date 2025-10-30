@@ -11,4 +11,8 @@ export * from './CPTProgressSpinner';
 export * from './CPTRadioButton';
 export * from './CPTToast';
 export * from './CPTToggleButton';
+export * from './CPTSteps';
+export * from './CPTCalendar';
+export * from './CPTCard';
+export * from './CPTMessage';
 
