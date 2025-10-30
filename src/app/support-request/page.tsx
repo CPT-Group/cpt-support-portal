@@ -1,6 +1,11 @@
-import { SupportRequestStepper } from '@/components/pages/SupportRequest';
+import { AnimatedBackground, SupportRequestStepper } from '@/components';
 
 export default function SupportRequestPage() {
-  return <SupportRequestStepper />;
+  return (
+    <>
+      <AnimatedBackground />
+      <SupportRequestStepper />
+    </>
+  );
 }
 

@@ -1,3 +1,2 @@
-// Common components will be exported here
-export {};
+export * from './AnimatedBackground';
 

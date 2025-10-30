@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- **Animated Background Component** - Created dynamic animated background inspired by PrimeFlex
+  - Animated gradient backgrounds with shifting colors (blue, indigo, purple, pink, rose)
+  - Floating animated elements with fade, scale, and pulse animations
+  - Dark mode support with appropriate color adjustments
+  - Smooth CSS animations using Tailwind utilities and custom keyframes
+  - Integrated on home page and support request page
+  - Uses Tailwind CSS classes with custom animations in `@layer utilities`
+  - Expert consultation: CSS Expert and Tailwind Expert reviewed implementation
+
 ## [Unreleased] - 2025-01-27
 
 ### Changed - Case List Structure and Data Migration

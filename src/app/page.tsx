@@ -1,5 +1,10 @@
-import { HomeHero } from '@/components/pages';
+import { AnimatedBackground, HomeHero } from '@/components';
 
 export default function Home() {
-  return <HomeHero />;
+  return (
+    <>
+      <AnimatedBackground />
+      <HomeHero />
+    </>
+  );
 }
