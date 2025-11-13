@@ -79,10 +79,47 @@ export const SupportRequestStepper = () => {
       .filter(Boolean)
       .join(', ');
 
+    // Prepare submission data for JSON display (convert File objects to metadata)
+    const submissionData = {
+      case: {
+        id: formData.caseId,
+        name: selectedCase?.name || '',
+        label: selectedCase?.label || '',
+        projectName: selectedCase?.projectName || '',
+        caseID: selectedCase?.caseID || '',
+      },
+      personalInfo: {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+      },
+      issueDetails: {
+        issueTypes: formData.issueTypes.map((id) => {
+          const option = ISSUE_TYPE_OPTIONS.find((opt) => opt.id === id);
+          return {
+            id,
+            label: option?.label || '',
+          };
+        }),
+        confirmationEmail: formData.confirmationEmail,
+        approximateTime: formData.approximateTime
+          ? formData.approximateTime.toISOString()
+          : null,
+      },
+      description: formData.description,
+      files: formData.files.map((file) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+      })),
+    };
+
     const params = new URLSearchParams({
       firstName: formData.firstName,
       caseName: selectedCase?.label || '',
       issueTypes: issueTypesLabels,
+      submissionData: btoa(JSON.stringify(submissionData)),
     });
 
     router.push(`/support-request/success?${params.toString()}`);

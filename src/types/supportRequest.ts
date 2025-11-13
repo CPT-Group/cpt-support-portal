@@ -31,3 +31,33 @@ export interface SupportRequestFormData {
   files: File[];
 }
 
+export interface SubmissionData {
+  case: {
+    id: string | null;
+    name: string;
+    label: string;
+    projectName: string;
+    caseID: string;
+  };
+  personalInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  issueDetails: {
+    issueTypes: Array<{
+      id: string;
+      label: string;
+    }>;
+    confirmationEmail: string | null;
+    approximateTime: string | null;
+  };
+  description: string;
+  files: Array<{
+    name: string;
+    size: number;
+    type: string;
+    lastModified: number;
+  }>;
+}
+

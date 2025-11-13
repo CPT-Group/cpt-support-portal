@@ -32,9 +32,6 @@ export const StepIssueDetails = ({
   const selectedIssueTypes = ISSUE_TYPE_OPTIONS.filter((option) =>
     issueTypes.includes(option.id)
   );
-  const selectedConfirmationEmail = CONFIRMATION_EMAIL_OPTIONS.find(
-    (option) => option.value === confirmationEmail
-  );
 
   return (
     <CPTCard className="mt-4">
@@ -73,10 +70,17 @@ export const StepIssueDetails = ({
           </label>
           <CPTDropdown
             id="confirmation-email"
-            value={selectedConfirmationEmail}
-            onChange={(e) => onConfirmationEmailChange(e.value)}
+            value={confirmationEmail}
+            onChange={(e) => {
+              const selectedValue = e.value as string | null;
+              const selectedOption = selectedValue
+                ? CONFIRMATION_EMAIL_OPTIONS.find((opt) => opt.value === selectedValue) || null
+                : null;
+              onConfirmationEmailChange(selectedOption);
+            }}
             options={CONFIRMATION_EMAIL_OPTIONS}
             optionLabel="label"
+            optionValue="value"
             placeholder="Select an option"
             className={`w-full ${errors.confirmationEmail ? 'p-invalid' : ''}`}
             aria-required="true"
