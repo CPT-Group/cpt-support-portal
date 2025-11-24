@@ -1,0 +1,3 @@
+Route,Type,Status,Step1,Step2,Step3,Step4,Notes
+/support-request,New Request,Active,Select Case,Support Request Selection (Multi-select),Support Request Data (De-duped Fields),Confirmation w/ SLA,Main support request flow
+/support-request/update,Update Request,Not Implemented,Select Case,Support Request Selection (Multi-select),Support Request Data (De-duped Fields),Confirmation w/ SLA,Needs clarification from manager - add to UI with (not implemented) label

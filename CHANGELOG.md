@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added - Support Form Requirements & Documentation
+- Converted XLSX support form data to CSV format
+- Created comprehensive support form requirements document
+- Organized support form fields CSV with 17 request types
+- Documented 4-step form flow (Select Case → Request Selection → Data Collection → Confirmation)
+- Documented FAQ integration with popup references
+- Documented field de-duplication requirements for multi-select requests
+- Documented optional additional documentation section
+- Created reusable `SupportFileUpload` component in `src/components/common/`
+- SupportFileUpload features: drag & drop, file preview, progress bar, size limits, multiple files
+- Added support form routes CSV documenting New Request and Update Request flows
+- Cleaned up unnecessary CSV files (UserValidation, KBArticles, Layout sheets)
+
+### Added - FAQ Page
+- Created `/faq` route and page component
+- Created `FAQAccordion` component using PrimeReact Accordion
+- Created `FAQ_DATA` constant in `src/constants/faqData.ts` with 17 templated FAQ items
+- FAQ items extracted and generalized from multiple old MVC sites
+- FAQ content includes generic questions like opt-out, objections, legal representation, etc.
+- Uses PrimeReact Accordion directly (CPT wrapper has known issue with nested components - documented in CPT library)
+- Component structure: `src/components/pages/FAQ/FAQAccordion.tsx`
+- All FAQ content templated with placeholders for easy customization per case
+
 ### Removed - Component Showcase Cleanup
 - Removed `/component-showcase` route and page
 - Removed all ComponentShowcase section components (11 files):
