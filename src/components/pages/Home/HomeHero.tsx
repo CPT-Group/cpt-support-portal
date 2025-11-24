@@ -8,9 +8,15 @@ export const HomeHero = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const handleBeginClick = () => {
+  const handleRequestSupport = () => {
     startTransition(() => {
       router.push('/support-request');
+    });
+  };
+
+  const handleFAQ = () => {
+    startTransition(() => {
+      router.push('/faq');
     });
   };
 
@@ -21,15 +27,25 @@ export const HomeHero = () => {
         <p className="text-xl text-color-secondary mb-6">
           Submit support requests and get the help you need
         </p>
-        <CPTButton
-          label="Begin"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-          size="large"
-          onClick={handleBeginClick}
-          loading={isPending}
-          className="p-button-primary"
-        />
+        <div className="flex gap-3 justify-content-center flex-wrap">
+          <CPTButton
+            label="Request Support"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            size="large"
+            onClick={handleRequestSupport}
+            loading={isPending}
+            className="p-button-primary"
+          />
+          <CPTButton
+            label="FAQ"
+            icon="pi pi-question-circle"
+            iconPos="left"
+            size="large"
+            onClick={handleFAQ}
+            className="p-button-outlined"
+          />
+        </div>
       </div>
     </div>
   );

@@ -38,15 +38,16 @@ The support form is designed to streamline the support request process by ensuri
 
 ## Form Flow (4 Steps)
 
-### Step 1: Select Case
+### Step 1: Support Request Selection
+- **ListBox (multiple)** - User can select multiple request types
+- Options come from `SUPPORT-FORM-FIELDS.csv` (17 request types)
+- Some request types have FAQ references (see FAQ Integration section)
+- **Rationale:** ListBox provides clean vertical layout, better for mobile, no chip overflow issues
+
+### Step 2: Select Case
 - Source: Master case list (existing `CASE_LIST` constant)
 - User selects which case their request relates to
 - Single selection dropdown
-
-### Step 2: Support Request Selection
-- **Multi-select** - User can select multiple request types
-- Options come from `SUPPORT-FORM-FIELDS.csv` (17 request types)
-- Some request types have FAQ references (see FAQ Integration section)
 
 ### Step 3: Support Request Data
 - **Field De-duplication is CRITICAL**

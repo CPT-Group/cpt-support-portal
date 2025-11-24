@@ -53,13 +53,25 @@ const SuccessContent = () => {
               <strong>{caseName}</strong> and our representative will get back to you
               shortly.
             </p>
-            <CPTButton
-              label="Submit Another Ticket"
-              icon="pi pi-plus"
-              iconPos="right"
-              onClick={handleSubmitAnother}
-              className="p-button-primary mt-4"
-            />
+            <div className="flex gap-3 justify-content-center flex-wrap mt-4">
+              <CPTButton
+                label="View FAQ"
+                icon="pi pi-question-circle"
+                iconPos="left"
+                onClick={() => router.push('/faq')}
+                className="p-button-outlined"
+              />
+              <CPTButton
+                label="Submit Another Ticket"
+                icon="pi pi-plus"
+                iconPos="right"
+                onClick={handleSubmitAnother}
+                className="p-button-primary"
+              />
+            </div>
+            <p className="text-sm text-color-secondary mt-4" style={{ fontStyle: 'italic' }}>
+              Please be advised, making more than one ticket for the same request will slow down response time for you and others.
+            </p>
           </div>
         </CPTCard>
 
