@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { CPTSteps, CPTButton } from '@/components/input';
+import { CPTSteps, CPTButton } from '@cpt-group/cpt-prime-react';
 import { useSupportRequestForm } from '@/hooks';
 import {
   StepCaseSelection,

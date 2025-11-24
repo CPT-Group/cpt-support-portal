@@ -6,7 +6,7 @@ import {
   CPTDropdown,
   CPTCalendar,
   CPTMessage,
-} from '@/components/input';
+} from '@cpt-group/cpt-prime-react';
 import { ISSUE_TYPE_OPTIONS, CONFIRMATION_EMAIL_OPTIONS } from '@/constants';
 import type { IssueTypeOption, ConfirmationEmailOption } from '@/types';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTCard, CPTInputText, CPTMessage } from '@/components/input';
+import { CPTCard, CPTInputText, CPTMessage } from '@cpt-group/cpt-prime-react';
 
 interface StepPersonalInfoProps {
   firstName: string;

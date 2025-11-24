@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { CPTCard, CPTDropdown, CPTMessage } from '@/components/input';
+import { CPTCard, CPTDropdown, CPTMessage } from '@cpt-group/cpt-prime-react';
 import { CASE_LIST } from '@/constants';
 import type { CaseOption } from '@/types';
 

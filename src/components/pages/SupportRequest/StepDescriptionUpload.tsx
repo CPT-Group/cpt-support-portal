@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   CPTCard,
   CPTInputTextarea,
@@ -10,9 +10,8 @@ import {
   CPTProgressBar,
   CPTTag,
   CPTTooltip,
-} from '@/components/input';
+} from '@cpt-group/cpt-prime-react';
 import type {
-  FileUpload as FileUploadType,
   FileUploadHeaderTemplateOptions,
   FileUploadSelectEvent,
   ItemTemplateOptions,
@@ -33,9 +32,17 @@ export const StepDescriptionUpload = ({
   onDescriptionChange,
   onFilesChange,
 }: StepDescriptionUploadProps) => {
-  const fileUploadRef = useRef<FileUploadType>(null);
   const [totalSize, setTotalSize] = useState(0);
   const maxFileSize = 5000000; // 5MB
+
+  // Helper function to format file size
+  const formatSize = (bytes: number): string => {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  };
 
   // Initialize totalSize from existing files
   useEffect(() => {
@@ -88,10 +95,7 @@ export const StepDescriptionUpload = ({
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
     const { className, chooseButton, uploadButton, cancelButton } = options;
     const value = (totalSize / maxFileSize) * 100;
-    const formatedValue =
-      fileUploadRef && fileUploadRef.current
-        ? fileUploadRef.current.formatSize(totalSize)
-        : '0 B';
+    const formatedValue = formatSize(totalSize);
 
     return (
       <div
@@ -106,7 +110,7 @@ export const StepDescriptionUpload = ({
         {uploadButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / {fileUploadRef.current?.formatSize(maxFileSize) || '5 MB'}</span>
+          <span>{formatedValue} / {formatSize(maxFileSize)}</span>
           <CPTProgressBar
             value={value}
             showValue={false}
@@ -223,7 +227,6 @@ export const StepDescriptionUpload = ({
           <CPTTooltip target=".custom-upload-btn" content="Upload" position="bottom" />
           <CPTTooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
           <CPTFileUpload
-            ref={fileUploadRef}
             id="file-upload"
             name="screenshots[]"
             url="/api/upload"

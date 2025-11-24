@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { CPTCard, CPTButton, CPTProgressSpinner } from '@/components/input';
+import { CPTCard, CPTButton, CPTProgressSpinner } from '@cpt-group/cpt-prime-react';
 import type { SubmissionData } from '@/types';
 
 const SuccessContent = () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTButton } from '@/components/input';
+import { CPTButton } from '@cpt-group/cpt-prime-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 

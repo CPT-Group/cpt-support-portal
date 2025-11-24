@@ -4,6 +4,106 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Removed - Component Showcase Cleanup
+- Removed `/component-showcase` route and page
+- Removed all ComponentShowcase section components (11 files):
+  - ButtonsSection, ChartSection, DataSection, FileSection
+  - FormInputsSection, MediaSection, MenuSection, MessagesSection
+  - MiscellaneousSection, OverlaysSection, PanelSection
+- Removed showcase dummy data files:
+  - `src/constants/dummyData.ts` (492+ lines of showcase data)
+  - `src/constants/formDummyData.ts` (136+ lines of form demo data)
+  - `src/constants/QUESTION_ONE.ts` (unused constant)
+- Cleaned up component exports in `src/components/pages/index.ts`
+- Cleaned up constants exports in `src/constants/index.ts`
+- Component showcase code moved to separate repository: `cpt-component-demo`
+
+### Changed - Migrated to CPT Prime React Library
+- **Removed all local CPT component wrappers** - Deleted `src/components/input/` directory (20 component files)
+  - All components now imported from `@cpt-group/cpt-prime-react` library
+  - Components removed: CPTButton, CPTCard, CPTCalendar, CPTDropdown, CPTFileUpload, CPTInputText, CPTInputTextarea, CPTMessage, CPTMultiSelect, CPTSteps, CPTProgressSpinner, and more
+- **Updated all component imports** - Replaced `@/components/input` with `@cpt-group/cpt-prime-react` in:
+  - `StepCaseSelection.tsx`
+  - `StepPersonalInfo.tsx`
+  - `StepIssueDetails.tsx`
+  - `StepDescriptionUpload.tsx`
+  - `SupportRequestStepper.tsx`
+  - `HomeHero.tsx`
+  - `support-request/success/page.tsx`
+- **Fixed FileUpload ref issue** - Removed ref usage and replaced with helper function for file size formatting
+- **Updated component exports** - Removed `input` export from `src/components/index.ts`
+- **Restored dependencies** - Kept `chart.js`, `lodash-es`, and `quill` for future use with library components
+
+### Changed - Codebase Cleanup
+- Updated build process to verify no broken imports after cleanup
+- Verified production routes: `/`, `/support-request`, `/support-request/success`
+- All production features remain intact and functional
+
+### Removed - Styles Cleanup
+- **Removed AnimatedBackground component** - Deleted `src/components/common/AnimatedBackground.tsx`
+- **Removed AnimatedBackground usage** - Removed from home page and support request page
+- **Cleaned up globals.css** - Removed all custom animations and keyframes:
+  - Removed `gradient-shift`, `gradient-shift-reverse`, `float-slow`, `float-medium`, `pulse-slow` keyframes
+  - Removed all `@layer utilities` animation classes
+  - Now only contains `@import "tailwindcss"` for basic layout utilities
+- **Background now controlled by PrimeReact theme** - All background styling comes from `soho-dark` theme
+- **Barebones styling approach** - Only PrimeReact theming and basic layout utilities (centering, spacing) remain
+
+### Added
+- Enhanced FormInputsSection with multiple examples per component:
+  - Added multiple examples for CPTDropdown (Basic, With Filter, Countries)
+  - Added multiple examples for CPTMultiSelect (Basic, With Filter, Chip Display)
+  - Added multiple examples for CPTAutoComplete (Fruits, Countries, With Dropdown)
+  - Added multiple examples for CPTSelectButton (Single, Multiple, Payment Methods)
+  - Added multiple examples for CPTListbox (Basic, With Filter, Multiple Selection)
+  - Added multiple examples for CPTInputNumber (With Buttons, Currency, Decimal)
+  - Added multiple examples for CPTInputMask (Phone, Date, Credit Card)
+  - Added multiple examples for CPTCalendar (Date, Inline, Month/Year View, Time)
+  - Added multiple examples for CPTPassword (Basic, With Feedback, With Header/Footer)
+  - Added multiple examples for CPTSlider (Basic, Range, With Step, Vertical)
+  - Added multiple examples for CPTRating (Basic, Cancel, Readonly)
+  - Added multiple examples for CPTInputText (Basic, Disabled, Invalid)
+  - Added multiple examples for CPTInputTextarea (Auto Resize, Fixed Size)
+  - Added multiple examples for CPTColorPicker (Basic, Inline, Format)
+  - Added multiple examples for CPTInputSwitch (Basic, Disabled)
+  - Added multiple examples for CPTChips (Basic, Separator)
+  - Added multiple examples for CPTToggleButton (Basic, With Icon)
+- Created comprehensive dummy data file (`src/constants/formDummyData.ts`) with:
+  - Extended dropdown options (cities, countries, products)
+  - Multi-select options (basic items, technology tags)
+  - AutoComplete suggestions (fruits, countries)
+  - SelectButton options (basic, payment methods)
+  - Listbox options (cities)
+- **Data Section Component** - Created comprehensive DataSection component for component showcase page
+  - Includes DataTable with multiple variants: Basic, Pagination, Sortable, Templates, Striped Rows, Grid Lines, Selection
+  - Includes DataView with List and Grid layouts
+  - Includes TreeTable for hierarchical data display
+  - Includes Timeline component for event tracking
+  - Includes OrganizationChart for organizational structure visualization
+  - Includes VirtualScroller for efficient large dataset rendering
+  - Created dummy data constants file with Product, Customer, TreeNode, TimelineEvent, and OrgChartNode types
+  - All components use CPT wrappers from @cpt-group/cpt-prime-react package
+  - Follows PrimeReact documentation examples and patterns
+  - Organized in CPTCard components for clear presentation
+  - Note: Some components (DataScroller, OrderList, PickList, Tree, Paginator) are commented out until available in package
+
+- **Buttons Section Component** - Created comprehensive ButtonsSection component for component showcase page
+  - Includes all Button variants: Basic, Link, Icons, Loading, Severity, Disabled, Raised, Rounded, Text, Outlined, Icon Only, Badges, Sizes
+  - Includes ButtonGroup component showcase
+  - Includes SplitButton with all severity variants
+  - Includes SpeedDial with all types: Linear, Circle, Semi Circle, Quarter Circle
+  - Includes SpeedDial with Tooltip and Mask options
+  - Follows PrimeReact documentation examples and patterns
+  - Uses CPT components from @cpt-group/cpt-prime-react package
+  - Organized in CPTCard components for clear presentation
+
+### Fixed
+- **Component Showcase Page** - Fixed PrimeReact component usage issues:
+  - Wrapped CPTPassword component in a `<form>` element to resolve browser warning about password fields not being contained in a form
+  - Fixed TriStateCheckbox to properly handle `boolean | null` type instead of using number workaround, allowing proper indeterminate state support
+  - Fixed CPTTreeSelect to use `undefined` instead of empty string for unselected value
+  - All controlled inputs now properly initialized to prevent controlled/uncontrolled component warnings
+
 ### Added
 - **Animated Background Component** - Created dynamic animated background inspired by PrimeFlex
   - Animated gradient backgrounds with shifting colors (blue, indigo, purple, pink, rose)
