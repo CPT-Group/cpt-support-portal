@@ -3,10 +3,12 @@ import "./globals.css";
 import { Providers } from "@/providers";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 
+// Get the site URL from environment variable or use a default
+// For Netlify, set NEXT_PUBLIC_SITE_URL in environment variables
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cpt-support-portal.netlify.app';
+
 export const metadata: Metadata = {
-  metadataBase: process.env.NEXT_PUBLIC_SITE_URL 
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-    : undefined,
+  metadataBase: new URL(siteUrl),
   title: {
     default: "CPT Support Portal",
     template: "%s | CPT Support Portal",
