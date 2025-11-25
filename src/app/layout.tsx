@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "CPT Support Portal",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ThemeToggle />
+          {children}
+        </Providers>
       </body>
     </html>
   );

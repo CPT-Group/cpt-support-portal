@@ -1,2 +1,17 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Theme switching - hide inactive theme styles */
+/* Both themes are imported, but we show only the active one based on data-theme */
+html[data-theme='light'] {
+  /* Light theme is active */
+}
+
+html[data-theme='dark'] {
+  /* Dark theme is active */
+}
+
+/* Hide light theme styles when dark is active and vice versa */
+/* This is a workaround since both CSS files are loaded */
+/* The theme CSS files should ideally use data-theme selectors */

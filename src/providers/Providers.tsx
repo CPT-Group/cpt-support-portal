@@ -2,12 +2,17 @@
 
 import { ReactNode } from 'react';
 import { PrimeReactProvider } from './PrimeReactProvider';
+import { ThemeProvider } from './ThemeProvider';
 
 interface ProvidersProps {
   children: ReactNode;
 }
 
 export const Providers = ({ children }: ProvidersProps) => {
-  return <PrimeReactProvider>{children}</PrimeReactProvider>;
+  return (
+    <ThemeProvider>
+      <PrimeReactProvider>{children}</PrimeReactProvider>
+    </ThemeProvider>
+  );
 };
 
