@@ -5,15 +5,22 @@ import { useRouter } from 'next/navigation';
 import { CPTSteps, CPTButton } from '@cpt-group/cpt-prime-react';
 import { useSupportRequestForm } from '@/hooks';
 import {
+  StepRequestTypeSelection,
   StepCaseSelection,
-  StepPersonalInfo,
-  StepIssueDetails,
-  StepDescriptionUpload,
+  StepRequestData,
+  StepAdditionalDocumentation,
 } from './';
-import type { CaseOption, ConfirmationEmailOption } from '@/types';
-import { CASE_LIST, ISSUE_TYPE_OPTIONS } from '@/constants';
+import type { CaseOption, DynamicFormData } from '@/types';
+import { CASE_LIST } from '@/constants';
+import { generateSubmissionJSON } from '@/utils/jsonGenerator';
+import { generateReasonPrefill } from '@/utils/reasonPrefill';
+import { REQUEST_TYPES } from '@/constants/requestTypes';
 
-export const SupportRequestStepper = () => {
+interface SupportRequestStepperProps {
+  initialData?: Partial<DynamicFormData>;
+}
+
+export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProps) => {
   const router = useRouter();
   const [stepOpacity, setStepOpacity] = useState(1);
   const {
@@ -23,10 +30,10 @@ export const SupportRequestStepper = () => {
     updateFormData,
     goToNextStep,
     goToPreviousStep,
-    validateStep4,
     validateField,
     canGoPrevious,
-  } = useSupportRequestForm();
+    consolidatedFields,
+  } = useSupportRequestForm(initialData);
 
   useEffect(() => {
     setStepOpacity(0);
@@ -35,135 +42,125 @@ export const SupportRequestStepper = () => {
   }, [activeStep]);
 
   const steps = [
-    { label: 'Case Selection' },
-    { label: 'Personal Information' },
-    { label: 'Issue Details' },
-    { label: 'Description & Upload' },
+    { label: 'Support Request Selection' },
+    { label: 'Select Case' },
+    { label: 'Support Request Data' },
+    { label: 'Additional Documentation' },
   ];
+
+  const handleRequestTypesChange = (selectedIds: string[]) => {
+    updateFormData({ requestTypes: selectedIds });
+    
+    // Pre-fill reason field when request types are selected and case is already selected
+    if (selectedIds.length > 0 && formData.caseId) {
+      const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
+      if (selectedCase) {
+        const updatedFormData = { ...formData, requestTypes: selectedIds };
+        const reasonText = generateReasonPrefill(updatedFormData, selectedCase);
+        if (reasonText && !formData.reason) {
+          updateFormData({ reason: reasonText });
+        }
+      }
+    }
+  };
 
   const handleCaseChange = (caseOption: CaseOption | null) => {
     updateFormData({ caseId: caseOption?.id || null });
+    
+    // Pre-fill reason field when case is selected and request types are already selected
+    if (caseOption && formData.requestTypes && formData.requestTypes.length > 0) {
+      const reasonText = generateReasonPrefill(formData, caseOption);
+      if (reasonText && !formData.reason) {
+        updateFormData({ reason: reasonText });
+      }
+    }
   };
 
-  const handleFieldChange = (field: string, value: string) => {
-    updateFormData({ [field]: value });
+  const handleFieldChange = (fieldId: string, value: string | File[]) => {
+    updateFormData({ [fieldId]: value });
   };
 
-  const handleIssueTypesChange = (selectedIds: string[]) => {
-    updateFormData({ issueTypes: selectedIds });
-  };
-
-  const handleConfirmationEmailChange = (option: ConfirmationEmailOption | null) => {
-    updateFormData({ confirmationEmail: option?.value || null });
-  };
-
-  const handleApproximateTimeChange = (date: Date | null) => {
-    updateFormData({ approximateTime: date });
+  const handleFieldBlur = (fieldId: string, value: string) => {
+    validateField(fieldId, value);
   };
 
   const handleDescriptionChange = (value: string) => {
-    updateFormData({ description: value });
+    updateFormData({ additionalDescription: value });
   };
 
   const handleFilesChange = (files: File[]) => {
-    updateFormData({ files });
+    updateFormData({ additionalFiles: files });
   };
 
   const handleSubmit = () => {
     const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
-    const issueTypesLabels = formData.issueTypes
-      .map((id) => {
-        const option = ISSUE_TYPE_OPTIONS.find((opt) => opt.id === id);
-        return option?.label;
-      })
-      .filter(Boolean)
-      .join(', ');
-
-    // Prepare submission data for JSON display (convert File objects to metadata)
-    const submissionData = {
-      case: {
-        id: formData.caseId,
-        name: selectedCase?.name || '',
-        label: selectedCase?.label || '',
-        projectName: selectedCase?.projectName || '',
-        caseID: selectedCase?.caseID || '',
-      },
-      personalInfo: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-      },
-      issueDetails: {
-        issueTypes: formData.issueTypes.map((id) => {
-          const option = ISSUE_TYPE_OPTIONS.find((opt) => opt.id === id);
-          return {
-            id,
-            label: option?.label || '',
-          };
-        }),
-        confirmationEmail: formData.confirmationEmail,
-        approximateTime: formData.approximateTime
-          ? formData.approximateTime.toISOString()
-          : null,
-      },
-      description: formData.description,
-      files: formData.files.map((file) => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-      })),
-    };
+    const submissionData = generateSubmissionJSON(formData, selectedCase || null);
 
     const params = new URLSearchParams({
-      firstName: formData.firstName,
+      firstName: typeof formData.name === 'string' ? formData.name.split(' ')[0] || '' : '',
       caseName: selectedCase?.label || '',
-      issueTypes: issueTypesLabels,
+      requestTypes: submissionData.requestTypeLabels?.join(', ') || '',
       submissionData: btoa(JSON.stringify(submissionData)),
     });
 
     router.push(`/support-request/success?${params.toString()}`);
   };
 
+  // Get selected request type labels for display
+  const selectedRequestTypeLabels = (formData.requestTypes || [])
+    .map((id) => REQUEST_TYPES.find((rt) => rt.id === id)?.label)
+    .filter(Boolean);
+
+  const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
+
   const renderCurrentStep = () => {
     switch (activeStep) {
       case 0:
+        return (
+          <StepRequestTypeSelection
+            selectedRequestTypes={formData.requestTypes || []}
+            error={errors.requestTypes}
+            onRequestTypesChange={handleRequestTypesChange}
+            title="Support Request Selection"
+            description="Please select one or more request types that best describe your support needs."
+          />
+        );
+      case 1:
         return (
           <StepCaseSelection
             selectedCaseId={formData.caseId}
             error={errors.caseId}
             onCaseChange={handleCaseChange}
-          />
-        );
-      case 1:
-        return (
-          <StepPersonalInfo
-            firstName={formData.firstName}
-            lastName={formData.lastName}
-            email={formData.email}
-            errors={errors}
-            onFieldChange={handleFieldChange}
-            onFieldBlur={validateField}
+            title={selectedCase ? selectedCase.label : 'Select Case'}
+            description={
+              selectedRequestTypeLabels.length > 0
+                ? `Request types: ${selectedRequestTypeLabels.join(', ')}`
+                : undefined
+            }
           />
         );
       case 2:
         return (
-          <StepIssueDetails
-            issueTypes={formData.issueTypes}
-            confirmationEmail={formData.confirmationEmail}
-            approximateTime={formData.approximateTime}
+          <StepRequestData
+            formData={formData}
+            requiredFields={consolidatedFields.required}
+            optionalFields={consolidatedFields.optional}
             errors={errors}
-            onIssueTypesChange={handleIssueTypesChange}
-            onConfirmationEmailChange={handleConfirmationEmailChange}
-            onApproximateTimeChange={handleApproximateTimeChange}
+            onFieldChange={handleFieldChange}
+            onFieldBlur={handleFieldBlur}
+            title={selectedCase ? selectedCase.label : 'Request Data'}
+            description={
+              selectedRequestTypeLabels.length > 0
+                ? `Please provide the following information for: ${selectedRequestTypeLabels.join(', ')}`
+                : undefined
+            }
+            selectedCase={selectedCase || null}
           />
         );
       case 3:
         return (
-          <StepDescriptionUpload
-            description={formData.description}
-            files={formData.files}
-            error={errors.description}
+          <StepAdditionalDocumentation
+            formData={formData}
             onDescriptionChange={handleDescriptionChange}
             onFilesChange={handleFilesChange}
           />
@@ -201,7 +198,7 @@ export const SupportRequestStepper = () => {
               icon="pi pi-check"
               iconPos="right"
               onClick={() => {
-                const isValid = validateStep4();
+                const isValid = goToNextStep();
                 if (isValid) {
                   handleSubmit();
                 }
@@ -222,4 +219,3 @@ export const SupportRequestStepper = () => {
     </div>
   );
 };
-

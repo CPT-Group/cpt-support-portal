@@ -9,12 +9,16 @@ interface StepCaseSelectionProps {
   selectedCaseId: string | null;
   error?: string;
   onCaseChange: (caseOption: CaseOption | null) => void;
+  title?: string;
+  description?: string;
 }
 
 export const StepCaseSelection = ({
   selectedCaseId,
   error,
   onCaseChange,
+  title,
+  description,
 }: StepCaseSelectionProps) => {
   const selectedCase = useMemo(
     () => CASE_LIST.find((option) => option.id === selectedCaseId),
@@ -24,8 +28,14 @@ export const StepCaseSelection = ({
   return (
     <CPTCard className="mt-4">
       <div className="flex flex-column gap-3">
+        <div>
+          {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
+          {description && (
+            <p className="text-color-secondary mb-3 line-height-3">{description}</p>
+          )}
+        </div>
         <label htmlFor="case-select" className="font-semibold">
-          What case are you having issues with?
+          What case are you having issues with? <span className="text-red-500">*</span>
         </label>
         <CPTDropdown
           id="case-select"

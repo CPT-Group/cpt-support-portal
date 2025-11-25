@@ -43,6 +43,7 @@ export const HomeHero = () => {
             iconPos="left"
             size="large"
             onClick={handleFAQ}
+            loading={isPending}
             className="p-button-outlined"
           />
         </div>

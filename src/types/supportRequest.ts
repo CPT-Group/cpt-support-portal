@@ -61,3 +61,30 @@ export interface SubmissionData {
   }>;
 }
 
+// Dynamic form data structure that supports any field
+export interface DynamicFormData {
+  caseId: string | null;
+  requestTypes: string[];
+  [fieldId: string]: string | string[] | File[] | null | undefined;
+}
+
+// File metadata for JSON serialization
+export interface FileMetadata {
+  name: string;
+  size: number;
+  type: string;
+  lastModified: number;
+}
+
+// Normalized submission data with consistent field names
+export interface NormalizedSubmissionData {
+  caseId: string | null;
+  caseName?: string;
+  caseLabel?: string;
+  caseProjectName?: string;
+  caseCaseID?: string;
+  requestTypes: string[];
+  requestTypeLabels: string[];
+  [normalizedFieldId: string]: string | string[] | FileMetadata[] | null | undefined;
+}
+

@@ -1,27 +1,29 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import type { SupportRequestFormData, StepIndex } from '@/types';
+import type { DynamicFormData, StepIndex } from '@/types/supportRequest';
+import { consolidateFields } from '@/utils/fieldConsolidation';
+import { validateRequiredFields, getMissingFieldLabels } from '@/utils/jsonGenerator';
+import { FORM_FIELDS } from '@/constants/formFields';
 
-const initialFormData: SupportRequestFormData = {
-  caseId: null,
-  firstName: '',
-  lastName: '',
-  email: '',
-  issueTypes: [],
-  confirmationEmail: null,
-  approximateTime: null,
-  description: '',
-  files: [],
+const createInitialFormData = (initialData?: Partial<DynamicFormData>): DynamicFormData => {
+  return {
+    caseId: initialData?.caseId || null,
+    requestTypes: initialData?.requestTypes || [],
+    ...initialData,
+  };
 };
 
-export const useSupportRequestForm = () => {
-  const [formData, setFormData] = useState<SupportRequestFormData>(initialFormData);
+export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) => {
+  const [formData, setFormData] = useState<DynamicFormData>(() =>
+    createInitialFormData(initialData)
+  );
   const [activeStep, setActiveStep] = useState<StepIndex>(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const updateFormData = useCallback((updates: Partial<SupportRequestFormData>) => {
+  const updateFormData = useCallback((updates: Partial<DynamicFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
+    // Clear errors for updated fields
     const updatedKeys = Object.keys(updates);
     setErrors((prev) => {
       const newErrors = { ...prev };
@@ -32,156 +34,160 @@ export const useSupportRequestForm = () => {
     });
   }, []);
 
-  const validateField = useCallback((field: string) => {
-    const newErrors: Record<string, string> = {};
-    switch (field) {
-      case 'firstName':
-        if (!formData.firstName.trim()) {
-          newErrors.firstName = 'First name is required';
+  const validateField = useCallback(
+    (fieldId: string, value: string | string[] | File[] | null | undefined) => {
+      const fieldConfig = FORM_FIELDS[fieldId];
+      if (!fieldConfig) {
+        return null; // Unknown field, skip validation
+      }
+
+      const errorMessages: string[] = [];
+
+      // Check required
+      if (fieldConfig.required) {
+        if (
+          value === null ||
+          value === undefined ||
+          (typeof value === 'string' && value.trim() === '') ||
+          (Array.isArray(value) && value.length === 0)
+        ) {
+          errorMessages.push(`${fieldConfig.label} is required`);
         }
-        break;
-      case 'lastName':
-        if (!formData.lastName.trim()) {
-          newErrors.lastName = 'Last name is required';
+      }
+
+      // Only validate if value exists
+      if (value && typeof value === 'string' && value.trim() !== '') {
+        const stringValue = value.trim();
+
+        // Check minLength
+        if (fieldConfig.validation?.minLength && stringValue.length < fieldConfig.validation.minLength) {
+          errorMessages.push(
+            `${fieldConfig.label} must be at least ${fieldConfig.validation.minLength} characters`
+          );
         }
-        break;
-      case 'email':
-        if (!formData.email.trim()) {
-          newErrors.email = 'Email is required';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-          newErrors.email = 'Please enter a valid email address';
+
+        // Check maxLength
+        if (fieldConfig.validation?.maxLength && stringValue.length > fieldConfig.validation.maxLength) {
+          errorMessages.push(
+            `${fieldConfig.label} must be no more than ${fieldConfig.validation.maxLength} characters`
+          );
         }
-        break;
-    }
-    if (Object.keys(newErrors).length > 0) {
-      setErrors((prev) => ({ ...prev, ...newErrors }));
-    } else {
+
+        // Check pattern
+        if (fieldConfig.validation?.pattern && !fieldConfig.validation.pattern.test(stringValue)) {
+          if (fieldConfig.type === 'email') {
+            errorMessages.push('Please enter a valid email address');
+          } else if (fieldConfig.type === 'phone') {
+            errorMessages.push('Please enter a valid phone number');
+          } else if (fieldConfig.type === 'ssn') {
+            errorMessages.push('Please enter a valid SSN or Tax ID');
+          } else {
+            errorMessages.push(`Please enter a valid ${fieldConfig.label.toLowerCase()}`);
+          }
+        }
+
+        // Custom validation
+        if (fieldConfig.validation?.custom) {
+          const customError = fieldConfig.validation.custom(stringValue);
+          if (customError) {
+            errorMessages.push(customError);
+          }
+        }
+      }
+
+      const errorMessage = errorMessages.length > 0 ? errorMessages[0] : null;
+
       setErrors((prev) => {
-        const updated = { ...prev };
-        delete updated[field];
-        return updated;
+        if (errorMessage) {
+          return { ...prev, [fieldId]: errorMessage };
+        } else {
+          const newErrors = { ...prev };
+          delete newErrors[fieldId];
+          return newErrors;
+        }
       });
-    }
-  }, [formData.firstName, formData.lastName, formData.email]);
 
-  const validateStep1 = useCallback((): boolean => {
-    if (!formData.caseId) {
-      setErrors({ caseId: 'Please select a case' });
-      return false;
-    }
-    setErrors({});
-    return true;
-  }, [formData.caseId]);
+      return errorMessage;
+    },
+    []
+  );
 
-  const validateStep2 = useCallback((): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return false;
-    }
-    setErrors({});
-    return true;
-  }, [formData.firstName, formData.lastName, formData.email]);
+  const validateStep = useCallback(
+    (step: StepIndex): boolean => {
+      const newErrors: Record<string, string> = {};
 
-  const validateStep3 = useCallback((): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (formData.issueTypes.length === 0) {
-      newErrors.issueTypes = 'Please select at least one issue type';
-    }
-    if (!formData.confirmationEmail) {
-      newErrors.confirmationEmail = 'Please select an option';
-    }
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return false;
-    }
-    setErrors({});
-    return true;
-  }, [formData.issueTypes, formData.confirmationEmail]);
+      switch (step) {
+        case 0: // Request Type Selection
+          if (!formData.requestTypes || formData.requestTypes.length === 0) {
+            newErrors.requestTypes = 'Please select at least one request type';
+            setErrors(newErrors);
+            return false;
+          }
+          break;
 
-  const validateStep4 = useCallback((): boolean => {
-    if (!formData.description.trim()) {
-      setErrors({ description: 'Description is required' });
-      return false;
-    }
-    setErrors({});
-    return true;
-  }, [formData.description]);
+        case 1: // Case Selection
+          if (!formData.caseId) {
+            newErrors.caseId = 'Please select a case';
+            setErrors(newErrors);
+            return false;
+          }
+          break;
+
+        case 2: // Request Data
+          // Validate all required fields for selected request types
+          const missingFields = validateRequiredFields(formData, formData.requestTypes || []);
+          if (missingFields.length > 0) {
+            const missingLabels = getMissingFieldLabels(missingFields);
+            newErrors._general = `Please fill in all required fields: ${missingLabels.join(', ')}`;
+            
+            // Also mark individual fields as required
+            missingFields.forEach((fieldId) => {
+              const fieldConfig = FORM_FIELDS[fieldId];
+              if (fieldConfig) {
+                newErrors[fieldId] = `${fieldConfig.label} is required`;
+              }
+            });
+            
+            setErrors(newErrors);
+            return false;
+          }
+
+          // Validate all fields that have values
+          const { required, optional } = consolidateFields(formData.requestTypes || []);
+          [...required, ...optional].forEach((fieldConfig) => {
+            const value = formData[fieldConfig.id];
+            const error = validateField(fieldConfig.id, value);
+            if (error) {
+              newErrors[fieldConfig.id] = error;
+            }
+          });
+          break;
+
+        case 3: // Additional Documentation (optional step, no validation needed)
+          break;
+      }
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return false;
+      }
+
+      setErrors({});
+      return true;
+    },
+    [formData, validateField]
+  );
 
   const goToNextStep = useCallback((): boolean => {
-    let isValid = false;
-    const newErrors: Record<string, string> = {};
-
-    switch (activeStep) {
-      case 0:
-        if (!formData.caseId) {
-          setErrors({ caseId: 'Please select a case' });
-          return false;
-        }
-        isValid = true;
-        setErrors({});
-        break;
-      case 1:
-        if (!formData.firstName.trim()) {
-          newErrors.firstName = 'First name is required';
-        }
-        if (!formData.lastName.trim()) {
-          newErrors.lastName = 'Last name is required';
-        }
-        if (!formData.email.trim()) {
-          newErrors.email = 'Email is required';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-          newErrors.email = 'Please enter a valid email address';
-        }
-        if (Object.keys(newErrors).length > 0) {
-          setErrors(newErrors);
-          return false;
-        }
-        isValid = true;
-        setErrors({});
-        break;
-      case 2:
-        if (formData.issueTypes.length === 0) {
-          newErrors.issueTypes = 'Please select at least one issue type';
-        }
-        if (!formData.confirmationEmail) {
-          newErrors.confirmationEmail = 'Please select an option';
-        }
-        if (Object.keys(newErrors).length > 0) {
-          setErrors(newErrors);
-          return false;
-        }
-        isValid = true;
-        setErrors({});
-        break;
-      case 3:
-        if (!formData.description.trim()) {
-          setErrors({ description: 'Description is required' });
-          return false;
-        }
-        isValid = true;
-        setErrors({});
-        break;
-    }
+    const isValid = validateStep(activeStep);
     if (isValid && activeStep < 3) {
       setActiveStep((prev) => {
         const nextStep = prev + 1;
-        return (Math.min(nextStep, 3)) as StepIndex;
+        return (Math.min(nextStep, 3) as StepIndex);
       });
     }
     return isValid;
-  }, [activeStep, formData.caseId, formData.firstName, formData.lastName, formData.email, formData.issueTypes, formData.confirmationEmail, formData.description]);
+  }, [activeStep, validateStep]);
 
   const goToPreviousStep = useCallback(() => {
     if (activeStep > 0) {
@@ -191,10 +197,13 @@ export const useSupportRequestForm = () => {
   }, [activeStep]);
 
   const resetForm = useCallback(() => {
-    setFormData(initialFormData);
+    setFormData(createInitialFormData());
     setActiveStep(0);
     setErrors({});
   }, []);
+
+  // Get consolidated fields for current request types
+  const consolidatedFields = consolidateFields(formData.requestTypes || []);
 
   return {
     formData,
@@ -204,9 +213,9 @@ export const useSupportRequestForm = () => {
     goToNextStep,
     goToPreviousStep,
     resetForm,
-    validateStep4,
     validateField,
+    validateStep,
     canGoPrevious: activeStep > 0,
+    consolidatedFields,
   };
 };
-
