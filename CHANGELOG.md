@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.3] - 2025-01-27
 
+### Changed - Documentation Updates
+- **README.md** - Comprehensive update with project overview, features, tech stack, project structure, and deployment information
+- Removed outdated `docs/CPT-THEME-DIAGNOSTIC.md` (no longer using CPT package themes, using local themes instead)
+
+## [1.0.3] - 2025-01-27
+
 ### Changed - Custom American Flag Theme Colors
 - **Light Theme (soho-light)** - Updated to elegant red, white, and blue palette:
   - Primary color changed from purple (`#7254f3`) to soft pastel blue (`#5B8FC7`)
