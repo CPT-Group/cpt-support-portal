@@ -2,6 +2,64 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2025-01-27
+
+### Changed - Custom American Flag Theme Colors
+- **Light Theme (soho-light)** - Updated to elegant red, white, and blue palette:
+  - Primary color changed from purple (`#7254f3`) to soft pastel blue (`#5B8FC7`)
+  - Background: White with light blue-gray tints
+  - Text: Navy blue (`#1a3a5c`) for better readability
+  - Accents: Pastel red (`#E85D75`) for highlights and interactive elements
+  - Focus rings: Soft blue (`#8BB3E8`) for accessibility
+  - Highlight backgrounds: Light blue (`#E3EEF8`)
+  - Updated all hardcoded color values throughout theme CSS (300+ instances)
+- **Dark Theme (soho-dark)** - Updated to dark navy with red accents:
+  - Background: Dark navy (`#1a2332`) replacing previous dark gray
+  - Primary color changed from purple (`#b19df7`) to red accent (`#E85D75`)
+  - Text: White/light for high contrast
+  - Surfaces: Dark navy variations for depth
+  - Focus rings: Red-tinted (`#ff8fa3`) for visibility
+  - Highlight backgrounds: Red-tinted with transparency (`rgba(232, 93, 117, ...)`)
+  - Updated all hardcoded color values throughout theme CSS (200+ instances)
+- All color scales (red, blue, primary) updated to match new palette
+- Maintained all existing styling, sizing, spacing, and layout - only colors changed
+- Theme toggle functionality works seamlessly between light and dark themes
+
+### Added - SEO and Metadata Enhancements
+- Comprehensive metadata configuration in root layout:
+  - `metadataBase` set for proper OG image resolution
+  - Title with template support
+  - Description and keywords for SEO
+  - Open Graph tags for social sharing
+  - Twitter Card metadata
+  - Robots configuration for search engines
+  - Icons configuration (favicon, apple-icon, general icon)
+- Page-specific metadata layouts:
+  - FAQ page metadata (`src/app/faq/layout.tsx`)
+  - Support request page metadata (`src/app/support-request/layout.tsx`)
+  - Success page metadata with noindex (`src/app/support-request/success/layout.tsx`)
+- Image files for metadata (Next.js file-based conventions):
+  - `src/app/opengraph-image.png` - Main OG image
+  - `src/app/twitter-image.png` - Twitter card image
+  - `src/app/icon.png` - General icon
+  - `src/app/apple-icon.png` - Apple touch icon
+  - Route-specific OG images for FAQ and support-request pages
+- Environment variable support: `NEXT_PUBLIC_SITE_URL` for production metadata base URL
+
+### Added - Theme Toggle Component
+- Created `ThemeToggle` component (`src/components/common/ThemeToggle.tsx`)
+- Sticky button in top-left corner with sun/moon icons
+- Smooth theme switching between light and dark modes
+- Theme preference persisted in localStorage
+- Integrated into root layout for global access
+
+### Added - Theme Provider
+- Created `ThemeProvider` context (`src/providers/ThemeProvider.tsx`)
+- Dynamic theme loading via `<link>` element swapping
+- Themes loaded from `/public/themes/` directory
+- Supports soho-light and soho-dark themes
+- Theme state management with React context
+
 ## [Unreleased]
 
 ### Added - Support Form Requirements & Documentation
