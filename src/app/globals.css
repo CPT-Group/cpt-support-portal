@@ -15,3 +15,51 @@ html[data-theme='dark'] {
 /* Hide light theme styles when dark is active and vice versa */
 /* This is a workaround since both CSS files are loaded */
 /* The theme CSS files should ideally use data-theme selectors */
+
+/* Responsive padding for FAQ and Support Request pages */
+/* Remove left/right padding on iPhone/mobile screens */
+@media (max-width: 768px) {
+  .page-responsive-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Make step numbers appropriately sized on mobile phones */
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+    font-size: 1.2rem !important;
+    min-width: 1.75rem !important;
+    width: 1.75rem !important;
+    max-width: 1.75rem !important;
+    height: 2.25rem !important;
+    line-height: 2.25rem !important;
+  }
+  
+  /* Make step items fill the entire width on mobile */
+  .p-steps .p-steps-item {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+  
+  /* Make step titles smaller and allow wrapping to two lines on mobile */
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+    font-size: 0.7rem !important;
+    margin-top: 0.25rem !important;
+    white-space: normal !important;
+    line-height: 1.2 !important;
+    width: 100% !important;
+    text-align: center !important;
+    word-break: break-word !important;
+  }
+  
+  /* Adjust step link layout for wrapping */
+  .p-steps .p-steps-item .p-menuitem-link {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0.25rem !important;
+  }
+  
+  /* Reduce overall steps container padding */
+  .p-steps {
+    padding: 0.5rem 0 !important;
+  }
+}

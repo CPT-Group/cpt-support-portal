@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 // Get the site URL from environment variable or use a default
 // For Netlify, set NEXT_PUBLIC_SITE_URL in environment variables
@@ -78,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body>
         <Providers>
           <ThemeToggle />
