@@ -1,4 +1,4 @@
 // Layout components will be exported here
-export {};
+export * from './BackToHome';
 
 

@@ -18,9 +18,10 @@ import { REQUEST_TYPES } from '@/constants/requestTypes';
 
 interface SupportRequestStepperProps {
   initialData?: Partial<DynamicFormData>;
+  onStepChange?: (step: number) => void;
 }
 
-export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProps) => {
+export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequestStepperProps) => {
   const router = useRouter();
   const [stepOpacity, setStepOpacity] = useState(1);
   const {
@@ -38,8 +39,19 @@ export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProp
   useEffect(() => {
     setStepOpacity(0);
     const timer = setTimeout(() => setStepOpacity(1), 50);
+    
+    // Scroll to top when step changes (only on mobile/phone screens)
+    if (window.innerWidth <= 768) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Notify parent of step change
+    if (onStepChange) {
+      onStepChange(activeStep);
+    }
+    
     return () => clearTimeout(timer);
-  }, [activeStep]);
+  }, [activeStep, onStepChange]);
 
   const steps = [
     { label: 'Support Request Selection' },
@@ -171,9 +183,9 @@ export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProp
   };
 
   return (
-    <div className="flex flex-column align-items-center p-4">
-      <div className="w-full max-w-screen-lg">
-        <CPTSteps model={steps} activeIndex={activeStep} />
+    <div className="flex flex-column align-items-center page-responsive-padding" style={{ paddingTop: '4rem', paddingLeft: '10rem', paddingRight: '10rem' }}>
+        <div className="w-full max-w-screen-lg">
+          <CPTSteps model={steps} activeIndex={activeStep} />
         <div
           className="mt-4"
           style={{
@@ -184,14 +196,17 @@ export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProp
           {renderCurrentStep()}
         </div>
         <div className="flex justify-content-between mt-4">
-          <CPTButton
-            label="Previous"
-            icon="pi pi-arrow-left"
-            iconPos="left"
-            onClick={goToPreviousStep}
-            disabled={!canGoPrevious}
-            className="p-button-secondary"
-          />
+          {activeStep > 0 && (
+            <CPTButton
+              label="Previous"
+              icon="pi pi-arrow-left"
+              iconPos="left"
+              onClick={goToPreviousStep}
+              disabled={!canGoPrevious}
+              className="p-button-secondary"
+            />
+          )}
+          {activeStep === 0 && <div />}
           {activeStep === 3 ? (
             <CPTButton
               label="Submit"
@@ -210,7 +225,17 @@ export const SupportRequestStepper = ({ initialData }: SupportRequestStepperProp
               label="Next"
               icon="pi pi-arrow-right"
               iconPos="right"
-              onClick={goToNextStep}
+              onClick={() => {
+                const isValid = goToNextStep();
+                if (isValid) {
+                  // Scroll to top after moving to next step (only on mobile/phone screens)
+                  if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 100);
+                  }
+                }
+              }}
               className="p-button-primary"
             />
           )}
