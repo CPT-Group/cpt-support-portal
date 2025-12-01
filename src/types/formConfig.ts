@@ -1,5 +1,5 @@
 // Field types with strict typing
-export type FieldType = 'text' | 'email' | 'phone' | 'textarea' | 'file' | 'ssn';
+export type FieldType = 'text' | 'email' | 'phone' | 'textarea' | 'file' | 'ssn' | 'address';
 
 export interface FieldValidation {
   pattern?: RegExp;
@@ -16,6 +16,8 @@ export interface FieldConfig {
   validation?: FieldValidation;
   placeholder?: string;
   helpText?: string;
+  order?: number; // Display order within section (lower numbers appear first)
+  section?: string; // Section name (e.g., 'identity', 'request-specific', 'beneficiary')
 }
 
 export interface RequestTypeConfig {

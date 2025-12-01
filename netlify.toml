@@ -7,3 +7,8 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Note: Environment variables should be set in Netlify Dashboard
+# Go to Site Settings → Environment Variables
+# Required: NEXT_PUBLIC_GEOAPIFY_API_KEY
+# Optional: NEXT_PUBLIC_SITE_URL
+

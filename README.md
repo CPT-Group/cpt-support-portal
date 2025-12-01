@@ -77,6 +77,30 @@ Themes are located in `public/themes/` and can be toggled using the button in th
 ## Environment Variables
 
 - `NEXT_PUBLIC_SITE_URL` - Base URL for metadata and OG images (optional, defaults to Netlify URL)
+- `NEXT_PUBLIC_GEOAPIFY_API_KEY` - Geoapify API key for address autocomplete functionality (required for address fields)
+
+### Setting Up Environment Variables
+
+1. **Local Development:**
+   - Create a `.env.local` file in the project root
+   - Add your environment variables:
+     ```
+     NEXT_PUBLIC_SITE_URL=https://your-site-url.com
+     NEXT_PUBLIC_GEOAPIFY_API_KEY=your_geoapify_api_key
+     ```
+
+2. **Netlify Deployment:**
+   - Go to Netlify Dashboard → Your Site → Site Settings → Environment Variables
+   - Add `NEXT_PUBLIC_GEOAPIFY_API_KEY` with your Geoapify API key value
+   - Add `NEXT_PUBLIC_SITE_URL` if you want to override the default Netlify URL
+   - **Important:** Environment variables are automatically available to client-side code when prefixed with `NEXT_PUBLIC_`
+
+### API Configuration Notes
+
+- **Geoapify API:** The address autocomplete makes client-side API calls to `https://api.geoapify.com`
+- **CORS:** No special configuration needed - Geoapify API supports CORS from any origin
+- **Caching:** API responses are cached for 5 minutes to reduce API usage
+- **Rate Limiting:** Minimum 4 characters required before API calls are made
 
 ## Deployment
 

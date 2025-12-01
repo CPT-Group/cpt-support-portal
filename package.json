@@ -1,6 +1,6 @@
 {
   "name": "cpt-support-portal",
-  "version": "1.0.3",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@cpt-group/cpt-prime-react": "^1.9.6",
+    "axios": "^1.13.2",
     "chart.js": "^4.5.1",
     "lodash-es": "^4.17.21",
     "next": "16.0.1",
@@ -26,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "tailwindcss": "^4",

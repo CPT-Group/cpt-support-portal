@@ -1,5 +1,21 @@
 import type { FieldConfig, FormFieldMapping } from '@/types/formConfig';
 
+// Section order configuration - lower numbers appear first
+export const SECTION_ORDER: Record<string, number> = {
+  identity: 1, // Personal information (name, email, etc.)
+  'request-specific': 2, // Request-specific fields
+  beneficiary: 3, // Beneficiary information
+  optional: 4, // Optional fields
+};
+
+// Section display labels
+export const SECTION_LABELS: Record<string, string> = {
+  identity: 'Identity Verification',
+  'request-specific': 'Request-Specific Information',
+  beneficiary: 'Beneficiary Information',
+  optional: 'Optional Fields',
+};
+
 // Field definitions with validation rules
 export const FORM_FIELDS: FormFieldMapping = {
   name: {
@@ -7,38 +23,46 @@ export const FORM_FIELDS: FormFieldMapping = {
     label: 'Name',
     type: 'text',
     required: true,
+    section: 'identity',
+    order: 1,
     validation: {
       minLength: 2,
       maxLength: 100,
     },
     placeholder: 'Enter your full name',
   },
+  email: {
+    id: 'email',
+    label: 'Email Address',
+    type: 'email',
+    required: true,
+    section: 'identity',
+    order: 2,
+    validation: {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
+    placeholder: 'Enter your email address',
+  },
   cptId: {
     id: 'cptId',
     label: 'CPT ID',
     type: 'text',
     required: true,
+    section: 'identity',
+    order: 3,
     validation: {
       minLength: 1,
       maxLength: 50,
     },
     placeholder: 'Enter your CPT ID',
   },
-  email: {
-    id: 'email',
-    label: 'Email Address',
-    type: 'email',
-    required: true,
-    validation: {
-      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    },
-    placeholder: 'Enter your email address',
-  },
   phone: {
     id: 'phone',
     label: 'Phone',
     type: 'phone',
     required: true,
+    section: 'identity',
+    order: 4,
     validation: {
       pattern: /^[\d\s\-\(\)]+$/,
       minLength: 10,
@@ -48,8 +72,10 @@ export const FORM_FIELDS: FormFieldMapping = {
   mailingAddress: {
     id: 'mailingAddress',
     label: 'Mailing Address',
-    type: 'textarea',
+    type: 'address',
     required: true,
+    section: 'identity',
+    order: 5,
     validation: {
       minLength: 5,
       maxLength: 500,
@@ -59,8 +85,10 @@ export const FORM_FIELDS: FormFieldMapping = {
   previousAddress: {
     id: 'previousAddress',
     label: 'Previous Address',
-    type: 'textarea',
+    type: 'address',
     required: true,
+    section: 'request-specific',
+    order: 1,
     validation: {
       minLength: 5,
       maxLength: 500,
@@ -70,8 +98,10 @@ export const FORM_FIELDS: FormFieldMapping = {
   newAddress: {
     id: 'newAddress',
     label: 'New Address',
-    type: 'textarea',
+    type: 'address',
     required: true,
+    section: 'request-specific',
+    order: 2,
     validation: {
       minLength: 5,
       maxLength: 500,
@@ -83,6 +113,8 @@ export const FORM_FIELDS: FormFieldMapping = {
     label: 'Previous Name',
     type: 'text',
     required: true,
+    section: 'request-specific',
+    order: 3,
     validation: {
       minLength: 2,
       maxLength: 100,
@@ -94,6 +126,8 @@ export const FORM_FIELDS: FormFieldMapping = {
     label: 'New Name',
     type: 'text',
     required: true,
+    section: 'request-specific',
+    order: 4,
     validation: {
       minLength: 2,
       maxLength: 100,
@@ -105,6 +139,8 @@ export const FORM_FIELDS: FormFieldMapping = {
     label: 'Reason',
     type: 'textarea',
     required: true,
+    section: 'request-specific',
+    order: 5,
     validation: {
       minLength: 10,
       maxLength: 1000,
@@ -114,51 +150,23 @@ export const FORM_FIELDS: FormFieldMapping = {
   address: {
     id: 'address',
     label: 'Address',
-    type: 'textarea',
+    type: 'address',
     required: true,
+    section: 'request-specific',
+    order: 6,
     validation: {
       minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter your address',
   },
-  beneficiaryName: {
-    id: 'beneficiaryName',
-    label: 'Beneficiary Name',
-    type: 'text',
-    required: true,
-    validation: {
-      minLength: 2,
-      maxLength: 100,
-    },
-    placeholder: 'Enter beneficiary name',
-  },
-  beneficiaryAddress: {
-    id: 'beneficiaryAddress',
-    label: 'Beneficiary Address',
-    type: 'textarea',
-    required: true,
-    validation: {
-      minLength: 5,
-      maxLength: 500,
-    },
-    placeholder: 'Enter beneficiary address',
-  },
-  beneficiaryEmail: {
-    id: 'beneficiaryEmail',
-    label: 'Beneficiary Email',
-    type: 'email',
-    required: true,
-    validation: {
-      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    },
-    placeholder: 'Enter beneficiary email address',
-  },
   detailedResponse: {
     id: 'detailedResponse',
     label: 'Detailed Response',
     type: 'textarea',
     required: true,
+    section: 'request-specific',
+    order: 7,
     validation: {
       minLength: 10,
       maxLength: 2000,
@@ -170,6 +178,8 @@ export const FORM_FIELDS: FormFieldMapping = {
     label: 'SSN/Tax ID',
     type: 'ssn',
     required: true,
+    section: 'request-specific',
+    order: 8,
     validation: {
       pattern: /^[\d\-]+$/,
       minLength: 9,
@@ -178,11 +188,51 @@ export const FORM_FIELDS: FormFieldMapping = {
     placeholder: 'Enter SSN or Tax ID',
     helpText: 'Format: XXX-XX-XXXX or XXXXXXXXX',
   },
+  beneficiaryName: {
+    id: 'beneficiaryName',
+    label: 'Beneficiary Name',
+    type: 'text',
+    required: true,
+    section: 'beneficiary',
+    order: 1,
+    validation: {
+      minLength: 2,
+      maxLength: 100,
+    },
+    placeholder: 'Enter beneficiary name',
+  },
+  beneficiaryAddress: {
+    id: 'beneficiaryAddress',
+    label: 'Beneficiary Address',
+    type: 'address',
+    required: true,
+    section: 'beneficiary',
+    order: 2,
+    validation: {
+      minLength: 5,
+      maxLength: 500,
+    },
+    placeholder: 'Enter beneficiary address',
+  },
+  beneficiaryEmail: {
+    id: 'beneficiaryEmail',
+    label: 'Beneficiary Email',
+    type: 'email',
+    required: true,
+    section: 'beneficiary',
+    order: 3,
+    validation: {
+      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
+    placeholder: 'Enter beneficiary email address',
+  },
   supportingDocs: {
     id: 'supportingDocs',
     label: 'Supporting Documents',
     type: 'file',
     required: false,
+    section: 'optional',
+    order: 1,
     helpText: 'Upload supporting documents (optional)',
   },
 };

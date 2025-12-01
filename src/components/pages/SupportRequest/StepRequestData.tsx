@@ -15,7 +15,9 @@ import type { InputMaskChangeEvent } from 'primereact/inputmask';
 import type { FieldConfig } from '@/types/formConfig';
 import type { DynamicFormData, CaseOption } from '@/types/supportRequest';
 import { SupportFileUpload } from '@/components/common/SupportFileUpload';
+import { CPTAddressBlock } from '@/components/inputs';
 import { generateReasonPrefill } from '@/utils/reasonPrefill';
+import { organizeFieldsBySection } from '@/utils/fieldConsolidation';
 import { CASE_LIST } from '@/constants';
 
 interface StepRequestDataProps {
@@ -61,16 +63,15 @@ export const StepRequestData = ({
     }
   }, [formData.requestTypes, formData.caseId, requiredFields, selectedCase, formData.reason, onFieldChange]);
 
-  // Separate identity verification fields from request-specific fields
-  const identityFields = useMemo(() => {
-    const identityFieldIds = ['name', 'cptId', 'email', 'phone', 'mailingAddress'];
-    return requiredFields.filter((field) => identityFieldIds.includes(field.id));
+  // Organize required fields by sections
+  const requiredFieldsBySection = useMemo(() => {
+    return organizeFieldsBySection(requiredFields);
   }, [requiredFields]);
 
-  const requestSpecificRequiredFields = useMemo(() => {
-    const identityFieldIds = ['name', 'cptId', 'email', 'phone', 'mailingAddress'];
-    return requiredFields.filter((field) => !identityFieldIds.includes(field.id));
-  }, [requiredFields]);
+  // Organize optional fields by sections
+  const optionalFieldsBySection = useMemo(() => {
+    return organizeFieldsBySection(optionalFields);
+  }, [optionalFields]);
 
   const renderField = (fieldConfig: FieldConfig) => {
     const fieldId = fieldConfig.id;
@@ -219,6 +220,23 @@ export const StepRequestData = ({
           </div>
         );
 
+      case 'address':
+        return (
+          <div key={fieldId} className="flex flex-column gap-2">
+            <CPTAddressBlock
+              id={fieldId}
+              value={fieldValue}
+              onChange={(address) => onFieldChange(fieldId, address)}
+              onBlur={onFieldBlur ? () => onFieldBlur(fieldId, fieldValue) : undefined}
+              label={fieldConfig.label}
+              required={fieldConfig.required}
+              placeholder={fieldConfig.placeholder}
+              error={error}
+              helpText={fieldConfig.helpText}
+            />
+          </div>
+        );
+
       case 'file':
         const fileValue = Array.isArray(value) && value[0] instanceof File ? (value as File[]) : [];
         return (
@@ -278,36 +296,37 @@ export const StepRequestData = ({
             )}
           </div>
         )}
-        {/* Identity Verification Fields */}
-        {identityFields.length > 0 && (
-          <CPTFieldset legend="Identity Verification">
-            <div className="flex flex-column gap-3">
-              {identityFields.map((field) => renderField(field))}
+
+        {/* Required Fields by Section */}
+        {requiredFieldsBySection.map((section, sectionIndex) => {
+          if (section.fields.length === 0) return null;
+
+          return (
+            <div key={section.section}>
+              {sectionIndex > 0 && <CPTDivider />}
+              <CPTFieldset legend={section.label}>
+                <div className="flex flex-column gap-3">
+                  {section.fields.map((field) => renderField(field))}
+                </div>
+              </CPTFieldset>
             </div>
-          </CPTFieldset>
-        )}
+          );
+        })}
 
-        {/* Request-Specific Required Fields */}
-        {requestSpecificRequiredFields.length > 0 && (
+        {/* Optional Fields by Section */}
+        {optionalFieldsBySection.length > 0 && (
           <>
-            {identityFields.length > 0 && <CPTDivider />}
-            <CPTFieldset legend="Request-Specific Information">
-              <div className="flex flex-column gap-3">
-                {requestSpecificRequiredFields.map((field) => renderField(field))}
-              </div>
-            </CPTFieldset>
-          </>
-        )}
-
-        {/* Optional Fields */}
-        {optionalFields.length > 0 && (
-          <>
-            {(identityFields.length > 0 || requestSpecificRequiredFields.length > 0) && (
-              <CPTDivider />
-            )}
+            {requiredFieldsBySection.length > 0 && <CPTDivider />}
             <CPTPanel header="Optional Fields" toggleable collapsed>
               <div className="flex flex-column gap-3 pt-3">
-                {optionalFields.map((field) => renderField(field))}
+                {optionalFieldsBySection.map((section) => (
+                  <div key={section.section} className="flex flex-column gap-3">
+                    {section.fields.length > 0 && section.section !== 'optional' && (
+                      <h4 className="text-lg font-semibold mt-0 mb-2">{section.label}</h4>
+                    )}
+                    {section.fields.map((field) => renderField(field))}
+                  </div>
+                ))}
               </div>
             </CPTPanel>
           </>

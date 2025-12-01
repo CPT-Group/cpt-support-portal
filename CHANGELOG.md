@@ -2,6 +2,82 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2025-01-27
+
+### Changed - Field Ordering and Section Organization
+- **Comprehensive Field Ordering** - Added `order` property to ALL fields in `formFields.ts`
+  - Identity section fields: Name (1), Email Address (2), CPT ID (3), Phone (4), Mailing Address (5)
+  - Request-specific fields: Previous Address (1), New Address (2), Previous Name (3), New Name (4), Reason (5), Address (6), Detailed Response (7), SSN/Tax ID (8)
+  - Beneficiary fields: Beneficiary Name (1), Beneficiary Address (2), Beneficiary Email (3)
+  - Optional fields: Supporting Documents (1)
+- **Section-Based Organization** - Added `section` property to `FieldConfig` type
+  - Sections: `identity` (order 1), `request-specific` (order 2), `beneficiary` (order 3), `optional` (order 4)
+  - Created `organizeFieldsBySection()` function to group and order fields by sections
+  - Section order is configurable via `SECTION_ORDER` constant in `formFields.ts`
+  - Section labels defined in `SECTION_LABELS` constant
+  - Identity section (personal information) always appears first by default
+- **Updated StepRequestData Rendering** - Now dynamically renders fields organized by sections
+  - Required fields grouped by section with Fieldset components
+  - Optional fields grouped by section within collapsible Panel
+  - Sections automatically ordered according to `SECTION_ORDER` configuration
+  - Dividers automatically inserted between sections
+
+### Changed - Address Component Improvements
+- **API Call Optimization** - Updated `CPTAddressBlock` to require minimum 4 characters before making Geoapify API calls
+  - Changed from 3 to 4 character minimum to reduce API usage and stay within free tier limits
+  - Debounced API calls remain at 300ms delay
+- **Fixed API Parameter Error** - Removed invalid `type: 'address'` parameter from Geoapify API call
+  - The `type` parameter only accepts: country, state, city, postcode, street, amenity, locality
+  - Removed the parameter to allow API to return all relevant address results
+  - Fixed 400 Bad Request error that was preventing address autocomplete from working
+- **Enhanced Error Handling** - Improved error logging for API failures
+  - Now logs detailed error information including status code, status text, and response data
+  - Better debugging information in browser console
+- **Smart API Response Caching** - Implemented intelligent caching to prevent redundant API calls
+  - Caches API responses for 5 minutes to avoid repeated calls for the same query
+  - Handles substring matching: if user types "Irvine" then deletes to "Irvin", uses cached "Irvine" results
+  - Handles forward typing: if user types "Irvin" and we have cached "Irvine", filters cached results
+  - Automatically cleans up expired cache entries when cache size exceeds 50 entries
+  - Caches both successful results and empty results (to avoid repeated calls for invalid queries)
+  - Significantly reduces API usage and improves response time for previously searched addresses
+- **Enhanced ZIP Code Input** - Improved ZIP code mask to support extended format
+  - Changed from `99999` to `99999? -9999` mask pattern
+  - Supports both 5-digit (12345) and extended 9-digit (12345-6789) ZIP codes
+  - Updated placeholder to show both formats: "12345 or 12345-6789"
+- **InputGroup Structure** - All address fields properly use PrimeReact InputGroup components
+  - Street address with home icon
+  - City with building icon
+  - State with map icon
+  - ZIP code with inbox icon and proper InputMask
+
+### Added - Field Ordering and Address Component
+- **Field Ordering System** - Added `order` property to `FieldConfig` type for consistent field display order
+  - Identity verification fields now display in fixed order: Name (1), Email Address (2), CPT ID (3), Phone (4), Mailing Address (5)
+  - Updated `fieldConsolidation.ts` to sort fields by order property before displaying
+  - Fields without order property fall back to alphabetical sorting by label
+- **CPTAddressBlock Component** - New reusable address input component with Geoapify autocomplete integration
+  - Created `src/components/inputs/CPTAddressBlock.tsx` with full address autocomplete functionality
+  - Uses PrimeReact InputGroup, InputMask, and AutoComplete components
+  - Features:
+    - Real-time address autocomplete via Geoapify API
+    - Manual address entry mode with structured fields (Street, City, State, ZIP)
+    - Toggle between autocomplete and manual entry modes
+    - Debounced API calls (300ms) to reduce API usage
+    - Proper error handling and validation
+    - Accessible with ARIA labels and error messages
+  - Integrated into Step 3 (Request Data) for all address fields (mailingAddress, previousAddress, newAddress, beneficiaryAddress, address)
+- **Environment Variable Support** - Added Geoapify API key configuration
+  - Requires `NEXT_PUBLIC_GEOAPIFY_API_KEY` environment variable
+  - API key must be added to `.env.local` for local development
+  - API key must be added to Netlify environment variables for production deployment
+- **Dependencies** - Added `axios` package for API calls to Geoapify service
+
+### Changed - Address Field Type
+- **Field Type Updates** - Changed address-related fields from `textarea` to `address` type
+  - Updated fields: `mailingAddress`, `previousAddress`, `newAddress`, `beneficiaryAddress`, `address`
+  - All address fields now use the new `CPTAddressBlock` component instead of textarea
+  - Maintains backward compatibility with existing form data structure
+
 ## [1.0.3] - 2025-01-27
 
 ### Changed - Documentation Updates

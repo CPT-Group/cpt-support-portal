@@ -1,5 +1,5 @@
 import type { FieldConfig, RequestTypeConfig, FormFieldMapping } from '@/types/formConfig';
-import { FORM_FIELDS } from '@/constants/formFields';
+import { FORM_FIELDS, SECTION_ORDER, SECTION_LABELS } from '@/constants/formFields';
 import { getRequestTypes } from '@/constants/requestTypes';
 
 /**
@@ -55,11 +55,71 @@ export function consolidateFields(
     }
   });
 
-  // Sort fields by label for consistent display order
-  requiredFields.sort((a, b) => a.label.localeCompare(b.label));
-  optionalFields.sort((a, b) => a.label.localeCompare(b.label));
+  // Sort fields by order (if specified), then by label for consistent display order
+  requiredFields.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    if (a.order !== undefined) return -1;
+    if (b.order !== undefined) return 1;
+    return a.label.localeCompare(b.label);
+  });
+  optionalFields.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    if (a.order !== undefined) return -1;
+    if (b.order !== undefined) return 1;
+    return a.label.localeCompare(b.label);
+  });
 
   return { required: requiredFields, optional: optionalFields };
+}
+
+/**
+ * Organizes fields by sections with proper ordering.
+ * Returns fields grouped by section, with sections ordered according to SECTION_ORDER.
+ */
+export function organizeFieldsBySection(
+  fields: FieldConfig[]
+): Array<{ section: string; label: string; fields: FieldConfig[] }> {
+  // Group fields by section
+  const fieldsBySection: Record<string, FieldConfig[]> = {};
+  
+  fields.forEach((field) => {
+    const section = field.section || 'other';
+    if (!fieldsBySection[section]) {
+      fieldsBySection[section] = [];
+    }
+    fieldsBySection[section].push(field);
+  });
+
+  // Sort fields within each section by order
+  Object.keys(fieldsBySection).forEach((section) => {
+    fieldsBySection[section].sort((a, b) => {
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      if (a.order !== undefined) return -1;
+      if (b.order !== undefined) return 1;
+      return a.label.localeCompare(b.label);
+    });
+  });
+
+  // Convert to array and sort by section order
+  const sections = Object.keys(fieldsBySection).map((section) => ({
+    section,
+    label: SECTION_LABELS[section] || section,
+    fields: fieldsBySection[section],
+  }));
+
+  sections.sort((a, b) => {
+    const orderA = SECTION_ORDER[a.section] ?? 999;
+    const orderB = SECTION_ORDER[b.section] ?? 999;
+    return orderA - orderB;
+  });
+
+  return sections;
 }
 
 /**
