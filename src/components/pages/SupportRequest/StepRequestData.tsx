@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import {
   CPTCard,
   CPTFieldset,
@@ -16,9 +16,8 @@ import type { FieldConfig } from '@/types/formConfig';
 import type { DynamicFormData, CaseOption } from '@/types/supportRequest';
 import { SupportFileUpload } from '@/components/common/SupportFileUpload';
 import { CPTAddressBlock } from '@/components/inputs';
-import { generateReasonPrefill } from '@/utils/reasonPrefill';
 import { organizeFieldsBySection } from '@/utils/fieldConsolidation';
-import { CASE_LIST } from '@/constants';
+import { FORM_FIELDS } from '@/constants/formFields';
 
 interface StepRequestDataProps {
   formData: DynamicFormData;
@@ -43,35 +42,31 @@ export const StepRequestData = ({
   description,
   selectedCase,
 }: StepRequestDataProps) => {
-  // Pre-fill reason field if it's required and empty, and we have both request types and case
-  useEffect(() => {
-    const reasonField = requiredFields.find((f) => f.id === 'reason');
-    if (
-      reasonField &&
-      (!formData.reason || (typeof formData.reason === 'string' && formData.reason.trim() === '')) &&
-      formData.requestTypes &&
-      formData.requestTypes.length > 0 &&
-      formData.caseId
-    ) {
-      const caseOption = selectedCase || CASE_LIST.find((c) => c.id === formData.caseId);
-      if (caseOption) {
-        const reasonText = generateReasonPrefill(formData, caseOption);
-        if (reasonText) {
-          onFieldChange('reason', reasonText);
-        }
-      }
-    }
-  }, [formData.requestTypes, formData.caseId, requiredFields, selectedCase, formData.reason, onFieldChange]);
 
   // Organize required fields by sections
   const requiredFieldsBySection = useMemo(() => {
     return organizeFieldsBySection(requiredFields);
   }, [requiredFields]);
 
+  // Always include additional description in optional section
+  const allOptionalFields = useMemo(() => {
+    const additionalFields: FieldConfig[] = [];
+    
+    // Add additional description if not already in optional fields
+    if (!optionalFields.find(f => f.id === 'additionalDescription')) {
+      const descField = FORM_FIELDS.additionalDescription;
+      if (descField) {
+        additionalFields.push(descField);
+      }
+    }
+    
+    return [...optionalFields, ...additionalFields];
+  }, [optionalFields]);
+
   // Organize optional fields by sections
   const optionalFieldsBySection = useMemo(() => {
-    return organizeFieldsBySection(optionalFields);
-  }, [optionalFields]);
+    return organizeFieldsBySection(allOptionalFields);
+  }, [allOptionalFields]);
 
   const renderField = (fieldConfig: FieldConfig) => {
     const fieldId = fieldConfig.id;
@@ -286,8 +281,8 @@ export const StepRequestData = ({
   };
 
   return (
-    <CPTCard className="mt-4">
-      <div className="flex flex-column gap-4">
+    <CPTCard className="mt-4" style={{ height: 'auto', overflow: 'visible' }}>
+      <div className="flex flex-column gap-4" style={{ height: 'auto', overflow: 'visible' }}>
         {(title || description) && (
           <div className="mb-3">
             {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
@@ -317,8 +312,8 @@ export const StepRequestData = ({
         {optionalFieldsBySection.length > 0 && (
           <>
             {requiredFieldsBySection.length > 0 && <CPTDivider />}
-            <CPTPanel header="Optional Fields" toggleable collapsed>
-              <div className="flex flex-column gap-3 pt-3">
+            <CPTPanel header="Optional Fields" toggleable collapsed style={{ overflow: 'visible' }}>
+              <div className="flex flex-column gap-3 pt-3" style={{ overflow: 'visible' }}>
                 {optionalFieldsBySection.map((section) => (
                   <div key={section.section} className="flex flex-column gap-3">
                     {section.fields.length > 0 && section.section !== 'optional' && (

@@ -77,7 +77,6 @@ export const FORM_FIELDS: FormFieldMapping = {
     section: 'identity',
     order: 5,
     validation: {
-      minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter your mailing address',
@@ -90,7 +89,6 @@ export const FORM_FIELDS: FormFieldMapping = {
     section: 'request-specific',
     order: 1,
     validation: {
-      minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter your previous address',
@@ -103,7 +101,6 @@ export const FORM_FIELDS: FormFieldMapping = {
     section: 'request-specific',
     order: 2,
     validation: {
-      minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter your new address',
@@ -155,7 +152,6 @@ export const FORM_FIELDS: FormFieldMapping = {
     section: 'request-specific',
     order: 6,
     validation: {
-      minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter your address',
@@ -209,7 +205,6 @@ export const FORM_FIELDS: FormFieldMapping = {
     section: 'beneficiary',
     order: 2,
     validation: {
-      minLength: 5,
       maxLength: 500,
     },
     placeholder: 'Enter beneficiary address',
@@ -232,8 +227,21 @@ export const FORM_FIELDS: FormFieldMapping = {
     type: 'file',
     required: false,
     section: 'optional',
-    order: 1,
+    order: 2,
     helpText: 'Upload supporting documents (optional)',
+  },
+  additionalDescription: {
+    id: 'additionalDescription',
+    label: 'Additional Description',
+    type: 'textarea',
+    required: false,
+    section: 'optional',
+    order: 1,
+    validation: {
+      maxLength: 2000,
+    },
+    placeholder: 'Enter any additional information or context...',
+    helpText: 'If you have any additional context, notes, or information that might help us process your request, please add them here.',
   },
 };
 

@@ -4,12 +4,80 @@ All notable changes to this project will be documented in this file.
 
 ## [1.5.0] - 2025-01-27
 
+### Fixed - Critical Form Submission and Validation Issues
+- **Fixed Infinite Loop in Address Component** - Resolved "Maximum update depth exceeded" error in `CPTAddressBlock.tsx`
+  - Used `useRef` to track last address value and prevent unnecessary `onChange` calls
+  - Implemented `onChangeRef` pattern to avoid dependency array issues
+  - Initialization now only runs once on mount using `initializedRef`
+  - Prevents infinite re-render loops that were blocking form submission
+- **Simplified Address Validation** - Removed strict validation requirements for address fields
+  - Removed `minLength` validation from all address fields (mailingAddress, previousAddress, newAddress, address, beneficiaryAddress)
+  - Address fields now only validate:
+    - Presence when `required: true`
+    - Maximum length (500 characters) if value exists
+  - No pattern matching or complex validation rules for addresses
+  - Address validation logic skips minLength, pattern, and custom validation checks
+- **Fixed Optional Fields Validation** - Ensured optional fields don't block form submission
+  - `additionalDescription` and `supportingDocs` correctly set to `required: false`
+  - Validation logic only validates optional fields if they have values
+  - Optional fields with empty values won't cause validation errors
+  - Fixed validation to properly distinguish between required and optional fields
+- **Disabled API Autocomplete** - Commented out all Geoapify API functionality
+  - All API-related code is commented out in `CPTAddressBlock.tsx`
+  - Address component defaults to manual entry mode only
+  - No API calls are being made to prevent errors and reduce complexity
+  - Removed unused imports (axios, AutoComplete, etc.)
+- **Improved Submit Button and Toast Notifications** - Enhanced user feedback during submission
+  - Added loading spinner to submit button during form processing
+  - Button is disabled during submission to prevent double submissions
+  - Toast notifications for validation errors, submission progress, and success
+  - Proper error messages for all field types
+
+### Fixed - Duplicate File Upload and Container Height Issues
+- **Removed Duplicate File Upload in Optional Fields Panel** - Removed the duplicate `additionalFiles` field that was appearing alongside `supportingDocs` in the optional fields panel
+  - Removed `additionalFiles` field definition from `formFields.ts`
+  - Removed logic in `StepRequestData.tsx` that was adding `additionalFiles` to optional fields
+  - Only `supportingDocs` (order 2) remains as the file upload field in the optional section
+  - This eliminates the duplicate file upload component that was confusing users
+- **Fixed Container Height Issue** - Fixed the stepper container and optional fields panel so they grow properly with content
+  - Added `height: auto` and `overflow: visible` styles to CPTCard, CPTPanel, and container divs in `StepRequestData.tsx`
+  - Added `height: auto` and `overflow: visible` styles to container divs in `SupportRequestStepper.tsx`
+  - Added CSS rules in `globals.css` to ensure PrimeReact Panel and Card components allow content to expand properly
+  - The optional fields panel now expands correctly when opened, and the stepper buttons stay at the bottom as expected
+  - Parent containers now grow with their content instead of having fixed heights that cut off expanded panels
+
+### Fixed - Critical Form Submission Bugs
+- **Fixed Maximum Update Depth Exceeded Error** - Removed problematic `useEffect` in `StepRequestData.tsx` that was causing infinite re-render loops
+  - The effect was calling `onFieldChange` which triggered `updateFormData`, causing `formData.reason` to change, which retriggered the effect
+  - Removed redundant reason pre-fill logic from `StepRequestData` (already handled in `SupportRequestStepper`)
+  - This was preventing form submission and causing React to throw "Maximum update depth exceeded" errors
+- **Fixed Submit Button Not Working** - Corrected submit button logic to properly validate and submit the form
+  - Submit button now directly calls `handleSubmit()` which validates step 2 before submission
+  - Previously, submit button was calling `goToNextStep()` which wouldn't work on the final step
+  - Added `validateStep` to hook return values and properly memoized `handleSubmit` callback
+- **Memoized Callback Functions** - Wrapped `handleFieldChange` and `handleFieldBlur` in `useCallback` to prevent unnecessary re-renders
+  - Prevents child components from re-rendering when parent re-renders
+  - Follows React best practices for performance optimization
+- **UI Overflow Fixes** - Added `overflow: visible` styles to form containers to prevent content clipping
+  - Applied to `CPTCard`, `CPTPanel`, and stepper container elements
+  - Ensures address autocomplete dropdowns and other dynamic content display correctly
+
+### Changed - Stepper Flow and Optional Section Consolidation
+- **Removed Step 4** - The "Additional Documentation" step has been removed from the stepper flow.
+- **Consolidated Optional Fields** - The `additionalDescription` (textarea) field is now integrated into Step 3's "Optional Fields" section.
+- **Updated Optional Field Ordering** - Within the optional section, fields are now ordered as:
+  - `additionalDescription` (order 1)
+  - `supportingDocs` (order 2) - file upload field
+- **Reduced Stepper to 3 Steps** - The support request form now consists of 3 steps: "Support Request Selection", "Select Case", and "Support Request Data".
+- **Adjusted Navigation Logic** - The `useSupportRequestForm` hook and `SupportRequestStepper` component have been updated to reflect the 3-step flow, with the "Submit" button appearing on the final (third) step.
+- **Deleted StepAdditionalDocumentation Component** - Removed the standalone `StepAdditionalDocumentation.tsx` component as its functionality is now integrated into `StepRequestData`.
+
 ### Changed - Field Ordering and Section Organization
 - **Comprehensive Field Ordering** - Added `order` property to ALL fields in `formFields.ts`
   - Identity section fields: Name (1), Email Address (2), CPT ID (3), Phone (4), Mailing Address (5)
   - Request-specific fields: Previous Address (1), New Address (2), Previous Name (3), New Name (4), Reason (5), Address (6), Detailed Response (7), SSN/Tax ID (8)
   - Beneficiary fields: Beneficiary Name (1), Beneficiary Address (2), Beneficiary Email (3)
-  - Optional fields: Supporting Documents (1)
+  - Optional fields: Additional Description (1), Supporting Documents (2), Additional Files (3)
 - **Section-Based Organization** - Added `section` property to `FieldConfig` type
   - Sections: `identity` (order 1), `request-specific` (order 2), `beneficiary` (order 3), `optional` (order 4)
   - Created `organizeFieldsBySection()` function to group and order fields by sections

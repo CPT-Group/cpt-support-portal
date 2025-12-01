@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { CPTSteps, CPTButton } from '@cpt-group/cpt-prime-react';
+import { Toast } from 'primereact/toast';
 import { useSupportRequestForm } from '@/hooks';
 import {
   StepRequestTypeSelection,
   StepCaseSelection,
   StepRequestData,
-  StepAdditionalDocumentation,
 } from './';
 import type { CaseOption, DynamicFormData } from '@/types';
 import { CASE_LIST } from '@/constants';
@@ -23,7 +23,9 @@ interface SupportRequestStepperProps {
 
 export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequestStepperProps) => {
   const router = useRouter();
+  const toast = useRef<Toast>(null);
   const [stepOpacity, setStepOpacity] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     formData,
     activeStep,
@@ -32,6 +34,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     goToNextStep,
     goToPreviousStep,
     validateField,
+    validateStep,
     canGoPrevious,
     consolidatedFields,
   } = useSupportRequestForm(initialData);
@@ -57,7 +60,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     { label: 'Support Request Selection' },
     { label: 'Select Case' },
     { label: 'Support Request Data' },
-    { label: 'Additional Documentation' },
   ];
 
   const handleRequestTypesChange = (selectedIds: string[]) => {
@@ -88,35 +90,83 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     }
   };
 
-  const handleFieldChange = (fieldId: string, value: string | File[]) => {
+  const handleFieldChange = useCallback((fieldId: string, value: string | File[]) => {
     updateFormData({ [fieldId]: value });
-  };
+  }, [updateFormData]);
 
-  const handleFieldBlur = (fieldId: string, value: string) => {
+  const handleFieldBlur = useCallback((fieldId: string, value: string) => {
     validateField(fieldId, value);
-  };
+  }, [validateField]);
 
-  const handleDescriptionChange = (value: string) => {
-    updateFormData({ additionalDescription: value });
-  };
 
-  const handleFilesChange = (files: File[]) => {
-    updateFormData({ additionalFiles: files });
-  };
+  const handleSubmit = useCallback(async () => {
+    // Prevent double submission
+    if (isSubmitting) {
+      return;
+    }
 
-  const handleSubmit = () => {
-    const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
-    const submissionData = generateSubmissionJSON(formData, selectedCase || null);
+    // Validate the final step before submitting
+    const isValid = validateStep(2);
+    
+    if (!isValid) {
+      // Show error toast for validation failures
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill in all required fields correctly before submitting.',
+        life: 5000,
+      });
+      return;
+    }
 
-    const params = new URLSearchParams({
-      firstName: typeof formData.name === 'string' ? formData.name.split(' ')[0] || '' : '',
-      caseName: selectedCase?.label || '',
-      requestTypes: submissionData.requestTypeLabels?.join(', ') || '',
-      submissionData: btoa(JSON.stringify(submissionData)),
-    });
+    // Set loading state
+    setIsSubmitting(true);
 
-    router.push(`/support-request/success?${params.toString()}`);
-  };
+    try {
+      // Show loading toast
+      toast.current?.show({
+        severity: 'info',
+        summary: 'Submitting',
+        detail: 'Please wait while we process your request...',
+        life: 3000,
+      });
+
+      // Simulate a small delay to show loading state (can be removed if not needed)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
+      const submissionData = generateSubmissionJSON(formData, selectedCase || null);
+
+      const params = new URLSearchParams({
+        firstName: typeof formData.name === 'string' ? formData.name.split(' ')[0] || '' : '',
+        caseName: selectedCase?.label || '',
+        requestTypes: submissionData.requestTypeLabels?.join(', ') || '',
+        submissionData: btoa(JSON.stringify(submissionData)),
+      });
+
+      // Show success toast
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Your support request has been submitted successfully!',
+        life: 3000,
+      });
+
+      // Navigate to success page after a brief delay to show the toast
+      setTimeout(() => {
+        router.push(`/support-request/success?${params.toString()}`);
+      }, 1000);
+    } catch (error) {
+      // Show error toast
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Submission Failed',
+        detail: 'An error occurred while submitting your request. Please try again.',
+        life: 5000,
+      });
+      setIsSubmitting(false);
+    }
+  }, [formData, validateStep, router, isSubmitting]);
 
   // Get selected request type labels for display
   const selectedRequestTypeLabels = (formData.requestTypes || [])
@@ -169,28 +219,23 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
             selectedCase={selectedCase || null}
           />
         );
-      case 3:
-        return (
-          <StepAdditionalDocumentation
-            formData={formData}
-            onDescriptionChange={handleDescriptionChange}
-            onFilesChange={handleFilesChange}
-          />
-        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-column align-items-center page-responsive-padding" style={{ paddingTop: '4rem', paddingLeft: '10rem', paddingRight: '10rem' }}>
-        <div className="w-full max-w-screen-lg">
+    <div className="flex flex-column align-items-center page-responsive-padding" style={{ paddingTop: '4rem', paddingLeft: '10rem', paddingRight: '10rem', height: 'auto', overflow: 'visible' }}>
+        <Toast ref={toast} position="top-right" />
+        <div className="w-full max-w-screen-lg" style={{ height: 'auto', overflow: 'visible' }}>
           <CPTSteps model={steps} activeIndex={activeStep} />
         <div
           className="mt-4"
           style={{
             opacity: stepOpacity,
             transition: 'opacity 0.3s ease-in-out',
+            height: 'auto',
+            overflow: 'visible',
           }}
         >
           {renderCurrentStep()}
@@ -207,18 +252,15 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
             />
           )}
           {activeStep === 0 && <div />}
-          {activeStep === 3 ? (
+          {activeStep === 2 ? (
             <CPTButton
               label="Submit"
               icon="pi pi-check"
               iconPos="right"
-              onClick={() => {
-                const isValid = goToNextStep();
-                if (isValid) {
-                  handleSubmit();
-                }
-              }}
+              onClick={handleSubmit}
               className="p-button-primary"
+              loading={isSubmitting}
+              disabled={isSubmitting}
             />
           ) : (
             <CPTButton
