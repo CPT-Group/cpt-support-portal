@@ -46,7 +46,7 @@ const SuccessContent = () => {
       <div className="w-full max-w-screen-md">
         <CPTCard className="text-center">
           <div className="flex flex-column align-items-center gap-4">
-            <i className="pi pi-check-circle text-6xl text-green-500" />
+            <i className="pi pi-check-circle text-6xl text-primary" />
             <h1 className="text-4xl font-bold">Thank you, {firstName}!</h1>
             <p className="text-xl text-color-secondary line-height-3">
               Your support request has been submitted. We will get back to you
@@ -88,7 +88,7 @@ const SuccessContent = () => {
                   size="small"
                 />
               </div>
-              <pre className="p-3 border-round bg-gray-900 text-white overflow-auto text-sm line-height-3" style={{ maxHeight: '500px' }}>
+              <pre className="p-3 border-round surface-ground text-color overflow-auto text-sm line-height-3" style={{ maxHeight: '500px' }}>
                 {JSON.stringify(submissionData, null, 2)}
               </pre>
             </div>
