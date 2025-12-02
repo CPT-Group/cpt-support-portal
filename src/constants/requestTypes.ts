@@ -97,7 +97,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
   },
   {
     id: '14',
-    label: 'What is my settlement amount',
+    label: 'What is my settlement amount?',
     faqReference: 'How to find on notice',
     requiredFields: ['phone'],
     optionalFields: [],
@@ -105,7 +105,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
   },
   {
     id: '15',
-    label: 'When will I receive my check',
+    label: 'When will I receive my check?',
     faqReference: 'How to find on notice',
     requiredFields: ['phone'],
     optionalFields: [],
@@ -113,14 +113,14 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
   },
   {
     id: '16',
-    label: 'Did you receive my claim form/response',
+    label: 'Did you receive my claim form/response?',
     requiredFields: ['phone'],
     optionalFields: [],
     notes: 'Status inquiry - may resolve without submission',
   },
   {
     id: '17',
-    label: 'Have you received my supporting documents',
+    label: 'Have you received my supporting documents?',
     requiredFields: ['phone'],
     optionalFields: [],
     notes: 'Status inquiry - may resolve without submission',
