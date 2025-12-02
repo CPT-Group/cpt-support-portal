@@ -49,8 +49,7 @@ const SuccessContent = () => {
             <i className="pi pi-check-circle text-6xl text-green-500" />
             <h1 className="text-4xl font-bold">Thank you, {firstName}!</h1>
             <p className="text-xl text-color-secondary line-height-3">
-              Your issue for <strong>{issueTypes}</strong> has been submitted for{' '}
-              <strong>{caseName}</strong> and our representative will get back to you
+              Your support request has been submitted. We will get back to you
               shortly.
             </p>
             <div className="flex gap-3 justify-content-center flex-wrap mt-4">
@@ -61,16 +60,16 @@ const SuccessContent = () => {
                 onClick={() => router.push('/faq')}
                 className="p-button-outlined"
               />
-              <CPTButton
+              {/* <CPTButton
                 label="Submit Another Ticket"
                 icon="pi pi-plus"
                 iconPos="right"
                 onClick={handleSubmitAnother}
                 className="p-button-primary"
-              />
+              /> */}
             </div>
             <p className="text-sm text-color-secondary mt-4" style={{ fontStyle: 'italic' }}>
-              Please be advised, making more than one ticket for the same request will slow down response time for you and others.
+              Please be advised, making more than one ticket for the same request will slow down support response time.
             </p>
           </div>
         </CPTCard>

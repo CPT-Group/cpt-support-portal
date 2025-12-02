@@ -105,9 +105,7 @@ export const StepRequestTypeSelection = ({
               className="w-full"
             />
           )}
-          <p className="text-sm text-color-secondary mt-2">
-            You can select multiple request types. Required fields will be consolidated automatically.
-          </p>
+          
         </div>
       </CPTCard>
 

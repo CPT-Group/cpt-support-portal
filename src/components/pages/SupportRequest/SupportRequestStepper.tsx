@@ -212,9 +212,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
             onFieldBlur={handleFieldBlur}
             title={selectedCase ? selectedCase.label : 'Request Data'}
             description={
-              selectedRequestTypeLabels.length > 0
-                ? `Please provide the following information for: ${selectedRequestTypeLabels.join(', ')}`
-                : undefined
+              'Please provide the following information for your support request.'
             }
             selectedCase={selectedCase || null}
           />

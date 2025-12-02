@@ -232,7 +232,7 @@ export const FORM_FIELDS: FormFieldMapping = {
   },
   additionalDescription: {
     id: 'additionalDescription',
-    label: 'Additional Description',
+    label: 'Tell us anything more about your request (optional)',
     type: 'textarea',
     required: false,
     section: 'optional',

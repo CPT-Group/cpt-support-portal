@@ -34,9 +34,9 @@ export const StepCaseSelection = ({
             <p className="text-color-secondary mb-3 line-height-3">{description}</p>
           )}
         </div>
-        <label htmlFor="case-select" className="font-semibold">
-          What case are you having issues with? <span className="text-red-500">*</span>
-        </label>
+        {/* <label htmlFor="case-select" className="font-semibold">
+          Select a case for support <span className="text-red-500">*</span>
+        </label> */}
         <CPTDropdown
           id="case-select"
           value={selectedCase}

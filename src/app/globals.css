@@ -63,3 +63,18 @@ html[data-theme='dark'] {
     padding: 0.5rem 0 !important;
   }
 }
+
+/* Ensure optional fields panel and containers grow with content */
+.p-panel-content {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.p-panel {
+  overflow: visible !important;
+}
+
+.p-card-body {
+  overflow: visible !important;
+  height: auto !important;
+}
