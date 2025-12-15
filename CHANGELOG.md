@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2025-01-27
+
+### Changed - Updated Request Types and Field Requirements from QA/Project Owners CSV
+- **Updated All Request Type Labels** - Updated all 17 request type labels to match the updated CSV exactly:
+  - "Address Update" → "Update Contact Information"
+  - "Notice Packet Request" → "Request Notice Packet"
+  - "Passcode Request" → "Request Passcode"
+  - "Requests to Be Added" → "Request to Be Added to Case"
+  - "Check Reissue Request" → "Request Check Reissue"
+  - "Dispute Work Weeks/Shifts" → "Respond to Dispute Notice"
+  - "Deficiency Response" → "Respond to Deficient Notice"
+  - "Tax Form Request" → "Request Tax Forms"
+  - "Copy of Cashed Check" → "Request Cashed Check Copy"
+  - "Request Fraud Affidavit" → "Request Fraud Affidavit Packet"
+  - "SSN Response" → "Respond to SSN/W9 Request"
+  - "Did you receive my claim form/response?" → "Did you Receive my Response?"
+  - "Have you received my supporting documents?" → "Have you Received my Supporting Documents?"
+  - "What is my settlement amount?" → "What is my Settlement Amount?"
+  - "When will I receive my check?" → "When will I Receive my Check?"
+- **Updated Field Requirements** - Updated required and optional fields for all request types based on CSV:
+  - Added `email` and `mailingAddress` as required for many more request types
+  - Added `address` as required for ALL request types (was previously only for some)
+  - Added `reason` requirement for several types (Name Change, Request to Be Added, Check Reissue, Respond to Dispute) - satisfied by auto-generation
+  - Request types 14-17 no longer require `firstName` and `lastName` (name field), but they appear as optional in UI
+- **Made CPT ID Optional** - `cptId` is now optional for all request types:
+  - Added `cptId` to `optionalFields` array for all 17 request types
+  - Updated `formFields.ts` to set `required: false` for `cptId`
+  - Updated placeholder to "Enter your CPT ID (optional)"
+  - Added help text: "CPT ID is optional but may help us process your request faster"
+- **JSON Output Updates** - Updated JSON generator to match CSV requirements:
+  - Creates `fullName` field from `firstName` + `lastName` for JSON output (UI still uses separate fields)
+  - Excludes `firstName` and `lastName` from JSON payload (only sends `fullName`)
+  - Ensures `reason` field is always included in payload (even if empty string, though it should always have content)
+- **Field Consolidation Logic** - Enhanced field consolidation to properly handle required vs optional:
+  - Required fields from consolidation now have `required: true` set explicitly
+  - Optional fields from consolidation now have `required: false` set explicitly
+  - This ensures UI correctly shows asterisks (*) for required fields and not for optional fields
+- **Validation Logic Updates** - Updated validation to respect consolidated field requirements:
+  - `validateField` now accepts optional `fieldConfig` parameter to use consolidated field config
+  - Validation now properly respects whether a field is required or optional based on selected request types
+  - Optional fields (like `firstName`/`lastName` for types 14-17) are only validated if they have values
+
+### Technical Details
+- All changes are logic/code-behind updates - no UI/styling changes
+- Form is now entirely driven by request type configurations (no hardcoded requirements)
+- Field requirements can be easily updated by modifying `requestTypes.ts` arrays
+- Maintains existing sort order and input priorities with order properties
+
 ## [1.5.0] - 2025-01-27
 
 ### Fixed - Critical Form Submission and Validation Issues

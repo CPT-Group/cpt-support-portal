@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import type { DynamicFormData, StepIndex } from '@/types/supportRequest';
+import type { FieldConfig } from '@/types/formConfig';
 import { consolidateFields } from '@/utils/fieldConsolidation';
 import { validateRequiredFields, getMissingFieldLabels } from '@/utils/jsonGenerator';
 import { FORM_FIELDS } from '@/constants/formFields';
@@ -35,8 +36,9 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
   }, []);
 
   const validateField = useCallback(
-    (fieldId: string, value: string | string[] | File[] | null | undefined) => {
-      const fieldConfig = FORM_FIELDS[fieldId];
+    (fieldId: string, value: string | string[] | File[] | null | undefined, providedFieldConfig?: FieldConfig) => {
+      // Use provided fieldConfig (from consolidation) or look up from FORM_FIELDS
+      const fieldConfig = providedFieldConfig || FORM_FIELDS[fieldId];
       if (!fieldConfig) {
         return null; // Unknown field, skip validation
       }
@@ -158,7 +160,7 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
           // Validate required fields
           required.forEach((fieldConfig) => {
             const value = formData[fieldConfig.id];
-            const error = validateField(fieldConfig.id, value);
+            const error = validateField(fieldConfig.id, value, fieldConfig);
             if (error) {
               newErrors[fieldConfig.id] = error;
             }
@@ -171,7 +173,7 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
             if (value !== null && value !== undefined && 
                 ((typeof value === 'string' && value.trim() !== '') ||
                 (Array.isArray(value) && value.length > 0))) {
-              const error = validateField(fieldConfig.id, value);
+              const error = validateField(fieldConfig.id, value, fieldConfig);
               if (error) {
                 newErrors[fieldConfig.id] = error;
               }

@@ -18,18 +18,31 @@ export const SECTION_LABELS: Record<string, string> = {
 
 // Field definitions with validation rules
 export const FORM_FIELDS: FormFieldMapping = {
-  name: {
-    id: 'name',
-    label: 'Name',
+  firstName: {
+    id: 'firstName',
+    label: 'First Name',
     type: 'text',
     required: true,
     section: 'identity',
     order: 1,
     validation: {
       minLength: 2,
-      maxLength: 100,
+      maxLength: 50,
     },
-    placeholder: 'Enter your full name',
+    placeholder: 'Enter your first name',
+  },
+  lastName: {
+    id: 'lastName',
+    label: 'Last Name',
+    type: 'text',
+    required: true,
+    section: 'identity',
+    order: 2,
+    validation: {
+      minLength: 2,
+      maxLength: 50,
+    },
+    placeholder: 'Enter your last name',
   },
   email: {
     id: 'email',
@@ -37,7 +50,7 @@ export const FORM_FIELDS: FormFieldMapping = {
     type: 'email',
     required: true,
     section: 'identity',
-    order: 2,
+    order: 3,
     validation: {
       pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
@@ -47,14 +60,15 @@ export const FORM_FIELDS: FormFieldMapping = {
     id: 'cptId',
     label: 'CPT ID',
     type: 'text',
-    required: true,
+    required: false, // Optional for all request types
     section: 'identity',
-    order: 3,
+    order: 4,
     validation: {
       minLength: 1,
       maxLength: 50,
     },
-    placeholder: 'Enter your CPT ID',
+    placeholder: 'Enter your CPT ID (optional)',
+    helpText: 'CPT ID is optional but may help us process your request faster',
   },
   phone: {
     id: 'phone',
@@ -62,7 +76,7 @@ export const FORM_FIELDS: FormFieldMapping = {
     type: 'phone',
     required: true,
     section: 'identity',
-    order: 4,
+    order: 5,
     validation: {
       pattern: /^[\d\s\-\(\)]+$/,
       minLength: 10,
@@ -75,7 +89,7 @@ export const FORM_FIELDS: FormFieldMapping = {
     type: 'address',
     required: true,
     section: 'identity',
-    order: 5,
+    order: 6,
     validation: {
       maxLength: 500,
     },
@@ -131,26 +145,27 @@ export const FORM_FIELDS: FormFieldMapping = {
     },
     placeholder: 'Enter your new name',
   },
-  reason: {
-    id: 'reason',
-    label: 'Reason',
-    type: 'textarea',
-    required: true,
-    section: 'request-specific',
-    order: 5,
-    validation: {
-      minLength: 10,
-      maxLength: 1000,
-    },
-    placeholder: 'Please provide a reason for your request',
-  },
+  // Reason field removed from UI - now auto-generated and always included in JSON submission
+  // reason: {
+  //   id: 'reason',
+  //   label: 'Reason',
+  //   type: 'textarea',
+  //   required: true,
+  //   section: 'request-specific',
+  //   order: 5,
+  //   validation: {
+  //     minLength: 10,
+  //     maxLength: 1000,
+  //   },
+  //   placeholder: 'Please provide a reason for your request',
+  // },
   address: {
     id: 'address',
     label: 'Address',
     type: 'address',
     required: true,
     section: 'request-specific',
-    order: 6,
+    order: 1,
     validation: {
       maxLength: 500,
     },
@@ -175,7 +190,7 @@ export const FORM_FIELDS: FormFieldMapping = {
     type: 'ssn',
     required: true,
     section: 'request-specific',
-    order: 8,
+    order: 4,
     validation: {
       pattern: /^[\d\-]+$/,
       minLength: 9,
@@ -225,23 +240,24 @@ export const FORM_FIELDS: FormFieldMapping = {
     id: 'supportingDocs',
     label: 'Supporting Documents',
     type: 'file',
-    required: false,
-    section: 'optional',
-    order: 2,
-    helpText: 'Upload supporting documents (optional)',
+    required: true, // Required when shown (based on request type)
+    section: 'request-specific',
+    order: 10,
+    helpText: 'Upload supporting documents',
   },
   additionalDescription: {
     id: 'additionalDescription',
-    label: 'Tell us anything more about your request',
+    label: 'Additional Information',
     type: 'textarea',
-    required: false,
-    section: 'optional',
-    order: 1,
+    required: true, // Required when shown (based on request type)
+    section: 'request-specific',
+    order: 12,
     validation: {
+      minLength: 10,
       maxLength: 2000,
     },
     placeholder: 'Enter any additional information or context...',
-    helpText: 'If you have any additional context, notes, or information that might help us process your request, please add them here.',
+    helpText: 'Please provide any additional context, notes, or information that might help us process your request.',
   },
 };
 
@@ -253,7 +269,9 @@ export function getFieldConfig(fieldId: string): FieldConfig | undefined {
 // Helper function to normalize CSV field name to ID
 export function normalizeFieldName(csvFieldName: string): string {
   const normalizedMap: Record<string, string> = {
-    'Name': 'name',
+    'Name': 'firstName', // Note: CSV 'Name' maps to firstName, lastName should be handled separately
+    'First Name': 'firstName',
+    'Last Name': 'lastName',
     'CPT ID': 'cptId',
     'Email Address': 'email',
     'Phone': 'phone',

@@ -6,6 +6,7 @@ import type {
 import type { CaseOption } from '@/types/supportRequest';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import { FORM_FIELDS } from '@/constants/formFields';
+import { generateReasonPrefill } from '@/utils/reasonPrefill';
 
 /**
  * Converts File objects to FileMetadata for JSON serialization.
@@ -51,8 +52,22 @@ export function generateSubmissionJSON(
       .filter(Boolean);
   }
 
+  // Always generate and include reason field in submission
+  // The reason requirement from CSV is satisfied by auto-generation
+  const reasonText = generateReasonPrefill(formData, selectedCase);
+  // Always include reason in payload (even if empty, though it should have content if requestTypes exist)
+  submission.reason = reasonText || '';
+
+  // Create fullName from firstName and lastName for JSON output
+  const firstName = typeof formData.firstName === 'string' ? formData.firstName.trim() : '';
+  const lastName = typeof formData.lastName === 'string' ? formData.lastName.trim() : '';
+  if (firstName || lastName) {
+    submission.fullName = `${firstName} ${lastName}`.trim();
+  }
+
   // Process all form fields (excluding system fields)
-  const systemFields = new Set(['caseId', 'requestTypes']);
+  // Exclude firstName and lastName since we're sending fullName instead
+  const systemFields = new Set(['caseId', 'requestTypes', 'reason', 'firstName', 'lastName']); // Exclude reason from form data processing since it's auto-generated, exclude firstName/lastName since we send fullName
   
   Object.keys(formData).forEach((key) => {
     if (systemFields.has(key)) {

@@ -44,14 +44,22 @@ export function consolidateFields(
   requiredFieldIds.forEach((fieldId) => {
     const fieldConfig = FORM_FIELDS[fieldId];
     if (fieldConfig) {
-      requiredFields.push(fieldConfig);
+      // Create a copy with required: true for required fields
+      requiredFields.push({
+        ...fieldConfig,
+        required: true,
+      });
     }
   });
 
   optionalFieldIds.forEach((fieldId) => {
     const fieldConfig = FORM_FIELDS[fieldId];
     if (fieldConfig) {
-      optionalFields.push(fieldConfig);
+      // Create a copy with required: false for optional fields
+      optionalFields.push({
+        ...fieldConfig,
+        required: false,
+      });
     }
   });
 
