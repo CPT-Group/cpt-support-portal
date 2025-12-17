@@ -2,6 +2,65 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2025-01-27
+
+### Changed - Major Field Consolidation and Request Type Reordering
+- **Request Types Reordered by Sort Order** - Request types are now displayed in sort order (1-17) instead of ID order:
+  - Sort 1: Request Notice Packet (ID: 3)
+  - Sort 2: Request Passcode (ID: 4)
+  - Sort 3: Update Mailing Address (ID: 1) - renamed from "Update Contact Information"
+  - Sort 4: Request Name Change (ID: 2) - renamed from "Name Change"
+  - Sort 5: Deceased Class Member (ID: 8)
+  - Sort 6: Request to Be Added to Case (ID: 5)
+  - Sort 7: Respond to Dispute Notice (ID: 7)
+  - Sort 8: Respond to Deficient Notice (ID: 9)
+  - Sort 9: Respond to SSN/W9 Request (ID: 13)
+  - Sort 10: Request Check Reissue (ID: 6)
+  - Sort 11: Request Cashed Check Copy (ID: 11)
+  - Sort 12: Request Tax Forms (ID: 10)
+  - Sort 13: Request Fraud Affidavit Packet (ID: 12)
+  - Sort 14: Did you Receive my Response? (ID: 14)
+  - Sort 15: Have you Received my Supporting Documents? (ID: 15)
+  - Sort 16: What is my Settlement Amount? (ID: 16)
+  - Sort 17: When will I Receive my Settlement Payment? (ID: 17) - renamed from "When will I Receive my Check?"
+- **Address Field Consolidation** - Consolidated `mailingAddress` and `address` into a single `address` field:
+  - Removed `mailingAddress` field from form configuration
+  - All references to `mailingAddress` now use `address`
+  - Updated URL parameter parsing to handle both `address` and legacy `mailingAddress` parameters
+  - Address fields now consistently use `address`, `previousAddress`, and `newAddress` only
+- **Field Renaming for Clarity**:
+  - `detailedResponse` → `additionalDescription` (text area for user input)
+  - `supportingDocs` → `supportingDocumentation` (file upload field)
+  - Updated all field normalization maps and display labels
+  - Updated all component references to use new field names
+- **Updated Request Type Field Requirements** - Updated required and optional fields for all 17 request types based on new CSV:
+  - "Request Passcode" now only requires `name, email, phone` (no address)
+  - "Update Mailing Address" requires `previousAddress` and `newAddress` (no separate `address` field)
+  - "Request Check Reissue" requires `previousAddress` and `newAddress` (no separate `address` field)
+  - "Respond to Deficient Notice" now requires `additionalDescription` (was `detailedResponse`)
+  - "Respond to SSN/W9 Request" has `supportingDocumentation` and `additionalDescription` as optional
+  - All request types now consistently use `address` instead of `mailingAddress`
+- **Field Name Consistency** - Standardized field name casing:
+  - `ssnTaxId` used consistently (not `ssnTaxID`)
+- **Removed Unnecessary Normalization Maps** - Cleaned up unused normalization code:
+  - Removed `FIELD_NORMALIZATION_MAP` and `NORMALIZED_TO_DISPLAY` from `formConfig.ts` (never used)
+  - Removed `normalizeFieldName` function from `formFields.ts` (never called)
+  - Field IDs are used directly throughout the codebase
+  - Labels come directly from `FieldConfig.label` in `formFields.ts`
+  - No conversion needed since we use consistent field IDs everywhere
+
+### Technical Details
+- Request types array in `requestTypes.ts` reordered by sort order (1-17)
+- Form fields configuration updated in `formFields.ts`:
+  - Removed `mailingAddress` field definition
+  - Renamed `detailedResponse` to `additionalDescription`
+  - Renamed `supportingDocs` to `supportingDocumentation`
+- Removed unused normalization maps and functions (field IDs used directly)
+- URL parameter parsing updated in `urlParams.ts` to handle address consolidation
+- JSON generator already handles field names dynamically, no changes needed
+- Field consolidation logic works with new field names automatically
+- All components use field configurations dynamically, so updates propagate automatically
+
 ## [1.5.1] - 2025-01-27
 
 ### Changed - Updated Request Types and Field Requirements from QA/Project Owners CSV

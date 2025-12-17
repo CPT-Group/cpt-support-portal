@@ -48,25 +48,12 @@ export const StepRequestData = ({
     return organizeFieldsBySection(requiredFields);
   }, [requiredFields]);
 
-  // Always include additional description in optional section
-  const allOptionalFields = useMemo(() => {
-    const additionalFields: FieldConfig[] = [];
-    
-    // Add additional description if not already in optional fields
-    if (!optionalFields.find(f => f.id === 'additionalDescription')) {
-      const descField = FORM_FIELDS.additionalDescription;
-      if (descField) {
-        additionalFields.push(descField);
-      }
-    }
-    
-    return [...optionalFields, ...additionalFields];
-  }, [optionalFields]);
-
   // Organize optional fields by sections
+  // Note: supportingDocs and additionalDescription are now required fields when needed,
+  // so they will appear in requiredFields, not optionalFields
   const optionalFieldsBySection = useMemo(() => {
-    return organizeFieldsBySection(allOptionalFields);
-  }, [allOptionalFields]);
+    return organizeFieldsBySection(optionalFields);
+  }, [optionalFields]);
 
   const renderField = (fieldConfig: FieldConfig) => {
     const fieldId = fieldConfig.id;
@@ -93,6 +80,80 @@ export const StepRequestData = ({
       'aria-invalid': !!error,
       'aria-describedby': error ? `${fieldId}-error` : undefined,
     };
+
+    // Special handling for firstName and lastName - render them side by side
+    if (fieldId === 'firstName') {
+      const lastNameField = requiredFields.find(f => f.id === 'lastName') || optionalFields.find(f => f.id === 'lastName');
+      const lastNameValue = formData.lastName;
+      const lastNameError = errors.lastName;
+      const lastNameFieldValue = typeof lastNameValue === 'string' ? lastNameValue : '';
+
+      return (
+        <div key="name-row" className="flex flex-column md:flex-row gap-2">
+          <div className="flex flex-column gap-2 flex-1">
+            <label htmlFor={fieldId} className="font-semibold">
+              {fieldConfig.label}
+              {fieldConfig.required && <span className="text-red-500"> *</span>}
+            </label>
+            <CPTInputText {...commonProps} />
+            {fieldConfig.helpText && (
+              <small className="text-color-secondary">{fieldConfig.helpText}</small>
+            )}
+            {error && (
+              <CPTMessage
+                id={`${fieldId}-error`}
+                severity="error"
+                text={error}
+                className="mt-1"
+              />
+            )}
+          </div>
+          {lastNameField && (
+            <div className="flex flex-column gap-2 flex-1">
+              <label htmlFor="lastName" className="font-semibold">
+                {lastNameField.label}
+                {lastNameField.required && <span className="text-red-500"> *</span>}
+              </label>
+              <CPTInputText
+                id="lastName"
+                value={lastNameFieldValue}
+                onChange={(e: { target: { value: string } }) => {
+                  onFieldChange('lastName', e.target.value);
+                }}
+                onBlur={onFieldBlur
+                  ? () => {
+                      if (typeof lastNameValue === 'string') {
+                        onFieldBlur('lastName', lastNameValue);
+                      }
+                    }
+                  : undefined}
+                className={`w-full ${lastNameError ? 'p-invalid' : ''}`}
+                placeholder={lastNameField.placeholder}
+                aria-required={lastNameField.required}
+                aria-invalid={!!lastNameError}
+                aria-describedby={lastNameError ? 'lastName-error' : undefined}
+              />
+              {lastNameField.helpText && (
+                <small className="text-color-secondary">{lastNameField.helpText}</small>
+              )}
+              {lastNameError && (
+                <CPTMessage
+                  id="lastName-error"
+                  severity="error"
+                  text={lastNameError}
+                  className="mt-1"
+                />
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Skip rendering lastName if we already rendered it with firstName
+    if (fieldId === 'lastName') {
+      return null;
+    }
 
     switch (fieldConfig.type) {
       case 'email':

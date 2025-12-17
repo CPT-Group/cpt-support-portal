@@ -1,108 +1,108 @@
 export interface FAQItem {
-  id: number;
+  id: string; // UUID
   question: string;
   answer: string;
 }
 
 export const FAQ_DATA: FAQItem[] = [
   {
-    id: 1,
+    id: 'faq-001',
     question: '1. How Do I Know If I Am Affected By The Litigation and Settlement?',
     answer:
       'This case involves [TYPE OF CASE - e.g., purchases, employment, data breach] during [CLASS PERIOD - e.g., January 1, 2020 to May 31, 2021] ("Class Period"). Specifically, the "Settlement Class" means all persons who [QUALIFYING ACTION] during the Class Period. Excluded from the Settlement Class shall be the assigned Judge to the Action, counsel to the Parties, any mediator, and their employees, legal representatives, heirs, successors, assigns, or any members of their immediate family, any government entity; Defendant, any entity in which Defendant has a controlling interest, any of Defendant\'s subsidiaries, parents, affiliates, and officers, directors, employees, legal representatives, predecessors in interest, heirs, successors, or assigns, or any members of their immediate family; and any persons who timely opt-out of the Settlement Class. If the settlement does not become effective (for example, because it is not finally approved, or the approval is reversed on appeal), then this litigation will continue and any order preliminarily certifying the class for settlement purposes will be vacated. You can contact the Claims Administrator for more information. Please consult the settlement website for updated information.',
   },
   {
-    id: 2,
+    id: 'faq-002',
     question: '2. What Is The Lawsuit About?',
     answer:
       'A lawsuit was originally brought against [DEFENDANT NAME] ("Defendant"). The lawsuit alleges that [GENERAL ALLEGATION - e.g., Defendant engaged in unlawful practices, made false representations, etc.]. Defendant denies that there is any factual or legal basis for the lawsuit. The Court has not determined whether Plaintiffs or Defendant are correct.',
   },
   {
-    id: 3,
+    id: 'faq-003',
     question: '3. Why Is This Case Being Settled?',
     answer:
       'The Parties have engaged in arms-length negotiations with a highly experienced mediator and have had a full and fair opportunity to evaluate the strength and weaknesses of their respective positions. After considering the risks and costs of further litigation, the Parties have agreed to fully, finally, and forever settle, compromise, and discharge the Released Claims.',
   },
   {
-    id: 4,
+    id: 'faq-004',
     question: '4. What Is The Settlement?',
     answer:
       'This settlement proposes to release the claims of [CLASS MEMBERS] based on Defendant\'s alleged [TYPE OF MISCONDUCT]. As part of the settlement agreement, Defendant shall pay a settlement fund ("Settlement Amount") which shall be used to fund payments to Settlement Class Members, Class Notice and administration costs, any Class Counsel Award and costs awarded by the Court, and any Class Representative Service Award to Plaintiff awarded by the Court.',
   },
   {
-    id: 5,
+    id: 'faq-005',
     question: '5. How Much Money Will I Recover Under The Settlement?',
     answer:
       'The Court will decide whether the settlement should be approved as fair and reasonable. If the Court approves the settlement, Defendant will make a total settlement payment. Settlement Class Members\' individual settlement payments are determined based on [PAYMENT CALCULATION METHOD]. Your settlement payment may be subject to certain deductions and taxes. Please remember that settlement payments will be made only if the Court approves the settlement as fair and reasonable. If you have any questions about the determination of your payment amount, please contact the Claims Administrator.',
   },
   {
-    id: 6,
+    id: 'faq-006',
     question: '6. How Can I Receive A Settlement Payment?',
     answer:
       'If this Notice is addressed to you, then you are covered by the settlement and do not need to do anything to receive your settlement amount. If you take no action and the Court grants final approval of the Settlement, the Administrator will automatically issue you a settlement check for your settlement amount by U.S. Mail. Alternatively, you may elect to receive an electronic settlement payment by visiting the confidential secure website the Administrator has established for this settlement.',
   },
   {
-    id: 7,
+    id: 'faq-007',
     question: '7. How Do I Update My Contact Information?',
     answer:
       'If the Court approves the Settlement and you do not elect to receive an electronic Settlement Payment, your Settlement Check will be mailed to the last known address the Settlement Administrator has for you. If you need to update your contact information, you can do so by contacting the Settlement Administrator, or visiting the website the Administrator has established for this settlement.',
   },
   {
-    id: 8,
+    id: 'faq-008',
     question: '8. What Do I Give Up By Receiving A Settlement Payment?',
     answer:
       'If you do not exclude yourself from the settlement by following the procedures outlined in the settlement notice, you will release and forever discharge Defendant (as well as its parents, subsidiaries, affiliates, officers, directors, insurers, and assigns) from all claims that either were raised in the Lawsuit or are reasonably related to the claims raised in the Lawsuit. If you have any questions about this release, please contact the Claims Administrator or Class Counsel.',
   },
   {
-    id: 9,
+    id: 'faq-009',
     question: '9. How Do I Exclude Myself From This Settlement?',
     answer:
       'If you do not want to participate in the settlement, then you must take steps to exclude yourself. To exclude yourself, you must prepare a note or letter simply stating: "I wish to be excluded from the settlement of [CASE NAME]." The letter or note may be typed or handwritten. Be sure to include your signature, printed full name, address, and telephone number. To be valid, your exclusion request must be postmarked no later than [DEADLINE DATE] and must be mailed to the Claims Administrator at the address provided in the settlement notice. If you exclude yourself from the settlement, you will not receive any money payment, you will not be legally bound by the settlement, and you will not waive or release any legal claims against Defendant.',
   },
   {
-    id: 10,
+    id: 'faq-010',
     question: '10. How Do I Object To The Settlement?',
     answer:
       'You can object to the settlement if you believe it is unfair or should not be approved. The Court will consider your objection in deciding whether to approve the settlement. To object to the settlement, you must prepare a letter or note stating that you "object" to the settlement in [CASE NAME]. The letter or note may be typed or handwritten. Be sure to include your signature, printed full name, address, and telephone number. You may (but are not required to) consult with or retain an attorney to assist you in drafting the objection. If you are not being assisted by an attorney, simply do your best to describe the reasons why you object to the settlement. To be valid, your objection must be postmarked no later than [DEADLINE DATE] and must be mailed to the Claims Administrator at the address provided in the settlement notice.',
   },
   {
-    id: 11,
+    id: 'faq-011',
     question: '11. What Is The Difference Between Objecting To The Settlement And Excluding Myself?',
     answer:
       'Objecting is telling the Court that you do not like something about the Settlement. You can object only if you do not exclude yourself. Excluding yourself is telling the Court that you do not want to be part of the Class. If you exclude yourself, you have no basis to object because the case no longer affects you.',
   },
   {
-    id: 12,
+    id: 'faq-012',
     question: '12. Can Defendant Retaliate Against Me For Participating In This Lawsuit?',
     answer:
       'No. Your decision as to whether or not to participate in this lawsuit will in no way affect your relationship with Defendant. It is unlawful for Defendant to take any adverse action against you as a result of your participation in this lawsuit.',
   },
   {
-    id: 13,
+    id: 'faq-013',
     question: '13. Do I Have A Lawyer In This Case?',
     answer:
       'Plaintiff and other individuals who do not exclude themselves from the settlement are represented by Class Counsel. These lawyers can answer your questions about the lawsuit and settlement free of charge and in strict confidence. If you have questions or seek more information, please contact Class Counsel and identify yourself as a "Class Member" in [CASE NAME].',
   },
   {
-    id: 14,
+    id: 'faq-014',
     question: '14. Should I Hire My Own Lawyer?',
     answer:
       'You do not need to hire your own lawyer because the Court appointed Class Counsel to represent you. But, if you want to hire your own lawyer, you can at your own cost.',
   },
   {
-    id: 15,
+    id: 'faq-015',
     question: '15. How Do The Lawyers Get Paid And Does Plaintiff Get Any Extra Money?',
     answer:
       'You will not pay any legal fees or expenses out of your individual settlement payment. Rather, Class Counsel will ask the Court to award them attorney\'s fees and expenses from the settlement fund. Class Counsel also will ask the Court to approve a service award payment to Plaintiff. The Court has not yet decided whether it will approve the requested fees, expenses, or service award payments.',
   },
   {
-    id: 16,
+    id: 'faq-016',
     question: '16. When And Where Will The Court Decide Whether To Approve The Settlement?',
     answer:
       'The Court will hold a hearing to decide whether to approve the settlement. You are not required or expected to attend that hearing. However, you certainly are welcome to attend. During the hearing, the Court will consider whether the payments to the Class Members are fair and reasonable and deserve to be approved. The Court also will consider the fairness and reasonableness of the requested legal fees/expenses and service award. In making its decision, the Court will consider any written objections to the settlement and will hear from any individuals (or their legal representatives) who wish to be heard. The hearing date, time, and location will be provided in the settlement notice. Please consult the settlement website for updated information on the hearing date and time.',
   },
   {
-    id: 17,
+    id: 'faq-017',
     question: '17. How Do I Obtain More Information?',
     answer:
       'This Notice summarizes the most important aspects of this class action Lawsuit. You can obtain further information by contacting Class Counsel or by visiting the settlement website. The website will include the Complaint, the Class Action Settlement Agreement, the Motion for Preliminary Approval of the Class Action Settlement Agreement, and the Court\'s Order granting preliminary approval of the settlement. You can obtain further information by contacting the Claims Administrator. PLEASE DO NOT WRITE OR TELEPHONE THE COURT OR DEFENDANT FOR INFORMATION ABOUT THE PROPOSED SETTLEMENT OR THIS LAWSUIT.',

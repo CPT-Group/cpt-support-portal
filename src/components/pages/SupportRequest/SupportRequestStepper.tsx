@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { CPTSteps, CPTButton } from '@cpt-group/cpt-prime-react';
+import { CPTSteps, CPTButton, CPTDialog } from '@cpt-group/cpt-prime-react';
 import { Toast } from 'primereact/toast';
 import { useSupportRequestForm } from '@/hooks';
 import {
@@ -11,10 +11,10 @@ import {
   StepRequestData,
 } from './';
 import type { CaseOption, DynamicFormData } from '@/types';
-import { CASE_LIST } from '@/constants';
+import { CASE_LIST, FAQ_DATA } from '@/constants';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
-import { generateReasonPrefill } from '@/utils/reasonPrefill';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
+import type { FAQItem } from '@/constants/faqData';
 
 interface SupportRequestStepperProps {
   initialData?: Partial<DynamicFormData>;
@@ -26,6 +26,8 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
   const toast = useRef<Toast>(null);
   const [stepOpacity, setStepOpacity] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [faqDialogVisible, setFaqDialogVisible] = useState(false);
+  const [selectedFaq, setSelectedFaq] = useState<FAQItem | null>(null);
   const {
     formData,
     activeStep,
@@ -64,30 +66,12 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
 
   const handleRequestTypesChange = (selectedIds: string[]) => {
     updateFormData({ requestTypes: selectedIds });
-    
-    // Pre-fill reason field when request types are selected and case is already selected
-    if (selectedIds.length > 0 && formData.caseId) {
-      const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
-      if (selectedCase) {
-        const updatedFormData = { ...formData, requestTypes: selectedIds };
-        const reasonText = generateReasonPrefill(updatedFormData, selectedCase);
-        if (reasonText && !formData.reason) {
-          updateFormData({ reason: reasonText });
-        }
-      }
-    }
+    // Reason is now auto-generated in JSON submission, no UI prefill needed
   };
 
   const handleCaseChange = (caseOption: CaseOption | null) => {
     updateFormData({ caseId: caseOption?.id || null });
-    
-    // Pre-fill reason field when case is selected and request types are already selected
-    if (caseOption && formData.requestTypes && formData.requestTypes.length > 0) {
-      const reasonText = generateReasonPrefill(formData, caseOption);
-      if (reasonText && !formData.reason) {
-        updateFormData({ reason: reasonText });
-      }
-    }
+    // Reason is now auto-generated in JSON submission, no UI prefill needed
   };
 
   const handleFieldChange = useCallback((fieldId: string, value: string | File[]) => {
@@ -138,7 +122,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
       const submissionData = generateSubmissionJSON(formData, selectedCase || null);
 
       const params = new URLSearchParams({
-        firstName: typeof formData.name === 'string' ? formData.name.split(' ')[0] || '' : '',
+        firstName: typeof formData.firstName === 'string' ? formData.firstName : '',
         caseName: selectedCase?.label || '',
         requestTypes: submissionData.requestTypeLabels?.join(', ') || '',
         submissionData: btoa(JSON.stringify(submissionData)),
@@ -266,6 +250,25 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
               icon="pi pi-arrow-right"
               iconPos="right"
               onClick={() => {
+                // On step 0, check if any selected request type has a FAQ link
+                if (activeStep === 0 && formData.requestTypes && formData.requestTypes.length > 0) {
+                  // Find first request type with FAQ link
+                  const requestTypeWithFaq = REQUEST_TYPES.find(
+                    (rt) => formData.requestTypes?.includes(rt.id) && rt.faqLink
+                  );
+
+                  if (requestTypeWithFaq?.faqLink) {
+                    // Find FAQ by UUID
+                    const faq = FAQ_DATA.find((f) => f.id === requestTypeWithFaq.faqLink);
+                    if (faq) {
+                      setSelectedFaq(faq);
+                      setFaqDialogVisible(true);
+                      return; // Don't proceed to next step yet
+                    }
+                  }
+                }
+
+                // Normal flow - proceed to next step
                 const isValid = goToNextStep();
                 if (isValid) {
                   // Scroll to top after moving to next step (only on mobile/phone screens)
@@ -281,6 +284,49 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
           )}
         </div>
       </div>
+
+      {/* FAQ Dialog */}
+      <CPTDialog
+        header="Did you know?"
+        visible={faqDialogVisible}
+        onHide={() => setFaqDialogVisible(false)}
+        style={{ width: '50vw' }}
+        breakpoints={{ '960px': '75vw', '640px': '90vw' }}
+        modal
+        dismissableMask
+      >
+        {selectedFaq && (
+          <div className="flex flex-column align-items-center gap-4" style={{ textAlign: 'center' }}>
+            <div className="w-full">
+              <h3 className="mt-0 mb-3 text-2xl font-semibold">{selectedFaq.question}</h3>
+              <p className="m-0 line-height-3 text-color-secondary">{selectedFaq.answer}</p>
+            </div>
+            <div className="flex justify-content-between gap-2 mt-3 w-full">
+              <CPTButton
+                label="Go Back"
+                onClick={() => setFaqDialogVisible(false)}
+                className="p-button-secondary"
+              />
+              <CPTButton
+                label="Continue"
+                onClick={() => {
+                  setFaqDialogVisible(false);
+                  // Now proceed to next step
+                  const isValid = goToNextStep();
+                  if (isValid) {
+                    if (window.innerWidth <= 768) {
+                      setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 100);
+                    }
+                  }
+                }}
+                className="p-button-primary"
+              />
+            </div>
+          </div>
+        )}
+      </CPTDialog>
     </div>
   );
 };

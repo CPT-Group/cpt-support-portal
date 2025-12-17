@@ -83,9 +83,9 @@ export const FORM_FIELDS: FormFieldMapping = {
     },
     placeholder: 'Enter your phone number',
   },
-  mailingAddress: {
-    id: 'mailingAddress',
-    label: 'Mailing Address',
+  address: {
+    id: 'address',
+    label: 'Address',
     type: 'address',
     required: true,
     section: 'identity',
@@ -93,7 +93,7 @@ export const FORM_FIELDS: FormFieldMapping = {
     validation: {
       maxLength: 500,
     },
-    placeholder: 'Enter your mailing address',
+    placeholder: 'Enter your address',
   },
   previousAddress: {
     id: 'previousAddress',
@@ -159,31 +159,6 @@ export const FORM_FIELDS: FormFieldMapping = {
   //   },
   //   placeholder: 'Please provide a reason for your request',
   // },
-  address: {
-    id: 'address',
-    label: 'Address',
-    type: 'address',
-    required: true,
-    section: 'request-specific',
-    order: 1,
-    validation: {
-      maxLength: 500,
-    },
-    placeholder: 'Enter your address',
-  },
-  detailedResponse: {
-    id: 'detailedResponse',
-    label: 'Detailed Response',
-    type: 'textarea',
-    required: true,
-    section: 'request-specific',
-    order: 7,
-    validation: {
-      minLength: 10,
-      maxLength: 2000,
-    },
-    placeholder: 'Please provide a detailed response',
-  },
   ssnTaxId: {
     id: 'ssnTaxId',
     label: 'SSN/Tax ID',
@@ -236,9 +211,9 @@ export const FORM_FIELDS: FormFieldMapping = {
     },
     placeholder: 'Enter beneficiary email address',
   },
-  supportingDocs: {
-    id: 'supportingDocs',
-    label: 'Supporting Documents',
+  supportingDocumentation: {
+    id: 'supportingDocumentation',
+    label: 'Supporting Documentation',
     type: 'file',
     required: true, // Required when shown (based on request type)
     section: 'request-specific',
@@ -247,11 +222,11 @@ export const FORM_FIELDS: FormFieldMapping = {
   },
   additionalDescription: {
     id: 'additionalDescription',
-    label: 'Additional Information',
+    label: 'Additional Description',
     type: 'textarea',
     required: true, // Required when shown (based on request type)
     section: 'request-specific',
-    order: 12,
+    order: 11,
     validation: {
       minLength: 10,
       maxLength: 2000,
@@ -261,34 +236,8 @@ export const FORM_FIELDS: FormFieldMapping = {
   },
 };
 
-// Helper function to get field config by normalized ID
+// Helper function to get field config by field ID
 export function getFieldConfig(fieldId: string): FieldConfig | undefined {
   return FORM_FIELDS[fieldId];
-}
-
-// Helper function to normalize CSV field name to ID
-export function normalizeFieldName(csvFieldName: string): string {
-  const normalizedMap: Record<string, string> = {
-    'Name': 'firstName', // Note: CSV 'Name' maps to firstName, lastName should be handled separately
-    'First Name': 'firstName',
-    'Last Name': 'lastName',
-    'CPT ID': 'cptId',
-    'Email Address': 'email',
-    'Phone': 'phone',
-    'Mailing Address': 'mailingAddress',
-    'Previous Address': 'previousAddress',
-    'New Address': 'newAddress',
-    'Previous Name': 'previousName',
-    'New Name': 'newName',
-    'Reason': 'reason',
-    'Address': 'address',
-    'Beneficiary Name': 'beneficiaryName',
-    'Beneficiary Address': 'beneficiaryAddress',
-    'Beneficiary Email': 'beneficiaryEmail',
-    'Detailed Response': 'detailedResponse',
-    'SSN/Tax ID': 'ssnTaxId',
-    'Upload Supporting Docs': 'supportingDocs',
-  };
-  return normalizedMap[csvFieldName.trim()] || csvFieldName.toLowerCase().replace(/\s+/g, '');
 }
 
