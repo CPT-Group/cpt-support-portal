@@ -4,7 +4,7 @@ import type { RequestTypeConfig } from '@/types/formConfig';
 // Ordered by Sort Order (1-17) for display
 // Note: cptId is optional for all request types (added to optionalFields)
 // Note: reason field is auto-generated behind the scenes, so requirement is satisfied by generation
-// Note: name in CSV = firstName + lastName in UI, stored as fullName in JSON
+// Note: name in CSV = firstName + lastName in UI, both sent separately in JSON (not combined)
 // Note: address and mailingAddress are consolidated to just 'address'
 // Note: detailedResponse renamed to additionalDescription
 // Note: supportingDocs renamed to supportingDocumentation

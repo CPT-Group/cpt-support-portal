@@ -108,7 +108,7 @@ When a user selects a request type with a `faqLink` and clicks "Next" on step 0:
 ## Data Flow
 
 1. **Form Data** uses field IDs directly (e.g., `firstName`, `email`, `address`)
-2. **JSON Output** converts `firstName` + `lastName` → `fullName` for submission
+2. **JSON Output** sends `firstName` and `lastName` separately (not combined into fullName)
 3. **Field Requirements** are determined by consolidating all selected request types
 4. **No Normalization** - Field IDs are used consistently throughout the codebase
 
