@@ -62,7 +62,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
   {
     id: '9',
     label: 'Respond to Deficient Notice',
-    requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address', 'additionalDescription', 'supportingDocumentation'],
+    requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address', 'supportingDocumentation'],
     optionalFields: ['cptId'],
     notes: 'Response to deficiency notice',
   },
