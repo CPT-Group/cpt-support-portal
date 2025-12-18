@@ -34,9 +34,9 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
   {
     id: '2',
     label: 'Request Name Change',
-    requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address', 'previousName', 'newName', 'supportingDocumentation', 'additionalDescription'],
-    optionalFields: ['cptId'],
-    notes: 'Legal name change request',
+    requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address', 'previousName', 'newName', 'supportingDocumentation'],
+    optionalFields: ['cptId', 'additionalDescription'],
+    notes: 'Legal name change request - additionalDescription is optional per ASTRA notes',
   },
   {
     id: '8',

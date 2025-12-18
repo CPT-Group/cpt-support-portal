@@ -297,6 +297,13 @@ export const StepRequestData = ({
         const fileValue = Array.isArray(value) && value[0] instanceof File ? (value as File[]) : [];
         return (
           <div key={fieldId} className="flex flex-column gap-2">
+            <label htmlFor={fieldId} className="font-semibold">
+              {fieldConfig.label}
+              {fieldConfig.required && <span className="text-red-500"> *</span>}
+            </label>
+            {fieldConfig.helpText && (
+              <small className="text-color-secondary">{fieldConfig.helpText}</small>
+            )}
             <SupportFileUpload
               files={fileValue}
               onFilesChange={(files) => onFieldChange(fieldId, files)}
