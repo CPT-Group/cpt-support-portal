@@ -302,8 +302,8 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
               <p className="m-0 line-height-3 text-color-secondary">{selectedFaq.answer}</p>
             </div>
             <div className="flex flex-column gap-3 mt-3 w-full">
-              <p className="m-0 font-semibold text-lg">Was this helpful?</p>
-              <div className="flex justify-content-between gap-2">
+              <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
+              <div className="flex justify-content-center gap-2">
                 <CPTButton
                   label="No"
                   onClick={() => {
