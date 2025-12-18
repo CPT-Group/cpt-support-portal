@@ -305,7 +305,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
               <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
               <div className="flex justify-content-center gap-2">
                 <CPTButton
-                  label="No"
+                  icon="pi pi-thumbs-down"
                   onClick={() => {
                     setFaqDialogVisible(false);
                     // Now proceed to next step
@@ -318,12 +318,18 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                       }
                     }
                   }}
-                  className="p-button-primary"
+                  className="p-button-primary p-button-rounded"
+                  tooltip="No - Continue to form"
+                  tooltipOptions={{ position: 'top' }}
+                  aria-label="No - Continue to form"
                 />
                 <CPTButton
-                  label="Yes"
+                  icon="pi pi-thumbs-up"
                   onClick={() => setFaqDialogVisible(false)}
-                  className="p-button-secondary"
+                  className="p-button-secondary p-button-rounded"
+                  tooltip="Yes - Close dialog"
+                  tooltipOptions={{ position: 'top' }}
+                  aria-label="Yes - Close dialog"
                 />
               </div>
             </div>
