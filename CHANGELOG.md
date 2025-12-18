@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2025-01-27
+
+### Changed - FAQ Data Update
+- **Updated FAQ Content** - Replaced all FAQ items with new content from `Support Portal - FAQ-CONTENT.csv`:
+  - Updated all 15 FAQs with new questions and answers
+  - Changed FAQ IDs from `faq-001` format to UUID format (e.g., `550e8400-e29b-41d4-a716-446655440001`)
+  - FAQs now ordered by sort order (1-15) matching the CSV
+- **Updated Request Type FAQ Links** - Updated all `faqLink` references in request types to use new UUIDs:
+  - Request Passcode (ID: 4) → `550e8400-e29b-41d4-a716-446655440010` (What is my ID and/or Passcode?)
+  - Request Check Reissue (ID: 6) → `550e8400-e29b-41d4-a716-446655440015` (What if I Did Not Receive my Payment?)
+  - Did you Receive my Response? (ID: 14) → `550e8400-e29b-41d4-a716-446655440011` (Did you Receive my Response?)
+  - Have you Received my Supporting Documents? (ID: 15) → `550e8400-e29b-41d4-a716-446655440012` (Did you Receive my Supporting Documents?)
+  - What is my Settlement Amount? (ID: 16) → `550e8400-e29b-41d4-a716-446655440004` (What is my Settlement Amount?)
+  - When will I Receive my Settlement Payment? (ID: 17) → `550e8400-e29b-41d4-a716-446655440013` (When Will I Receive my Settlement Payment)
+
 ## [1.6.0] - 2025-01-27
 
 ### Changed - Major Field Consolidation and Request Type Reordering

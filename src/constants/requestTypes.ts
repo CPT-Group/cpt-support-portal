@@ -21,7 +21,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'Request Passcode',
     requiredFields: ['firstName', 'lastName', 'email', 'phone'],
     optionalFields: ['cptId'],
-    faqLink: 'faq-007', // How to find passcode on notice
+    faqLink: '550e8400-e29b-41d4-a716-446655440010', // What is my ID and/or Passcode?
     notes: 'FAQ reference: How to find passcode on notice',
   },
   {
@@ -78,6 +78,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'Request Check Reissue',
     requiredFields: ['firstName', 'lastName', 'email', 'phone', 'previousAddress', 'newAddress'],
     optionalFields: ['cptId'],
+    faqLink: '550e8400-e29b-41d4-a716-446655440015', // What if I Did Not Receive my Payment?
     notes: 'Request for check reissue due to address change',
   },
   {
@@ -106,7 +107,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'Did you Receive my Response?',
     requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address'],
     optionalFields: ['cptId'],
-    faqLink: 'faq-007', // How to find on notice / check status
+    faqLink: '550e8400-e29b-41d4-a716-446655440011', // Did you Receive my Response?
     notes: 'Status inquiry - may resolve without submission',
   },
   {
@@ -114,7 +115,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'Have you Received my Supporting Documents?',
     requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address'],
     optionalFields: ['cptId'],
-    faqLink: 'faq-007', // How to find on notice / check status
+    faqLink: '550e8400-e29b-41d4-a716-446655440012', // Did you Receive my Supporting Documents?
     notes: 'Status inquiry - may resolve without submission',
   },
   {
@@ -122,7 +123,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'What is my Settlement Amount?',
     requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address'],
     optionalFields: ['cptId'],
-    faqLink: 'faq-005', // How much money will I recover
+    faqLink: '550e8400-e29b-41d4-a716-446655440004', // What is my Settlement Amount?
     notes: 'Status inquiry - may resolve without submission',
   },
   {
@@ -130,7 +131,7 @@ export const REQUEST_TYPES: RequestTypeConfig[] = [
     label: 'When will I Receive my Settlement Payment?',
     requiredFields: ['firstName', 'lastName', 'email', 'phone', 'address'],
     optionalFields: ['cptId'],
-    faqLink: 'faq-006', // How can I receive a settlement payment
+    faqLink: '550e8400-e29b-41d4-a716-446655440013', // When Will I Receive my Settlement Payment
     notes: 'Status inquiry - may resolve without submission',
   },
 ];
