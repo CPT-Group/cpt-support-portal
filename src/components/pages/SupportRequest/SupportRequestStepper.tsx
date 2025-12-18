@@ -301,28 +301,31 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
               <h3 className="mt-0 mb-3 text-2xl font-semibold">{selectedFaq.question}</h3>
               <p className="m-0 line-height-3 text-color-secondary">{selectedFaq.answer}</p>
             </div>
-            <div className="flex justify-content-between gap-2 mt-3 w-full">
-              <CPTButton
-                label="Continue"
-                onClick={() => {
-                  setFaqDialogVisible(false);
-                  // Now proceed to next step
-                  const isValid = goToNextStep();
-                  if (isValid) {
-                    if (window.innerWidth <= 768) {
-                      setTimeout(() => {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }, 100);
+            <div className="flex flex-column gap-3 mt-3 w-full">
+              <p className="m-0 font-semibold text-lg">Was this helpful?</p>
+              <div className="flex justify-content-between gap-2">
+                <CPTButton
+                  label="No"
+                  onClick={() => {
+                    setFaqDialogVisible(false);
+                    // Now proceed to next step
+                    const isValid = goToNextStep();
+                    if (isValid) {
+                      if (window.innerWidth <= 768) {
+                        setTimeout(() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 100);
+                      }
                     }
-                  }
-                }}
-                className="p-button-primary"
-              />
-              <CPTButton
-                label="Go Back"
-                onClick={() => setFaqDialogVisible(false)}
-                className="p-button-secondary"
-              />
+                  }}
+                  className="p-button-primary"
+                />
+                <CPTButton
+                  label="Yes"
+                  onClick={() => setFaqDialogVisible(false)}
+                  className="p-button-secondary"
+                />
+              </div>
             </div>
           </div>
         )}
