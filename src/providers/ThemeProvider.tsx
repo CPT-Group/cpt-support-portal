@@ -24,12 +24,12 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Get theme from localStorage or default to dark
-    const savedTheme = (localStorage.getItem('cpt-theme') as Theme) || 'dark';
+    // Get theme from localStorage or default to light
+    const savedTheme = (localStorage.getItem('cpt-theme') as Theme) || 'light';
     setTheme(savedTheme);
     
     // Create initial theme link element
