@@ -303,11 +303,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
             </div>
             <div className="flex justify-content-between gap-2 mt-3 w-full">
               <CPTButton
-                label="Go Back"
-                onClick={() => setFaqDialogVisible(false)}
-                className="p-button-secondary"
-              />
-              <CPTButton
                 label="Continue"
                 onClick={() => {
                   setFaqDialogVisible(false);
@@ -322,6 +317,11 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                   }
                 }}
                 className="p-button-primary"
+              />
+              <CPTButton
+                label="Go Back"
+                onClick={() => setFaqDialogVisible(false)}
+                className="p-button-secondary"
               />
             </div>
           </div>
