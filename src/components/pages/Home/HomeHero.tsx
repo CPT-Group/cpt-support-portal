@@ -22,11 +22,11 @@ export const HomeHero = () => {
 
   return (
     <div 
-      className="flex flex-column align-items-center justify-content-center p-4"
+      className="flex flex-column align-items-center justify-content-center"
       style={{ 
         minHeight: 'calc(100vh - 5rem)',
-        paddingTop: '3rem',
-        paddingBottom: '3rem'
+        padding: '3rem 1rem',
+        boxSizing: 'border-box'
       }}
     >
       <div className="text-center">

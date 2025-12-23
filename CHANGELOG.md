@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.0] - 2025-01-27
+
+### Fixed - Layout and Overflow Issues
+- **Body Height and Padding** - Removed fixed height and padding-top from body:
+  - Body is now dynamic (no fixed height causing overflow)
+  - Removed `padding-top: 5rem` from body
+  - Removed `height: 100%` from body
+- **MainContent Wrapper** - Created new MainContent component for proper spacing:
+  - Wraps all page content in `<main>` element
+  - Adds `padding-top: 5rem` for all pages except home (`/`)
+  - Home page has `padding-top: 0` (handles its own spacing)
+  - Content is dynamic - no fixed heights causing scrollbars
+- **Home Hero Overflow** - Fixed scrollbar issue on large screens:
+  - Updated height calculation to use `box-sizing: border-box`
+  - Simplified padding to prevent overflow
+  - Hero section now fits within viewport without causing scrollbars
+
+### Changed - Background Images Restored
+- **Background Images** - Uncommented and restored background images:
+  - Light theme: `cptbg-law-light.png`
+  - Dark theme: `cptbg-law.png`
+  - Background images are active again
+- **Overlay Opacity** - Increased static overlay darkness:
+  - Changed from 70% to 80% opacity for better contrast
+  - Light theme: `rgba(255, 255, 255, 0.8)`
+  - Dark theme: `rgba(0, 0, 0, 0.8)`
+- **Animated Gradient** - Restored animated gradient overlay (was temporarily commented out)
+
+### Technical Details
+- Created `src/components/layout/MainContent.tsx` for conditional padding
+- Updated `src/app/layout.tsx` to wrap children in MainContent
+- Updated `src/components/layout/index.ts` to export MainContent
+- Updated `src/app/globals.css` to remove body height/padding constraints
+- Updated `src/components/pages/Home/HomeHero.tsx` with better height calculation
+
 ## [1.12.0] - 2025-01-27
 
 ### Added - FAQ Feedback System with Inline Dialog
