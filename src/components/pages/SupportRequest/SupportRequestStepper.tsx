@@ -15,7 +15,10 @@ import { CASE_LIST, FAQ_DATA } from '@/constants';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
-import { sendFAQHelpfulWebhook } from '@/utils/webhooks';
+import { sendFAQHelpfulWebhook, sendFAQFeedbackWebhook } from '@/utils/webhooks';
+import { Rating } from 'primereact/rating';
+import { CPTInputTextarea, CPTMessage } from '@cpt-group/cpt-prime-react';
+import { useHeader } from '@/providers/HeaderProvider';
 
 interface SupportRequestStepperProps {
   initialData?: Partial<DynamicFormData>;
@@ -25,10 +28,16 @@ interface SupportRequestStepperProps {
 export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequestStepperProps) => {
   const router = useRouter();
   const toast = useRef<Toast>(null);
+  const { setIsFaqDialogOpen } = useHeader();
   const [stepOpacity, setStepOpacity] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [faqDialogVisible, setFaqDialogVisible] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState<FAQItem | null>(null);
+  const [faqDialogView, setFaqDialogView] = useState<'faq' | 'rating' | 'confirmation'>('faq');
+  const [faqRating, setFaqRating] = useState<number>(0);
+  const [faqComments, setFaqComments] = useState<string>('');
+  const [faqFeedbackError, setFaqFeedbackError] = useState<string | null>(null);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
   const {
     formData,
     activeStep,
@@ -263,7 +272,12 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                     const faq = FAQ_DATA.find((f) => f.id === requestTypeWithFaq.faqLink);
                     if (faq) {
                       setSelectedFaq(faq);
+                      setFaqDialogView('faq');
+                      setFaqRating(0);
+                      setFaqComments('');
+                      setFaqFeedbackError(null);
                       setFaqDialogVisible(true);
+                      setIsFaqDialogOpen(true);
                       return; // Don't proceed to next step yet
                     }
                   }
@@ -288,31 +302,214 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
 
       {/* FAQ Dialog */}
       <CPTDialog
-        header={selectedFaq?.question || 'FAQ'}
+        header={
+          faqDialogView === 'faq' 
+            ? selectedFaq?.question || 'FAQ'
+            : faqDialogView === 'rating'
+            ? 'Share Your Feedback'
+            : 'Thank You!'
+        }
         visible={faqDialogVisible}
-        onHide={() => setFaqDialogVisible(false)}
+        onHide={() => {
+          setFaqDialogVisible(false);
+          setIsFaqDialogOpen(false);
+          // Reset dialog state when closing
+          setFaqDialogView('faq');
+          setFaqRating(0);
+          setFaqComments('');
+          setFaqFeedbackError(null);
+        }}
         style={{ width: '50vw' }}
         breakpoints={{ '960px': '75vw', '640px': '90vw' }}
         modal
         dismissableMask
       >
         {selectedFaq && (
-          <div className="flex flex-column gap-4">
-            <div className="w-full">
-              <div 
-                className="m-0 line-height-3 text-color-secondary"
-                style={{ textAlign: 'left' }}
-                dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
-              />
-            </div>
-            <div className="flex flex-column gap-3 mt-3 w-full">
-              <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
-              <div className="flex justify-content-center gap-2">
+          <>
+            {/* FAQ Content View */}
+            {faqDialogView === 'faq' && (
+              <div className="flex flex-column gap-4">
+                <div className="w-full">
+                  <div 
+                    className="m-0 line-height-3 text-color-secondary"
+                    style={{ textAlign: 'left' }}
+                    dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
+                  />
+                </div>
+                <div className="flex flex-column gap-3 mt-3 w-full">
+                  <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
+                  <div className="flex justify-content-center gap-2">
+                    <CPTButton
+                      icon="pi pi-thumbs-down"
+                      onClick={() => {
+                        setFaqDialogVisible(false);
+                        // Now proceed to next step
+                        const isValid = goToNextStep();
+                        if (isValid) {
+                          if (window.innerWidth <= 768) {
+                            setTimeout(() => {
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }, 100);
+                          }
+                        }
+                      }}
+                      className="p-button-primary p-button-rounded"
+                      tooltip="No - Continue to form"
+                      tooltipOptions={{ position: 'top' }}
+                      aria-label="No - Continue to form"
+                    />
+                    <CPTButton
+                      icon="pi pi-thumbs-up"
+                      onClick={async () => {
+                        // Send initial webhook for thumbs up click
+                        await sendFAQHelpfulWebhook(selectedFaq.id, selectedFaq.question);
+                        // Switch to rating view
+                        setFaqDialogView('rating');
+                      }}
+                      className="p-button-secondary p-button-rounded"
+                      tooltip="Yes - Share feedback"
+                      tooltipOptions={{ position: 'top' }}
+                      aria-label="Yes - Share feedback"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Rating Form View */}
+            {faqDialogView === 'rating' && (
+              <div className="flex flex-column gap-4">
+                <div className="flex flex-column gap-2">
+                  <label htmlFor="faq-rating" className="font-semibold">
+                    How would you rate our support?
+                    <span className="text-red-500"> *</span>
+                  </label>
+                  <div className="flex align-items-center gap-2">
+                    <Rating
+                      id="faq-rating"
+                      value={faqRating}
+                      onChange={(e) => {
+                        setFaqRating(e.value || 0);
+                        setFaqFeedbackError(null);
+                      }}
+                      stars={5}
+                      cancel={false}
+                      className="text-2xl"
+                    />
+                    {faqRating > 0 && (
+                      <span className="text-color-secondary ml-2">
+                        ({faqRating} {faqRating === 1 ? 'star' : 'stars'})
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-column gap-2">
+                  <label htmlFor="faq-comments" className="font-semibold">
+                    Additional Comments or Suggestions
+                  </label>
+                  <CPTInputTextarea
+                    id="faq-comments"
+                    value={faqComments}
+                    onChange={(e) => setFaqComments(e.target.value)}
+                    rows={4}
+                    autoResize
+                    placeholder="Please share any additional comments, suggestions, or feedback about our support..."
+                    className="w-full"
+                  />
+                  <small className="text-color-secondary">
+                    Optional: Help us improve by sharing your thoughts
+                  </small>
+                </div>
+
+                {faqFeedbackError && (
+                  <CPTMessage
+                    severity="error"
+                    text={faqFeedbackError}
+                    className="w-full"
+                  />
+                )}
+
+                <div className="flex justify-content-end gap-2 mt-2">
+                  <CPTButton
+                    label="Close"
+                    icon="pi pi-times"
+                    iconPos="left"
+                    onClick={() => {
+                      setFaqDialogVisible(false);
+                      setIsFaqDialogOpen(false);
+                      // Reset dialog state when closing
+                      setFaqDialogView('faq');
+                      setFaqRating(0);
+                      setFaqComments('');
+                      setFaqFeedbackError(null);
+                    }}
+                    className="p-button-secondary"
+                    disabled={isSubmittingFeedback}
+                  />
+                  <CPTButton
+                    label="Submit Feedback"
+                    icon="pi pi-check"
+                    iconPos="right"
+                    onClick={async () => {
+                      if (faqRating === 0) {
+                        setFaqFeedbackError('Please provide a rating');
+                        return;
+                      }
+
+                      setIsSubmittingFeedback(true);
+                      setFaqFeedbackError(null);
+
+                      try {
+                        const feedbackData = {
+                          faqId: selectedFaq.id,
+                          faqQuestion: selectedFaq.question,
+                          timestamp: new Date().toISOString(),
+                          rating: faqRating,
+                          comments: faqComments.trim() || undefined,
+                        };
+
+                        // Send webhook
+                        await sendFAQFeedbackWebhook(feedbackData);
+
+                        // Show confirmation
+                        setFaqDialogView('confirmation');
+                      } catch (err) {
+                        setFaqFeedbackError('Failed to submit feedback. Please try again.');
+                        console.error('Feedback submission error:', err);
+                      } finally {
+                        setIsSubmittingFeedback(false);
+                      }
+                    }}
+                    className="p-button-primary"
+                    loading={isSubmittingFeedback}
+                    disabled={isSubmittingFeedback || faqRating === 0}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Confirmation View */}
+            {faqDialogView === 'confirmation' && (
+              <div className="flex flex-column gap-4 align-items-center">
+                <i className="pi pi-check-circle text-6xl text-primary" />
+                <h2 className="m-0 font-semibold text-center">Thank You!</h2>
+                <p className="text-color-secondary line-height-3 text-center">
+                  Your feedback has been submitted. We appreciate you taking the time to help us improve!
+                </p>
                 <CPTButton
-                  icon="pi pi-thumbs-down"
+                  label="Continue to Form"
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
                   onClick={() => {
                     setFaqDialogVisible(false);
-                    // Now proceed to next step
+                    setIsFaqDialogOpen(false);
+                    // Reset dialog state
+                    setFaqDialogView('faq');
+                    setFaqRating(0);
+                    setFaqComments('');
+                    setFaqFeedbackError(null);
+                    // Proceed to next step
                     const isValid = goToNextStep();
                     if (isValid) {
                       if (window.innerWidth <= 768) {
@@ -322,33 +519,11 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                       }
                     }
                   }}
-                  className="p-button-primary p-button-rounded"
-                  tooltip="No - Continue to form"
-                  tooltipOptions={{ position: 'top' }}
-                  aria-label="No - Continue to form"
-                />
-                <CPTButton
-                  icon="pi pi-thumbs-up"
-                  onClick={async () => {
-                    setFaqDialogVisible(false);
-                    // Send initial webhook for thumbs up click
-                    if (selectedFaq) {
-                      await sendFAQHelpfulWebhook(selectedFaq.id, selectedFaq.question);
-                      // Navigate to congratulations page with FAQ info
-                      const params = new URLSearchParams({
-                        faqId: selectedFaq.id,
-                      });
-                      router.push(`/congratulations?${params.toString()}`);
-                    }
-                  }}
-                  className="p-button-secondary p-button-rounded"
-                  tooltip="Yes - Share feedback"
-                  tooltipOptions={{ position: 'top' }}
-                  aria-label="Yes - Share feedback"
+                  className="p-button-primary"
                 />
               </div>
-            </div>
-          </div>
+            )}
+          </>
         )}
       </CPTDialog>
     </div>

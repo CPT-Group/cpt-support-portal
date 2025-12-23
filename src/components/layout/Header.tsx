@@ -12,7 +12,7 @@ import { HeaderThemeToggle } from './HeaderThemeToggle';
 import { HeaderSidebar } from './HeaderSidebar';
 
 export const Header = memo(() => {
-  const { isFormActive } = useHeader();
+  const { isFormActive, isFaqDialogOpen } = useHeader();
   const pathname = usePathname();
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -88,6 +88,7 @@ export const Header = memo(() => {
           WebkitBackdropFilter: 'blur(10px)',
           margin: 0,
           padding: 0,
+          display: isFaqDialogOpen ? 'none' : 'block',
         }}
       >
         <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1rem', width: '100%' }}>

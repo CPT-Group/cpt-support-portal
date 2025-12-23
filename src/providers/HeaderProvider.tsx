@@ -5,6 +5,8 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 interface HeaderContextType {
   isFormActive: boolean;
   setIsFormActive: (active: boolean) => void;
+  isFaqDialogOpen: boolean;
+  setIsFaqDialogOpen: (open: boolean) => void;
 }
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
@@ -23,9 +25,10 @@ interface HeaderProviderProps {
 
 export const HeaderProvider = ({ children }: HeaderProviderProps) => {
   const [isFormActive, setIsFormActive] = useState(false);
+  const [isFaqDialogOpen, setIsFaqDialogOpen] = useState(false);
 
   return (
-    <HeaderContext.Provider value={{ isFormActive, setIsFormActive }}>
+    <HeaderContext.Provider value={{ isFormActive, setIsFormActive, isFaqDialogOpen, setIsFaqDialogOpen }}>
       {children}
     </HeaderContext.Provider>
   );
