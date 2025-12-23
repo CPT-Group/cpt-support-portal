@@ -103,3 +103,59 @@ header.sticky {
 body {
   padding-top: 0 !important;
 }
+
+/* Parallax background images - theme-specific */
+html[data-theme='light'] body {
+  background-image: url('/background/cptbg-law-light.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+html[data-theme='dark'] body {
+  background-image: url('/background/cptbg-law.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/* Theme-specific overlay with 85% opacity */
+html[data-theme='light'] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: -1;
+  pointer-events: none;
+}
+
+html[data-theme='dark'] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Ensure content is above background */
+body {
+  position: relative;
+  z-index: 0;
+}
+
+/* Make sure main content areas have proper background for readability */
+main, .page-responsive-padding {
+  position: relative;
+  z-index: 1;
+}
