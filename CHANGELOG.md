@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.12.0] - 2025-01-27
+
+### Added - FAQ Feedback System with Inline Dialog
+- **FAQ Feedback Dialog** - Integrated feedback collection directly in FAQ dialog:
+  - Removed navigation to separate `/congratulations` page
+  - Feedback form now appears inline within the FAQ dialog
+  - Three dialog views: FAQ content, Rating form, Confirmation
+  - Header dynamically hides when FAQ dialog is open
+- **Webhook Integration** - Server-side API route for Teams webhook:
+  - Created `/api/webhooks/faq-feedback` API route to proxy webhook requests
+  - Avoids CORS issues by handling webhook on server-side
+  - Formats messages for Microsoft Teams incoming webhooks
+  - Webhook triggers when user closes dialog or submits feedback (not on initial "Yes" click)
+- **Feedback Data Collection**:
+  - When user clicks "Close": Sends webhook with "No feedback given"
+  - When user submits: Sends webhook with rating and description
+  - Teams message format includes FAQ question, FAQ ID, rating (if provided), description (if provided), and timestamp
+- **Confirmation View Updates**:
+  - Changed "Continue to Form" to "Back to Home" and "View FAQ" buttons
+  - Users who found FAQ helpful don't need to continue with form
+
+### Changed - FAQ Dialog Flow
+- **Thumbs Up Button** - No longer sends webhook immediately:
+  - Now just switches to rating view
+  - Webhook sent when user closes or submits feedback
+- **Close Button** - Now sends webhook with "No feedback given" status
+- **Submit Button** - Sends webhook with full feedback data (rating + description)
+
+### Changed - UI Improvements
+- **Body Top Margin** - Added 5rem top padding to body to account for fixed header
+- **Background Images** - Temporarily commented out background images in globals.css
+- **Rating Form** - Removed introductory text, goes straight to rating and comments fields
+- **Button Labels** - Changed "Cancel" to "Close" in feedback form
+
+### Technical Details
+- Created `src/app/api/webhooks/faq-feedback/route.ts` for server-side webhook proxy
+- Updated `src/utils/webhooks.ts` to use API route instead of direct fetch
+- Updated `src/providers/HeaderProvider.tsx` to track FAQ dialog state
+- Updated `src/components/layout/Header.tsx` to hide when FAQ dialog is open
+- Updated `src/components/pages/SupportRequest/SupportRequestStepper.tsx` with inline feedback flow
+- Teams webhook format: Simple text format with structured data
+- Netlify configuration updated to document `NEXT_PUBLIC_FAQ_FEEDBACK_WEBHOOK_URL` requirement
+
 ## [1.11.0] - 2025-01-27
 
 ### Added - FAQ Feedback System

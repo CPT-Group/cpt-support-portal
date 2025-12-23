@@ -18,21 +18,9 @@ export interface FAQFeedbackWebhookData {
 export async function sendFAQFeedbackWebhook(
   data: FAQFeedbackWebhookData
 ): Promise<void> {
-  const webhookUrl = process.env.NEXT_PUBLIC_FAQ_FEEDBACK_WEBHOOK_URL;
-
-  if (!webhookUrl) {
-    // In development, log to console instead of failing
-    if (process.env.NODE_ENV === 'development') {
-      console.log('FAQ Feedback Webhook (would send):', data);
-      return;
-    }
-    // In production, silently fail if webhook URL is not configured
-    console.warn('FAQ Feedback Webhook URL not configured');
-    return;
-  }
-
+  // Use Next.js API route to proxy the webhook request (avoids CORS issues)
   try {
-    const response = await fetch(webhookUrl, {
+    const response = await fetch('/api/webhooks/faq-feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,11 +29,20 @@ export async function sendFAQFeedbackWebhook(
     });
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(`Webhook request failed: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
     // Log error but don't throw - we don't want to break the user experience
-    console.error('Failed to send FAQ feedback webhook:', error);
+    if (error instanceof TypeError && error.message === 'Failed to fetch') {
+      console.warn('FAQ Feedback Webhook: Network error. This may be a connectivity issue.');
+      // In development, still log the data that would have been sent
+      if (process.env.NODE_ENV === 'development') {
+        console.log('FAQ Feedback Webhook (would send):', data);
+      }
+    } else {
+      console.error('Failed to send FAQ feedback webhook:', error);
+    }
   }
 }
 

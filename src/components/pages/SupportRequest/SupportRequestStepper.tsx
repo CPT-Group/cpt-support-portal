@@ -360,10 +360,8 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                     />
                     <CPTButton
                       icon="pi pi-thumbs-up"
-                      onClick={async () => {
-                        // Send initial webhook for thumbs up click
-                        await sendFAQHelpfulWebhook(selectedFaq.id, selectedFaq.question);
-                        // Switch to rating view
+                      onClick={() => {
+                        // Switch to rating view (webhook will be sent when they close or submit)
                         setFaqDialogView('rating');
                       }}
                       className="p-button-secondary p-button-rounded"
@@ -435,7 +433,16 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                     label="Close"
                     icon="pi pi-times"
                     iconPos="left"
-                    onClick={() => {
+                    onClick={async () => {
+                      // Send webhook with "no feedback given" since they closed without submitting
+                      if (selectedFaq) {
+                        await sendFAQFeedbackWebhook({
+                          faqId: selectedFaq.id,
+                          faqQuestion: selectedFaq.question,
+                          timestamp: new Date().toISOString(),
+                          // No rating or comments - user closed without providing feedback
+                        });
+                      }
                       setFaqDialogVisible(false);
                       setIsFaqDialogOpen(false);
                       // Reset dialog state when closing
@@ -497,30 +504,40 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                 <p className="text-color-secondary line-height-3 text-center">
                   Your feedback has been submitted. We appreciate you taking the time to help us improve!
                 </p>
-                <CPTButton
-                  label="Continue to Form"
-                  icon="pi pi-arrow-right"
-                  iconPos="right"
-                  onClick={() => {
-                    setFaqDialogVisible(false);
-                    setIsFaqDialogOpen(false);
-                    // Reset dialog state
-                    setFaqDialogView('faq');
-                    setFaqRating(0);
-                    setFaqComments('');
-                    setFaqFeedbackError(null);
-                    // Proceed to next step
-                    const isValid = goToNextStep();
-                    if (isValid) {
-                      if (window.innerWidth <= 768) {
-                        setTimeout(() => {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 100);
-                      }
-                    }
-                  }}
-                  className="p-button-primary"
-                />
+                <div className="flex gap-2 justify-content-center flex-wrap">
+                  <CPTButton
+                    label="Back to Home"
+                    icon="pi pi-home"
+                    iconPos="left"
+                    onClick={() => {
+                      setFaqDialogVisible(false);
+                      setIsFaqDialogOpen(false);
+                      // Reset dialog state
+                      setFaqDialogView('faq');
+                      setFaqRating(0);
+                      setFaqComments('');
+                      setFaqFeedbackError(null);
+                      router.push('/');
+                    }}
+                    className="p-button-primary"
+                  />
+                  <CPTButton
+                    label="View FAQ"
+                    icon="pi pi-question-circle"
+                    iconPos="left"
+                    onClick={() => {
+                      setFaqDialogVisible(false);
+                      setIsFaqDialogOpen(false);
+                      // Reset dialog state
+                      setFaqDialogView('faq');
+                      setFaqRating(0);
+                      setFaqComments('');
+                      setFaqFeedbackError(null);
+                      router.push('/faq');
+                    }}
+                    className="p-button-outlined"
+                  />
+                </div>
               </div>
             )}
           </>
