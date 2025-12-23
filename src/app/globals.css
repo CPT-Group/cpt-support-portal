@@ -101,10 +101,12 @@ header.sticky {
 
 /* Add padding to body to account for fixed header */
 body {
-  padding-top: 0 !important;
+  padding-top: 5rem !important;
 }
 
 /* Parallax background images - theme-specific */
+/* TEMPORARILY COMMENTED OUT */
+/*
 html[data-theme='light'] body {
   background-image: url('/background/cptbg-law-light.png');
   background-attachment: fixed;
@@ -122,8 +124,9 @@ html[data-theme='dark'] body {
   background-size: cover;
   position: relative;
 }
+*/
 
-/* Theme-specific overlay with 85% opacity */
+/* Base overlay with 70% opacity */
 html[data-theme='light'] body::before {
   content: '';
   position: fixed;
@@ -131,8 +134,8 @@ html[data-theme='light'] body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.85);
-  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: -2;
   pointer-events: none;
 }
 
@@ -143,9 +146,68 @@ html[data-theme='dark'] body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Animated gradient overlay - smooth diagonal gradient moving across */
+html[data-theme='light'] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.25) 20%,
+    rgba(255, 255, 255, 0.15) 40%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0.25) 80%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 30s linear infinite;
   z-index: -1;
   pointer-events: none;
+  will-change: background-position;
+}
+
+html[data-theme='dark'] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.35) 20%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.2) 60%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 30s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  will-change: background-position;
+}
+
+/* Slow diagonal gradient animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 /* Ensure content is above background */

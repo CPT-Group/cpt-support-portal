@@ -49,8 +49,7 @@ const SuccessContent = () => {
             <i className="pi pi-check-circle text-6xl text-primary" />
             <h1 className="text-4xl font-bold">Thank you, {firstName}!</h1>
             <p className="text-xl text-color-secondary line-height-3">
-              Your support request has been submitted. We will get back to you
-              shortly.
+              Your support request has been submitted. We will confirm once your request has been completed or if additional information is needed.
             </p>
             <div className="flex gap-3 justify-content-center flex-wrap mt-4">
               <CPTButton

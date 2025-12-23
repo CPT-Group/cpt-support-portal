@@ -15,6 +15,7 @@ import { CASE_LIST, FAQ_DATA } from '@/constants';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
+import { sendFAQHelpfulWebhook } from '@/utils/webhooks';
 
 interface SupportRequestStepperProps {
   initialData?: Partial<DynamicFormData>;
@@ -328,11 +329,22 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                 />
                 <CPTButton
                   icon="pi pi-thumbs-up"
-                  onClick={() => setFaqDialogVisible(false)}
+                  onClick={async () => {
+                    setFaqDialogVisible(false);
+                    // Send initial webhook for thumbs up click
+                    if (selectedFaq) {
+                      await sendFAQHelpfulWebhook(selectedFaq.id, selectedFaq.question);
+                      // Navigate to congratulations page with FAQ info
+                      const params = new URLSearchParams({
+                        faqId: selectedFaq.id,
+                      });
+                      router.push(`/congratulations?${params.toString()}`);
+                    }
+                  }}
                   className="p-button-secondary p-button-rounded"
-                  tooltip="Yes - Close dialog"
+                  tooltip="Yes - Share feedback"
                   tooltipOptions={{ position: 'top' }}
-                  aria-label="Yes - Close dialog"
+                  aria-label="Yes - Share feedback"
                 />
               </div>
             </div>

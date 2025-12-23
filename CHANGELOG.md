@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.0] - 2025-01-27
+
+### Added - FAQ Feedback System
+- **FAQ Feedback Page** - New `/congratulations` page for collecting user feedback:
+  - Personalized message based on FAQ topic (e.g., "We're glad our address change FAQ helped you!")
+  - PrimeReact Rating component (1-5 stars) for support rating
+  - Optional textarea for additional comments and suggestions
+  - Submit button with loading spinner during submission
+  - Confirmation state after submission with "Back to Home" button
+  - JSON data display for prototype/testing purposes
+- **Webhook Integration** - Webhook utility for sending FAQ feedback data:
+  - Sends initial webhook when user clicks thumbs up on FAQ dialog
+  - Sends detailed feedback webhook with rating and comments after form submission
+  - Configurable via `NEXT_PUBLIC_FAQ_FEEDBACK_WEBHOOK_URL` environment variable
+  - Gracefully handles missing webhook URL (logs in development, silent in production)
+- **FAQ Dialog Enhancement** - Updated thumbs up button behavior:
+  - Now navigates to feedback page instead of just closing dialog
+  - Sends initial webhook with FAQ ID, question, and timestamp
+  - Improved tooltip text: "Yes - Share feedback"
+
+### Technical Details
+- Created `src/utils/webhooks.ts` for webhook functionality
+- Created `src/app/congratulations/page.tsx` with feedback form
+- Created `src/app/congratulations/layout.tsx` with metadata (noindex)
+- Updated `SupportRequestStepper.tsx` to handle FAQ feedback navigation
+- Uses PrimeReact Rating component directly (not wrapped in CPT component)
+- Feedback data includes: FAQ ID, question, timestamp, rating (1-5), and optional comments
+
 ## [1.10.0] - 2025-01-27
 
 ### Changed - Header and FAQ Improvements

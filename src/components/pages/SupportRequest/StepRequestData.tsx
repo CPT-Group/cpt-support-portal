@@ -49,7 +49,7 @@ export const StepRequestData = ({
   }, [requiredFields]);
 
   // Organize optional fields by sections
-  // Note: supportingDocs and additionalDescription are now required fields when needed,
+  // Note: supportingDocumentation and additionalDescription are now required fields when needed,
   // so they will appear in requiredFields, not optionalFields
   const optionalFieldsBySection = useMemo(() => {
     return organizeFieldsBySection(optionalFields);
