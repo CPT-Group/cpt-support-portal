@@ -71,13 +71,13 @@ export const FAQ_DATA: FAQItem[] = [
     id: '550e8400-e29b-41d4-a716-446655440011',
     question: 'Did you Receive my Response?',
     answer:
-      'Depending on your case, you can submit responses through mail, email or online via an interactive web portal. \n•\tIf you submitted via email, a confirmation email will be sent within 7 business days.\n•\tIf you submitted via mail, it could take up to 30 days from the postmark date to be processed. You will not receive receipt confirmation. We will only contact you if we need additional information or have questions about your response. \n•\tIf you submitted online, you received a confirmation number on the confirmation page after you click submit. Additionally, an email was sent with the confirmation details. \n\nIf you are still unsure if your response was received, you can send an inquiry to our team.',
+      '<div>Depending on your case, you can submit responses through mail, email or online via an interactive web portal. <ul><li>If you submitted via email, a confirmation email will be sent within 7 business days.</li><li>If you submitted via mail, it could take up to 30 days from the postmark date to be processed. You will not receive receipt confirmation. We will only contact you if we need additional information or have questions about your response.</li><li>If you submitted online, you received a confirmation number on the confirmation page after you click submit. Additionally, an email was sent with the confirmation details.</li></ul><p>If you are still unsure if your response was received, you can send an inquiry to our team.</p></div>',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440012',
     question: 'Did you Receive my Supporting Documents?',
     answer:
-      'If you received a request for supporting documents based on your initial submission, your response options are typically via email or mail. \n\n•\tIf you submitted your supporting documents via email, a confirmation email will be sent within 7 business days.\n•\tIf you submitted via mail, it could take up to 30 days from the postmark date to be processed. You will not receive receipt confirmation. We will only contact you if we need additional information or have questions about your supporting information.',
+      '<div>If you received a request for supporting documents based on your initial submission, your response options are typically via email or mail. <ul><li>If you submitted your supporting documents via email, a confirmation email will be sent within 7 business days.</li><li>If you submitted via mail, it could take up to 30 days from the postmark date to be processed. You will not receive receipt confirmation. We will only contact you if we need additional information or have questions about your supporting information.</li></ul></div>',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440013',

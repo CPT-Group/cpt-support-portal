@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10.0] - 2025-01-27
+
+### Changed - Header and FAQ Improvements
+- **Header Full Width** - Fixed header to span full viewport width:
+  - Changed from `sticky` to `fixed` positioning to break out of parent padding
+  - Header now extends edge-to-edge regardless of page padding
+  - Prevents horizontal scrolling issues
+  - Content scrolls below header, header stays fixed at top
+- **Header Transparency** - Enhanced header backdrop blur effect:
+  - Dark mode: More transparent (`rgba(120, 140, 160, 0.3)`) with lighter grey-blue tint
+  - Light mode: More transparent (`rgba(220, 230, 240, 0.7)`) with darker blue-grey
+  - Added `backdropFilter: blur(10px)` for frosted glass effect
+- **Header Icon Brightness** - Improved icon and menu text visibility:
+  - Dark mode: Brighter blue-white colors (`rgba(235, 245, 255, 1)`)
+  - Sidebar icons and text use brighter blue-white for better contrast
+  - Hover states use even brighter colors
+- **Steps Component Background** - Fixed white background issue:
+  - Light mode: Changed from white to theme background (`var(--surface-ground)`)
+  - Dark mode: Changed from transparent to theme background (`var(--surface-ground)`)
+  - Step numbers now blend with page background
+- **FAQ Dialog Improvements**:
+  - Dynamic header: Uses FAQ question as dialog header instead of "Did you know?"
+  - HTML rendering: FAQ answers now render HTML for proper bullet points
+  - Removed duplicate bullet characters (•) from list items
+  - Left-aligned content for better readability with lists
+  - Updated FAQ data to use proper HTML `<ul>` and `<li>` tags
+
+### Fixed
+- **Horizontal Scroll Prevention** - Added `overflow-x: hidden` to html/body
+- **Header Scrollbar Issues** - Fixed double scrollbar and scroll past header issues
+
 ## [1.9.0] - 2025-01-27
 
 ### Added - Sticky Header with Mobile Responsiveness

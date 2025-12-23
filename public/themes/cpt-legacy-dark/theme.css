@@ -40,7 +40,7 @@
   --surface-card: #222c61;
   --surface-overlay: #222c61;
   --surface-border: #3a4a5f;
-  --header-bg: #4a6a9e;
+  --header-bg: rgba(120, 140, 160, 0.3);
   --surface-hover: rgba(255, 255, 255, 0.05);
   --focus-ring: 0 0 0 1px #6b8fc7;
   --maskbg: rgba(0, 0, 0, 0.5);
@@ -2329,15 +2329,15 @@
     border-color: transparent;
   }
   .p-button.p-button-text.p-button-plain {
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(235, 245, 255, 1);
   }
   .p-button.p-button-text.p-button-plain:not(:disabled):hover {
     background: rgba(107, 143, 199, 0.15);
-    color: #ffffff;
+    color: rgba(245, 250, 255, 1);
   }
   .p-button.p-button-text.p-button-plain:not(:disabled):active {
     background: rgba(107, 143, 199, 0.25);
-    color: #ffffff;
+    color: rgba(245, 250, 255, 1);
   }
   .p-button:focus {
     outline: 0 none;
@@ -5011,7 +5011,7 @@
   }
   .p-sidebar {
     background: #1e2a3a;
-    color: rgba(255, 255, 255, 0.87);
+    color: rgba(235, 245, 255, 1);
     border: 1px solid #3a4a5f;
     box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   }
@@ -5022,7 +5022,7 @@
   .p-sidebar .p-sidebar-header .p-sidebar-icon {
     width: 2rem;
     height: 2rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(235, 245, 255, 1);
     border: 0 none;
     background: transparent;
     border-radius: 50%;
@@ -5030,9 +5030,9 @@
   }
   .p-sidebar .p-sidebar-header .p-sidebar-close:enabled:hover,
   .p-sidebar .p-sidebar-header .p-sidebar-icon:enabled:hover {
-    color: rgba(255, 255, 255, 0.87);
+    color: rgba(245, 250, 255, 1);
     border-color: transparent;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(107, 143, 199, 0.15);
   }
   .p-sidebar .p-sidebar-header .p-sidebar-close:focus-visible,
   .p-sidebar .p-sidebar-header .p-sidebar-icon:focus-visible {
@@ -6167,7 +6167,7 @@
     background: transparent;
     transition: box-shadow 0.2s;
     border-radius: 6px;
-    background: transparent;
+    background: var(--surface-ground);
   }
   .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
     color: rgba(255, 255, 255, 0.95);

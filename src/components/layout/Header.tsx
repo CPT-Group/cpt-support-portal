@@ -81,11 +81,16 @@ export const Header = memo(() => {
         className="sticky top-0"
         style={{
           zIndex: 1000,
+          width: '100%',
           backgroundColor: 'var(--header-bg)',
           borderBottom: '1px solid var(--surface-border)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          margin: 0,
+          padding: 0,
         }}
       >
-        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1rem' }}>
+        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1rem', width: '100%' }}>
           <Toolbar
             start={startContent}
             end={endContent}

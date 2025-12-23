@@ -40,7 +40,7 @@
   --surface-card: #ffffff;
   --surface-overlay: #ffffff;
   --surface-border: #e8ecf1;
-  --header-bg: #ffffff;
+  --header-bg: rgba(220, 230, 240, 0.7);
   --surface-hover: #fafbfd;
   --focus-ring: 0 0 0 1px #8BB3E8;
   --maskbg: rgba(0, 0, 0, 0.4);
@@ -6172,12 +6172,12 @@ body {
     background: transparent;
     transition: box-shadow 0.2s;
     border-radius: 6px;
-    background: #ffffff;
+    background: var(--surface-ground);
   }
   .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
     color: #043d75;
     border: 1px solid #f6f9fc;
-    background: #ffffff;
+    background: var(--surface-ground);
     min-width: 2rem;
     height: 2rem;
     line-height: 2rem;

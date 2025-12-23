@@ -287,7 +287,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
 
       {/* FAQ Dialog */}
       <CPTDialog
-        header="Did you know?"
+        header={selectedFaq?.question || 'FAQ'}
         visible={faqDialogVisible}
         onHide={() => setFaqDialogVisible(false)}
         style={{ width: '50vw' }}
@@ -296,10 +296,13 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         dismissableMask
       >
         {selectedFaq && (
-          <div className="flex flex-column align-items-center gap-4" style={{ textAlign: 'center' }}>
+          <div className="flex flex-column gap-4">
             <div className="w-full">
-              <h3 className="mt-0 mb-3 text-2xl font-semibold">{selectedFaq.question}</h3>
-              <p className="m-0 line-height-3 text-color-secondary">{selectedFaq.answer}</p>
+              <div 
+                className="m-0 line-height-3 text-color-secondary"
+                style={{ textAlign: 'left' }}
+                dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
+              />
             </div>
             <div className="flex flex-column gap-3 mt-3 w-full">
               <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
