@@ -1,4 +1,7 @@
-// Layout components will be exported here
-export * from './BackToHome';
-
+// Layout components
+export * from './Header';
+export * from './HeaderLogo';
+export * from './HeaderBackToHome';
+export * from './HeaderThemeToggle';
+export * from './HeaderSidebar';
 

@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.0] - 2025-01-27
+
+### Added - Sticky Header with Mobile Responsiveness
+- **New Header Component** - Created a sticky header component using PrimeReact Toolbar:
+  - CPT logo on the left (links to home)
+  - "Back To Home" button and theme toggle on the right (desktop)
+  - Hamburger menu button on mobile that opens a sidebar
+  - Sticky positioning with proper z-index
+  - Uses `--header-bg` CSS variable for theme-aware background color
+- **Modular Header Components** - Refactored header into reusable, performant sub-components:
+  - `HeaderLogo.tsx` - Memoized logo component with configurable props
+  - `HeaderThemeToggle.tsx` - Memoized theme toggle with desktop/mobile variants
+  - `HeaderBackToHome.tsx` - Memoized navigation button with desktop/mobile variants
+  - `HeaderSidebar.tsx` - Memoized sidebar component for mobile menu
+  - All components use `React.memo()` and proper `useCallback`/`useMemo` for performance
+- **Header Provider** - Created `HeaderProvider` context to manage form active state:
+  - Allows pages to communicate form state to header for confirmation dialogs
+  - Prevents accidental navigation away from active forms
+- **Mobile Responsive Design** - Header transforms on mobile (< 992px):
+  - Hamburger menu button replaces desktop buttons
+  - Sidebar slides in from right with menu options
+  - Full-width buttons with left-aligned icons in sidebar
+  - Sidebar closes automatically on navigation or theme toggle
+
+### Changed - UI Contrast and Color Improvements
+- **Header Background Colors** - Added `--header-bg` CSS variable:
+  - Dark mode: Lighter blue (`#4a6a9e`) for better visibility
+  - Light mode: White (`#ffffff`) matching the theme
+- **Listbox Selection Colors** - Improved contrast for selected/focused items:
+  - Dark mode: White text on blue-gold background (`rgba(91, 122, 168, 0.4)`)
+  - Light mode: Darker blue text on light blue background (`#D4E4F5`)
+  - Focus states use brighter blue-gold colors for better visibility
+- **Step Number Colors (Dark Mode)** - Enhanced visibility:
+  - Regular steps: White text with blue-gold border and subtle background
+  - Highlighted steps: White text on stronger blue-gold background
+  - Better contrast against dark backgrounds
+- **Button Text Contrast (Dark Mode)** - Improved button visibility:
+  - Text buttons: Increased opacity from 60% to 95% white
+  - Hover states: Full white with blue-gold background tint
+  - Active states: Full white with stronger blue-gold background
+  - Icons inherit brighter colors automatically
+
+### Removed
+- **Old Components** - Removed standalone components replaced by header:
+  - `src/components/common/ThemeToggle.tsx` (functionality moved to Header)
+  - `src/components/layout/BackToHome.tsx` (functionality moved to Header)
+  - Updated index files to remove exports
+
+## [1.8.0] - 2025-01-27
+
+### Changed - Theme Transformation to CPT Brand
+- **Theme Renaming** - Renamed themes from `soho-light`/`soho-dark` to `cpt-legacy-light`/`cpt-legacy-dark`:
+  - Updated theme folder names in `public/themes/`
+  - Updated all code references in `ThemeProvider.tsx` and `PrimeReactProvider.tsx`
+  - Themes now reflect CPT brand identity
+- **CPT Legacy Light Theme** - Updated to match CPT brand colors from example sites:
+  - Primary color: Changed to CPT blue (`#405c8e`) matching the banner gradient
+  - Red accent: Updated to American red (`#db1a4f`) for buttons and accents
+  - Background: Maintained light gray (`#f5f7fa`) for clean, professional appearance
+  - Text colors: Dark blue/navy (`#1a3a5c`) for excellent readability
+  - Updated blue and primary color scales to match banner colors
+- **CPT Legacy Dark Theme** - Updated to match CPT brand colors:
+  - Primary color: Updated to American red (`#db1a4f`) for buttons and interactive elements
+  - Background: Dark blue (`#222c61`) matching the banner gradient middle color
+  - Surfaces: Updated card and overlay colors to match dark blue theme
+  - Focus rings and highlights: Updated to use American red with appropriate tints
+  - Updated red and primary color scales to match brand
+- **Default Theme** - Light theme remains the default (already configured)
+- All theme switching functionality preserved and working seamlessly
+
 ## [1.7.0] - 2025-01-27
 
 ### Changed - FAQ Data Update

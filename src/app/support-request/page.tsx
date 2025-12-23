@@ -1,25 +1,22 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SupportRequestStepper } from '@/components';
-import { BackToHome } from '@/components/layout';
+import { useHeader } from '@/providers/HeaderProvider';
 import { parseURLParams } from '@/utils/urlParams';
 import { CPTProgressSpinner } from '@cpt-group/cpt-prime-react';
 
 const SupportRequestContent = () => {
   const searchParams = useSearchParams();
   const initialData = parseURLParams(searchParams);
-  const [isFormActive, setIsFormActive] = useState(false);
+  const { setIsFormActive } = useHeader();
 
   return (
-    <>
-      <BackToHome isFormActive={isFormActive} />
-      <SupportRequestStepper 
-        initialData={initialData} 
-        onStepChange={(step) => setIsFormActive(step > 0)}
-      />
-    </>
+    <SupportRequestStepper 
+      initialData={initialData} 
+      onStepChange={(step) => setIsFormActive(step > 0)}
+    />
   );
 };
 

@@ -1,13 +1,10 @@
 'use client';
 
 import { FAQAccordion } from '@/components/pages';
-import { BackToHome } from '@/components/layout';
 
 export default function FAQPage() {
   return (
-    <>
-      <BackToHome />
-      <div className="flex flex-column align-items-center justify-content-center min-h-screen page-responsive-padding" style={{ paddingTop: '2.5rem', paddingLeft: '8.5rem', paddingRight: '8.5rem' }}>
+    <div className="flex flex-column align-items-center justify-content-center min-h-screen page-responsive-padding" style={{ paddingTop: '2.5rem', paddingLeft: '8.5rem', paddingRight: '8.5rem' }}>
         <div className="w-full max-w-screen-lg">
           <div className="flex justify-content-between align-items-center mb-4">
             <h1 className="text-5xl font-bold m-0">FAQ</h1>
@@ -19,7 +16,6 @@ export default function FAQPage() {
         <FAQAccordion />
       </div>
     </div>
-    </>
   );
 }
 

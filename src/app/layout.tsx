@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers";
-import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { Header } from "@/components/layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,7 +88,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body>
         <Providers>
-          <ThemeToggle />
+          <Header />
           {children}
         </Providers>
       </body>
