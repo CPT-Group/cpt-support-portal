@@ -21,7 +21,14 @@ export const HomeHero = () => {
   };
 
   return (
-    <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
+    <div 
+      className="flex flex-column align-items-center justify-content-center p-4"
+      style={{ 
+        minHeight: 'calc(100vh - 5rem)',
+        paddingTop: '3rem',
+        paddingBottom: '3rem'
+      }}
+    >
       <div className="text-center">
         <h1 className="text-5xl font-bold mb-4">Welcome to CPT Support Portal</h1>
         <p className="text-xl text-color-secondary mb-6">

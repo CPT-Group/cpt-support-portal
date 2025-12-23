@@ -2315,17 +2315,17 @@
   }
   .p-button.p-button-text {
     background-color: transparent;
-    color: #405c8e;
+    color: rgba(235, 245, 255, 0.9);
     border-color: transparent;
   }
   .p-button.p-button-text:not(:disabled):hover {
-    background: rgba(232, 93, 117, 0.04);
-    color: #405c8e;
+    background: rgba(107, 143, 199, 0.15);
+    color: rgba(245, 250, 255, 1);
     border-color: transparent;
   }
   .p-button.p-button-text:not(:disabled):active {
-    background: rgba(232, 93, 117, 0.16);
-    color: #405c8e;
+    background: rgba(107, 143, 199, 0.25);
+    color: rgba(245, 250, 255, 1);
     border-color: transparent;
   }
   .p-button.p-button-text.p-button-plain {
@@ -4442,7 +4442,7 @@
   .p-card {
     background: #1e2a3a;
     color: rgba(255, 255, 255, 0.87);
-    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     border-radius: 6px;
   }
   .p-card .p-card-body {
@@ -6167,7 +6167,6 @@
     background: transparent;
     transition: box-shadow 0.2s;
     border-radius: 6px;
-    background: var(--surface-ground);
   }
   .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
     color: rgba(255, 255, 255, 0.95);
