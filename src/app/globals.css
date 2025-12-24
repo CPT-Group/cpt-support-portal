@@ -64,6 +64,31 @@ html[data-theme='dark'] {
   }
 }
 
+/* Make stepper boxes transparent on both themes */
+.p-steps {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link:hover {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link:focus {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link:hover {
+  background: transparent !important;
+}
+
 /* Ensure optional fields panel and containers grow with content */
 .p-panel-content {
   overflow: visible !important;
@@ -87,6 +112,7 @@ html, body {
 }
 
 /* Header full width - break out of any container constraints */
+/* Header should always be visible on all pages */
 header.sticky {
   position: fixed !important;
   top: 0 !important;

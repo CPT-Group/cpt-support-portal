@@ -1,6 +1,7 @@
 'use client';
 
 import { Sidebar } from 'primereact/sidebar';
+import { useRouter, usePathname } from 'next/navigation';
 import { HeaderBackToHome } from './HeaderBackToHome';
 import { HeaderThemeToggle } from './HeaderThemeToggle';
 import { CPTButton } from '@cpt-group/cpt-prime-react';
@@ -20,9 +21,18 @@ export const HeaderSidebar = memo(({
   showBackToHome,
   isFormActive 
 }: HeaderSidebarProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const isFaqPage = pathname === '/faq';
+
   const headerContent = useMemo(() => (
     <h2 className="text-2xl font-bold m-0">Menu</h2>
   ), []);
+
+  const handleFaqClick = useCallback(() => {
+    onHide();
+    router.push('/faq');
+  }, [router, onHide]);
 
   const handleCptGroupClick = useCallback(() => {
     confirmDialog({
@@ -61,6 +71,16 @@ export const HeaderSidebar = memo(({
               isFormActive={isFormActive}
               variant="mobile"
               onNavigate={onHide}
+            />
+          )}
+          {!isFaqPage && (
+            <CPTButton
+              label="FAQ"
+              icon="pi pi-question-circle"
+              iconPos="left"
+              onClick={handleFaqClick}
+              className="p-button-text w-full justify-content-start"
+              aria-label="View FAQ"
             />
           )}
           <HeaderThemeToggle

@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.0] - 2025-01-27
+
+### Fixed - Header Visibility
+- **Header Always Visible** - Removed conditional hiding logic:
+  - Header (logo and hamburger menu) is now always visible on all pages
+  - Removed FAQ dialog conditional hiding that was causing header to disappear
+  - Header now properly displays on all support request form steps (including steps 2 and 3)
+  - Fixed positioning ensures header stays at top on all pages
+
+### Added - Sidebar Navigation
+- **FAQ Link in Sidebar** - Added FAQ navigation option to sidebar menu:
+  - FAQ button appears in sidebar between "Back to Home" and "Theme Toggle"
+  - Only shows when user is not already on FAQ page
+  - Navigates to `/faq` and closes sidebar on click
+  - Uses question-circle icon for consistency
+
+### Changed - UI Improvements
+- **Stepper Transparency** - Made Steps component boxes transparent:
+  - All step boxes now have transparent backgrounds on both dark and light themes
+  - Background images and overlays show through the stepper
+  - Applies to all states: default, hover, focus, and active/highlighted
+- **Development Port** - Changed dev server port from 3000 to 3005:
+  - Updated `package.json` dev script to use port 3005
+  - Prevents port conflicts with other services
+
 ## [1.15.0] - 2025-01-27
 
 ### Added - Custom 404 Error Page with Error Reporting

@@ -10,7 +10,7 @@ import { HeaderLogo } from './HeaderLogo';
 import { HeaderSidebar } from './HeaderSidebar';
 
 export const Header = memo(() => {
-  const { isFormActive, isFaqDialogOpen } = useHeader();
+  const { isFormActive } = useHeader();
   const pathname = usePathname();
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
@@ -59,7 +59,10 @@ export const Header = memo(() => {
           WebkitBackdropFilter: 'blur(10px)',
           margin: 0,
           padding: 0,
-          display: isFaqDialogOpen ? 'none' : 'block',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
         }}
       >
         <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1rem', width: '100%' }}>
