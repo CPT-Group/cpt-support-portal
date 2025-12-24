@@ -68,6 +68,7 @@ export const StepRequestTypeSelection = ({
             className="w-full"
             filter
             filterPlaceholder="Search request types..."
+            listStyle={{ maxHeight: '30vh', overflowY: 'auto' }}
             aria-required="true"
             aria-invalid={!!error}
             aria-describedby={error ? 'request-type-error' : undefined}

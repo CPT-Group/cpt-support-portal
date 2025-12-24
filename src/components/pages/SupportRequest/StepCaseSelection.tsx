@@ -46,7 +46,7 @@ export const StepCaseSelection = ({
           placeholder="Select a case"
           className="w-full"
           filter
-          scrollHeight="400px"
+          scrollHeight="35vh"
           panelClassName="p-dropdown-panel"
           aria-required="true"
           aria-invalid={!!error}

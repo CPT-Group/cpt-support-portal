@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.1] - 2025-01-27
+
+### Changed - UI Improvements
+- **Scrollable Listboxes** - Added max height constraints to prevent long lists from making screens too tall:
+  - Request Type Selection listbox: Max height of 30vh with scrollable overflow
+  - Case Selection dropdown: Scroll height set to 35vh for better viewport management
+  - Improves user experience by keeping form content within viewport
+
 ## [1.16.0] - 2025-01-27
 
 ### Fixed - Header Visibility
