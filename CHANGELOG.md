@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.15.0] - 2025-01-27
+
+### Added - Custom 404 Error Page with Error Reporting
+- **Custom 404 Page** - Created beautiful 404 page using PrimeReact components:
+  - Large 404 icon and clear messaging
+  - Three action buttons: "Back to Home", "CPT Corporate", "Report This Error"
+  - Responsive design with centered layout
+  - Follows Next.js App Router conventions (`app/not-found.tsx`)
+- **Error Reporting Dialog** - Integrated error reporting feature:
+  - Optional fields: Name, Email, Additional Information (textarea)
+  - Cancel and Send buttons
+  - Success confirmation with auto-close
+  - Error handling with user-friendly messages
+  - Loading states during submission
+- **Error Report Webhook** - Server-side API route for error reporting:
+  - Created `/api/webhooks/error-report` API route
+  - Proxies requests to Microsoft Teams webhook (avoids CORS)
+  - Formats messages for Teams with error details
+  - Handles empty submissions ("No feedback given") to reduce bot traffic
+  - Includes error type, path, timestamp, and optional user feedback
+- **Webhook Utilities** - Added error reporting functions:
+  - `ErrorReportWebhookData` interface
+  - `sendErrorReportWebhook()` function in `src/utils/webhooks.ts`
+
+### Changed - Header Navigation Simplified
+- **Hamburger Menu Default** - Made hamburger menu the default for all screen sizes:
+  - Removed mobile detection logic and breakpoints
+  - Always shows hamburger menu button (no desktop buttons)
+  - Cleaner, more consistent header design
+- **Removed Desktop Buttons** - Removed "Back to Home" and "Theme Toggle" from header:
+  - All navigation now through sidebar menu
+  - Removed unused imports and mobile breakpoint logic
+  - No media queries needed for header buttons
+- **Sidebar Footer** - Added CPT Group link at bottom of sidebar:
+  - Outlined button with external link icon
+  - Confirmation dialog before navigating to https://cptgroup.com
+  - Positioned at bottom using flexbox layout
+
 ## [1.14.0] - 2025-01-27
 
 ### Changed - Support Form Text Updates

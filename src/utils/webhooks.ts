@@ -62,3 +62,48 @@ export async function sendFAQHelpfulWebhook(
   });
 }
 
+export interface ErrorReportWebhookData {
+  errorType: string;
+  errorPath: string;
+  timestamp: string;
+  name?: string;
+  email?: string;
+  additionalInfo?: string;
+}
+
+/**
+ * Sends error report data to webhook endpoint
+ * @param data - Error report data to send
+ * @returns Promise that resolves when webhook is sent
+ */
+export async function sendErrorReportWebhook(
+  data: ErrorReportWebhookData
+): Promise<void> {
+  // Use Next.js API route to proxy the webhook request (avoids CORS issues)
+  try {
+    const response = await fetch('/api/webhooks/error-report', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`Webhook request failed: ${response.status} ${response.statusText}`);
+    }
+  } catch (error) {
+    // Log error but don't throw - we don't want to break the user experience
+    if (error instanceof TypeError && error.message === 'Failed to fetch') {
+      console.warn('Error Report Webhook: Network error. This may be a connectivity issue.');
+      // In development, still log the data that would have been sent
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Error Report Webhook (would send):', data);
+      }
+    } else {
+      console.error('Failed to send error report webhook:', error);
+    }
+  }
+}
+
