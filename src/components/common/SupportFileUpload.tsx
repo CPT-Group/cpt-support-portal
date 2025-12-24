@@ -109,7 +109,7 @@ export const SupportFileUpload = ({
   };
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
-    const { className, chooseButton, uploadButton, cancelButton } = options;
+    const { className, chooseButton, cancelButton } = options;
     const value = (totalSize / maxFileSize) * 100;
     const formatedValue = formatSize(totalSize);
     const maxFormatted = formatSize(maxFileSize);
@@ -124,7 +124,6 @@ export const SupportFileUpload = ({
         }}
       >
         {chooseButton}
-        {uploadButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
           <span>
@@ -197,11 +196,6 @@ export const SupportFileUpload = ({
     iconOnly: true,
     className: 'custom-choose-btn p-button-rounded p-button-outlined',
   };
-  const uploadOptions = {
-    icon: 'pi pi-fw pi-cloud-upload',
-    iconOnly: true,
-    className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined',
-  };
   const cancelOptions = {
     icon: 'pi pi-fw pi-times',
     iconOnly: true,
@@ -211,7 +205,6 @@ export const SupportFileUpload = ({
   return (
     <div>
       <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
-      <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
       <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
       <FileUpload
         ref={fileUploadRef}
@@ -229,13 +222,12 @@ export const SupportFileUpload = ({
         itemTemplate={itemTemplate}
         emptyTemplate={emptyTemplate}
         chooseOptions={chooseOptions}
-        uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
         customUpload
+        auto
         uploadHandler={() => {
-          // Custom upload handler - files are already added via onSelect
-          // This is called when the upload button is clicked
-          // In a real implementation, this would upload to a server
+          // Auto-upload: files are automatically added via onSelect
+          // No upload button needed - files are added immediately when selected
         }}
         className="w-full"
       />

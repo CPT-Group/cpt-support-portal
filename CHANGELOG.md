@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.2] - 2025-01-27
+
+### Changed - File Upload Improvements
+- **Auto-Upload File Selection** - Files now automatically upload when selected:
+  - Removed upload button from file upload component
+  - Files are added immediately upon selection (no manual upload step)
+  - Header now shows only "Choose" (file select) and "Clear" (delete) buttons
+  - Simplified user experience with instant file addition
+
+### Fixed - Navigation Confirmation Logic
+- **Back to Home Button** - Fixed false confirmation dialog appearing on non-form pages:
+  - Confirmation dialog now only shows when actually on `/support-request` page
+  - Added pathname check to ensure confirmation only appears for support request form
+  - FAQ page and other pages no longer show "you'll lose progress" message incorrectly
+  - Confirmation only appears when form is active AND user is on support request page
+
 ## [1.16.1] - 2025-01-27
 
 ### Changed - UI Improvements

@@ -1,7 +1,7 @@
 'use client';
 
 import { CPTButton } from '@cpt-group/cpt-prime-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useTransition } from 'react';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { memo, useCallback } from 'react';
@@ -18,10 +18,15 @@ export const HeaderBackToHome = memo(({
   onNavigate 
 }: HeaderBackToHomeProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
+  // Only show confirmation if we're actually on the support request form
+  const isOnSupportRequestForm = pathname === '/support-request';
+  const shouldShowConfirmation = isFormActive && isOnSupportRequestForm;
+
   const handleBackToHome = useCallback(() => {
-    if (isFormActive) {
+    if (shouldShowConfirmation) {
       confirmDialog({
         message: 'You will lose all progress, are you sure?',
         header: 'Confirm Navigation',
@@ -39,7 +44,7 @@ export const HeaderBackToHome = memo(({
         router.push('/');
       });
     }
-  }, [isFormActive, router, onNavigate]);
+  }, [shouldShowConfirmation, router, onNavigate]);
 
   const isMobile = variant === 'mobile';
 
