@@ -68,7 +68,7 @@ export const FORM_FIELDS: FormFieldMapping = {
       maxLength: 50,
     },
     placeholder: 'Enter your CPT ID (optional)',
-    helpText: 'CPT ID is optional but may help us process your request faster',
+    helpText: 'CPT ID can be located on your Notice. It\'s typically in the upper right corner of a letter or email or above your address on a postcard.',
   },
   phone: {
     id: 'phone',

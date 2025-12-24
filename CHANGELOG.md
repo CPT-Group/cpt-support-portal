@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.14.0] - 2025-01-27
+
+### Changed - Support Form Text Updates
+- **Optional Fields Section** - Renamed to "Additional Information":
+  - Panel header changed from "Optional Fields" to "Additional Information"
+  - More user-friendly naming convention
+- **Sub-section Headers Removed** - Simplified optional fields display:
+  - Removed sub-section headers (e.g., "Identity Verification") from Additional Information section
+  - Fields now display directly without verbose section grouping
+  - Reduces visual clutter when multiple optional fields are present
+- **CPT ID Help Text** - Updated with clearer instructions:
+  - Changed from: "CPT ID is optional but may help us process your request faster"
+  - Changed to: "CPT ID can be located on your Notice. It's typically in the upper right corner of a letter or email or above your address on a postcard."
+  - Provides specific location guidance for users
+
 ## [1.13.0] - 2025-01-27
 
 ### Fixed - Layout and Overflow Issues

@@ -380,13 +380,10 @@ export const StepRequestData = ({
         {optionalFieldsBySection.length > 0 && (
           <>
             {requiredFieldsBySection.length > 0 && <CPTDivider />}
-            <CPTPanel header="Optional Fields" toggleable collapsed style={{ overflow: 'visible' }}>
+            <CPTPanel header="Additional Information" toggleable collapsed style={{ overflow: 'visible' }}>
               <div className="flex flex-column gap-3 pt-3" style={{ overflow: 'visible' }}>
                 {optionalFieldsBySection.map((section) => (
                   <div key={section.section} className="flex flex-column gap-3">
-                    {section.fields.length > 0 && section.section !== 'optional' && (
-                      <h4 className="text-lg font-semibold mt-0 mb-2">{section.label}</h4>
-                    )}
                     {section.fields.map((field) => renderField(field))}
                   </div>
                 ))}
