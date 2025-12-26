@@ -17,11 +17,23 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://cpt-support-portal.
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "CPT Support Portal",
-    template: "%s | CPT Support Portal",
+    default: "CPT Group Support Portal | Class Member Support Center",
+    template: "%s | CPT Group Support Portal",
   },
-  description: "Submit support requests, manage cases, and find answers to frequently asked questions. Get help with password resets, address changes, case information, and more.",
-  keywords: ["CPT", "support", "help desk", "case management", "support ticket", "customer service"],
+  description: "CPT Group Support Portal - Get help with class action case information, password resets, address changes, document requests, and settlement administration support. Submit support requests and find answers to frequently asked questions.",
+  keywords: [
+    "CPT Group",
+    "CPT Support",
+    "class action support",
+    "settlement administration",
+    "class member support",
+    "case management",
+    "support request",
+    "password reset",
+    "address change",
+    "document request",
+    "settlement information",
+  ],
   authors: [{ name: "CPT Group" }],
   creator: "CPT Group",
   publisher: "CPT Group",
@@ -34,25 +46,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "CPT Support Portal",
-    title: "CPT Support Portal",
-    description: "Submit support requests, manage cases, and find answers to frequently asked questions.",
-    // OG image is automatically detected from app/opengraph-image.png
+    siteName: "CPT Group Support Portal",
+    title: "CPT Group Support Portal | Class Member Support Center",
+    description: "Get help with class action case information, support requests, and settlement administration. Submit support requests and find answers to frequently asked questions.",
     images: [
       {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "CPT Support Portal",
+        alt: "CPT Group Support Portal - Class Member Support Center",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CPT Support Portal",
-    description: "Submit support requests, manage cases, and find answers to frequently asked questions.",
-    // Twitter image is automatically detected from app/twitter-image.png
-    // Falls back to opengraph-image.png if not found
+    title: "CPT Group Support Portal | Class Member Support Center",
+    description: "Get help with class action case information, support requests, and settlement administration.",
     images: ["/twitter-image.png"],
   },
   robots: {
@@ -66,8 +75,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  // Icons are automatically detected from app/icon.png and app/apple-icon.png
-  // favicon.ico is also automatically detected from app/favicon.ico
   icons: {
     icon: [
       { url: "/icon.png", type: "image/png" },

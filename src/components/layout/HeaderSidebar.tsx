@@ -2,6 +2,7 @@
 
 import { Sidebar } from 'primereact/sidebar';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { HeaderBackToHome } from './HeaderBackToHome';
 import { HeaderThemeToggle } from './HeaderThemeToggle';
 import { CPTButton } from '@cpt-group/cpt-prime-react';
@@ -46,15 +47,36 @@ export const HeaderSidebar = memo(({
   }, []);
 
   const footerContent = useMemo(() => (
-    <CPTButton
-      label="CPT Group"
-      icon="pi pi-external-link"
-      iconPos="left"
-      onClick={handleCptGroupClick}
-      className="p-button-outlined w-full"
-      aria-label="Navigate to CPT Corporate"
-    />
-  ), [handleCptGroupClick]);
+    <div className="flex flex-column gap-2">
+      <CPTButton
+        label="CPT Group"
+        icon="pi pi-external-link"
+        iconPos="left"
+        onClick={handleCptGroupClick}
+        className="p-button-outlined w-full"
+        aria-label="Navigate to CPT Corporate"
+      />
+      <div className="flex justify-content-center align-items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--surface-border)' }}>
+        <Link 
+          href="/terms" 
+          className="text-xs text-color-secondary"
+          style={{ textDecoration: 'none' }}
+          onClick={onHide}
+        >
+          Terms
+        </Link>
+        <span className="text-xs text-color-secondary">|</span>
+        <Link 
+          href="/privacy" 
+          className="text-xs text-color-secondary"
+          style={{ textDecoration: 'none' }}
+          onClick={onHide}
+        >
+          Privacy
+        </Link>
+      </div>
+    </div>
+  ), [handleCptGroupClick, onHide]);
 
   return (
     <Sidebar

@@ -1,4 +1,5 @@
 // Layout components
+export * from './Footer';
 export * from './Header';
 export * from './HeaderLogo';
 export * from './HeaderBackToHome';

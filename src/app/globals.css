@@ -64,6 +64,13 @@ html[data-theme='dark'] {
   }
 }
 
+/* Policy iframe styling */
+.policy-iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
 /* Make stepper boxes transparent on both themes */
 .p-steps {
   background: transparent !important;

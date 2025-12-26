@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.0] - 2025-01-27
+
+### Added - Enhanced Metadata and Legal Pages
+- **Enhanced Page Metadata** - Improved SEO and metadata across all pages:
+  - Root layout: Updated to "CPT Group Support Portal | Class Member Support Center"
+  - Added class action and settlement administration keywords
+  - Enhanced descriptions with class action context
+  - Home page: Added page-specific metadata
+  - FAQ page: Enhanced with class action keywords and descriptions
+  - Support Request page: Enhanced with detailed descriptions
+  - Success page: Updated branding to CPT Group
+- **Terms and Privacy Pages** - Created legal pages with iframe integration:
+  - `/terms` - Terms of Use page with iframe from cptgroupcaseinfo.com
+  - `/privacy` - Privacy Policy page with iframe from cptgroupcaseinfo.com
+  - Both pages use iframe to display content from cptgroupcaseinfo.com
+  - Pages have `noindex, nofollow` metadata to prevent search engine indexing
+  - Styled with white card, shadow, and 600px height matching reference sites
+- **Sidebar Footer Links** - Added Terms and Privacy links to sidebar footer:
+  - Small text links below CPT Group button
+  - Separated by pipe character
+  - Links close sidebar and navigate to respective pages
+  - Styled to match reference site patterns
+- **Robots.txt** - Created robots.txt to control search engine crawling:
+  - Disallows: `/terms`, `/privacy`, `/support-request/success`, `/api/`
+  - Allows all other pages for proper SEO
+
+### Changed - Next.js Configuration
+- **Headers Configuration** - Added X-Frame-Options headers for Terms/Privacy pages:
+  - Configured in `next.config.ts` for proper iframe handling
+  - Ensures compatibility with Netlify deployment
+
 ## [1.16.2] - 2025-01-27
 
 ### Changed - File Upload Improvements
