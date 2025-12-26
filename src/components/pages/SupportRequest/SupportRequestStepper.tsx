@@ -392,7 +392,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
                       }}
                       stars={5}
                       cancel={false}
-                      className="text-2xl"
+                      className="text-4xl"
                     />
                     {faqRating > 0 && (
                       <span className="text-color-secondary ml-2">

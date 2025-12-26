@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.3] - 2025-01-27
+
+### Changed - FAQ Feedback UI
+- **Rating Stars Size** - Increased star size in FAQ feedback rating component:
+  - Changed from `text-2xl` to `text-4xl` for better visibility and user experience
+
 ## [1.17.2] - 2025-01-27
 
 ### Changed - Sidebar Navigation Labels
