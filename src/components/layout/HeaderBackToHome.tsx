@@ -51,27 +51,27 @@ export const HeaderBackToHome = memo(({
   if (isMobile) {
     return (
       <CPTButton
-        label="Back To Home"
+        label="Home"
         icon="pi pi-home"
         iconPos="left"
         onClick={handleBackToHome}
         className="p-button-text w-full justify-content-start"
         loading={isPending}
-        aria-label="Back to Home"
+        aria-label="Home"
       />
     );
   }
 
   return (
     <CPTButton
-      label="Back To Home"
+      label="Home"
       icon="pi pi-home"
       iconPos="left"
       onClick={handleBackToHome}
       className="p-button-text"
-      tooltip="Back to Home"
+      tooltip="Home"
       tooltipOptions={{ position: 'bottom' }}
-      aria-label="Back to Home"
+      aria-label="Home"
       loading={isPending}
     />
   );

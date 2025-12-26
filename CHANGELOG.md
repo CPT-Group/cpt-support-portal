@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.1] - 2025-01-27
+
+### Changed - Sidebar Navigation
+- **Home Button Label** - Simplified sidebar home button label:
+  - Changed from "Back To Home" to "Home" for cleaner UI
+  - Updated aria-label and tooltip to match
+
 ## [1.17.0] - 2025-01-27
 
 ### Added - Enhanced Metadata and Legal Pages
