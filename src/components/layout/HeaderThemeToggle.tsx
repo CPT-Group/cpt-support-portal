@@ -19,7 +19,7 @@ export const HeaderThemeToggle = memo(({ variant = 'desktop', onToggle }: Header
 
   const isMobile = variant === 'mobile';
   const icon = theme === 'light' ? 'pi pi-sun' : 'pi pi-moon';
-  const label = theme === 'light' ? 'Switch to Dark Theme' : 'Switch to Light Theme';
+  const label = theme === 'light' ? 'Dark Theme' : 'Light Theme';
 
   if (isMobile) {
     return (

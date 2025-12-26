@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 - **Home Button Label** - Simplified sidebar home button label:
   - Changed from "Back To Home" to "Home" for cleaner UI
   - Updated aria-label and tooltip to match
+- **Theme Toggle Labels** - Simplified theme toggle button labels:
+  - Changed from "Switch to Dark Theme" / "Switch to Light Theme" to "Dark Theme" / "Light Theme"
+  - Updated aria-label and tooltip to match
 
 ## [1.17.0] - 2025-01-27
 
