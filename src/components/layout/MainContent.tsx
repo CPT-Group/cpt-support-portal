@@ -14,7 +14,7 @@ export const MainContent = ({ children }: MainContentProps) => {
   return (
     <main
       style={{
-        paddingTop: isHomePage ? 0 : '5rem',
+        paddingTop: isHomePage ? 0 : 'var(--header-offset)',
       }}
     >
       {children}

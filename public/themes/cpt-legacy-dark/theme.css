@@ -37,7 +37,7 @@
   --font-size: 0.8125rem;
   --font-size-sm: 0.7rem;
   --font-size-lg: 1rem;
-  --line-height: 1.5;
+  --line-height: 1.35;
   --input-padding-x: 0.6875rem;
   --input-padding-y: 0.4375rem;
   /* Default padding (cards, dialogs, sections) */
@@ -1500,7 +1500,7 @@
     outline-color: transparent;
   }
   .p-listbox .p-listbox-header {
-    padding: 0.75rem 1.25rem;
+    padding: 0.4rem 0.75rem;
     border-bottom: 1px solid #3a4a5f;
     color: rgba(255, 255, 255, 0.87);
     background: #1e2a3a;
@@ -1516,12 +1516,12 @@
     color: rgba(255, 255, 255, 0.6);
   }
   .p-listbox .p-listbox-list {
-    padding: 0.75rem 0;
+    padding: 0.25rem 0;
     outline: 0 none;
   }
   .p-listbox .p-listbox-list .p-listbox-item {
     margin: 0;
-    padding: 0.75rem 1.25rem;
+    padding: 0.35rem 0.75rem;
     border: 0 none;
     color: rgba(255, 255, 255, 0.87);
     transition: box-shadow 0.2s;
@@ -1539,13 +1539,13 @@
   }
   .p-listbox .p-listbox-list .p-listbox-item-group {
     margin: 0;
-    padding: 0.75rem 1.25rem;
+    padding: 0.35rem 0.75rem;
     color: rgba(255, 255, 255, 0.87);
     background: #2a3547;
     font-weight: 700;
   }
   .p-listbox .p-listbox-list .p-listbox-empty-message {
-    padding: 0.75rem 1.25rem;
+    padding: 0.35rem 0.75rem;
     color: rgba(255, 255, 255, 0.87);
     background: transparent;
   }
@@ -4526,23 +4526,24 @@
     border-radius: 6px;
   }
   .p-card .p-card-body {
-    padding: 1.25rem;
+    padding: 0.75rem;
   }
   .p-card .p-card-title {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 0.25rem;
   }
   .p-card .p-card-subtitle {
     font-weight: 400;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     color: rgba(255, 255, 255, 0.6);
   }
   .p-card .p-card-content {
-    padding: 1.25rem 0;
+    padding: 0.5rem 0;
   }
   .p-card .p-card-footer {
-    padding: 1.25rem 0 0 0;
+    padding: 0.5rem 0 0 0;
   }
   .p-fieldset {
     border: 1px solid #3a4a5f;

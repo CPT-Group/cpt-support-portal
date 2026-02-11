@@ -23,7 +23,7 @@ export const FAQAccordion = () => {
           <AccordionTab 
             key={item.id} 
             header={item.question}
-            contentClassName="line-height-3"
+            contentClassName="line-height-2"
             className="font-inter"
             headerClassName="font-inter"
             style={{ fontFamily: 'var(--font-inter), sans-serif' }}
@@ -32,7 +32,7 @@ export const FAQAccordion = () => {
           >
             <div 
               className="m-0" 
-              style={{ lineHeight: '1.75', fontSize: '1rem', fontFamily: 'var(--font-inter), sans-serif' }}
+              style={{ lineHeight: '1.35', fontSize: '1rem', fontFamily: 'var(--font-inter), sans-serif' }}
               dangerouslySetInnerHTML={{ __html: item.answer }}
             />
           </AccordionTab>

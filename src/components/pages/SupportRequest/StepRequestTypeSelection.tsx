@@ -44,20 +44,20 @@ export const StepRequestTypeSelection = ({
 
   return (
     <>
-      <Card className="mt-4">
-        <div className="flex flex-column gap-3">
-          <div>
-            <h2 className="text-3xl font-bold mb-2">{title}</h2>
+      <Card className="mt-2">
+<div className="flex flex-column gap-1">
+            <div>
+            <h3 className="text-2xl font-bold mb-0 mt-0">{title}</h3>
             {description && (
-              <p className="text-color-secondary mb-3 line-height-3">{description}</p>
+              <p className="text-color-secondary mb-1 mt-0 line-height-3">{description}</p>
             )}
             {selectedLabels.length > 0 && (
-              <p className="text-sm text-color-secondary mb-3">
+              <p className="text-sm text-color-secondary mb-1 mt-0">
                 <strong>Selected:</strong> {selectedLabels.join(', ')}
               </p>
             )}
           </div>
-          <label htmlFor="request-type-select" className="font-semibold">
+          <label htmlFor="request-type-select" className="font-semibold mt-1 mb-0">
             Select Request Types <span className="text-red-500">*</span>
           </label>
           <ListBox

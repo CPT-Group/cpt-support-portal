@@ -14,7 +14,7 @@ export const HeaderLogo = memo(() => {
         className="logo"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 787.72 273.32"
-        height="32"
+        height="28"
         aria-hidden
       >
         <defs>

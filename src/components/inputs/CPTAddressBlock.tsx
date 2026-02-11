@@ -41,6 +41,8 @@ export interface CPTAddressBlockProps {
   helpText?: string;
   /** Whether the field is disabled */
   disabled?: boolean;
+  /** When true, do not render the label (e.g. when parent already provides it) */
+  hideLabel?: boolean;
 }
 
 interface GeoapifySuggestion {
@@ -67,6 +69,7 @@ export const CPTAddressBlock = ({
   id = 'address-block',
   helpText,
   disabled = false,
+  hideLabel = false,
 }: CPTAddressBlockProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<GeoapifySuggestion[]>([]);
@@ -380,10 +383,12 @@ export const CPTAddressBlock = ({
 
   return (
     <div className="flex flex-column gap-3">
-      <label htmlFor={id} className="font-semibold">
-        {label}
-        {required && <span className="text-red-500"> *</span>}
-      </label>
+      {!hideLabel && (
+        <label htmlFor={id} className="font-semibold">
+          {label}
+          {required && <span className="text-red-500"> *</span>}
+        </label>
+      )}
 
       {/* Autocomplete input */}
       <div className="p-inputgroup flex-1">

@@ -33,8 +33,8 @@ export const Header = memo(() => {
       className="p-button-rounded p-button-text"
       aria-label="Open Menu"
       style={{
-        width: '2.5rem',
-        height: '2.5rem',
+        width: '2rem',
+        height: '2rem',
       }}
     />
   ), [handleSidebarOpen]);
@@ -72,7 +72,7 @@ export const Header = memo(() => {
             style={{
               backgroundColor: 'transparent',
               border: 'none',
-              padding: '0.75rem 0',
+              padding: '0.35rem 0',
             }}
           />
         </div>

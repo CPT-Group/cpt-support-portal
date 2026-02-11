@@ -138,23 +138,70 @@ export const SupportRequestField = ({
     return null;
   }
 
-  const fieldWrapper = (content: React.ReactNode) => (
-    <div key={fieldId} className="flex flex-column gap-2">
-      <FieldLabel fieldId={fieldId} label={fieldConfig.label} required={!!fieldConfig.required} />
-      {content}
-      {fieldConfig.helpText && (
-        <small className="text-color-secondary">{fieldConfig.helpText}</small>
-      )}
-      {error && <FieldError fieldId={fieldId} error={error} />}
-    </div>
-  );
+  if (fieldId === 'email') {
+    const phoneField =
+      requiredFields.find((f) => f.id === 'phone') || optionalFields.find((f) => f.id === 'phone');
+    const phoneValue = formData.phone;
+    const phoneError = errors.phone;
+    const phoneFieldValue = typeof phoneValue === 'string' ? phoneValue : '';
 
-  switch (fieldConfig.type) {
-    case 'email':
-      return fieldWrapper(<InputText {...commonProps} type="email" />);
+    return (
+      <div key="email-phone-row" className="flex flex-column md:flex-row gap-2">
+        <div className="flex flex-column gap-2 flex-1 min-w-0">
+          <FieldLabel fieldId={fieldId} label={fieldConfig.label} required={!!fieldConfig.required} />
+          <InputText {...commonProps} type="email" />
+          {fieldConfig.helpText && (
+            <small className="text-color-secondary">{fieldConfig.helpText}</small>
+          )}
+          {error && <FieldError fieldId={fieldId} error={error} />}
+        </div>
+        {phoneField && (
+          <div className="flex flex-column gap-2 flex-shrink-0" style={{ width: '14rem' }}>
+            <FieldLabel
+              fieldId="phone"
+              label={phoneField.label}
+              required={!!phoneField.required}
+            />
+            <InputMask
+              id="phone"
+              value={phoneFieldValue}
+              onChange={(e: InputMaskChangeEvent) => {
+                const newValue = typeof e.value === 'string' ? e.value : '';
+                onFieldChange('phone', newValue);
+              }}
+              onBlur={
+                onFieldBlur
+                  ? () => {
+                      if (typeof phoneValue === 'string') {
+                        onFieldBlur('phone', phoneValue);
+                      }
+                    }
+                  : undefined
+              }
+              mask="(999) 999-9999"
+              placeholder="(123) 456-7890"
+              className={`w-full ${phoneError ? 'p-invalid' : ''}`}
+              aria-required={phoneField.required}
+              aria-invalid={!!phoneError}
+              aria-describedby={phoneError ? 'phone-error' : undefined}
+            />
+            {phoneField.helpText && (
+              <small className="text-color-secondary">{phoneField.helpText}</small>
+            )}
+            {phoneError && <FieldError fieldId="phone" error={phoneError} />}
+          </div>
+        )}
+      </div>
+    );
+  }
 
-    case 'phone':
-      return fieldWrapper(
+  if (fieldId === 'phone') {
+    const emailInSection =
+      requiredFields.some((f) => f.id === 'email') || optionalFields.some((f) => f.id === 'email');
+    if (emailInSection) return null;
+    return (
+      <div key={fieldId} className="flex flex-column gap-2" style={{ width: '14rem' }}>
+        <FieldLabel fieldId={fieldId} label={fieldConfig.label} required={!!fieldConfig.required} />
         <InputMask
           id={fieldId}
           value={fieldValue}
@@ -170,8 +217,26 @@ export const SupportRequestField = ({
           aria-invalid={!!error}
           aria-describedby={error ? `${fieldId}-error` : undefined}
         />
-      );
+        {fieldConfig.helpText && (
+          <small className="text-color-secondary">{fieldConfig.helpText}</small>
+        )}
+        {error && <FieldError fieldId={fieldId} error={error} />}
+      </div>
+    );
+  }
 
+  const fieldWrapper = (content: React.ReactNode) => (
+    <div key={fieldId} className="flex flex-column gap-2">
+      <FieldLabel fieldId={fieldId} label={fieldConfig.label} required={!!fieldConfig.required} />
+      {content}
+      {fieldConfig.helpText && (
+        <small className="text-color-secondary">{fieldConfig.helpText}</small>
+      )}
+      {error && <FieldError fieldId={fieldId} error={error} />}
+    </div>
+  );
+
+  switch (fieldConfig.type) {
     case 'textarea':
       return fieldWrapper(
         <InputTextarea {...commonProps} rows={4} autoResize />
@@ -208,6 +273,7 @@ export const SupportRequestField = ({
           placeholder={fieldConfig.placeholder}
           error={error}
           helpText={fieldConfig.helpText}
+          hideLabel
         />
       );
 

@@ -294,13 +294,24 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
   return (
     <div
       className="flex flex-column align-items-center page-responsive-padding"
-      style={{ paddingTop: '4rem', paddingLeft: '10rem', paddingRight: '10rem', height: 'auto', overflow: 'visible' }}
+      style={{
+        minHeight: 'calc(100vh - var(--header-offset) - 1rem)',
+        paddingTop: '0.5rem',
+        paddingBottom: '0.5rem',
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        overflow: 'visible',
+        boxSizing: 'border-box',
+      }}
     >
       <Toast ref={toast} position="top-right" />
-      <div className="w-full max-w-screen-lg" style={{ height: 'auto', overflow: 'visible' }}>
+      <div className="w-full" style={{ maxWidth: 'var(--support-form-max-width)', height: 'auto', overflow: 'visible' }}>
         <Steps model={STEPS} activeIndex={activeStep} />
         <div
-          className="mt-4"
+          className="mt-2"
           style={{
             opacity: stepOpacity,
             transition: 'opacity 0.3s ease-in-out',
@@ -310,7 +321,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         >
           {renderCurrentStep()}
         </div>
-        <div className="flex justify-content-between mt-4">
+        <div className="flex justify-content-between mt-2">
           {activeStep > 0 && (
             <Button
               label="Previous"

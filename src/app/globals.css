@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Offset for fixed header - main content padding and stepper centering use this */
+:root {
+  --header-offset: 3rem;
+  /* Max width for support request stepper + form on large screens (keeps inputs from stretching) */
+  --support-form-max-width: 56rem;
+}
+
 /* Theme switching - hide inactive theme styles */
 /* Both themes are imported, but we show only the active one based on data-theme */
 html[data-theme='light'] {
@@ -18,7 +25,7 @@ html[data-theme='dark'] {
 
 /* Header logo (inline SVG from cpt-internal-tools Logo) */
 .logo {
-  height: 32px;
+  height: 28px;
   width: auto;
 }
 
@@ -93,9 +100,31 @@ html[data-theme='dark'] .logo__star {
   border: none;
 }
 
+/* Compact headings in main content - keep text size, reduce wasted space */
+main h1,
+main h2,
+main h3 {
+  margin-top: 0 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Tighter line height for body text and description blocks in main */
+main p,
+main .line-height-3 {
+  line-height: 1.35 !important;
+}
+main p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+main p:last-child {
+  margin-bottom: 0;
+}
+
 /* Make stepper boxes transparent on both themes */
 .p-steps {
   background: transparent !important;
+  padding: 0.25rem 0 !important;
 }
 
 .p-steps .p-steps-item .p-menuitem-link {
@@ -133,8 +162,10 @@ html[data-theme='dark'] .logo__star {
   height: auto !important;
 }
 
-/* Prevent horizontal scroll */
+/* No default margin/padding so header sits flush and page height = content (no extra scrollbar) */
 html, body {
+  margin: 0 !important;
+  padding: 0 !important;
   overflow-x: hidden !important;
   max-width: 100vw !important;
   width: 100% !important;

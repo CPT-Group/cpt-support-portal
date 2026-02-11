@@ -44,13 +44,13 @@ export const StepRequestData = ({
   );
 
   return (
-    <Card className="mt-4" style={{ height: 'auto', overflow: 'visible' }}>
-      <div className="flex flex-column gap-4" style={{ height: 'auto', overflow: 'visible' }}>
+    <Card className="mt-2" style={{ height: 'auto', overflow: 'visible' }}>
+      <div className="flex flex-column gap-2" style={{ height: 'auto', overflow: 'visible' }}>
         {(title || description) && (
-          <div className="mb-3">
-            {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
+          <div className="mb-1">
+            {title && <h3 className="text-2xl font-bold mb-0 mt-0">{title}</h3>}
             {description && (
-              <p className="text-color-secondary line-height-3">{description}</p>
+              <p className="text-color-secondary mb-0 mt-0 line-height-3">{description}</p>
             )}
           </div>
         )}
@@ -61,7 +61,7 @@ export const StepRequestData = ({
             <div key={section.section}>
               {sectionIndex > 0 && <Divider />}
               <Fieldset legend={section.label}>
-                <div className="flex flex-column gap-3">
+                <div className="flex flex-column gap-2">
                   {section.fields.map((field) => (
                     <SupportRequestField
                       key={field.id}
@@ -89,9 +89,9 @@ export const StepRequestData = ({
               collapsed
               style={{ overflow: 'visible' }}
             >
-              <div className="flex flex-column gap-3 pt-3" style={{ overflow: 'visible' }}>
+              <div className="flex flex-column gap-2 pt-2" style={{ overflow: 'visible' }}>
                 {optionalFieldsBySection.map((section) => (
-                  <div key={section.section} className="flex flex-column gap-3">
+                  <div key={section.section} className="flex flex-column gap-2">
                     {section.fields.map((field) => (
                       <SupportRequestField
                         key={field.id}

@@ -94,7 +94,7 @@ interface FAQContentViewProps {
 }
 
 const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentViewProps) => (
-  <div className="flex flex-column gap-4">
+  <div className="flex flex-column gap-3">
     <div className="w-full">
       <div
         className="m-0 line-height-3 text-color-secondary"
@@ -102,7 +102,7 @@ const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentVie
         dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
       />
     </div>
-    <div className="flex flex-column gap-3 mt-3 w-full">
+    <div className="flex flex-column gap-2 mt-2 w-full">
       <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
       <div className="flex justify-content-center gap-2">
         <Button
@@ -147,7 +147,7 @@ const FAQRatingView = ({
   onCloseWithoutFeedback,
   onSubmitFeedback,
 }: FAQRatingViewProps) => (
-  <div className="flex flex-column gap-4">
+  <div className="flex flex-column gap-3">
     <div className="flex flex-column gap-2">
       <label htmlFor="faq-rating" className="font-semibold">
         How would you rate our support?
@@ -215,7 +215,7 @@ interface FAQConfirmationViewProps {
 }
 
 const FAQConfirmationView = ({ onBackToHome, onViewFaq }: FAQConfirmationViewProps) => (
-  <div className="flex flex-column gap-4 align-items-center">
+  <div className="flex flex-column gap-3 align-items-center">
     <i className="pi pi-check-circle text-6xl text-primary" />
     <h2 className="m-0 font-semibold text-center">Thank You!</h2>
     <p className="text-color-secondary line-height-3 text-center">

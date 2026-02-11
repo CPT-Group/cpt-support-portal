@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.2] - 2025-02-11
+
+### Changed - Compact Layout and Screen Real Estate
+- **Main content** - Reduced `<main>` top padding from 5rem to 1.25rem so content sits closer to the header.
+- **Support request stepper** - Reduced wrapper padding: top 4rem → 1rem, left/right 10rem → 1.5rem; stepper-to-content and content-to-buttons margins from mt-4 to mt-2.
+- **Step cards** - Card margins (mt-4 → mt-2) and step titles (mb-2 → mb-1, mt-0) in StepRequestTypeSelection, StepCaseSelection, StepRequestData for a more compact form.
+- **PrimeReact card (themes)** - In both cpt-legacy-light and cpt-legacy-dark: card body padding 1.25rem → 0.75rem; card title margin-top 0, margin-bottom 0.5rem → 0.25rem; card subtitle margin-bottom 0.5rem → 0.25rem; card content and footer padding 1.25rem → 0.5rem.
+- **Headings and stepper** - In globals.css: main h1/h2 margin-top 0, margin-bottom 0.25rem; .p-steps vertical padding 0.25rem so the Next button and main content fit without unnecessary scrolling.
+- **Line height and vertical rhythm** - Theme CSS `--line-height` 1.5 → 1.35 in both themes; globals: main p and main .line-height-3 use line-height 1.35, paragraph margins 0.5rem bottom. Step components: gap-3 → gap-2, gap-4 → gap-3, mb-3 → mb-2; FAQ intro mb-6 → mb-3; FAQ accordion content line-height 1.75 → 1.35 and contentClassName line-height-3 → line-height-2; FAQFeedbackDialog gaps and mt tightened.
+- **Header overlap and vertical centering** - Added `--header-offset` in globals so main content clears the fixed header. Support request stepper wrapper uses `min-height: calc(100vh - var(--header-offset) - 1rem)` with `box-sizing: border-box` and 0.5rem top/bottom padding so total page height does not exceed 100vh when content fits (removes main page scrollbar). Stepper + form block is vertically centered when there is room.
+- **No page scrollbar when content fits; less top padding** - html/body set to `margin: 0; padding: 0` to remove default browser margin (strip above header) and avoid extra document height. `--header-offset` reduced to 3.5rem; header Toolbar padding 0.75rem → 0.5rem; stepper wrapper padding 1rem → 0.5rem so only the list scrolls when needed, not the whole page.
+- **Smaller step titles** - Support request step titles (e.g. "Support Request Selection") changed from `h2`/`text-3xl` to `h3`/`text-2xl` in StepRequestTypeSelection, StepCaseSelection, and StepRequestData; main h3 added to compact heading rules in globals.
+- **Slimmer header** - Toolbar padding 0.5rem → 0.35rem; menu button 2.5rem → 2rem; logo height 32px → 28px; `--header-offset` 3.5rem → 3rem so main content aligns with the shorter header.
+- **Tighter text and list spacing** - StepRequestTypeSelection, StepCaseSelection, StepRequestData: gap-2 → gap-1 (or gap-3 → gap-2), title/description/selected paragraphs use mb-0/mb-1 and mt-0 to remove extra line breaks; label uses mt-1 mb-0. ListBox (both themes): header padding 0.75rem 1.25rem → 0.4rem 0.75rem; list padding 0.75rem 0 → 0.25rem 0; item padding 0.75rem 1.25rem → 0.35rem 0.75rem so more options fit on screen.
+- **Address duplicate label fix** - CPTAddressBlock now accepts `hideLabel`; when used from SupportRequestField the parent’s FieldLabel is the only label, so "Address *" no longer appears twice.
+- **Input layout and phone width** - Email and phone are on the same row on md+ (like first/last name); phone has fixed width 14rem so it stays consistent across screens. Phone-only sections still render phone at 14rem.
+- **Max width for support form on large screens** - Added `--support-form-max-width: 56rem`; stepper and form content wrapper use it so the form and inputs don’t stretch too wide on large viewports.
+
 ## [1.18.1] - 2025-02-11
 
 ### Changed
