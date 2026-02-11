@@ -1,6 +1,8 @@
 'use client';
 
-import { CPTCard, CPTListbox, CPTMessage } from '@cpt-group/cpt-prime-react';
+import { Card } from 'primereact/card';
+import { ListBox } from 'primereact/listbox';
+import { Message } from 'primereact/message';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { ListBoxChangeEvent } from 'primereact/listbox';
 import type { RequestTypeConfig } from '@/types/formConfig';
@@ -42,7 +44,7 @@ export const StepRequestTypeSelection = ({
 
   return (
     <>
-      <CPTCard className="mt-4">
+      <Card className="mt-4">
         <div className="flex flex-column gap-3">
           <div>
             <h2 className="text-3xl font-bold mb-2">{title}</h2>
@@ -58,7 +60,7 @@ export const StepRequestTypeSelection = ({
           <label htmlFor="request-type-select" className="font-semibold">
             Select Request Types <span className="text-red-500">*</span>
           </label>
-          <CPTListbox
+          <ListBox
             id="request-type-select"
             value={selectedRequestTypeObjects}
             onChange={handleRequestTypeChange}
@@ -74,7 +76,7 @@ export const StepRequestTypeSelection = ({
             aria-describedby={error ? 'request-type-error' : undefined}
           />
           {error && (
-            <CPTMessage
+            <Message
               id="request-type-error"
               severity="error"
               text={error}
@@ -82,7 +84,7 @@ export const StepRequestTypeSelection = ({
             />
           )}
         </div>
-      </CPTCard>
+      </Card>
     </>
   );
 };

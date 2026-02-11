@@ -2,7 +2,9 @@
 
 import { Suspense, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { CPTCard, CPTButton, CPTProgressSpinner } from '@cpt-group/cpt-prime-react';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import type { SubmissionData } from '@/types';
 
 const SuccessContent = () => {
@@ -44,7 +46,7 @@ const SuccessContent = () => {
   return (
     <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
       <div className="w-full max-w-screen-md">
-        <CPTCard className="text-center">
+        <Card className="text-center">
           <div className="flex flex-column align-items-center gap-4">
             <i className="pi pi-check-circle text-6xl text-primary" />
             <h1 className="text-4xl font-bold">Thank you, {firstName}!</h1>
@@ -52,14 +54,14 @@ const SuccessContent = () => {
               Your support request has been submitted. We will confirm once your request has been completed or if additional information is needed.
             </p>
             <div className="flex gap-3 justify-content-center flex-wrap mt-4">
-              <CPTButton
+              <Button
                 label="View FAQ"
                 icon="pi pi-question-circle"
                 iconPos="left"
                 onClick={() => router.push('/faq')}
                 className="p-button-outlined"
               />
-              {/* <CPTButton
+              {/* <Button
                 label="Submit Another Ticket"
                 icon="pi pi-plus"
                 iconPos="right"
@@ -71,14 +73,14 @@ const SuccessContent = () => {
               Please be advised, making more than one ticket for the same request will slow down support response time.
             </p>
           </div>
-        </CPTCard>
+        </Card>
 
         {submissionData && (
-          <CPTCard className="mt-4">
+          <Card className="mt-4">
             <div className="flex flex-column gap-3">
               <div className="flex justify-content-between align-items-center">
                 <h2 className="text-2xl font-bold m-0">Submission Data (Prototype)</h2>
-                <CPTButton
+                <Button
                   label={copied ? 'Copied!' : 'Copy JSON'}
                   icon={copied ? 'pi pi-check' : 'pi pi-copy'}
                   iconPos="left"
@@ -91,7 +93,7 @@ const SuccessContent = () => {
                 {JSON.stringify(submissionData, null, 2)}
               </pre>
             </div>
-          </CPTCard>
+          </Card>
         )}
       </div>
     </div>
@@ -100,7 +102,7 @@ const SuccessContent = () => {
 
 const LoadingFallback = () => (
   <div className="flex flex-column align-items-center justify-content-center min-h-screen">
-    <CPTProgressSpinner />
+    <ProgressSpinner />
   </div>
 );
 

@@ -16,6 +16,28 @@ html[data-theme='dark'] {
 /* This is a workaround since both CSS files are loaded */
 /* The theme CSS files should ideally use data-theme selectors */
 
+/* Header logo (inline SVG from cpt-internal-tools Logo) */
+.logo {
+  height: 32px;
+  width: auto;
+}
+
+.logo__text {
+  fill: #0c1f3a; /* Dark blue text in light mode */
+}
+
+.logo__star {
+  fill: url(#radial-gradient); /* Blue star gradient in light mode */
+}
+
+html[data-theme='dark'] .logo__text {
+  fill: #ffffff; /* White text in dark mode */
+}
+
+html[data-theme='dark'] .logo__star {
+  fill: url(#radial-gradient-dark); /* Light star gradient in dark mode */
+}
+
 /* Responsive padding for FAQ and Support Request pages */
 /* Remove left/right padding on iPhone/mobile screens */
 @media (max-width: 768px) {

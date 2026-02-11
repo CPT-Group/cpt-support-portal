@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTButton } from '@cpt-group/cpt-prime-react';
+import { Button } from 'primereact/button';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
@@ -35,7 +35,7 @@ export const HomeHero = () => {
           Submit support requests and get the help you need
         </p>
         <div className="flex gap-3 justify-content-center flex-wrap">
-          <CPTButton
+          <Button
             label="Request Support"
             icon="pi pi-arrow-right"
             iconPos="right"
@@ -44,7 +44,7 @@ export const HomeHero = () => {
             loading={isPending}
             className="p-button-primary"
           />
-          <CPTButton
+          <Button
             label="FAQ"
             icon="pi pi-question-circle"
             iconPos="left"

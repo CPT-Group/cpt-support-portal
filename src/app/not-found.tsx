@@ -2,9 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { CPTButton, CPTDialog, CPTInputText, CPTInputTextarea, CPTMessage } from '@cpt-group/cpt-prime-react';
-import { confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
+import { AppDialog } from '@/components/common';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Message } from 'primereact/message';
 import { sendErrorReportWebhook } from '@/utils/webhooks';
+import { showCptCorporateConfirm } from '@/utils/confirmDialog';
 
 export default function NotFound() {
   const pathname = usePathname();
@@ -48,14 +52,7 @@ export default function NotFound() {
   }, [name, email, additionalInfo, pathname]);
 
   const handleCptGroupClick = useCallback(() => {
-    confirmDialog({
-      message: 'Would you like to leave CPT Support and navigate to CPT Corporate?',
-      header: 'Navigate to CPT Corporate',
-      icon: 'pi pi-external-link',
-      accept: () => {
-        window.location.href = 'https://cptgroup.com';
-      },
-    });
+    showCptCorporateConfirm();
   }, []);
 
   return (
@@ -80,21 +77,21 @@ export default function NotFound() {
 
           {/* Action Buttons */}
           <div className="flex gap-3 justify-content-center flex-wrap mt-3">
-            <CPTButton
+            <Button
               label="Back to Home"
               icon="pi pi-home"
               iconPos="left"
               onClick={() => window.location.href = '/'}
               className="p-button-primary"
             />
-            <CPTButton
+            <Button
               label="CPT Corporate"
               icon="pi pi-external-link"
               iconPos="left"
               onClick={handleCptGroupClick}
               className="p-button-outlined"
             />
-            <CPTButton
+            <Button
               label="Report This Error"
               icon="pi pi-send"
               iconPos="left"
@@ -105,8 +102,8 @@ export default function NotFound() {
         </div>
       </div>
 
-      {/* Error Report Dialog */}
-      <CPTDialog
+      {/* Error Report Dialog – content driven by state; single AppDialog shell */}
+      <AppDialog
         header="Report Error to CPT Support"
         visible={errorDialogVisible}
         onHide={() => {
@@ -114,7 +111,6 @@ export default function NotFound() {
             setErrorDialogVisible(false);
             setSubmitError(null);
             setSubmitSuccess(false);
-            // Reset form when closing
             if (!submitSuccess) {
               setName('');
               setEmail('');
@@ -122,9 +118,6 @@ export default function NotFound() {
             }
           }
         }}
-        style={{ width: '50vw' }}
-        breakpoints={{ '960px': '75vw', '640px': '90vw' }}
-        modal
         dismissableMask={!isSubmitting}
       >
         {submitSuccess ? (
@@ -146,7 +139,7 @@ export default function NotFound() {
                 <label htmlFor="error-name" className="font-semibold">
                   Name
                 </label>
-                <CPTInputText
+                <InputText
                   id="error-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -159,7 +152,7 @@ export default function NotFound() {
                 <label htmlFor="error-email" className="font-semibold">
                   Email
                 </label>
-                <CPTInputText
+                <InputText
                   id="error-email"
                   type="email"
                   value={email}
@@ -173,7 +166,7 @@ export default function NotFound() {
                 <label htmlFor="error-info" className="font-semibold">
                   Additional Information
                 </label>
-                <CPTInputTextarea
+                <InputTextarea
                   id="error-info"
                   value={additionalInfo}
                   onChange={(e) => setAdditionalInfo(e.target.value)}
@@ -185,11 +178,11 @@ export default function NotFound() {
             </div>
 
             {submitError && (
-              <CPTMessage severity="error" text={submitError} />
+              <Message severity="error" text={submitError} />
             )}
 
             <div className="flex justify-content-end gap-2 mt-2">
-              <CPTButton
+              <Button
                 label="Cancel"
                 icon="pi pi-times"
                 onClick={() => {
@@ -202,7 +195,7 @@ export default function NotFound() {
                 className="p-button-text"
                 disabled={isSubmitting}
               />
-              <CPTButton
+              <Button
                 label="Send"
                 icon="pi pi-send"
                 onClick={handleSendError}
@@ -213,7 +206,7 @@ export default function NotFound() {
             </div>
           </div>
         )}
-      </CPTDialog>
+      </AppDialog>
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTButton } from '@cpt-group/cpt-prime-react';
+import { Button } from 'primereact/button';
 import { useTheme } from '@/providers/ThemeProvider';
 import { memo } from 'react';
 
@@ -23,7 +23,7 @@ export const HeaderThemeToggle = memo(({ variant = 'desktop', onToggle }: Header
 
   if (isMobile) {
     return (
-      <CPTButton
+      <Button
         label={label}
         icon={icon}
         iconPos="left"
@@ -35,7 +35,7 @@ export const HeaderThemeToggle = memo(({ variant = 'desktop', onToggle }: Header
   }
 
   return (
-    <CPTButton
+    <Button
       icon={icon}
       onClick={handleToggle}
       className="p-button-rounded p-button-text"

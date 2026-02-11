@@ -2,6 +2,114 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.1] - 2025-02-11
+
+### Changed
+- **Local dev** - Dev server now runs on port 3777 (`npm run dev` uses `next dev -p 3777`).
+
+### Security
+- **axios** - Upgraded from 1.13.2 to 1.13.5 to fix high-severity DoS (GHSA-43fc-jf86-j433 / CVE-2026-25639). Vulnerability was in `mergeConfig` when config contained a `__proto__` key; no application code changes required.
+
+## [1.18.0] - 2025-02-02
+
+### Added - Single Prop/Data-Driven Dialog Shell
+- **AppDialog** - One reusable dialog component in `src/components/common/AppDialog.tsx` so content and behavior come from props/children; no need to define many dialog components. Update header and children per screen as needed.
+- **not-found** - Error Report dialog now uses `AppDialog`; content (form, success view) remains driven by page state and passed as children.
+- **FAQFeedbackDialog** - Uses `AppDialog` instead of raw PrimeReact `Dialog` so all content dialogs share the same shell. Header and content still driven by props (view, selectedFaq, callbacks).
+
+## [1.17.9] - 2025-02-02
+
+### Fixed - Header Logo Not Showing (Inline SVG from cpt-internal-tools)
+- **Header logo** - Replaced external image/PrimeReact Image with the same **inline SVG** used in cpt-internal-tools `Logo.tsx` so the logo always renders (no path/basePath issues):
+  - `HeaderLogo.tsx` now renders the CPT Group logo as inline SVG (viewBox, defs, paths, star, streamers) from internal-tools `src/components/Logo/Logo.tsx`.
+  - Logo styling in `globals.css`: `.logo` (height 32px, width auto), `.logo__text` (fill #0c1f3a light / #ffffff dark), `.logo__star` (radial-gradient light / radial-gradient-dark dark) using `html[data-theme='dark']` to match our theme toggle.
+  - Logo is visible in both light and dark mode with correct text and star colors.
+
+## [1.17.8] - 2025-02-02
+
+### Changed - FileUpload Aligned with PrimeReact Documentation
+- **SupportFileUpload** - Updated to follow [PrimeReact FileUpload](https://primereact.org/fileupload/) API and types:
+  - Added `uploadOptions` (chooseOptions, uploadOptions, cancelOptions per Template section)
+  - Typed `uploadHandler` as `(event: FileUploadHandlerEvent) => void` and imported `FileUploadHandlerEvent`; no-op handler for customUpload + auto flow
+  - Added Tooltip for `.custom-upload-btn` to match docs Template example
+  - Comment in headerTemplate that uploadButton is omitted by design (auto-add on select only)
+
+### Changed - Component Extractions and Hooks (KISS / Small Functions)
+- **FAQFeedbackDialog** - Extracted FAQ dialog from SupportRequestStepper into a dedicated component:
+  - New `FAQFeedbackDialog.tsx` with three sub-views: FAQContentView, FAQRatingView, FAQConfirmationView
+  - Stepper now passes state and callbacks as props; dialog is presentational and reusable
+  - SupportRequestStepper reduced from ~552 lines to ~320 (under ~300-line guideline for main route component)
+- **SupportRequestField** - Extracted field rendering from StepRequestData into a dedicated component:
+  - New `SupportRequestField.tsx` encapsulates one field’s rendering (text, email, phone, textarea, ssn, address, file) with small helpers: buildCommonProps, FieldLabel, FieldError
+  - StepRequestData no longer has a 250+ line `renderField` function; it maps over sections and renders `<SupportRequestField />`
+  - StepRequestData reduced from ~403 lines to ~115
+- **SupportRequestStepper** - Handlers and hooks cleanup:
+  - Extracted `handleNextClick` into `useCallback` (no large inline onClick)
+  - All FAQ dialog handlers wrapped in `useCallback` (onFaqHide, onFaqThumbsDown, onFaqThumbsUp, onFaqCloseWithoutFeedback, onFaqSubmitFeedback, onFaqBackToHome, onFaqViewFaq) to avoid unnecessary rerenders
+  - `STEPS` and `scrollToTopIfMobile` moved to module-level constants/helpers
+  - `handleRequestTypesChange`, `handleCaseChange` wrapped in `useCallback`
+- **SupportRequest index** - Exported `FAQFeedbackDialog` and `SupportRequestField` from barrel
+
+## [1.17.7] - 2025-02-02
+
+### Changed - Themes and Header Logo from cpt-internal-tools
+- **Light and dark themes** - Replaced `public/themes/cpt-legacy-light/theme.css` and `public/themes/cpt-legacy-dark/theme.css` with the updated versions from `cpt-internal-tools`. Same paths and font references; CSS variables and component styles now match the internal-tools codebase. Ready for fine-tuning of both light and dark mode CSS.
+- **Header logo** - Replaced header image with CPT Group SVG logo from cpt-internal-tools:
+  - Copied `CPTGroupLogo.svg` from cpt-internal-tools `public/` to support-portal `public/`.
+  - Updated `HeaderLogo` to use PrimeReact `Image` (not Next.js Image) with `src="/CPTGroupLogo.svg"`, `preview={false}`, and `imageStyle` for sizing so the logo displays correctly and scales in light/dark mode.
+- **SupportFileUpload** - Fixed TypeScript: file-remove button `onClick` now wraps PrimeReact `onRemove(event)` in a no-arg callback so the template callback type stays strict.
+
+## [1.17.6] - 2025-02-02
+
+### Added - CPT → PrimeReact Refactor Review
+- **Refactor review** - Added `docs/CPT-TO-PRIMEREACT-REFACTOR-REVIEW.md` reviewing the v1.17.5 CPT-to-PrimeReact migration:
+  - Verified all CPT components replaced with correct PrimeReact imports and APIs (Dialog, Steps, Toast, Button, Card, ListBox, Dropdown, FileUpload, etc.)
+  - Confirmed no remaining @cpt-group/cpt-prime-react references; package and imports correct
+  - Checked TypeScript usage and project style (KISS, naming, structure) per Kyle style profile
+
+### Fixed - TypeScript Typing
+- **SupportFileUpload** - Replaced loose `callback: Function` with `callback: () => void` in `onTemplateRemove` to adhere to project rule: no loose typings (no any/unknown/Function).
+
+## [1.17.5] - 2025-02-02
+
+### Changed - Removed CPT Prime React Library (Use Base PrimeReact)
+- **Removed @cpt-group/cpt-prime-react** - Replaced all CPT wrapper components with base PrimeReact components so theming drives colors and styles directly:
+  - CPTButton → Button (primereact/button)
+  - CPTDialog → Dialog (primereact/dialog)
+  - CPTSteps → Steps (primereact/steps)
+  - CPTInputTextarea → InputTextarea (primereact/inputtextarea)
+  - CPTMessage → Message (primereact/message)
+  - CPTCard → Card (primereact/card)
+  - CPTListbox → ListBox (primereact/listbox)
+  - CPTDropdown → Dropdown (primereact/dropdown)
+  - CPTProgressSpinner → ProgressSpinner (primereact/progressspinner)
+  - CPTInputText → InputText (primereact/inputtext)
+  - CPTInputMask → InputMask (primereact/inputmask)
+  - CPTAutoComplete → AutoComplete (primereact/autocomplete)
+  - CPTFieldset → Fieldset (primereact/fieldset)
+  - CPTPanel → Panel (primereact/panel)
+  - CPTDivider → Divider (primereact/divider)
+- **Removed unused dependencies** - No longer needed without CPT library barrel:
+  - chart.js
+  - quill
+- **Theme unchanged** - Existing themes in `public/themes/` (cpt-legacy-light, cpt-legacy-dark) continue to drive all colors and styles via ThemeProvider.
+- **README** - Updated Tech Stack to list PrimeReact components instead of @cpt-group/cpt-prime-react; removed "Required peer dependencies" note.
+
+## [1.17.4] - 2025-02-02
+
+### Removed - Stale Code and Unused Dependencies
+- **Orphaned Step Components** - Deleted legacy step components from pre-consolidation 4-step flow:
+  - Removed `StepPersonalInfo.tsx` (replaced by identity section in StepRequestData)
+  - Removed `StepIssueDetails.tsx` (replaced by request type selection + dynamic fields)
+  - Removed `StepDescriptionUpload.tsx` (replaced by optional fields in StepRequestData)
+  - Support request form has been 3-step (Request Type → Case → Request Data) since v1.5.0; these were never imported or exported
+- **Unused Dependencies** - Removed from package.json:
+  - `chart.js` - Not imported anywhere
+  - `quill` - Not imported anywhere
+  - Kept `react-hook-form` for future use as requested
+  - Note: `lodash-es` was not present in current package.json
+- **Code Review Follow-Up** - Added `CODE-REVIEW-FOLLOW-UP.md` with a pass against project coding style (KISS, file size, structure); documented file-size findings and optional refactor suggestions. Updated `CODE-REVIEW-REPORT.md` to reference the follow-up.
+
 ## [1.17.3] - 2025-01-27
 
 ### Changed - FAQ Feedback UI

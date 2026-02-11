@@ -3,7 +3,11 @@
 import { Suspense, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Rating } from 'primereact/rating';
-import { CPTCard, CPTButton, CPTProgressSpinner, CPTInputTextarea, CPTMessage } from '@cpt-group/cpt-prime-react';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Message } from 'primereact/message';
 import { FAQ_DATA } from '@/constants/faqData';
 import { sendFAQFeedbackWebhook } from '@/utils/webhooks';
 
@@ -98,14 +102,14 @@ const CongratulationsContent = () => {
   if (!faq) {
     return (
       <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
-        <CPTCard className="text-center">
+        <Card className="text-center">
           <div className="flex flex-column align-items-center gap-4">
             <i className="pi pi-exclamation-triangle text-6xl text-orange-500" />
             <h1 className="text-4xl font-bold">FAQ Not Found</h1>
             <p className="text-xl text-color-secondary line-height-3">
               The FAQ you're looking for could not be found.
             </p>
-            <CPTButton
+            <Button
               label="Back to Home"
               icon="pi pi-home"
               iconPos="left"
@@ -113,7 +117,7 @@ const CongratulationsContent = () => {
               className="p-button-primary"
             />
           </div>
-        </CPTCard>
+        </Card>
       </div>
     );
   }
@@ -130,7 +134,7 @@ const CongratulationsContent = () => {
     return (
       <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
         <div className="w-full max-w-screen-md">
-          <CPTCard className="text-center">
+          <Card className="text-center">
             <div className="flex flex-column align-items-center gap-4">
               <i className="pi pi-check-circle text-6xl text-primary" />
               <h1 className="text-4xl font-bold">Thank You!</h1>
@@ -138,7 +142,7 @@ const CongratulationsContent = () => {
                 Your feedback has been submitted. We appreciate you taking the time to help us improve!
               </p>
               <div className="flex gap-3 justify-content-center flex-wrap mt-4">
-                <CPTButton
+                <Button
                   label="Back to Home"
                   icon="pi pi-home"
                   iconPos="left"
@@ -147,13 +151,13 @@ const CongratulationsContent = () => {
                 />
               </div>
             </div>
-          </CPTCard>
+          </Card>
 
-          <CPTCard className="mt-4">
+          <Card className="mt-4">
             <div className="flex flex-column gap-3">
               <div className="flex justify-content-between align-items-center">
                 <h2 className="text-2xl font-bold m-0">Feedback Data (Prototype)</h2>
-                <CPTButton
+                <Button
                   label={copied ? 'Copied!' : 'Copy JSON'}
                   icon={copied ? 'pi pi-check' : 'pi pi-copy'}
                   iconPos="left"
@@ -166,7 +170,7 @@ const CongratulationsContent = () => {
                 {JSON.stringify(feedbackData, null, 2)}
               </pre>
             </div>
-          </CPTCard>
+          </Card>
         </div>
       </div>
     );
@@ -175,7 +179,7 @@ const CongratulationsContent = () => {
   return (
     <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
       <div className="w-full max-w-screen-md">
-        <CPTCard className="text-center">
+        <Card className="text-center">
           <div className="flex flex-column align-items-center gap-4">
             <i className="pi pi-thumbs-up text-6xl text-primary" />
             <h1 className="text-4xl font-bold">
@@ -185,9 +189,9 @@ const CongratulationsContent = () => {
               Your feedback helps us improve our support resources. Please take a moment to rate your experience and share any additional comments or suggestions.
             </p>
           </div>
-        </CPTCard>
+        </Card>
 
-        <CPTCard className="mt-4">
+        <Card className="mt-4">
           <div className="flex flex-column gap-4">
             <div className="flex flex-column gap-2">
               <label htmlFor="rating" className="font-semibold text-lg">
@@ -218,7 +222,7 @@ const CongratulationsContent = () => {
               <label htmlFor="comments" className="font-semibold">
                 Additional Comments or Suggestions
               </label>
-              <CPTInputTextarea
+              <InputTextarea
                 id="comments"
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
@@ -233,7 +237,7 @@ const CongratulationsContent = () => {
             </div>
 
             {error && (
-              <CPTMessage
+              <Message
                 severity="error"
                 text={error}
                 className="w-full"
@@ -241,7 +245,7 @@ const CongratulationsContent = () => {
             )}
 
             <div className="flex justify-content-end gap-2 mt-2">
-              <CPTButton
+              <Button
                 label="Cancel"
                 icon="pi pi-times"
                 iconPos="left"
@@ -249,7 +253,7 @@ const CongratulationsContent = () => {
                 className="p-button-secondary"
                 disabled={isSubmitting}
               />
-              <CPTButton
+              <Button
                 label="Submit Feedback"
                 icon="pi pi-check"
                 iconPos="right"
@@ -260,7 +264,7 @@ const CongratulationsContent = () => {
               />
             </div>
           </div>
-        </CPTCard>
+        </Card>
       </div>
     </div>
   );
@@ -268,7 +272,7 @@ const CongratulationsContent = () => {
 
 const LoadingFallback = () => (
   <div className="flex flex-column align-items-center justify-content-center min-h-screen">
-    <CPTProgressSpinner />
+    <ProgressSpinner />
   </div>
 );
 

@@ -8,6 +8,7 @@ import { Tooltip } from 'primereact/tooltip';
 import { Tag } from 'primereact/tag';
 import type {
   FileUploadHeaderTemplateOptions,
+  FileUploadHandlerEvent,
   FileUploadSelectEvent,
   FileUploadUploadEvent,
   ItemTemplateOptions,
@@ -94,7 +95,7 @@ export const SupportFileUpload = ({
     // In a real implementation, this would upload to a server
   };
 
-  const onTemplateRemove = (file: File, callback: Function) => {
+  const onTemplateRemove = (file: File, callback: () => void) => {
     setTotalSize(totalSize - file.size);
     const updatedFiles = files.filter(
       (f) => !(f.name === file.name && f.size === file.size && f.type === file.type)
@@ -110,6 +111,7 @@ export const SupportFileUpload = ({
 
   const headerTemplate = (options: FileUploadHeaderTemplateOptions) => {
     const { className, chooseButton, cancelButton } = options;
+    // uploadButton omitted by design: we use auto + customUpload and add files on select only
     const value = (totalSize / maxFileSize) * 100;
     const formatedValue = formatSize(totalSize);
     const maxFormatted = formatSize(maxFileSize);
@@ -163,7 +165,9 @@ export const SupportFileUpload = ({
           type="button"
           icon="pi pi-times"
           className="p-button-outlined p-button-rounded p-button-danger ml-auto"
-          onClick={() => onTemplateRemove(file, props.onRemove)}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            onTemplateRemove(file, () => props.onRemove(e));
+          }}
         />
       </div>
     );
@@ -196,6 +200,11 @@ export const SupportFileUpload = ({
     iconOnly: true,
     className: 'custom-choose-btn p-button-rounded p-button-outlined',
   };
+  const uploadOptions = {
+    icon: 'pi pi-fw pi-upload',
+    iconOnly: true,
+    className: 'custom-upload-btn p-button-rounded p-button-outlined',
+  };
   const cancelOptions = {
     icon: 'pi pi-fw pi-times',
     iconOnly: true,
@@ -205,6 +214,7 @@ export const SupportFileUpload = ({
   return (
     <div>
       <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
+      <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
       <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
       <FileUpload
         ref={fileUploadRef}
@@ -222,12 +232,13 @@ export const SupportFileUpload = ({
         itemTemplate={itemTemplate}
         emptyTemplate={emptyTemplate}
         chooseOptions={chooseOptions}
+        uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
         customUpload
         auto
-        uploadHandler={() => {
-          // Auto-upload: files are automatically added via onSelect
-          // No upload button needed - files are added immediately when selected
+        uploadHandler={(event: FileUploadHandlerEvent) => {
+          // customUpload + auto: we add files via onSelect only; no server upload.
+          // Handler required by API; no-op so component does not clear after "upload".
         }}
         className="w-full"
       />

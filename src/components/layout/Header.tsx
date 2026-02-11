@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, memo } from 'react';
 import { Toolbar } from 'primereact/toolbar';
-import { CPTButton } from '@cpt-group/cpt-prime-react';
+import { Button } from 'primereact/button';
 import { useHeader } from '@/providers/HeaderProvider';
 import { usePathname } from 'next/navigation';
 import { ConfirmDialog } from 'primereact/confirmdialog';
@@ -27,7 +27,7 @@ export const Header = memo(() => {
   const startContent = useMemo(() => <HeaderLogo />, []);
 
   const endContent = useMemo(() => (
-    <CPTButton
+    <Button
       icon="pi pi-bars"
       onClick={handleSidebarOpen}
       className="p-button-rounded p-button-text"

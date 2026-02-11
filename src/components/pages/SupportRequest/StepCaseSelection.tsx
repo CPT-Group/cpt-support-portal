@@ -1,7 +1,9 @@
 'use client';
 
 import { useMemo } from 'react';
-import { CPTCard, CPTDropdown, CPTMessage } from '@cpt-group/cpt-prime-react';
+import { Card } from 'primereact/card';
+import { Dropdown } from 'primereact/dropdown';
+import { Message } from 'primereact/message';
 import { CASE_LIST } from '@/constants';
 import type { CaseOption } from '@/types';
 
@@ -26,7 +28,7 @@ export const StepCaseSelection = ({
   );
 
   return (
-    <CPTCard className="mt-4">
+    <Card className="mt-4">
       <div className="flex flex-column gap-3">
         <div>
           {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
@@ -37,7 +39,7 @@ export const StepCaseSelection = ({
         {/* <label htmlFor="case-select" className="font-semibold">
           Select a case for support <span className="text-red-500">*</span>
         </label> */}
-        <CPTDropdown
+        <Dropdown
           id="case-select"
           value={selectedCase}
           onChange={(e) => onCaseChange(e.value)}
@@ -53,7 +55,7 @@ export const StepCaseSelection = ({
           aria-describedby={error ? 'case-select-error' : undefined}
         />
         {error && (
-          <CPTMessage
+          <Message
             id="case-select-error"
             severity="error"
             text={error}
@@ -61,7 +63,7 @@ export const StepCaseSelection = ({
           />
         )}
       </div>
-    </CPTCard>
+    </Card>
   );
 };
 

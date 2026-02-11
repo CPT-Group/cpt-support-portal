@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { CPTInputText, CPTInputMask, CPTDropdown, CPTAutoComplete } from '@cpt-group/cpt-prime-react';
+import { InputText } from 'primereact/inputtext';
+import { InputMask } from 'primereact/inputmask';
+import { Dropdown } from 'primereact/dropdown';
+import { AutoComplete } from 'primereact/autocomplete';
 import { Inplace, InplaceDisplay, InplaceContent } from 'primereact/inplace';
 import axios from 'axios';
 import { STATES, getStateByAbbreviation } from '@/constants/STATES';
@@ -387,7 +390,7 @@ export const CPTAddressBlock = ({
         <span className="p-inputgroup-addon">
           <i className="pi pi-map-marker"></i>
         </span>
-        <CPTAutoComplete
+        <AutoComplete
           id={id}
           value={searchQuery}
           suggestions={suggestions}
@@ -404,8 +407,9 @@ export const CPTAddressBlock = ({
             </div>
           )}
           onChange={(e) => {
-            setSearchQuery(e.value);
-            if (!e.value) {
+            const val = typeof e.value === 'string' ? e.value : (e.value as GeoapifySuggestion)?.formatted ?? '';
+            setSearchQuery(val);
+            if (!val) {
               setSuggestions([]);
             }
           }}
@@ -437,7 +441,7 @@ export const CPTAddressBlock = ({
               <span className="p-inputgroup-addon">
                 <i className="pi pi-home"></i>
               </span>
-              <CPTInputText
+              <InputText
                 value={street}
                 onChange={(e) => setStreet(e.target.value)}
                 onBlur={onBlur}
@@ -455,7 +459,7 @@ export const CPTAddressBlock = ({
               <span className="p-inputgroup-addon">
                 <i className="pi pi-building"></i>
               </span>
-              <CPTInputText
+              <InputText
                 value={addressLine2}
                 onChange={(e) => setAddressLine2(e.target.value)}
                 onBlur={onBlur}
@@ -470,7 +474,7 @@ export const CPTAddressBlock = ({
               <span className="p-inputgroup-addon">
                 <i className="pi pi-building"></i>
               </span>
-              <CPTInputText
+              <InputText
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onBlur={onBlur}
@@ -490,7 +494,7 @@ export const CPTAddressBlock = ({
                 <span className="p-inputgroup-addon">
                   <i className="pi pi-map"></i>
                 </span>
-                <CPTDropdown
+                <Dropdown
                   value={selectedState}
                   onChange={(e) => setSelectedState(e.value)}
                   options={STATES}
@@ -512,7 +516,7 @@ export const CPTAddressBlock = ({
                 <span className="p-inputgroup-addon">
                   <i className="pi pi-inbox"></i>
                 </span>
-                <CPTInputMask
+                <InputMask
                   value={zip}
                   onChange={(e) => setZip(e.value || '')}
                   onBlur={onBlur}

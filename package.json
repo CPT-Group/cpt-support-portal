@@ -1,26 +1,21 @@
 {
   "name": "cpt-support-portal",
-  "version": "1.17.3",
+  "version": "1.18.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3005",
+    "dev": "next dev -p 3777",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
-    "@cpt-group/cpt-prime-react": "^1.9.6",
-    "axios": "^1.13.2",
-    "chart.js": "^4.5.1",
-    "lodash-es": "^4.17.22",
-    "next": "16.0.10",
+    "axios": "^1.13.5",
+    "next": "16.1.6",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
-    "quill": "^2.0.3",
     "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-hook-form": "^7.66.1"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -29,7 +24,7 @@
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.9.9",
     "eslint": "^9",
-    "eslint-config-next": "16.0.10",
+    "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5.9.3"
   }

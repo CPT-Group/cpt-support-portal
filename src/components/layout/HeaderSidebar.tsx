@@ -5,8 +5,8 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { HeaderBackToHome } from './HeaderBackToHome';
 import { HeaderThemeToggle } from './HeaderThemeToggle';
-import { CPTButton } from '@cpt-group/cpt-prime-react';
-import { confirmDialog } from 'primereact/confirmdialog';
+import { Button } from 'primereact/button';
+import { showCptCorporateConfirm } from '@/utils/confirmDialog';
 import { memo, useMemo, useCallback } from 'react';
 
 interface HeaderSidebarProps {
@@ -36,19 +36,12 @@ export const HeaderSidebar = memo(({
   }, [router, onHide]);
 
   const handleCptGroupClick = useCallback(() => {
-    confirmDialog({
-      message: 'Would you like to leave CPT Support and navigate to CPT Corporate?',
-      header: 'Navigate to CPT Corporate',
-      icon: 'pi pi-external-link',
-      accept: () => {
-        window.location.href = 'https://cptgroup.com';
-      },
-    });
+    showCptCorporateConfirm();
   }, []);
 
   const footerContent = useMemo(() => (
     <div className="flex flex-column gap-2">
-      <CPTButton
+      <Button
         label="CPT Group"
         icon="pi pi-external-link"
         iconPos="left"
@@ -96,7 +89,7 @@ export const HeaderSidebar = memo(({
             />
           )}
           {!isFaqPage && (
-            <CPTButton
+            <Button
               label="FAQ"
               icon="pi pi-question-circle"
               iconPos="left"

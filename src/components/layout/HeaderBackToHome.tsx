@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTButton } from '@cpt-group/cpt-prime-react';
+import { Button } from 'primereact/button';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTransition } from 'react';
 import { confirmDialog } from 'primereact/confirmdialog';
@@ -50,7 +50,7 @@ export const HeaderBackToHome = memo(({
 
   if (isMobile) {
     return (
-      <CPTButton
+      <Button
         label="Home"
         icon="pi pi-home"
         iconPos="left"
@@ -63,7 +63,7 @@ export const HeaderBackToHome = memo(({
   }
 
   return (
-    <CPTButton
+    <Button
       label="Home"
       icon="pi pi-home"
       iconPos="left"

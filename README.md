@@ -15,10 +15,10 @@ A modern support ticket submission portal built with Next.js 16, React 19, and P
 
 - **Framework:** Next.js 16 (App Router)
 - **UI Library:** PrimeReact 10.9.7
-- **Components:** @cpt-group/cpt-prime-react
+- **Components:** PrimeReact (Button, Card, Dialog, Steps, InputText, InputTextarea, etc.)
 - **Styling:** PrimeFlex, Custom Themes
 - **Language:** TypeScript
-- **React:** 19.2.0
+- **React:** 19.2.3
 
 ## Project Structure
 
@@ -56,7 +56,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3777](http://localhost:3777) in your browser.
 
 ### Build
 
@@ -108,6 +108,6 @@ Configured for Netlify deployment. See `netlify.toml` for build settings.
 
 ## Version
 
-Current version: **1.0.3**
+Current version: **1.18.1**
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { SupportRequestStepper } from '@/components';
 import { useHeader } from '@/providers/HeaderProvider';
 import { parseURLParams } from '@/utils/urlParams';
-import { CPTProgressSpinner } from '@cpt-group/cpt-prime-react';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const SupportRequestContent = () => {
   const searchParams = useSearchParams();
@@ -22,7 +22,7 @@ const SupportRequestContent = () => {
 
 const LoadingFallback = () => (
   <div className="flex flex-column align-items-center justify-content-center min-h-screen">
-    <CPTProgressSpinner />
+    <ProgressSpinner />
   </div>
 );
 
