@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Offset for fixed header - main content padding and stepper centering use this */
+:root {
+  --header-offset: 3rem;
+  /* Max width for support request stepper + form on large screens (keeps inputs from stretching) */
+  --support-form-max-width: 56rem;
+}
+
 /* Theme switching - hide inactive theme styles */
 /* Both themes are imported, but we show only the active one based on data-theme */
 html[data-theme='light'] {
@@ -15,3 +22,283 @@ html[data-theme='dark'] {
 /* Hide light theme styles when dark is active and vice versa */
 /* This is a workaround since both CSS files are loaded */
 /* The theme CSS files should ideally use data-theme selectors */
+
+/* Header logo (inline SVG from cpt-internal-tools Logo) */
+.logo {
+  height: 28px;
+  width: auto;
+}
+
+.logo__text {
+  fill: #0c1f3a; /* Dark blue text in light mode */
+}
+
+.logo__star {
+  fill: url(#radial-gradient); /* Blue star gradient in light mode */
+}
+
+html[data-theme='dark'] .logo__text {
+  fill: #ffffff; /* White text in dark mode */
+}
+
+html[data-theme='dark'] .logo__star {
+  fill: url(#radial-gradient-dark); /* Light star gradient in dark mode */
+}
+
+/* Responsive padding for FAQ and Support Request pages */
+/* Remove left/right padding on iPhone/mobile screens */
+@media (max-width: 768px) {
+  .page-responsive-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Make step numbers appropriately sized on mobile phones */
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+    font-size: 1.2rem !important;
+    min-width: 1.75rem !important;
+    width: 1.75rem !important;
+    max-width: 1.75rem !important;
+    height: 2.25rem !important;
+    line-height: 2.25rem !important;
+  }
+  
+  /* Make step items fill the entire width on mobile */
+  .p-steps .p-steps-item {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+  
+  /* Make step titles smaller and allow wrapping to two lines on mobile */
+  .p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+    font-size: 0.7rem !important;
+    margin-top: 0.25rem !important;
+    white-space: normal !important;
+    line-height: 1.2 !important;
+    width: 100% !important;
+    text-align: center !important;
+    word-break: break-word !important;
+  }
+  
+  /* Adjust step link layout for wrapping */
+  .p-steps .p-steps-item .p-menuitem-link {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0.25rem !important;
+  }
+  
+  /* Reduce overall steps container padding */
+  .p-steps {
+    padding: 0.5rem 0 !important;
+  }
+}
+
+/* Policy iframe styling */
+.policy-iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+/* Compact headings in main content - keep text size, reduce wasted space */
+main h1,
+main h2,
+main h3 {
+  margin-top: 0 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Tighter line height for body text and description blocks in main */
+main p,
+main .line-height-3 {
+  line-height: 1.35 !important;
+}
+main p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+main p:last-child {
+  margin-bottom: 0;
+}
+
+/* Make stepper boxes transparent on both themes */
+.p-steps {
+  background: transparent !important;
+  padding: 0.25rem 0 !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link:hover {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item .p-menuitem-link:focus {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+  background: transparent !important;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link:hover {
+  background: transparent !important;
+}
+
+/* Ensure optional fields panel and containers grow with content */
+.p-panel-content {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.p-panel {
+  overflow: visible !important;
+}
+
+.p-card-body {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* No default margin/padding so header sits flush and page height = content (no extra scrollbar) */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
+
+/* Header full width - break out of any container constraints */
+/* Header should always be visible on all pages */
+header.sticky {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* Body should be dynamic - no fixed height or padding */
+/* Padding-top will be added to specific page content areas instead */
+
+/* Parallax background images - theme-specific */
+html[data-theme='light'] body {
+  background-image: url('/background/cptbg-law-light.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+html[data-theme='dark'] body {
+  background-image: url('/background/cptbg-law.png');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+/* Base overlay with 80% opacity */
+html[data-theme='light'] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: -2;
+  pointer-events: none;
+}
+
+html[data-theme='dark'] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Animated gradient overlay - smooth diagonal gradient moving across */
+html[data-theme='light'] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.25) 20%,
+    rgba(255, 255, 255, 0.15) 40%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0.25) 80%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 30s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  will-change: background-position;
+}
+
+html[data-theme='dark'] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.35) 20%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.2) 60%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 30s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  will-change: background-position;
+}
+
+/* Slow diagonal gradient animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Ensure content is above background */
+body {
+  position: relative;
+  z-index: 0;
+}
+
+/* Make sure main content areas have proper background for readability */
+main, .page-responsive-padding {
+  position: relative;
+  z-index: 1;
+}

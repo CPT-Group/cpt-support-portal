@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import type { DynamicFormData, StepIndex } from '@/types/supportRequest';
+import type { FieldConfig } from '@/types/formConfig';
 import { consolidateFields } from '@/utils/fieldConsolidation';
 import { validateRequiredFields, getMissingFieldLabels } from '@/utils/jsonGenerator';
 import { FORM_FIELDS } from '@/constants/formFields';
@@ -35,8 +36,9 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
   }, []);
 
   const validateField = useCallback(
-    (fieldId: string, value: string | string[] | File[] | null | undefined) => {
-      const fieldConfig = FORM_FIELDS[fieldId];
+    (fieldId: string, value: string | string[] | File[] | null | undefined, providedFieldConfig?: FieldConfig) => {
+      // Use provided fieldConfig (from consolidation) or look up from FORM_FIELDS
+      const fieldConfig = providedFieldConfig || FORM_FIELDS[fieldId];
       if (!fieldConfig) {
         return null; // Unknown field, skip validation
       }
@@ -59,8 +61,8 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
       if (value && typeof value === 'string' && value.trim() !== '') {
         const stringValue = value.trim();
 
-        // Check minLength
-        if (fieldConfig.validation?.minLength && stringValue.length < fieldConfig.validation.minLength) {
+        // Skip minLength validation for address fields - just check they exist
+        if (fieldConfig.type !== 'address' && fieldConfig.validation?.minLength && stringValue.length < fieldConfig.validation.minLength) {
           errorMessages.push(
             `${fieldConfig.label} must be at least ${fieldConfig.validation.minLength} characters`
           );
@@ -73,8 +75,8 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
           );
         }
 
-        // Check pattern
-        if (fieldConfig.validation?.pattern && !fieldConfig.validation.pattern.test(stringValue)) {
+        // Check pattern (skip for address fields)
+        if (fieldConfig.type !== 'address' && fieldConfig.validation?.pattern && !fieldConfig.validation.pattern.test(stringValue)) {
           if (fieldConfig.type === 'email') {
             errorMessages.push('Please enter a valid email address');
           } else if (fieldConfig.type === 'phone') {
@@ -86,8 +88,8 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
           }
         }
 
-        // Custom validation
-        if (fieldConfig.validation?.custom) {
+        // Custom validation (skip for address fields)
+        if (fieldConfig.type !== 'address' && fieldConfig.validation?.custom) {
           const customError = fieldConfig.validation.custom(stringValue);
           if (customError) {
             errorMessages.push(customError);
@@ -133,7 +135,7 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
           }
           break;
 
-        case 2: // Request Data
+        case 2: // Request Data (includes optional additional documentation)
           // Validate all required fields for selected request types
           const missingFields = validateRequiredFields(formData, formData.requestTypes || []);
           if (missingFields.length > 0) {
@@ -152,18 +154,31 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
             return false;
           }
 
-          // Validate all fields that have values
+          // Validate all required fields that have values
           const { required, optional } = consolidateFields(formData.requestTypes || []);
-          [...required, ...optional].forEach((fieldConfig) => {
+          
+          // Validate required fields
+          required.forEach((fieldConfig) => {
             const value = formData[fieldConfig.id];
-            const error = validateField(fieldConfig.id, value);
+            const error = validateField(fieldConfig.id, value, fieldConfig);
             if (error) {
               newErrors[fieldConfig.id] = error;
             }
           });
-          break;
-
-        case 3: // Additional Documentation (optional step, no validation needed)
+          
+          // Validate optional fields only if they have values
+          optional.forEach((fieldConfig) => {
+            const value = formData[fieldConfig.id];
+            // Only validate optional fields if they have a value
+            if (value !== null && value !== undefined && 
+                ((typeof value === 'string' && value.trim() !== '') ||
+                (Array.isArray(value) && value.length > 0))) {
+              const error = validateField(fieldConfig.id, value, fieldConfig);
+              if (error) {
+                newErrors[fieldConfig.id] = error;
+              }
+            }
+          });
           break;
       }
 
@@ -180,10 +195,10 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
 
   const goToNextStep = useCallback((): boolean => {
     const isValid = validateStep(activeStep);
-    if (isValid && activeStep < 3) {
+    if (isValid && activeStep < 2) {
       setActiveStep((prev) => {
         const nextStep = prev + 1;
-        return (Math.min(nextStep, 3) as StepIndex);
+        return (Math.min(nextStep, 2) as StepIndex);
       });
     }
     return isValid;
@@ -219,3 +234,4 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
     consolidatedFields,
   };
 };
+

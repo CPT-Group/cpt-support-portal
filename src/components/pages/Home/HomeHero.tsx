@@ -1,6 +1,6 @@
 'use client';
 
-import { CPTButton } from '@cpt-group/cpt-prime-react';
+import { Button } from 'primereact/button';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
@@ -21,14 +21,21 @@ export const HomeHero = () => {
   };
 
   return (
-    <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
+    <div 
+      className="flex flex-column align-items-center justify-content-center"
+      style={{ 
+        minHeight: 'calc(100vh - 5rem)',
+        padding: '3rem 1rem',
+        boxSizing: 'border-box'
+      }}
+    >
       <div className="text-center">
         <h1 className="text-5xl font-bold mb-4">Welcome to CPT Support Portal</h1>
         <p className="text-xl text-color-secondary mb-6">
           Submit support requests and get the help you need
         </p>
         <div className="flex gap-3 justify-content-center flex-wrap">
-          <CPTButton
+          <Button
             label="Request Support"
             icon="pi pi-arrow-right"
             iconPos="right"
@@ -37,7 +44,7 @@ export const HomeHero = () => {
             loading={isPending}
             className="p-button-primary"
           />
-          <CPTButton
+          <Button
             label="FAQ"
             icon="pi pi-question-circle"
             iconPos="left"

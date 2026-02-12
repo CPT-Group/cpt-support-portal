@@ -13,17 +13,26 @@ export function parseURLParams(searchParams: URLSearchParams): Partial<DynamicFo
     formData.caseId = caseParam;
   }
 
-  // Handle name (combine fname and lname if both present)
-  const fname = searchParams.get('fname');
-  const lname = searchParams.get('lname');
-  if (fname || lname) {
-    formData.name = [fname, lname].filter(Boolean).join(' ').trim() || undefined;
+  // Handle firstName and lastName separately
+  const fname = searchParams.get('fname') || searchParams.get('firstName');
+  const lname = searchParams.get('lname') || searchParams.get('lastName');
+  if (fname) {
+    formData.firstName = fname;
+  }
+  if (lname) {
+    formData.lastName = lname;
   }
 
-  // Handle direct name param (takes precedence over fname/lname)
+  // Handle legacy name param (split into firstName and lastName)
   const nameParam = searchParams.get('name');
-  if (nameParam) {
-    formData.name = nameParam;
+  if (nameParam && !fname && !lname) {
+    const nameParts = nameParam.trim().split(/\s+/);
+    if (nameParts.length >= 1) {
+      formData.firstName = nameParts[0];
+    }
+    if (nameParts.length >= 2) {
+      formData.lastName = nameParts.slice(1).join(' ');
+    }
   }
 
   // Handle email
@@ -44,15 +53,10 @@ export function parseURLParams(searchParams: URLSearchParams): Partial<DynamicFo
     formData.cptId = cptId;
   }
 
-  // Handle address fields
-  const address = searchParams.get('address');
+  // Handle address field (mailingAddress consolidated to address)
+  const address = searchParams.get('address') || searchParams.get('mailingaddress') || searchParams.get('mailingAddress');
   if (address) {
     formData.address = address;
-  }
-
-  const mailingAddress = searchParams.get('mailingaddress') || searchParams.get('mailingAddress');
-  if (mailingAddress) {
-    formData.mailingAddress = mailingAddress;
   }
 
   // Handle request types (comma-separated IDs)
@@ -86,15 +90,19 @@ export function buildURLParams(formData: Partial<DynamicFormData>): URLSearchPar
     params.set('case', formData.caseId);
   }
 
-  if (formData.name && typeof formData.name === 'string') {
-    // Try to split name into first/last if it contains a space
-    const nameParts = formData.name.trim().split(/\s+/);
-    if (nameParts.length >= 2) {
-      params.set('fname', nameParts[0]);
-      params.set('lname', nameParts.slice(1).join(' '));
-    } else {
-      params.set('name', formData.name);
-    }
+  if (formData.firstName && typeof formData.firstName === 'string') {
+    params.set('firstName', formData.firstName);
+  }
+  if (formData.lastName && typeof formData.lastName === 'string') {
+    params.set('lastName', formData.lastName);
+  }
+  
+  // Legacy support: also set fname/lname for backward compatibility
+  if (formData.firstName && typeof formData.firstName === 'string') {
+    params.set('fname', formData.firstName);
+  }
+  if (formData.lastName && typeof formData.lastName === 'string') {
+    params.set('lname', formData.lastName);
   }
 
   if (formData.email && typeof formData.email === 'string') {
@@ -111,10 +119,6 @@ export function buildURLParams(formData: Partial<DynamicFormData>): URLSearchPar
 
   if (formData.address && typeof formData.address === 'string') {
     params.set('address', formData.address);
-  }
-
-  if (formData.mailingAddress && typeof formData.mailingAddress === 'string') {
-    params.set('mailingaddress', formData.mailingAddress);
   }
 
   if (formData.requestTypes && formData.requestTypes.length > 0) {

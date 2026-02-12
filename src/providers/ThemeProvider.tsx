@@ -24,12 +24,12 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Get theme from localStorage or default to dark
-    const savedTheme = (localStorage.getItem('cpt-theme') as Theme) || 'dark';
+    // Get theme from localStorage or default to light
+    const savedTheme = (localStorage.getItem('cpt-theme') as Theme) || 'light';
     setTheme(savedTheme);
     
     // Create initial theme link element
@@ -45,8 +45,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     
     // Set initial theme
     const themePath = savedTheme === 'light' 
-      ? '/themes/soho-light/theme.css'
-      : '/themes/soho-dark/theme.css';
+      ? '/themes/cpt-legacy-light/theme.css'
+      : '/themes/cpt-legacy-dark/theme.css';
     linkElement.href = themePath;
     document.documentElement.setAttribute('data-theme', savedTheme);
     
@@ -69,8 +69,8 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
     // Update the href to point to the selected theme
     const themePath = theme === 'light' 
-      ? '/themes/soho-light/theme.css'
-      : '/themes/soho-dark/theme.css';
+      ? '/themes/cpt-legacy-light/theme.css'
+      : '/themes/cpt-legacy-dark/theme.css';
     
     linkElement.href = themePath;
 

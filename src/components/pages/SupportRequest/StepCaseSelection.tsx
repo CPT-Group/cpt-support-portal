@@ -1,7 +1,9 @@
 'use client';
 
 import { useMemo } from 'react';
-import { CPTCard, CPTDropdown, CPTMessage } from '@cpt-group/cpt-prime-react';
+import { Card } from 'primereact/card';
+import { Dropdown } from 'primereact/dropdown';
+import { Message } from 'primereact/message';
 import { CASE_LIST } from '@/constants';
 import type { CaseOption } from '@/types';
 
@@ -26,18 +28,18 @@ export const StepCaseSelection = ({
   );
 
   return (
-    <CPTCard className="mt-4">
-      <div className="flex flex-column gap-3">
-        <div>
-          {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
-          {description && (
-            <p className="text-color-secondary mb-3 line-height-3">{description}</p>
-          )}
+    <Card className="mt-2">
+<div className="flex flex-column gap-1">
+          <div>
+            {title && <h3 className="text-2xl font-bold mb-0 mt-0">{title}</h3>}
+            {description && (
+              <p className="text-color-secondary mb-1 mt-0 line-height-3">{description}</p>
+            )}
         </div>
-        <label htmlFor="case-select" className="font-semibold">
-          What case are you having issues with? <span className="text-red-500">*</span>
-        </label>
-        <CPTDropdown
+        {/* <label htmlFor="case-select" className="font-semibold">
+          Select a case for support <span className="text-red-500">*</span>
+        </label> */}
+        <Dropdown
           id="case-select"
           value={selectedCase}
           onChange={(e) => onCaseChange(e.value)}
@@ -46,14 +48,14 @@ export const StepCaseSelection = ({
           placeholder="Select a case"
           className="w-full"
           filter
-          scrollHeight="400px"
+          scrollHeight="35vh"
           panelClassName="p-dropdown-panel"
           aria-required="true"
           aria-invalid={!!error}
           aria-describedby={error ? 'case-select-error' : undefined}
         />
         {error && (
-          <CPTMessage
+          <Message
             id="case-select-error"
             severity="error"
             text={error}
@@ -61,7 +63,7 @@ export const StepCaseSelection = ({
           />
         )}
       </div>
-    </CPTCard>
+    </Card>
   );
 };
 

@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Note: Environment variables should be set in Netlify Dashboard
+# Go to Site Settings → Environment Variables
+# Required: NEXT_PUBLIC_GEOAPIFY_API_KEY
+# Required: NEXT_PUBLIC_FAQ_FEEDBACK_WEBHOOK_URL
+# Optional: NEXT_PUBLIC_SITE_URL
+

@@ -1,22 +1,15 @@
 'use client';
 
-import { useMemo, useEffect } from 'react';
-import {
-  CPTCard,
-  CPTFieldset,
-  CPTInputText,
-  CPTInputTextarea,
-  CPTInputMask,
-  CPTMessage,
-  CPTPanel,
-  CPTDivider,
-} from '@cpt-group/cpt-prime-react';
-import type { InputMaskChangeEvent } from 'primereact/inputmask';
+import { useMemo } from 'react';
+import { Card } from 'primereact/card';
+import { Fieldset } from 'primereact/fieldset';
+import { Message } from 'primereact/message';
+import { Panel } from 'primereact/panel';
+import { Divider } from 'primereact/divider';
 import type { FieldConfig } from '@/types/formConfig';
 import type { DynamicFormData, CaseOption } from '@/types/supportRequest';
-import { SupportFileUpload } from '@/components/common/SupportFileUpload';
-import { generateReasonPrefill } from '@/utils/reasonPrefill';
-import { CASE_LIST } from '@/constants';
+import { SupportRequestField } from './SupportRequestField';
+import { organizeFieldsBySection } from '@/utils/fieldConsolidation';
 
 interface StepRequestDataProps {
   formData: DynamicFormData;
@@ -39,286 +32,89 @@ export const StepRequestData = ({
   onFieldBlur,
   title,
   description,
-  selectedCase,
 }: StepRequestDataProps) => {
-  // Pre-fill reason field if it's required and empty, and we have both request types and case
-  useEffect(() => {
-    const reasonField = requiredFields.find((f) => f.id === 'reason');
-    if (
-      reasonField &&
-      (!formData.reason || (typeof formData.reason === 'string' && formData.reason.trim() === '')) &&
-      formData.requestTypes &&
-      formData.requestTypes.length > 0 &&
-      formData.caseId
-    ) {
-      const caseOption = selectedCase || CASE_LIST.find((c) => c.id === formData.caseId);
-      if (caseOption) {
-        const reasonText = generateReasonPrefill(formData, caseOption);
-        if (reasonText) {
-          onFieldChange('reason', reasonText);
-        }
-      }
-    }
-  }, [formData.requestTypes, formData.caseId, requiredFields, selectedCase, formData.reason, onFieldChange]);
+  const requiredFieldsBySection = useMemo(
+    () => organizeFieldsBySection(requiredFields),
+    [requiredFields]
+  );
 
-  // Separate identity verification fields from request-specific fields
-  const identityFields = useMemo(() => {
-    const identityFieldIds = ['name', 'cptId', 'email', 'phone', 'mailingAddress'];
-    return requiredFields.filter((field) => identityFieldIds.includes(field.id));
-  }, [requiredFields]);
-
-  const requestSpecificRequiredFields = useMemo(() => {
-    const identityFieldIds = ['name', 'cptId', 'email', 'phone', 'mailingAddress'];
-    return requiredFields.filter((field) => !identityFieldIds.includes(field.id));
-  }, [requiredFields]);
-
-  const renderField = (fieldConfig: FieldConfig) => {
-    const fieldId = fieldConfig.id;
-    const value = formData[fieldId];
-    const error = errors[fieldId];
-    const fieldValue = typeof value === 'string' ? value : '';
-
-    const commonProps = {
-      id: fieldId,
-      value: fieldValue,
-      onChange: (e: { target: { value: string } }) => {
-        onFieldChange(fieldId, e.target.value);
-      },
-      onBlur: onFieldBlur
-        ? () => {
-            if (typeof value === 'string') {
-              onFieldBlur(fieldId, value);
-            }
-          }
-        : undefined,
-      className: `w-full ${error ? 'p-invalid' : ''}`,
-      placeholder: fieldConfig.placeholder,
-      'aria-required': fieldConfig.required,
-      'aria-invalid': !!error,
-      'aria-describedby': error ? `${fieldId}-error` : undefined,
-    };
-
-    switch (fieldConfig.type) {
-      case 'email':
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <label htmlFor={fieldId} className="font-semibold">
-              {fieldConfig.label}
-              {fieldConfig.required && <span className="text-red-500"> *</span>}
-            </label>
-            <CPTInputText {...commonProps} type="email" />
-            {fieldConfig.helpText && (
-              <small className="text-color-secondary">{fieldConfig.helpText}</small>
-            )}
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-
-      case 'phone':
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <label htmlFor={fieldId} className="font-semibold">
-              {fieldConfig.label}
-              {fieldConfig.required && <span className="text-red-500"> *</span>}
-            </label>
-            <CPTInputMask
-              id={fieldId}
-              value={fieldValue}
-              onChange={(e: InputMaskChangeEvent) => {
-                const newValue = typeof e.value === 'string' ? e.value : '';
-                onFieldChange(fieldId, newValue);
-              }}
-              onBlur={onFieldBlur ? () => onFieldBlur(fieldId, fieldValue) : undefined}
-              mask="(999) 999-9999"
-              placeholder="(123) 456-7890"
-              className={`w-full ${error ? 'p-invalid' : ''}`}
-              aria-required={fieldConfig.required}
-              aria-invalid={!!error}
-              aria-describedby={error ? `${fieldId}-error` : undefined}
-            />
-            {fieldConfig.helpText && (
-              <small className="text-color-secondary">{fieldConfig.helpText}</small>
-            )}
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-
-      case 'textarea':
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <label htmlFor={fieldId} className="font-semibold">
-              {fieldConfig.label}
-              {fieldConfig.required && <span className="text-red-500"> *</span>}
-            </label>
-            <CPTInputTextarea
-              {...commonProps}
-              rows={4}
-              autoResize
-            />
-            {fieldConfig.helpText && (
-              <small className="text-color-secondary">{fieldConfig.helpText}</small>
-            )}
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-
-      case 'ssn':
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <label htmlFor={fieldId} className="font-semibold">
-              {fieldConfig.label}
-              {fieldConfig.required && <span className="text-red-500"> *</span>}
-            </label>
-            <CPTInputMask
-              id={fieldId}
-              value={fieldValue}
-              onChange={(e: InputMaskChangeEvent) => {
-                const newValue = typeof e.value === 'string' ? e.value : '';
-                onFieldChange(fieldId, newValue);
-              }}
-              onBlur={onFieldBlur ? () => onFieldBlur(fieldId, fieldValue) : undefined}
-              mask="999-99-9999"
-              placeholder="XXX-XX-XXXX"
-              className={`w-full ${error ? 'p-invalid' : ''}`}
-              aria-required={fieldConfig.required}
-              aria-invalid={!!error}
-              aria-describedby={error ? `${fieldId}-error` : undefined}
-            />
-            {fieldConfig.helpText && (
-              <small className="text-color-secondary">{fieldConfig.helpText}</small>
-            )}
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-
-      case 'file':
-        const fileValue = Array.isArray(value) && value[0] instanceof File ? (value as File[]) : [];
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <SupportFileUpload
-              files={fileValue}
-              onFilesChange={(files) => onFieldChange(fieldId, files)}
-              label={fieldConfig.label}
-              maxFileSize={5000000} // 5MB
-              accept="*/*"
-              multiple
-            />
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-
-      case 'text':
-      default:
-        return (
-          <div key={fieldId} className="flex flex-column gap-2">
-            <label htmlFor={fieldId} className="font-semibold">
-              {fieldConfig.label}
-              {fieldConfig.required && <span className="text-red-500"> *</span>}
-            </label>
-            <CPTInputText {...commonProps} />
-            {fieldConfig.helpText && (
-              <small className="text-color-secondary">{fieldConfig.helpText}</small>
-            )}
-            {error && (
-              <CPTMessage
-                id={`${fieldId}-error`}
-                severity="error"
-                text={error}
-                className="mt-1"
-              />
-            )}
-          </div>
-        );
-    }
-  };
+  const optionalFieldsBySection = useMemo(
+    () => organizeFieldsBySection(optionalFields),
+    [optionalFields]
+  );
 
   return (
-    <CPTCard className="mt-4">
-      <div className="flex flex-column gap-4">
+    <Card className="mt-2" style={{ height: 'auto', overflow: 'visible' }}>
+      <div className="flex flex-column gap-2" style={{ height: 'auto', overflow: 'visible' }}>
         {(title || description) && (
-          <div className="mb-3">
-            {title && <h2 className="text-3xl font-bold mb-2">{title}</h2>}
+          <div className="mb-1">
+            {title && <h3 className="text-2xl font-bold mb-0 mt-0">{title}</h3>}
             {description && (
-              <p className="text-color-secondary line-height-3">{description}</p>
+              <p className="text-color-secondary mb-0 mt-0 line-height-3">{description}</p>
             )}
           </div>
         )}
-        {/* Identity Verification Fields */}
-        {identityFields.length > 0 && (
-          <CPTFieldset legend="Identity Verification">
-            <div className="flex flex-column gap-3">
-              {identityFields.map((field) => renderField(field))}
+
+        {requiredFieldsBySection.map((section, sectionIndex) => {
+          if (section.fields.length === 0) return null;
+          return (
+            <div key={section.section}>
+              {sectionIndex > 0 && <Divider />}
+              <Fieldset legend={section.label}>
+                <div className="flex flex-column gap-2">
+                  {section.fields.map((field) => (
+                    <SupportRequestField
+                      key={field.id}
+                      fieldConfig={field}
+                      formData={formData}
+                      errors={errors}
+                      onFieldChange={onFieldChange}
+                      onFieldBlur={onFieldBlur}
+                      requiredFields={requiredFields}
+                      optionalFields={optionalFields}
+                    />
+                  ))}
+                </div>
+              </Fieldset>
             </div>
-          </CPTFieldset>
-        )}
+          );
+        })}
 
-        {/* Request-Specific Required Fields */}
-        {requestSpecificRequiredFields.length > 0 && (
+        {optionalFieldsBySection.length > 0 && (
           <>
-            {identityFields.length > 0 && <CPTDivider />}
-            <CPTFieldset legend="Request-Specific Information">
-              <div className="flex flex-column gap-3">
-                {requestSpecificRequiredFields.map((field) => renderField(field))}
+            {requiredFieldsBySection.length > 0 && <Divider />}
+            <Panel
+              header="Additional Information"
+              toggleable
+              collapsed
+              style={{ overflow: 'visible' }}
+            >
+              <div className="flex flex-column gap-2 pt-2" style={{ overflow: 'visible' }}>
+                {optionalFieldsBySection.map((section) => (
+                  <div key={section.section} className="flex flex-column gap-2">
+                    {section.fields.map((field) => (
+                      <SupportRequestField
+                        key={field.id}
+                        fieldConfig={field}
+                        formData={formData}
+                        errors={errors}
+                        onFieldChange={onFieldChange}
+                        onFieldBlur={onFieldBlur}
+                        requiredFields={requiredFields}
+                        optionalFields={optionalFields}
+                      />
+                    ))}
+                  </div>
+                ))}
               </div>
-            </CPTFieldset>
+            </Panel>
           </>
         )}
 
-        {/* Optional Fields */}
-        {optionalFields.length > 0 && (
-          <>
-            {(identityFields.length > 0 || requestSpecificRequiredFields.length > 0) && (
-              <CPTDivider />
-            )}
-            <CPTPanel header="Optional Fields" toggleable collapsed>
-              <div className="flex flex-column gap-3 pt-3">
-                {optionalFields.map((field) => renderField(field))}
-              </div>
-            </CPTPanel>
-          </>
-        )}
-
-        {/* General Error Message */}
         {errors._general && (
-          <CPTMessage severity="error" text={errors._general} className="mt-2" />
+          <Message severity="error" text={errors._general} className="mt-2" />
         )}
       </div>
-    </CPTCard>
+    </Card>
   );
 };
-
