@@ -1,0 +1,51 @@
+// Base: resets, document, fonts. No hardcoded theme colors – use var(--...) only.
+// Layout/body padding and main structure stay in globals.css (Tailwind + app-specific).
+// Body and html use theme variables so light themes get dark text (lara-dark-blue hardcodes white otherwise).
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  color: var(--text-color);
+}
+
+body {
+  color: var(--text-color);
+  background-color: var(--page-background);
+}
+
+// Lato – served from public theme folder (shared by CPT legacy themes)
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-300.woff2') format('woff2'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-300.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-regular.woff2') format('woff2'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-700.woff2') format('woff2'),
+    url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-700.woff') format('woff');
+}
+
+// Scrollbars (variable-based)
+:root {
+  --scrollbar-size: 8px;
+  --scrollbar-border-radius: 4px;
+}

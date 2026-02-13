@@ -1,8 +1,27 @@
 'use client';
 
-import { Button } from 'primereact/button';
+import { Dropdown } from 'primereact/dropdown';
 import { useTheme } from '@/providers/ThemeProvider';
-import { memo } from 'react';
+import type { Theme } from '@/providers/ThemeProvider';
+import { memo, useMemo } from 'react';
+
+const THEME_LABELS: Record<Theme, string> = {
+  'cpt-legacy-light': 'CPT Legacy Light',
+  'cpt-legacy-dark': 'CPT Legacy Dark',
+  dark: 'Dark',
+  light: 'Light',
+  'dark-synth': 'Dark Synth',
+  'ms-access-2010': 'MS Access 2010',
+};
+
+const THEME_ORDER: Theme[] = [
+  'cpt-legacy-light',
+  'cpt-legacy-dark',
+  'dark',
+  'light',
+  'dark-synth',
+  'ms-access-2010',
+];
 
 interface HeaderThemeToggleProps {
   variant?: 'desktop' | 'mobile';
@@ -10,42 +29,32 @@ interface HeaderThemeToggleProps {
 }
 
 export const HeaderThemeToggle = memo(({ variant = 'desktop', onToggle }: HeaderThemeToggleProps) => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-  const handleToggle = () => {
-    toggleTheme();
+  const options = useMemo(
+    () => THEME_ORDER.map((value) => ({ label: THEME_LABELS[value], value })),
+    []
+  );
+
+  const handleChange = (value: Theme) => {
+    setTheme(value);
     onToggle?.();
   };
 
   const isMobile = variant === 'mobile';
-  const icon = theme === 'light' ? 'pi pi-sun' : 'pi pi-moon';
-  const label = theme === 'light' ? 'Dark Theme' : 'Light Theme';
-
-  if (isMobile) {
-    return (
-      <Button
-        label={label}
-        icon={icon}
-        iconPos="left"
-        onClick={handleToggle}
-        className="p-button-text w-full justify-content-start"
-        aria-label={label}
-      />
-    );
-  }
 
   return (
-    <Button
-      icon={icon}
-      onClick={handleToggle}
-      className="p-button-rounded p-button-text"
-      tooltip={label}
-      tooltipOptions={{ position: 'bottom' }}
-      aria-label={label}
-      style={{
-        width: '2.5rem',
-        height: '2.5rem',
-      }}
+    <Dropdown
+      value={theme}
+      options={options}
+      onChange={(e) => handleChange(e.value as Theme)}
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Theme"
+      aria-label="Select theme"
+      className={isMobile ? 'w-full' : undefined}
+      panelClassName="theme-dropdown-panel"
+      style={!isMobile ? { minWidth: '10rem' } : undefined}
     />
   );
 });

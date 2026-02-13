@@ -1,0 +1,57 @@
+// CPT Legacy Light – CPT brand light theme. Self-contained; no colors shared with other themes.
+
+html[data-theme='cpt-legacy-light'],
+[data-theme='cpt-legacy-light'] {
+  --surface-a: #f8f9fa !important;
+  --surface-b: #f8f9fa !important;
+  --surface-c: #fafbfd !important;
+  --surface-d: #e8ecf1 !important;
+  --surface-e: #ffffff !important;
+  --surface-f: #ffffff !important;
+  --text-color: #1a3a5c !important;
+  --text-color-secondary: #5a7a9a !important;
+  --primary-color: #405c8e !important;
+  --primary-color-text: #ffffff !important;
+  --surface-0: #ffffff !important;
+  --surface-50: #f8f9fa !important;
+  --surface-100: #e8ecf1 !important;
+  --surface-200: #d1d9e3 !important;
+  --surface-300: #bac6d5 !important;
+  --surface-400: #a3b3c7 !important;
+  --surface-500: #8ca0b9 !important;
+  --surface-600: #70839a !important;
+  --surface-700: #54667b !important;
+  --surface-800: #38495c !important;
+  --surface-900: #1c2c3d !important;
+  --gray-50: #f8f9fa !important;
+  --gray-100: #e8ecf1 !important;
+  --gray-200: #d1d9e3 !important;
+  --gray-300: #bac6d5 !important;
+  --gray-400: #a3b3c7 !important;
+  --gray-500: #8ca0b9 !important;
+  --gray-600: #70839a !important;
+  --gray-700: #54667b !important;
+  --gray-800: #38495c !important;
+  --gray-900: #1c2c3d !important;
+  --surface-ground: #f8f9fa !important;
+  --surface-section: #f8f9fa !important;
+  --surface-card: #ffffff !important;
+  --surface-overlay: #ffffff !important;
+  --surface-border: #e8ecf1 !important;
+  --header-bg: rgba(220, 230, 240, 0.7) !important;
+  --header-fg: #1a3a5c !important;
+  --surface-hover: #fafbfd !important;
+  --focus-ring: 0 0 0 1px #8bb3e8 !important;
+  --maskbg: rgba(0, 0, 0, 0.4) !important;
+  --highlight-bg: #e3eef8 !important;
+  --highlight-text-color: #3d6fa3 !important;
+  --page-background: #f8f9fa !important;
+  --text-primary: #1a3a5c !important;
+  --button-primary-background: #405c8e !important;
+  --button-primary-background-hover: #4d6a9e !important;
+  --button-primary-text: #ffffff !important;
+  --scrollbar-track-bg: var(--surface-card) !important;
+  --scrollbar-thumb-bg: var(--surface-d) !important;
+  --scrollbar-thumb-hover-bg: var(--surface-400) !important;
+  --p-primary-color: var(--primary-color) !important;
+}

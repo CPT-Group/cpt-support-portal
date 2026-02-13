@@ -2,6 +2,57 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.4] - 2025-02-12
+
+### Summary
+- Theme system: six separate themes (CPT Legacy Light/Dark, Dark, Light, MS Access 2010, Dark Synth), single PrimeReact base + SCSS overrides; light mode contrast, Dropdown/InputText/Sidebar/Steps use theme variables; theme switcher dropdown in sidebar.
+- Button icon/label gap and center alignment; theme variables checklist doc for future overrides/themes.
+
+## [1.18.3] - 2025-02-12
+
+### Fixed - Light mode contrast (body, main, headings, sidebar)
+- **Body and document text** - lara-dark-blue hardcodes white text; our theme SCSS overrides variables but did not apply them to the document. In `base.scss`: `html` and `body` now use `color: var(--text-color)` and `body` uses `background-color: var(--page-background)` so light themes get dark text and correct background.
+- **Main content and headings** - In `globals.css`: `main`, `main h1`–`h4`, `main p`, `main a`, `main label` now use `color: var(--text-color)`; `main a:hover` uses `var(--primary-color)`; added `.text-color-secondary` utility so light mode contrast is correct across page content.
+- **Sidebar** - PrimeReact Sidebar used lara-dark-blue hardcoded dark bg/white text. In `primereact-overrides.scss`: `.p-sidebar`, header, content, close/icon buttons, and links/headings inside sidebar now use theme variables (`--surface-card`, `--text-color`, `--text-color-secondary`, `--surface-hover`, `--surface-border`) so the sidebar follows the active theme.
+
+### Fixed - Button icon/label spacing and alignment; Steps (stepper) theme colors
+- **Button** – Icon and label were too close and not vertically centered. In `primereact-overrides.scss`: `.p-button` now uses `display: inline-flex`, `align-items: center`, `justify-content: center`, and `gap: 0.5rem`; icon margin overrides set to 0 so gap controls spacing. Previous/Next and other icon+label buttons now have consistent gap and center alignment.
+- **Steps (stepper)** – PrimeReact Steps used lara-dark-blue hardcoded white/gray. Overrides added so step number, title, connector line, and highlight state use theme variables (`--text-color`, `--text-color-secondary`, `--surface-border`, `--focus-ring`, `--highlight-bg`, `--highlight-text-color`). Stepper respects the active theme on all six themes.
+
+### Added - Theme variables checklist and override rules
+- **docs/theme-variables-checklist.md** – Lists every CSS variable that PrimeReact overrides and base/globals depend on. Rules: (1) New component overrides must use only theme variables so every theme gets the right colors. (2) New themes must define the full variable set with that theme's color scheme. Ensures no PrimeReact component "misses" its theme (e.g. light theme dropdown/inputs staying dark).
+- **primereact-overrides.scss** – Header comment lists the variables it uses and points to the checklist. **docs/theme-rework-reference.md** – Linked to the checklist for future overrides/themes.
+
+### Fixed - Light theme Dropdown and InputText use theme colors
+- **Dropdown** - lara-dark-blue hardcodes dark background and white text for `.p-dropdown` and `.p-dropdown-panel`. Added overrides in `primereact-overrides.scss` so dropdown trigger, label, placeholder, panel, and items use theme variables (`--surface-card`, `--surface-overlay`, `--text-color`, `--text-color-secondary`, `--surface-hover`, `--highlight-bg`, `--highlight-text-color`, `--surface-border`, `--focus-ring`). Light theme dropdowns now show light backgrounds and dark text.
+- **InputText** - Same fix for `.p-inputtext`, filled variant, float label, and placeholder: overrides use theme variables so light theme inputs are light with dark text.
+
+### Changed - Single PrimeReact theme; no legacy theme CSS
+- **Layout** - Confirmed only one PrimeReact theme is imported (`lara-dark-blue/theme.css`); no old or duplicate theme CSS. Comment in `layout.tsx` documents that our `main.scss` overrides use theme variables.
+
+### Changed - Themes fully separate; reference doc and dark-synth cleanup
+- **Theme separation** - All six themes are documented as completely separate (no shared/merged colors). Each theme file is self-contained with its own literal values; CPT Legacy Dark/Light are support-portal brand; Dark, Light, MS Access 2010, Dark Synth align with cpt-internal-tools. See `docs/theme-rework-reference.md` §7 and theme file headers.
+- **Dark Synth** - Removed redundant hardcoded `html`/`body` background and color in `dark-synth.scss`; dark-synth now uses only CSS variables (`--page-background`, `--text-color`) like other themes, applied via base.scss.
+
+### Changed - Theme switcher is a dropdown with all themes
+- **HeaderThemeToggle** - Replaced the cycle-theme button with a PrimeReact Dropdown that lists all six themes (CPT Legacy Light/Dark, Dark, Light, Dark Synth, MS Access 2010). Sidebar uses full-width dropdown; same component can be used elsewhere with optional compact width. Selecting a theme applies it and, in the sidebar, closes the menu via `onToggle`.
+
+### Fixed - Light theme header icons visible
+- **Header foreground** - Light themes (cpt-legacy-light, light, ms-access-2010) were showing white icons on a light header background. Added `--header-fg` to variables and CPT legacy themes: dark (`#1a3a5c`) for light themes, light (`rgba(255,255,255,0.95)`) for cpt-legacy-dark. Applied in `globals.css` so `header.sticky` and its toolbar/buttons/icons use `var(--header-fg)` for color and focus ring, making header icons visible in all themes.
+
+### Changed - Theme System Aligned with internal-dashboard / cpt-internal-tools
+- **Theme architecture** - Adopted the same pattern as internal-dashboard and cpt-internal-tools: one PrimeReact theme CSS (`lara-dark-blue`) plus a single SCSS bundle; theme applied via `data-theme` on `<html>` only (no dynamic theme `<link>` swap).
+- **Layout** - `layout.tsx` now imports `primereact/resources/themes/lara-dark-blue/theme.css` and `main.scss`; `<html>` has default `data-theme="cpt-legacy-light"`; added `theme-init` script (`beforeInteractive`) to read `localStorage['cpt-theme']`, validate against allowed theme ids, and set `data-theme` before React to avoid flash.
+- **SCSS structure** - Added `src/styles/` with `variables.scss` (default cpt-legacy-light), `base.scss` (resets, Lato fonts), `utilities.scss`; `src/styles/themes/` with six theme files: `dark.scss`, `light.scss`, `dark-synth.scss`, `ms-access-2010.scss`, `cpt-legacy-dark.scss`, `cpt-legacy-light.scss`; `primereact-overrides.scss` for Card, Accordion, Message, Button, Dialog, Panel, ListBox, Fieldset. `src/app/main.scss` orchestrates load order: variables → base → utilities → theme files → primereact-overrides.
+- **ThemeProvider** - Removed all dynamic `<link>` creation/update; only sets `document.documentElement.setAttribute('data-theme', theme)` and `localStorage.setItem('cpt-theme', theme)`. Theme type extended to six: `dark`, `light`, `dark-synth`, `ms-access-2010`, `cpt-legacy-dark`, `cpt-legacy-light`. Added `setTheme(theme)`, `cycleTheme()`; kept `toggleTheme()` for CPT legacy light/dark flip. Default theme remains `cpt-legacy-light`.
+- **HeaderThemeToggle** - Uses `cycleTheme()` to cycle through all six themes; tooltip/label show current theme name (e.g. "CPT Legacy Light", "Dark Synth"). Icon remains sun for light-like themes, moon for dark-like.
+- **globals.css** - Logo and body background/overlay selectors updated for all six themes (light-like: light, cpt-legacy-light, ms-access-2010; dark-like: dark, cpt-legacy-dark, dark-synth). Removed obsolete comments about dual theme CSS loading.
+- **Dependency** - Added `sass` (dev) for SCSS compilation.
+- **Docs** - `docs/theme-rework-reference.md` documents the reference codebases and target pattern; no change to README theme section (still describes CPT legacy + theme toggle).
+
+### Removed
+- **Unused theme CSS files** - Deleted `public/themes/cpt-legacy-dark/theme.css` and `public/themes/cpt-legacy-light/theme.css`; theme styling is now entirely from SCSS variable overrides. Font folders under `public/themes/cpt-legacy-dark/fonts/` and `cpt-legacy-light/fonts/` are kept (Lato is referenced from `base.scss`).
+
 ## [1.18.2] - 2025-02-11
 
 ### Changed - Compact Layout and Screen Real Estate

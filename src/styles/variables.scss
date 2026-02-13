@@ -1,0 +1,75 @@
+// Design tokens – default cpt-legacy-light (first paint). Theme files override via [data-theme='...'].
+// PrimeReact theme CSS is loaded first in layout; our SCSS loads after so these apply.
+
+:root {
+  font-family: Lato, Helvetica, sans-serif;
+  --font-family: Lato, Helvetica, sans-serif;
+  color-scheme: light;
+
+  // Scale and typography (shared with CPT legacy themes)
+  --scale: 1;
+  --font-size: 0.8125rem;
+  --font-size-sm: 0.7rem;
+  --font-size-lg: 1rem;
+  --line-height: 1.35;
+  --input-padding-x: 0.6875rem;
+  --input-padding-y: 0.4375rem;
+  --content-padding: 1.25rem;
+  --inline-spacing: 0.5rem;
+  --border-radius: 6px;
+
+  // Default = cpt-legacy-light (CPT brand). Theme files override when [data-theme] matches.
+  --surface-ground: #f8f9fa;
+  --surface-section: #f8f9fa;
+  --surface-card: #ffffff;
+  --surface-overlay: #ffffff;
+  --surface-border: #e8ecf1;
+  --surface-a: #f8f9fa;
+  --surface-b: #f8f9fa;
+  --surface-c: #fafbfd;
+  --surface-d: #e8ecf1;
+  --surface-e: #ffffff;
+  --surface-f: #ffffff;
+  --surface-0: #ffffff;
+  --surface-50: #f8f9fa;
+  --surface-100: #e8ecf1;
+  --surface-200: #d1d9e3;
+  --surface-300: #bac6d5;
+  --surface-400: #a3b3c7;
+  --surface-500: #8ca0b9;
+  --surface-600: #70839a;
+  --surface-700: #54667b;
+  --surface-800: #38495c;
+  --surface-900: #1c2c3d;
+  --text-color: #1a3a5c;
+  --text-color-secondary: #5a7a9a;
+  --primary-color: #405c8e;
+  --primary-color-text: #ffffff;
+  --gray-50: #f8f9fa;
+  --gray-100: #e8ecf1;
+  --gray-200: #d1d9e3;
+  --gray-300: #bac6d5;
+  --gray-400: #a3b3c7;
+  --gray-500: #8ca0b9;
+  --gray-600: #70839a;
+  --gray-700: #54667b;
+  --gray-800: #38495c;
+  --gray-900: #1c2c3d;
+  --header-bg: rgba(220, 230, 240, 0.7);
+  --header-fg: #1a3a5c;
+  --surface-hover: #fafbfd;
+  --focus-ring: 0 0 0 1px #8bb3e8;
+  --maskbg: rgba(0, 0, 0, 0.4);
+  --highlight-bg: #e3eef8;
+  --highlight-text-color: #3d6fa3;
+
+  // Semantic (used by base / globals)
+  --page-background: var(--surface-ground);
+  --text-primary: var(--text-color);
+  --button-primary-background: var(--primary-color);
+  --button-primary-background-hover: #4d6a9e;
+  --button-primary-text: var(--primary-color-text);
+  --scrollbar-track-bg: var(--surface-card);
+  --scrollbar-thumb-bg: var(--surface-d);
+  --scrollbar-thumb-hover-bg: var(--surface-400);
+}

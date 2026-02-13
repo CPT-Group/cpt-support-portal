@@ -1,0 +1,57 @@
+// CPT Legacy Dark – CPT brand dark theme. Self-contained; no colors shared with other themes.
+
+html[data-theme='cpt-legacy-dark'],
+[data-theme='cpt-legacy-dark'] {
+  --surface-a: #222c61 !important;
+  --surface-b: #1a2332 !important;
+  --surface-c: rgba(255, 255, 255, 0.04) !important;
+  --surface-d: #3a4a5f !important;
+  --surface-e: #222c61 !important;
+  --surface-f: #222c61 !important;
+  --text-color: rgba(255, 255, 255, 0.9) !important;
+  --text-color-secondary: rgba(255, 255, 255, 0.65) !important;
+  --primary-color: #405c8e !important;
+  --primary-color-text: #ffffff !important;
+  --surface-0: #1a2332 !important;
+  --surface-50: #2a3547 !important;
+  --surface-100: #3a475c !important;
+  --surface-200: #4a5971 !important;
+  --surface-300: #5a6b86 !important;
+  --surface-400: #6a7d9b !important;
+  --surface-500: #7a8fb0 !important;
+  --surface-600: #8fa1c0 !important;
+  --surface-700: #a4b3d0 !important;
+  --surface-800: #b9c5e0 !important;
+  --surface-900: #ced7f0 !important;
+  --gray-50: #ced7f0 !important;
+  --gray-100: #b9c5e0 !important;
+  --gray-200: #a4b3d0 !important;
+  --gray-300: #8fa1c0 !important;
+  --gray-400: #7a8fb0 !important;
+  --gray-500: #6a7d9b !important;
+  --gray-600: #5a6b86 !important;
+  --gray-700: #4a5971 !important;
+  --gray-800: #3a475c !important;
+  --gray-900: #2a3547 !important;
+  --surface-ground: #1a2332 !important;
+  --surface-section: #1a2332 !important;
+  --surface-card: #222c61 !important;
+  --surface-overlay: #222c61 !important;
+  --surface-border: #3a4a5f !important;
+  --header-bg: rgba(120, 140, 160, 0.3) !important;
+  --header-fg: rgba(255, 255, 255, 0.95) !important;
+  --surface-hover: rgba(255, 255, 255, 0.05) !important;
+  --focus-ring: 0 0 0 1px #6b8fc7 !important;
+  --maskbg: rgba(0, 0, 0, 0.5) !important;
+  --highlight-bg: rgba(64, 92, 142, 0.2) !important;
+  --highlight-text-color: #a8c5f0 !important;
+  --page-background: #1a2332 !important;
+  --text-primary: rgba(255, 255, 255, 0.9) !important;
+  --button-primary-background: #405c8e !important;
+  --button-primary-background-hover: #4d6a9e !important;
+  --button-primary-text: #ffffff !important;
+  --scrollbar-track-bg: var(--surface-card) !important;
+  --scrollbar-thumb-bg: var(--surface-d) !important;
+  --scrollbar-thumb-hover-bg: var(--surface-400) !important;
+  --p-primary-color: var(--primary-color) !important;
+}

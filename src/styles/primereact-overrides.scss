@@ -1,0 +1,360 @@
+// PrimeReact component overrides – lara-dark-blue uses hardcoded colors for several components.
+// Uses theme variables only so it works for all themes. Load after theme files in main.scss.
+//
+// Variables used here (every theme must define these): --surface-card, --surface-overlay,
+// --surface-ground, --surface-border, --surface-hover, --text-color, --text-color-secondary,
+// --primary-color, --primary-color-text, --focus-ring, --highlight-bg, --highlight-text-color.
+// When adding new overrides: use only these (or other theme vars). When adding a new theme:
+// define the same variable set with that theme's colors. See docs/theme-variables-checklist.md.
+
+// --- Card ---
+.p-card {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--card-shadow, 0 2px 8px rgba(0, 0, 0, 0.2)) !important;
+}
+.p-card .p-card-subtitle {
+  color: var(--text-color-secondary) !important;
+}
+
+// --- Accordion ---
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: var(--content-padding, 1rem) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+  background: var(--surface-card) !important;
+  border-radius: var(--border-radius) !important;
+}
+.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus-visible {
+  box-shadow: var(--focus-ring) !important;
+}
+.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background: var(--surface-hover) !important;
+  border-color: var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background: var(--surface-card) !important;
+  border-color: var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background: var(--surface-hover) !important;
+  border-color: var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-accordion .p-accordion-content {
+  padding: var(--content-padding, 1rem) !important;
+  border: 1px solid var(--surface-border) !important;
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 var(--border-radius) var(--border-radius) !important;
+}
+.p-accordion .p-accordion-tab {
+  margin-bottom: 2px !important;
+}
+
+// --- Message ---
+.p-message.p-message-info {
+  background: color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--text-color) !important;
+}
+.p-message.p-message-info .p-message-icon,
+.p-message.p-message-info .p-message-close {
+  color: var(--primary-color) !important;
+}
+
+// --- Button (layout: center align icon + label, gap between them) ---
+.p-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+.p-button .p-button-icon-left,
+.p-button .p-button-icon-right {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.p-button .p-button-icon-top,
+.p-button .p-button-icon-bottom {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+// --- Button (primary uses theme vars) ---
+.p-button:not(.p-button-text):not(.p-button-outlined).p-button-primary,
+.p-button.p-button-primary.p-button-raised {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color-text) !important;
+}
+.p-button:not(.p-button-text):not(.p-button-outlined).p-button-primary:not(:disabled):hover,
+.p-button.p-button-primary.p-button-raised:not(:disabled):hover {
+  background: var(--button-primary-background-hover, var(--primary-color)) !important;
+  border-color: var(--button-primary-background-hover, var(--primary-color)) !important;
+  color: var(--primary-color-text) !important;
+}
+
+// --- Dialog ---
+.p-dialog {
+  background: var(--surface-overlay) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-dialog .p-dialog-header {
+  background: var(--surface-overlay) !important;
+  color: var(--text-color) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+}
+.p-dialog .p-dialog-content {
+  background: var(--surface-overlay) !important;
+  color: var(--text-color) !important;
+}
+.p-dialog .p-dialog-footer {
+  background: var(--surface-overlay) !important;
+  border-top: 1px solid var(--surface-border) !important;
+}
+
+// --- Panel ---
+.p-panel {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-panel .p-panel-header {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-color: var(--surface-border) !important;
+}
+.p-panel .p-panel-content {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-color: var(--surface-border) !important;
+}
+
+// --- ListBox ---
+.p-listbox {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-listbox .p-listbox-header {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-color: var(--surface-border) !important;
+}
+.p-listbox .p-listbox-list .p-listbox-item {
+  color: var(--text-color) !important;
+}
+.p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  background: var(--highlight-bg) !important;
+  color: var(--highlight-text-color) !important;
+}
+.p-listbox .p-listbox-list .p-listbox-item:not(.p-highlight):not(.p-disabled):hover {
+  background: var(--surface-hover) !important;
+  color: var(--text-color) !important;
+}
+
+// --- Fieldset ---
+.p-fieldset {
+  border: 1px solid var(--surface-border) !important;
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+}
+.p-fieldset .p-fieldset-legend {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-color: var(--surface-border) !important;
+}
+.p-fieldset .p-fieldset-content {
+  color: var(--text-color) !important;
+}
+
+// --- Sidebar (menu drawer) – lara-dark-blue hardcodes dark bg/white text; use theme vars so it follows theme ---
+.p-sidebar {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--surface-border) !important;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12) !important;
+}
+.p-sidebar .p-sidebar-header {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+  padding: var(--content-padding, 1.25rem) !important;
+}
+.p-sidebar .p-sidebar-header .p-sidebar-close,
+.p-sidebar .p-sidebar-header .p-sidebar-icon {
+  color: var(--text-color-secondary) !important;
+  background: transparent !important;
+  border: 0 none !important;
+}
+.p-sidebar .p-sidebar-header .p-sidebar-close:enabled:hover,
+.p-sidebar .p-sidebar-header .p-sidebar-icon:enabled:hover {
+  color: var(--text-color) !important;
+  background: var(--surface-hover) !important;
+}
+.p-sidebar .p-sidebar-header .p-sidebar-close:focus-visible,
+.p-sidebar .p-sidebar-header .p-sidebar-icon:focus-visible {
+  box-shadow: var(--focus-ring) !important;
+}
+.p-sidebar .p-sidebar-content {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  padding: var(--content-padding, 1.25rem) !important;
+}
+.p-sidebar .p-button,
+.p-sidebar .p-button .p-button-icon,
+.p-sidebar .p-button-label,
+.p-sidebar .pi,
+.p-sidebar h1,
+.p-sidebar h2,
+.p-sidebar h3,
+.p-sidebar a {
+  color: var(--text-color) !important;
+}
+.p-sidebar .p-button:hover,
+.p-sidebar .p-button:hover .p-button-icon {
+  color: var(--text-color) !important;
+  background: var(--surface-hover) !important;
+}
+.p-sidebar .p-button-outlined {
+  border-color: var(--surface-border) !important;
+}
+.p-sidebar .text-color-secondary,
+.p-sidebar .text-xs {
+  color: var(--text-color-secondary) !important;
+}
+
+// --- Dropdown – lara-dark-blue hardcodes dark bg/white text; use theme vars so light theme gets light colors ---
+.p-dropdown {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-dropdown:not(.p-disabled):hover {
+  border-color: var(--primary-color) !important;
+}
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: var(--focus-ring) !important;
+  border-color: var(--primary-color) !important;
+}
+.p-dropdown.p-variant-filled {
+  background: var(--surface-ground) !important;
+}
+.p-dropdown.p-variant-filled:not(.p-disabled):hover,
+.p-dropdown.p-variant-filled:not(.p-disabled).p-focus {
+  background: var(--surface-ground) !important;
+}
+.p-dropdown .p-dropdown-label {
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+.p-dropdown .p-dropdown-label.p-placeholder {
+  color: var(--text-color-secondary) !important;
+}
+.p-dropdown .p-dropdown-trigger {
+  background: transparent !important;
+  color: var(--text-color-secondary) !important;
+}
+.p-dropdown .p-dropdown-clear-icon {
+  color: var(--text-color-secondary) !important;
+}
+.p-dropdown-panel {
+  background: var(--surface-overlay) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--surface-border) !important;
+}
+.p-dropdown-panel .p-dropdown-header {
+  background: var(--surface-overlay) !important;
+  color: var(--text-color) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+}
+.p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
+  color: var(--text-color-secondary) !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  color: var(--highlight-text-color) !important;
+  background: var(--highlight-bg) !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+  background: var(--highlight-bg) !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled).p-focus,
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
+  color: var(--text-color) !important;
+  background: var(--surface-hover) !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
+  color: var(--text-color) !important;
+  background: var(--surface-hover) !important;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message {
+  color: var(--text-color-secondary) !important;
+}
+
+// --- InputText – lara-dark-blue hardcodes dark bg/white text; use theme vars so light theme gets light inputs ---
+.p-inputtext {
+  background: var(--surface-card) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--surface-border) !important;
+}
+.p-inputtext:enabled:hover {
+  border-color: var(--primary-color) !important;
+}
+.p-inputtext:enabled:focus {
+  box-shadow: var(--focus-ring) !important;
+  border-color: var(--primary-color) !important;
+}
+.p-inputtext.p-variant-filled,
+.p-input-filled .p-inputtext {
+  background: var(--surface-ground) !important;
+  color: var(--text-color) !important;
+  border-color: var(--surface-border) !important;
+}
+.p-inputtext.p-variant-filled:enabled:hover,
+.p-inputtext.p-variant-filled:enabled:focus,
+.p-input-filled .p-inputtext:enabled:hover,
+.p-input-filled .p-inputtext:enabled:focus {
+  background: var(--surface-ground) !important;
+  border-color: var(--primary-color) !important;
+}
+.p-float-label > label {
+  color: var(--text-color-secondary) !important;
+}
+.p-inputtext::placeholder {
+  color: var(--text-color-secondary) !important;
+}
+
+// --- Steps (stepper) – lara-dark-blue hardcodes white/gray; use theme vars so all themes get correct colors ---
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  color: var(--text-color) !important;
+  background: transparent !important;
+  border: 0 none !important;
+}
+.p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+  color: var(--text-color-secondary) !important;
+}
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus-visible {
+  box-shadow: var(--focus-ring) !important;
+}
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: var(--highlight-bg) !important;
+  color: var(--highlight-text-color) !important;
+}
+.p-steps .p-steps-item.p-highlight .p-steps-title {
+  color: var(--text-color) !important;
+  font-weight: 700 !important;
+}
+.p-steps .p-steps-item:before {
+  border-top-color: var(--surface-border) !important;
+}

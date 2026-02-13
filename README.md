@@ -67,12 +67,11 @@ npm start
 
 ## Themes
 
-The application uses custom American flag-themed color schemes:
+The application uses a SCSS-based theme system (aligned with internal-dashboard and cpt-internal-tools). One PrimeReact base theme is loaded; theme is applied via the `data-theme` attribute on `<html>` and variable overrides in `src/styles/themes/`.
 
-- **Light Theme:** Soft blue primary (`#5B8FC7`) with white backgrounds and red accents
-- **Dark Theme:** Red primary (`#E85D75`) with dark navy backgrounds (`#1a2332`)
+**Available themes:** CPT Legacy Light, CPT Legacy Dark, Dark, Light, Dark Synth, MS Access 2010. The header theme button cycles through all six. Default is CPT Legacy Light. Theme choice is persisted in `localStorage` under `cpt-theme`.
 
-Themes are located in `public/themes/` and can be toggled using the button in the top-left corner.
+Theme files live in `src/styles/themes/`; fonts are still served from `public/themes/cpt-legacy-dark/fonts/`. See `docs/theme-rework-reference.md` for the full architecture.
 
 ## Environment Variables
 

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// Single PrimeReact theme (no legacy/duplicate theme CSS). Our main.scss overrides use theme variables.
+import "primereact/resources/themes/lara-dark-blue/theme.css";
+import "./main.scss";
 import { Providers } from "@/providers";
 import { Header, MainContent } from "@/components/layout";
 
@@ -92,8 +96,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={inter.variable} data-theme="cpt-legacy-light">
       <body>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var valid = ['dark', 'light', 'dark-synth', 'ms-access-2010', 'cpt-legacy-dark', 'cpt-legacy-light'];
+                  var stored = localStorage.getItem('cpt-theme');
+                  var theme = (stored && valid.indexOf(stored) >= 0) ? stored : 'cpt-legacy-light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                  if (stored !== theme) { localStorage.setItem('cpt-theme', theme); }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <Providers>
           <Header />
           <MainContent>
