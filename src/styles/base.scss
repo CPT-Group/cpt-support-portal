@@ -44,8 +44,30 @@ body {
     url('/themes/cpt-legacy-dark/fonts/lato-v17-latin-ext_latin-700.woff') format('woff');
 }
 
-// Scrollbars (variable-based)
+// Scrollbars (variable-based) – theme vars so dropdown/list/sidebar scrollbars match theme (e.g. dark-synth not white)
 :root {
   --scrollbar-size: 8px;
   --scrollbar-border-radius: 4px;
+}
+
+// WebKit (Chrome, Safari, Edge) – apply to all scrollable elements
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-bg);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-bg);
+  border-radius: var(--scrollbar-border-radius);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-bg);
+}
+
+// Firefox – document and inherited by overflow areas where supported
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
 }

@@ -54,4 +54,27 @@ html[data-theme='cpt-legacy-light'],
   --scrollbar-thumb-bg: var(--surface-d) !important;
   --scrollbar-thumb-hover-bg: var(--surface-400) !important;
   --p-primary-color: var(--primary-color) !important;
+
+  // Card: shadow and border (parity with other themes; overrides use var(--card-shadow, fallback))
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+  --card-border: 1px solid var(--surface-border) !important;
+
+  // Error message: solid dark text on light red background for readability (no low-opacity text on white)
+  --message-error-bg: #fef2f2 !important;
+  --message-error-border: #b91c1c !important;
+  --message-error-text: #7f1d1d !important;
+}
+
+// Error message contrast – override PrimeReact so text is readable on light theme (no transparent/light red on white)
+html[data-theme='cpt-legacy-light'] .p-message.p-message-error,
+html[data-theme='cpt-legacy-light'] [data-theme='cpt-legacy-light'] .p-message.p-message-error {
+  background: var(--message-error-bg) !important;
+  border-color: var(--message-error-border) !important;
+  color: var(--message-error-text) !important;
+}
+html[data-theme='cpt-legacy-light'] .p-message.p-message-error .p-message-icon,
+html[data-theme='cpt-legacy-light'] .p-message.p-message-error .p-message-close,
+html[data-theme='cpt-legacy-light'] [data-theme='cpt-legacy-light'] .p-message.p-message-error .p-message-icon,
+html[data-theme='cpt-legacy-light'] [data-theme='cpt-legacy-light'] .p-message.p-message-error .p-message-close {
+  color: var(--message-error-text) !important;
 }

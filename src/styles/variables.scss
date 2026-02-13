@@ -69,6 +69,12 @@
   --button-primary-background: var(--primary-color);
   --button-primary-background-hover: #4d6a9e;
   --button-primary-text: var(--primary-color-text);
+  // Optional: themes can override for secondary button (e.g. dark-synth neon purple)
+  --button-secondary-bg: var(--surface-400);
+  --button-secondary-text: var(--text-color);
+  --button-secondary-hover-bg: var(--surface-300);
+  --button-secondary-border: var(--surface-400);
+  --button-secondary-shadow: none;
   --scrollbar-track-bg: var(--surface-card);
   --scrollbar-thumb-bg: var(--surface-d);
   --scrollbar-thumb-hover-bg: var(--surface-400);

@@ -38,6 +38,7 @@ These are the variables that **primereact-overrides.scss**, **base.scss**, and *
 | `--primary-color` | Message, Button primary, Dropdown/Input focus border | Brand/action color |
 | `--primary-color-text` | Button primary | Text on primary buttons |
 | `--button-primary-background-hover` | Button primary hover | Optional; fallback `var(--primary-color)` |
+| `--button-secondary-bg`, `--button-secondary-text`, `--button-secondary-hover-bg`, `--button-secondary-border`, `--button-secondary-shadow` | Secondary button (e.g. dark-synth neon purple) | Optional; default from variables uses surface/text |
 | `--focus-ring` | Accordion, Sidebar, Dropdown, InputText | Focus outline/box-shadow |
 | `--highlight-bg` | ListBox selected, Dropdown selected | Selected item background |
 | `--highlight-text-color` | ListBox selected, Dropdown selected | Selected item text |
@@ -47,7 +48,7 @@ These are the variables that **primereact-overrides.scss**, **base.scss**, and *
 | `--card-shadow` | Card | Optional; fallback in overrides |
 | `--header-bg` | globals.css header | Header background |
 | `--header-fg` | globals.css header | Header text/icons |
-| `--scrollbar-track-bg`, `--scrollbar-thumb-bg`, `--scrollbar-thumb-hover-bg` | base / theme scrollbars | Optional; some themes set these |
+| `--scrollbar-track-bg`, `--scrollbar-thumb-bg`, `--scrollbar-thumb-hover-bg` | base.scss (global scrollbars), primereact-overrides (Firefox overlay scrollbars) | **Required** – all six themes set these so dropdown/list/sidebar scrollbars match theme (e.g. dark-synth not white) |
 | *(Steps/stepper)* Same as above | Steps number, title, connector line, highlight | Uses `--text-color`, `--text-color-secondary`, `--surface-border`, `--focus-ring`, `--highlight-bg`, `--highlight-text-color` |
 
 ## Quick audit

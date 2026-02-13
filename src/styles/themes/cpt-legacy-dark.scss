@@ -54,4 +54,27 @@ html[data-theme='cpt-legacy-dark'],
   --scrollbar-thumb-bg: var(--surface-d) !important;
   --scrollbar-thumb-hover-bg: var(--surface-400) !important;
   --p-primary-color: var(--primary-color) !important;
+
+  // Card: shadow and border so cards match other themes (clear separation from dark ground)
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  --card-border: 1px solid var(--surface-border) !important;
+
+  // Error message: dark-appropriate contrast (light text on dark red so readable on dark theme)
+  --message-error-bg: rgba(185, 28, 28, 0.25) !important;
+  --message-error-border: #dc2626 !important;
+  --message-error-text: #fecaca !important;
+}
+
+// Error message – use theme variables so error messages match CPT Legacy Dark (readable on dark background)
+html[data-theme='cpt-legacy-dark'] .p-message.p-message-error,
+html[data-theme='cpt-legacy-dark'] [data-theme='cpt-legacy-dark'] .p-message.p-message-error {
+  background: var(--message-error-bg) !important;
+  border-color: var(--message-error-border) !important;
+  color: var(--message-error-text) !important;
+}
+html[data-theme='cpt-legacy-dark'] .p-message.p-message-error .p-message-icon,
+html[data-theme='cpt-legacy-dark'] .p-message.p-message-error .p-message-close,
+html[data-theme='cpt-legacy-dark'] [data-theme='cpt-legacy-dark'] .p-message.p-message-error .p-message-icon,
+html[data-theme='cpt-legacy-dark'] [data-theme='cpt-legacy-dark'] .p-message.p-message-error .p-message-close {
+  color: var(--message-error-text) !important;
 }

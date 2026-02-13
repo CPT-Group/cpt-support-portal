@@ -100,6 +100,44 @@
   color: var(--primary-color-text) !important;
 }
 
+// --- Button secondary (theme vars; dark-synth uses neon purple + glow) ---
+.p-button.p-button-secondary:not(.p-button-text):not(.p-button-outlined),
+.p-button-group.p-button-secondary > .p-button:not(.p-button-text):not(.p-button-outlined),
+.p-splitbutton.p-button-secondary > .p-button:not(.p-button-text):not(.p-button-outlined) {
+  background: var(--button-secondary-bg) !important;
+  border-color: var(--button-secondary-border) !important;
+  color: var(--button-secondary-text) !important;
+  box-shadow: var(--button-secondary-shadow) !important;
+}
+.p-button.p-button-secondary:not(.p-button-text):not(.p-button-outlined):not(:disabled):hover,
+.p-button-group.p-button-secondary > .p-button:not(.p-button-text):not(.p-button-outlined):not(:disabled):hover,
+.p-splitbutton.p-button-secondary > .p-button:not(.p-button-text):not(.p-button-outlined):not(:disabled):hover {
+  background: var(--button-secondary-hover-bg) !important;
+  border-color: var(--button-secondary-hover-bg) !important;
+  color: var(--button-secondary-text) !important;
+  box-shadow: var(--button-secondary-shadow) !important;
+}
+.p-button.p-button-secondary.p-button-outlined,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined {
+  background: transparent !important;
+  color: var(--button-secondary-bg) !important;
+  border-color: var(--button-secondary-border) !important;
+  box-shadow: none !important;
+}
+.p-button.p-button-secondary.p-button-outlined:not(:disabled):hover,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover {
+  background: color-mix(in srgb, var(--button-secondary-bg) 15%, transparent) !important;
+  color: var(--button-secondary-bg) !important;
+  border-color: var(--button-secondary-bg) !important;
+}
+.p-button.p-button-secondary .p-button-icon-left,
+.p-button.p-button-secondary .p-button-icon-right,
+.p-button.p-button-secondary .p-button-label {
+  color: var(--button-secondary-text) !important;
+}
+
 // --- Dialog ---
 .p-dialog {
   background: var(--surface-overlay) !important;
@@ -357,4 +395,14 @@
 }
 .p-steps .p-steps-item:before {
   border-top-color: var(--surface-border) !important;
+}
+
+// --- Scrollbars in overlays (dropdown, listbox, sidebar) – Firefox uses scrollbar-color per element ---
+.p-dropdown-panel,
+.p-dropdown-items-wrapper,
+.p-listbox-list,
+.p-sidebar-content,
+.p-dialog-content,
+.p-accordion-content {
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
 }

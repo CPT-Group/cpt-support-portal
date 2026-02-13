@@ -2,7 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.6] - 2025-02-12
+
+### Changed - CPT Legacy Dark parity with other themes
+- **cpt-legacy-dark.scss** – Brought in line with other themes so background/card and error styling match:
+  - **Card** – Added `--card-shadow` and `--card-border` so cards have clear separation from the dark ground (shadow was previously the light-theme fallback). Error messages now use theme variables.
+  - **Error message** – Added `--message-error-bg`, `--message-error-border`, `--message-error-text` and scoped overrides for `.p-message.p-message-error` so error messages use dark-appropriate contrast (light text on dark red) and the same variable set as CPT Legacy Light.
+- **cpt-legacy-light.scss** – Added `--card-shadow` and `--card-border` for parity with other theme files.
+
+## [1.18.5] - 2025-02-12
+
+### Changed - Default theme and CPT Legacy Light error message contrast
+- **Default theme** – Confirmed CPT Legacy Light remains the default (ThemeProvider and layout script use `cpt-legacy-light` when no stored preference).
+- **Error message contrast (CPT Legacy Light)** – PrimeReact Message severity="error" was using lara-dark-blue’s light pink text on a light background, which was hard to read. In `cpt-legacy-light.scss`: added theme variables `--message-error-bg`, `--message-error-border`, `--message-error-text` and overrides for `.p-message.p-message-error` so error messages use solid dark red text (`#7f1d1d`) on a light red background (`#fef2f2`) with a clear border (`#b91c1c`). Overrides apply only when `data-theme='cpt-legacy-light'` so other themes are unchanged.
+
 ## [1.18.4] - 2025-02-12
+
+### Changed - Dark Synth secondary button: neon purple + glow
+- **Secondary button theming** – Added optional theme variables `--button-secondary-bg`, `--button-secondary-text`, `--button-secondary-hover-bg`, `--button-secondary-border`, `--button-secondary-shadow` in `variables.scss` (defaults use surface/text so other themes unchanged). **Dark Synth** overrides these to a neon purple style: bg `#b872f9`, text `#07071b`, hover `#c89cff`, with a soft purple glow (`box-shadow`). `primereact-overrides.scss` applies these vars to `.p-button-secondary` (filled and outlined) so the Previous button and other secondary actions match the synthwave look in dark-synth only.
+
+### Fixed - Scrollbars use theme colors (dropdown, list, sidebar)
+- **Global scrollbars** – In `base.scss`: WebKit scrollbars (`*::-webkit-scrollbar`, track, thumb, thumb:hover) now use `var(--scrollbar-track-bg)`, `var(--scrollbar-thumb-bg)`, `var(--scrollbar-thumb-hover-bg)` and `--scrollbar-size`/`--scrollbar-border-radius`. Firefox: `html` uses `scrollbar-color` and `scrollbar-width: thin`.
+- **Overlay scrollbars (Firefox)** – In `primereact-overrides.scss`: `.p-dropdown-panel`, `.p-dropdown-items-wrapper`, `.p-listbox-list`, `.p-sidebar-content`, `.p-dialog-content`, `.p-accordion-content` set `scrollbar-color` so dropdown/list/sidebar scrollbars match the active theme (e.g. dark-synth no longer shows white scrollbars).
 
 ### Summary
 - Theme system: six separate themes (CPT Legacy Light/Dark, Dark, Light, MS Access 2010, Dark Synth), single PrimeReact base + SCSS overrides; light mode contrast, Dropdown/InputText/Sidebar/Steps use theme variables; theme switcher dropdown in sidebar.
