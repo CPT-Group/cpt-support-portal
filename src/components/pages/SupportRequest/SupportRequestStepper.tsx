@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Steps } from 'primereact/steps';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { useSupportRequestForm } from '@/hooks';
 import {
   StepRequestTypeSelection,
@@ -16,6 +17,7 @@ import type { FAQDialogView } from './FAQFeedbackDialog';
 import type { CaseOption, DynamicFormData } from '@/types';
 import { CASE_LIST, FAQ_DATA } from '@/constants';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
+import { getSupportRequestQueryString } from '@/utils/urlParams';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
 import { sendFAQFeedbackWebhook } from '@/utils/webhooks';
@@ -74,6 +76,13 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     onStepChange?.(activeStep);
     return () => clearTimeout(timer);
   }, [activeStep, onStepChange]);
+
+  // Keep the URL in sync with current step: step 0 = requestType only; step 1 = + case/caseName; step 2 = + form fields (back button removes later params)
+  useEffect(() => {
+    const query = getSupportRequestQueryString(formData, { step: activeStep });
+    const newUrl = query ? `/support-request?${query}` : '/support-request';
+    router.replace(newUrl, { scroll: false });
+  }, [formData, activeStep, router]);
 
   const handleRequestTypesChange = useCallback(
     (selectedIds: string[]) => updateFormData({ requestTypes: selectedIds }),
@@ -307,7 +316,32 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         boxSizing: 'border-box',
       }}
     >
-      <Toast ref={toast} position="top-right" />
+      {isSubmitting && (
+        <div
+          className="loading-overlay"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'var(--maskbg)',
+            color: 'var(--text-color)',
+          }}
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <div className="flex flex-column align-items-center gap-3">
+            <ProgressSpinner
+              style={{ width: '3rem', height: '3rem' }}
+              strokeWidth="4"
+            />
+            <span className="font-medium">Submitting your request...</span>
+          </div>
+        </div>
+      )}
+      <Toast ref={toast} position="bottom-right" />
       <div className="w-full" style={{ maxWidth: 'var(--support-form-max-width)', height: 'auto', overflow: 'visible' }}>
         <Steps model={STEPS} activeIndex={activeStep} />
         <div

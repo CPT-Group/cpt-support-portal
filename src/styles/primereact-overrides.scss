@@ -169,10 +169,29 @@
   color: var(--text-color) !important;
   border-color: var(--surface-border) !important;
 }
+// Toggle (plus/minus) icon – use theme text color so it’s visible in light mode (e.g. cpt-legacy-light)
+.p-panel .p-panel-header-icon.p-panel-toggler,
+.p-panel .p-panel-toggler,
+.p-panel .p-panel-toggler svg {
+  color: var(--text-color) !important;
+  fill: var(--text-color) !important;
+}
 .p-panel .p-panel-content {
   background: var(--surface-card) !important;
   color: var(--text-color) !important;
   border-color: var(--surface-border) !important;
+}
+
+// --- FileUpload – lara-dark-blue hardcodes dark content area; use theme vars so light theme shows light drop zone ---
+.p-fileupload .p-fileupload-content {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
+}
+.p-fileupload .p-fileupload-buttonbar {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--surface-border) !important;
+  color: var(--text-color) !important;
 }
 
 // --- ListBox ---

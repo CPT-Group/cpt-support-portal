@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.7] - 2026-02-17
+
+### Added - URL parameters for support request
+- **Request type and case in URL** – Support request flow now reads and writes URL params so the link is shareable and reflects the current step. Params: `requestType` (single or comma-separated; human-readable labels in URL, e.g. `Request Notice Packet,Request Passcode`), `case` / `caseName` (case name resolved to case id), plus all form fields (firstName, lastName, email, phone, address, etc.). Parsing accepts both IDs and labels for request types.
+- **Step-based URL** – URL is synced to the current step only: on step 0 (Support Request Selection) only `requestType` is in the URL; on step 1 (Select Case) `case` and `caseName` are added; on step 2 (Request Data) all filled form fields are included. Clicking **Previous** from the case step removes `case` and `caseName` from the URL.
+- **Validation and error handling** – Invalid URL params (unknown request type ids, case name not found) show an error message on the support-request page with options to start fresh or go home; form still renders below with no invalid prefilled data.
+- **Loading overlay** – Full-screen loading overlay on route transitions (`app/loading.tsx`) and during support request submit, using theme variables (`--maskbg`, `--text-color`) for all themes.
+
+### Changed
+- **Toast position** – Error/info toasts now appear in the bottom-right corner instead of top-right.
+- **Panel toggle icon (light mode)** – Additional Information panel plus/minus icon uses `var(--text-color)` so it is visible in CPT Legacy Light and other light themes.
+- **FileUpload (supporting documents)** – Drop zone and button bar use theme variables so the supporting documentation upload area has a light background in light mode instead of the previous dark blue/grey.
+
+### Fixed
+- **Invalid params** – Unknown or invalid `requestType` / `caseName` in the URL no longer break the form; validation runs on load and shows a clear error with actions.
+
 ## [1.18.6] - 2025-02-12
 
 ### Changed - CPT Legacy Dark parity with other themes
