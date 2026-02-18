@@ -392,6 +392,21 @@
   color: var(--text-color-secondary) !important;
 }
 
+// --- InputGroup addon – use theme vars so addon (e.g. address block icon) matches selected theme ---
+.p-inputgroup-addon {
+  background: var(--surface-d) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--surface-border) !important;
+  border-right: 0 !important;
+}
+.p-inputgroup-addon:first-child:not(:only-child) {
+  border-right: 0 !important;
+}
+.p-inputgroup .p-inputtext + .p-inputgroup-addon,
+.p-inputgroup .p-inputgroup-addon + .p-inputtext {
+  border-left: 0 !important;
+}
+
 // --- Steps (stepper) – lara-dark-blue hardcodes white/gray; use theme vars so all themes get correct colors ---
 .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
   color: var(--text-color) !important;

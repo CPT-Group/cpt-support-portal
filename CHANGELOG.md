@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.8] - 2026-02-17
+
+### Added
+- **Initial step from URL** – Pasting a support-request URL in a new tab now opens on the correct step: URL with both `requestType` and `case`/`caseName` opens on **Support Request Data** (step 3); URL with only `requestType` opens on **Select Case** (step 2); otherwise **Support Request Selection** (step 1).
+
+### Changed
+- **InputGroup addon (address block)** – The addon (map pin, home, building icons) next to address and other inputs now uses theme variables (`--surface-d`, `--text-color`, `--surface-border`) so its background and icon color match the selected theme in all six themes.
+
 ## [1.18.7] - 2026-02-17
 
 ### Added - URL parameters for support request

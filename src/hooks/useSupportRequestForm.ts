@@ -15,11 +15,22 @@ const createInitialFormData = (initialData?: Partial<DynamicFormData>): DynamicF
   };
 };
 
+/** Derive initial step from URL params: requestType + case → step 2; requestType only → step 1; else step 0. */
+function getInitialStep(initialData?: Partial<DynamicFormData>): StepIndex {
+  const hasRequestTypes = (initialData?.requestTypes?.length ?? 0) > 0;
+  const hasCase = initialData?.caseId != null && initialData.caseId !== '';
+  if (hasRequestTypes && hasCase) return 2;
+  if (hasRequestTypes) return 1;
+  return 0;
+}
+
 export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) => {
   const [formData, setFormData] = useState<DynamicFormData>(() =>
     createInitialFormData(initialData)
   );
-  const [activeStep, setActiveStep] = useState<StepIndex>(0);
+  const [activeStep, setActiveStep] = useState<StepIndex>(() =>
+    getInitialStep(initialData)
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const updateFormData = useCallback((updates: Partial<DynamicFormData>) => {
