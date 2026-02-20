@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
+### Added
+
+- **SF_REFRESH_TOKEN for serverless (Netlify)** – On deploy, `.sf_tokens.json` is not persistent. You can set **SF_REFRESH_TOKEN** in Netlify (or other host) env with the `refresh_token` from `.sf_tokens.json` (after completing OAuth once locally). The app then uses it to obtain access tokens when the file is missing, so `/api/sf/projects` and support submission work. See `docs/salesforce.md` § Deploying to Netlify.
+
 ### Fixed
 
 - **Case selector step infinite loop on Netlify** – When `/api/sf/projects` returns 500 (e.g. Salesforce env not configured on deploy), the case list step no longer triggers an endless retry loop. `CasesProvider` now marks the “load once” attempt as done after the first request (success or failure), so the effect does not re-call `loadOnce` on every re-render. **Retry** still works via `refetch()`, which clears the flag and fetches again.

@@ -72,6 +72,16 @@ Create a Project in Salesforce (e.g. Name = “Support”), then open **GET /api
 
 3. Complete OAuth once (dev or first deploy): open **GET /oauth/start** in a browser, sign in to Salesforce, and land on the callback page. Tokens are saved to `.sf_tokens.json`.
 
+### Deploying to Netlify (or other serverless)
+
+On serverless, the filesystem is ephemeral: `.sf_tokens.json` written during `/oauth/callback` is not available to later requests (or other instances), so `/api/sf/projects` and support submission would fail with “No Salesforce tokens found”.
+
+**Fix:** Complete OAuth once **locally** (so `.sf_tokens.json` is created). Open the file and copy the **`refresh_token`** value. In Netlify (or your host), add an **environment variable**:
+
+- **`SF_REFRESH_TOKEN`** = the `refresh_token` value from `.sf_tokens.json`
+
+Keep your existing env vars (`SALESFORCE_CONSUMER_KEY`, `SALESFORCE_CONSUMER_SECRET`, `SF_LOGIN_URL`, `SF_API_VERSION`, `SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`). The app will use `SF_REFRESH_TOKEN` to obtain access tokens when the token file is missing, so the case list and support submissions work on deploy.
+
 **Optional – Teams notification on submission**  
 Set `SUPPORT_SUBMISSION_WEBHOOK_URL` (e.g. to a Teams channel Incoming Webhook URL) to post a short message to Teams on each successful support submission (case name + request type). The call is fire-and-forget; if the webhook fails, the user and API response are unaffected.
 
