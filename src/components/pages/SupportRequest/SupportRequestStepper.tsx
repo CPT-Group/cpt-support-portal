@@ -375,16 +375,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
       {isSubmitting && (
         <div
           className="loading-overlay"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'var(--maskbg)',
-            color: 'var(--text-color)',
-          }}
           aria-live="polite"
           aria-busy="true"
         >

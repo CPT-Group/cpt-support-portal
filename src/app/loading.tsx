@@ -10,16 +10,6 @@ export default function Loading() {
   return (
     <div
       className="global-loading-overlay"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9998,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'var(--maskbg)',
-        color: 'var(--text-color)',
-      }}
       aria-live="polite"
       aria-busy="true"
     >

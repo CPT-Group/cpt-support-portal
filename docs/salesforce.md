@@ -76,7 +76,9 @@ Create a Project in Salesforce (e.g. Name = “Support”), then open **GET /api
 
 On serverless, the filesystem is ephemeral: `.sf_tokens.json` written during `/oauth/callback` is not available to later requests (or other instances), so `/api/sf/projects` and support submission would fail with “No Salesforce tokens found”.
 
-**Fix:** Complete OAuth once **locally** (so `.sf_tokens.json` is created). Open the file and copy the **`refresh_token`** value. In Netlify (or your host), add an **environment variable**:
+**redirect_uri must match configuration:** If Salesforce returns this even though the URL is in the Connected App, set **`SF_OAUTH_BASE_URL`** in Netlify to your exact production URL (no trailing slash), e.g. `https://cpt-support-portal.netlify.app`. In the Connected App, Callback URL(s) must be exactly that plus `/oauth/callback` (no trailing slash).
+
+**Fix (refresh token):** Complete OAuth once **locally** (or on deploy after setting SF_OAUTH_BASE_URL). Open `.sf_tokens.json` or the OAuth success page and copy the **`refresh_token`** value. In Netlify (or your host), add an **environment variable**:
 
 - **`SF_REFRESH_TOKEN`** = the `refresh_token` value from `.sf_tokens.json`
 

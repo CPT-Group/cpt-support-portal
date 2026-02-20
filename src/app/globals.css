@@ -9,6 +9,36 @@
   --support-form-max-width: 56rem;
 }
 
+/* Full-screen loading overlay – covers entire viewport; use for route loading and submit overlay */
+.global-loading-overlay,
+.loading-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: var(--maskbg);
+  color: var(--text-color);
+}
+
+.global-loading-overlay {
+  z-index: 9998;
+}
+
+.loading-overlay {
+  z-index: 9999;
+}
+
 /* Theme is applied via data-theme on html; SCSS theme files in main.scss override variables. */
 
 /* Header logo (inline SVG from cpt-internal-tools Logo) – light themes */
