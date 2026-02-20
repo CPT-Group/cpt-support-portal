@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
+### Fixed
+
+- **Netlify build** – TypeScript: webhook payload typed as `{ caseName: string; requestTypes: string }` (explicit string types in support-request route); `SupportRequestStepper` sfId type fixed from `(data.id as string) | undefined` to `data.id as string | undefined` so `|` is not parsed as bitwise OR.
+
 ### Added
 
 - **Verification script for Support_Channel__c fields** – `scripts/verify-support-channel-fields.js` runs `sf sobject describe` and ensures every portal-mapped field (Case_Name__c, First_Name__c, Last_Name__c, etc.) is createable so submissions save all data. Run: `node scripts/verify-support-channel-fields.js` or with `--org your@email.com`. Docs: `docs/salesforce.md` § Verifying that submissions will save all data. **Remember to update this changelog after each completed task.**

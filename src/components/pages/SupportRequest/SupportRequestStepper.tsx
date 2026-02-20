@@ -150,7 +150,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         setIsSubmitting(false);
         return;
       }
-      const sfId = (data.id as string) | undefined;
+      const sfId = data.id as string | undefined;
       const params = new URLSearchParams({
         firstName: typeof formData.firstName === 'string' ? formData.firstName : '',
         caseName: selectedCase?.label ?? '',

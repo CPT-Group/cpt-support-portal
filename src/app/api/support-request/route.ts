@@ -249,13 +249,15 @@ export async function POST(request: NextRequest) {
   // Fire-and-forget: notify Teams channel (never block or fail the request)
   const webhookUrl = process.env.SUPPORT_SUBMISSION_WEBHOOK_URL?.trim();
   if (webhookUrl) {
-    const caseName =
+    const caseName: string =
       typeof body.caseName === 'string'
         ? body.caseName
         : typeof body.caseProjectName === 'string'
           ? body.caseProjectName
-          : body.caseId ?? 'Unknown case';
-    const requestTypes = Array.isArray(body.requestTypeLabels)
+          : typeof body.caseId === 'string'
+            ? body.caseId
+            : 'Unknown case';
+    const requestTypes: string = Array.isArray(body.requestTypeLabels)
       ? (body.requestTypeLabels as string[]).join(', ')
       : typeof body.requestTypeLabels === 'string'
         ? body.requestTypeLabels
