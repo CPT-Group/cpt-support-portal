@@ -20,14 +20,10 @@ export async function GET(request: NextRequest) {
 
   console.log('[SF OAuth] Start -> redirect_uri:', getRedirectUri(origin));
 
+  const isSecure = origin.startsWith('https:');
+  const cookieOpts = `Path=/; HttpOnly; SameSite=Lax; Max-Age=${COOKIE_MAX_AGE}${isSecure ? '; Secure' : ''}`;
   const res = new Response(null, { status: 302, headers: { Location: authUrl } });
-  res.headers.append(
-    'Set-Cookie',
-    `${COOKIE_NAME_STATE}=${state}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${COOKIE_MAX_AGE}`
-  );
-  res.headers.append(
-    'Set-Cookie',
-    `${COOKIE_NAME_VERIFIER}=${codeVerifier}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${COOKIE_MAX_AGE}`
-  );
+  res.headers.append('Set-Cookie', `${COOKIE_NAME_STATE}=${encodeURIComponent(state)}; ${cookieOpts}`);
+  res.headers.append('Set-Cookie', `${COOKIE_NAME_VERIFIER}=${encodeURIComponent(codeVerifier)}; ${cookieOpts}`);
   return res;
 }

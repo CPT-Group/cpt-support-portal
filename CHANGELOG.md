@@ -4,17 +4,15 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
-### Added
-
-- **SF_REFRESH_TOKEN for serverless (Netlify)** – On deploy, `.sf_tokens.json` is not persistent. You can set **SF_REFRESH_TOKEN** in Netlify (or other host) env with the `refresh_token` from `.sf_tokens.json` (after completing OAuth once locally). The app then uses it to obtain access tokens when the file is missing, so `/api/sf/projects` and support submission work. See `docs/salesforce.md` § Deploying to Netlify.
-
 ### Fixed
 
+- **OAuth callback 500 on Netlify** – Token file write is now non-fatal (serverless fs is often read-only). Callback shows the refresh_token on the success page so you can copy it into the SF_REFRESH_TOKEN env var. Callback also catches token-exchange errors and returns a clear error page with the expected callback URL. OAuth start cookies now use Secure on HTTPS and URI-encoded values so they are sent when Salesforce redirects back.
 - **Case selector step infinite loop on Netlify** – When `/api/sf/projects` returns 500 (e.g. Salesforce env not configured on deploy), the case list step no longer triggers an endless retry loop. `CasesProvider` now marks the “load once” attempt as done after the first request (success or failure), so the effect does not re-call `loadOnce` on every re-render. **Retry** still works via `refetch()`, which clears the flag and fetches again.
 - **Netlify build** – TypeScript: webhook payload typed as `{ caseName: string; requestTypes: string }` (explicit string types in support-request route); `SupportRequestStepper` sfId type fixed from `(data.id as string) | undefined` to `data.id as string | undefined` so `|` is not parsed as bitwise OR.
 
 ### Added
 
+- **SF_REFRESH_TOKEN for serverless (Netlify)** – On deploy, `.sf_tokens.json` is not persistent. You can set **SF_REFRESH_TOKEN** in Netlify (or other host) env with the `refresh_token` from the OAuth success page (or from `.sf_tokens.json` after completing OAuth locally). The app then uses it to obtain access tokens when the file is missing. See `docs/salesforce.md` § Deploying to Netlify.
 - **Verification script for Support_Channel__c fields** – `scripts/verify-support-channel-fields.js` runs `sf sobject describe` and ensures every portal-mapped field (Case_Name__c, First_Name__c, Last_Name__c, etc.) is createable so submissions save all data. Run: `node scripts/verify-support-channel-fields.js` or with `--org your@email.com`. Docs: `docs/salesforce.md` § Verifying that submissions will save all data. **Remember to update this changelog after each completed task.**
 - **Case name in Salesforce** – Portal submission now maps **caseName** to **Case_Name__c** so the list view "Case Name" column shows the matter the user selected (e.g. "Alcazar v. Fashion Nova, Inc.") instead of a project or other value. Docs: `docs/salesforce.md` § List view columns.
 - **Portal-only custom fields on Support_Channel__c** – Portal form data is stored in **dedicated fields** created via the Salesforce CLI instead of reusing org fields. **`salesforce-metadata/force-app`** contains field metadata (First_Name__c, Last_Name__c, CPT_ID__c, Previous_Address__c, New_Address__c, Previous_Name__c, New_Name__c, SSN_Tax_ID__c, Beneficiary_Name__c, Beneficiary_Address__c, Beneficiary_Email__c, Additional_Description__c). Deploy with **`scripts/deploy-support-channel-fields.ps1`** or **`scripts/deploy-support-channel-fields.sh`** (one-time per org). API mapping in `src/app/api/support-request/route.ts` uses these fields; no more writing to Activation_Request_Notes__c for portal data. Docs: `docs/salesforce.md` § Deploying portal fields.

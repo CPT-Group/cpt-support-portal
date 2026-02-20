@@ -61,16 +61,36 @@ export async function GET(request: NextRequest) {
   const origin = new URL(request.url).origin;
   const redirectUri = getRedirectUri(origin);
 
-  const tokens = await exchangeCodeForTokens(code, codeVerifier, redirectUri);
+  let tokens;
+  try {
+    tokens = await exchangeCodeForTokens(code, codeVerifier, redirectUri);
+  } catch (err) {
+    console.error('[SF OAuth] Callback token exchange failed:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return new Response(
+      `<!DOCTYPE html><html><body><h1>OAuth token exchange failed</h1><p>${escapeHtml(msg)}</p><p>Check that the Connected App callback URL is exactly: <code>${escapeHtml(origin)}/oauth/callback</code></p><p><a href="/oauth/start">Try again</a> · <a href="/">Back to portal</a></p></body></html>`,
+      { status: 500, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+    );
+  }
+
   console.log('[SF OAuth] Token success, instance_url:', tokens.instance_url);
+
+  const refreshTokenSection =
+    tokens.refresh_token
+      ? `
+  <h2>For Netlify / serverless</h2>
+  <p>Set this in your site env as <strong>SF_REFRESH_TOKEN</strong> (the file cannot be saved on serverless):</p>
+  <p><code style="word-break:break-all;user-select:all;">${escapeHtml(tokens.refresh_token)}</code></p>
+  <p><small>Copy the value above into Netlify → Site configuration → Environment variables.</small></p>`
+      : '';
 
   const html = `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><title>Salesforce Connected</title></head>
 <body>
   <h1>Connected</h1>
-  <p>Salesforce OAuth succeeded. Tokens saved to <code>.sf_tokens.json</code>.</p>
-  <p><strong>instance_url:</strong> ${escapeHtml(tokens.instance_url)}</p>
+  <p>Salesforce OAuth succeeded. Tokens saved to <code>.sf_tokens.json</code> (when writable).</p>
+  <p><strong>instance_url:</strong> ${escapeHtml(tokens.instance_url)}</p>${refreshTokenSection}
   <p>Support requests will now be created in Salesforce. <a href="/">Back to portal</a>.</p>
 </body>
 </html>`;

@@ -132,10 +132,15 @@ export async function exchangeCodeForTokens(
     issued_at: data.issued_at ? parseInt(data.issued_at, 10) : undefined,
   };
 
-  const projectRoot = process.cwd();
-  const tokenPath = join(projectRoot, TOKEN_FILE);
-  writeFileSync(tokenPath, JSON.stringify(tokens, null, 2), 'utf8');
-  console.log('[SF OAuth] Tokens saved to', tokenPath, 'instance_url:', tokens.instance_url);
+  try {
+    const projectRoot = process.cwd();
+    const tokenPath = join(projectRoot, TOKEN_FILE);
+    writeFileSync(tokenPath, JSON.stringify(tokens, null, 2), 'utf8');
+    console.log('[SF OAuth] Tokens saved to', tokenPath, 'instance_url:', tokens.instance_url);
+  } catch (err) {
+    // Serverless (e.g. Netlify) often has read-only fs; tokens still returned so callback can show refresh_token for env
+    console.warn('[SF OAuth] Could not write token file (e.g. serverless):', err);
+  }
 
   return tokens;
 }
