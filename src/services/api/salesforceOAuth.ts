@@ -37,8 +37,23 @@ export function getLoginUrl(): string {
   );
 }
 
+/** Normalize base URL (no trailing slash). Use when building redirect_uri. */
+function normalizeBaseUrl(url: string): string {
+  return url.trim().replace(/\/$/, '');
+}
+
 export function getRedirectUri(origin: string): string {
-  return `${origin.replace(/\/$/, '')}/oauth/callback`;
+  return `${normalizeBaseUrl(origin)}/oauth/callback`;
+}
+
+/**
+ * Origin/base URL used for OAuth redirect_uri. When set (e.g. on Netlify), use this instead of
+ * request.url so the callback URL matches Salesforce Connected App exactly.
+ * Example: SF_OAUTH_BASE_URL=https://cpt-support-portal.netlify.app
+ */
+export function getOAuthOrigin(requestOrigin: string): string {
+  const envOrigin = process.env.SF_OAUTH_BASE_URL?.trim();
+  return envOrigin ? normalizeBaseUrl(envOrigin) : normalizeBaseUrl(requestOrigin);
 }
 
 export function generatePKCE(): { codeVerifier: string; codeChallenge: string } {

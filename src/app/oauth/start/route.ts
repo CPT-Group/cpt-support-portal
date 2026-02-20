@@ -3,6 +3,7 @@ import {
   buildAuthorizeUrl,
   generatePKCE,
   generateState,
+  getOAuthOrigin,
   getRedirectUri,
 } from '@/services/api/salesforceOAuth';
 
@@ -13,12 +14,14 @@ const COOKIE_NAME_STATE = 'sf_oauth_state';
 const COOKIE_NAME_VERIFIER = 'sf_oauth_code_verifier';
 
 export async function GET(request: NextRequest) {
-  const origin = new URL(request.url).origin;
+  const requestOrigin = new URL(request.url).origin;
+  const origin = getOAuthOrigin(requestOrigin);
   const { codeVerifier, codeChallenge } = generatePKCE();
   const state = generateState();
   const authUrl = buildAuthorizeUrl(origin, state, codeChallenge);
+  const redirectUri = getRedirectUri(origin);
 
-  console.log('[SF OAuth] Start -> redirect_uri:', getRedirectUri(origin));
+  console.log('[SF OAuth] Start -> redirect_uri:', redirectUri, '(request origin:', requestOrigin + ')');
 
   const isSecure = origin.startsWith('https:');
   const cookieOpts = `Path=/; HttpOnly; SameSite=Lax; Max-Age=${COOKIE_MAX_AGE}${isSecure ? '; Secure' : ''}`;

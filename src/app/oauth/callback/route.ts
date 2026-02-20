@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { exchangeCodeForTokens, getRedirectUri } from '@/services/api/salesforceOAuth';
+import { exchangeCodeForTokens, getOAuthOrigin, getRedirectUri } from '@/services/api/salesforceOAuth';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +58,8 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const origin = new URL(request.url).origin;
+  const requestOrigin = new URL(request.url).origin;
+  const origin = getOAuthOrigin(requestOrigin);
   const redirectUri = getRedirectUri(origin);
 
   let tokens;
