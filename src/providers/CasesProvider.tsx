@@ -52,12 +52,13 @@ export function CasesProvider({ children }: CasesProviderProps) {
         return;
       }
       setCases(data.cases ?? []);
-      loadedOnceRef.current = true;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load cases');
       setCases([]);
     } finally {
       setLoading(false);
+      // Mark as attempted so loadOnce() does not retry on every re-render (stops infinite loop on 500)
+      loadedOnceRef.current = true;
     }
   }, []);
 
@@ -66,9 +67,14 @@ export function CasesProvider({ children }: CasesProviderProps) {
     fetchCases();
   }, [loading, fetchCases]);
 
+  const refetch = useCallback(() => {
+    loadedOnceRef.current = false;
+    fetchCases();
+  }, [fetchCases]);
+
   const value = useMemo(
-    () => ({ cases, loading, error, loadOnce, refetch: fetchCases }),
-    [cases, loading, error, loadOnce, fetchCases]
+    () => ({ cases, loading, error, loadOnce, refetch }),
+    [cases, loading, error, loadOnce, refetch]
   );
 
   return (

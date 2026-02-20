@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. **Update th
 
 ### Fixed
 
+- **Case selector step infinite loop on Netlify** – When `/api/sf/projects` returns 500 (e.g. Salesforce env not configured on deploy), the case list step no longer triggers an endless retry loop. `CasesProvider` now marks the “load once” attempt as done after the first request (success or failure), so the effect does not re-call `loadOnce` on every re-render. **Retry** still works via `refetch()`, which clears the flag and fetches again.
 - **Netlify build** – TypeScript: webhook payload typed as `{ caseName: string; requestTypes: string }` (explicit string types in support-request route); `SupportRequestStepper` sfId type fixed from `(data.id as string) | undefined` to `data.id as string | undefined` so `|` is not parsed as bitwise OR.
 
 ### Added
