@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { SupportRequestStepper } from '@/components';
 import { useHeader } from '@/providers/HeaderProvider';
+import { useCases } from '@/providers/CasesProvider';
 import { parseAndValidateURLParams } from '@/utils/urlParams';
 import { Message } from 'primereact/message';
 import { Button } from 'primereact/button';
@@ -12,7 +13,10 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 const SupportRequestContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { valid, errors, formData: initialData } = parseAndValidateURLParams(searchParams);
+  const { cases } = useCases();
+  const { valid, errors, formData: initialData } = parseAndValidateURLParams(searchParams, {
+    caseList: cases,
+  });
   const { setIsFormActive } = useHeader();
 
   if (!valid && errors.length > 0) {

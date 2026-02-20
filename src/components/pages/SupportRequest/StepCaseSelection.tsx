@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { Message } from 'primereact/message';
-import { CASE_LIST } from '@/constants';
+import { useCases } from '@/providers/CasesProvider';
 import type { CaseOption } from '@/types';
 
 interface StepCaseSelectionProps {
@@ -22,9 +22,10 @@ export const StepCaseSelection = ({
   title,
   description,
 }: StepCaseSelectionProps) => {
+  const { cases } = useCases();
   const selectedCase = useMemo(
-    () => CASE_LIST.find((option) => option.id === selectedCaseId),
-    [selectedCaseId]
+    () => cases.find((option) => option.id === selectedCaseId),
+    [cases, selectedCaseId]
   );
 
   return (
@@ -43,7 +44,7 @@ export const StepCaseSelection = ({
           id="case-select"
           value={selectedCase}
           onChange={(e) => onCaseChange(e.value)}
-          options={CASE_LIST}
+          options={cases}
           optionLabel="name"
           placeholder="Select a case"
           className="w-full"

@@ -15,8 +15,10 @@ import {
 } from './';
 import type { FAQDialogView } from './FAQFeedbackDialog';
 import type { CaseOption, DynamicFormData } from '@/types';
-import { CASE_LIST, FAQ_DATA } from '@/constants';
+import { FAQ_DATA } from '@/constants';
+import { useCases } from '@/providers/CasesProvider';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
+import { buildSupportRequestPayload } from '@/utils/salesforcePayload';
 import { getSupportRequestQueryString } from '@/utils/urlParams';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
@@ -43,6 +45,7 @@ const scrollToTopIfMobile = () => {
 export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequestStepperProps) => {
   const router = useRouter();
   const toast = useRef<Toast>(null);
+  const { cases, loading: casesLoading, error: casesError, loadOnce, refetch: refetchCases } = useCases();
   const { setIsFaqDialogOpen } = useHeader();
   const [stepOpacity, setStepOpacity] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,10 +82,15 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
 
   // Keep the URL in sync with current step: step 0 = requestType only; step 1 = + case/caseName; step 2 = + form fields (back button removes later params)
   useEffect(() => {
-    const query = getSupportRequestQueryString(formData, { step: activeStep });
+    const query = getSupportRequestQueryString(formData, { step: activeStep, caseList: cases });
     const newUrl = query ? `/support-request?${query}` : '/support-request';
     router.replace(newUrl, { scroll: false });
-  }, [formData, activeStep, router]);
+  }, [formData, activeStep, router, cases]);
+
+  // When user reaches the case list step, fetch and cache the list (once per session)
+  useEffect(() => {
+    if (activeStep === 1) loadOnce();
+  }, [activeStep, loadOnce]);
 
   const handleRequestTypesChange = useCallback(
     (selectedIds: string[]) => updateFormData({ requestTypes: selectedIds }),
@@ -123,15 +131,33 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         detail: 'Please wait while we process your request...',
         life: 3000,
       });
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
+      const selectedCase = cases.find((c) => c.id === formData.caseId);
       const submissionData = generateSubmissionJSON(formData, selectedCase || null);
+      const payload = buildSupportRequestPayload(submissionData);
+      const res = await fetch('/api/support-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Submission Failed',
+          detail: (data.message as string) || `Request failed (${res.status}). Please try again.`,
+          life: 6000,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      const sfId = (data.id as string) | undefined;
       const params = new URLSearchParams({
         firstName: typeof formData.firstName === 'string' ? formData.firstName : '',
         caseName: selectedCase?.label ?? '',
         requestTypes: submissionData.requestTypeLabels?.join(', ') ?? '',
         submissionData: btoa(JSON.stringify(submissionData)),
       });
+      if (sfId) params.set('sfId', sfId);
       toast.current?.show({
         severity: 'success',
         summary: 'Success',
@@ -139,7 +165,8 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         life: 3000,
       });
       setTimeout(() => router.push(`/support-request/success?${params.toString()}`), 1000);
-    } catch {
+    } catch (err) {
+      console.error('Support request submit error:', err);
       toast.current?.show({
         severity: 'error',
         summary: 'Submission Failed',
@@ -253,7 +280,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     .map((id) => REQUEST_TYPES.find((rt) => rt.id === id)?.label)
     .filter(Boolean);
 
-  const selectedCase = CASE_LIST.find((c) => c.id === formData.caseId);
+  const selectedCase = cases.find((c) => c.id === formData.caseId);
 
   const renderCurrentStep = () => {
     switch (activeStep) {
@@ -269,17 +296,46 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         );
       case 1:
         return (
-          <StepCaseSelection
-            selectedCaseId={formData.caseId}
-            error={errors.caseId}
-            onCaseChange={handleCaseChange}
-            title={selectedCase ? selectedCase.label : 'Select Case'}
-            description={
-              selectedRequestTypeLabels.length > 0
-                ? `Request types: ${selectedRequestTypeLabels.join(', ')}`
-                : undefined
-            }
-          />
+          <div className="relative w-full">
+            {(casesLoading || (cases.length === 0 && !casesError)) && (
+              <div
+                className="absolute inset-0 flex flex-column align-items-center justify-content-center gap-2 z-1"
+                style={{
+                  background: 'var(--maskbg, rgba(0,0,0,0.4))',
+                  borderRadius: 'var(--border-radius)',
+                  minHeight: '200px',
+                }}
+              >
+                <ProgressSpinner />
+                <span className="text-color" style={{ fontWeight: 500 }}>
+                  Loading case list...
+                </span>
+              </div>
+            )}
+            {casesError && cases.length === 0 && (
+              <div className="flex flex-column gap-2 p-3 surface-100 border-round mb-2">
+                <span className="text-color-secondary">Could not load case list.</span>
+                <span className="text-sm text-color-secondary">{casesError}</span>
+                <Button
+                  label="Retry"
+                  icon="pi pi-refresh"
+                  size="small"
+                  onClick={() => refetchCases()}
+                />
+              </div>
+            )}
+            <StepCaseSelection
+              selectedCaseId={formData.caseId}
+              error={errors.caseId}
+              onCaseChange={handleCaseChange}
+              title={selectedCase ? selectedCase.label : 'Select Case'}
+              description={
+                selectedRequestTypeLabels.length > 0
+                  ? `Request types: ${selectedRequestTypeLabels.join(', ')}`
+                  : undefined
+              }
+            />
+          </div>
         );
       case 2:
         return (

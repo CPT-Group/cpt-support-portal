@@ -1,4 +1,5 @@
 import type { DynamicFormData } from '@/types/supportRequest';
+import type { CaseOption } from '@/types/supportRequest';
 import { CASE_LIST } from '@/constants/CASELIST';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 
@@ -17,13 +18,17 @@ export interface URLParamsValidationResult {
   formData: Partial<DynamicFormData>;
 }
 
+export interface URLParamsCaseListOptions {
+  caseList?: CaseOption[];
+}
+
 /**
- * Resolves caseName (decoded) to a case id from CASE_LIST (match by name or label, case-insensitive).
+ * Resolves caseName (decoded) to a case id from the given list (match by name or label, case-insensitive).
  */
-function resolveCaseNameToId(caseName: string): string | null {
+function resolveCaseNameToId(caseName: string, caseList: CaseOption[]): string | null {
   const normalized = caseName.trim().toLowerCase();
   if (!normalized) return null;
-  const found = CASE_LIST.find(
+  const found = caseList.find(
     (c) =>
       c.name.trim().toLowerCase() === normalized ||
       c.label.trim().toLowerCase() === normalized
@@ -51,8 +56,13 @@ function resolveRequestTypeToId(value: string): string | null {
  * Parses URL search parameters and converts them to partial form data.
  * Supports requestType (single or comma-separated), caseName (resolved to caseId), and all form fields.
  * Only includes keys that are known (form fields or caseId/requestTypes); ignores unknown params.
+ * When caseList is provided (e.g. from API), caseName is resolved against it; otherwise uses static CASE_LIST.
  */
-export function parseURLParams(searchParams: URLSearchParams): Partial<DynamicFormData> {
+export function parseURLParams(
+  searchParams: URLSearchParams,
+  options?: URLParamsCaseListOptions
+): Partial<DynamicFormData> {
+  const caseList = options?.caseList ?? CASE_LIST;
   const formData: Partial<DynamicFormData> = {};
 
   // --- Request type(s): requestType (single or list) or requestTypes or types. Accept IDs or labels. ---
@@ -78,7 +88,7 @@ export function parseURLParams(searchParams: URLSearchParams): Partial<DynamicFo
     formData.caseId = caseParam.trim();
   } else if (caseNameParam) {
     const decoded = decodeURIComponent(caseNameParam);
-    const resolvedId = resolveCaseNameToId(decoded);
+    const resolvedId = resolveCaseNameToId(decoded, caseList);
     if (resolvedId) formData.caseId = resolvedId;
   }
 
@@ -145,14 +155,18 @@ export function parseURLParams(searchParams: URLSearchParams): Partial<DynamicFo
 /**
  * Validates parsed URL form data: request type IDs must exist, caseId must be a valid case (if set).
  * Optional raw searchParams: if provided and caseName was present but did not resolve, adds an error.
+ * When caseList is provided, validation uses it; otherwise uses static CASE_LIST.
  */
 export function validateURLParams(
   formData: Partial<DynamicFormData>,
-  searchParams?: URLSearchParams
+  searchParams?: URLSearchParams,
+  options?: URLParamsCaseListOptions
 ): URLParamsValidationResult {
   const errors: string[] = [];
   const validRequestTypeIds = new Set(REQUEST_TYPES.map((rt) => rt.id));
-  const validCaseIds = new Set(CASE_LIST.map((c) => c.id));
+  const caseList = options?.caseList ?? CASE_LIST;
+  const validCaseIds = new Set(caseList.map((c) => c.id));
+  const hasCaseList = caseList.length > 0;
 
   if (formData.requestTypes && formData.requestTypes.length > 0) {
     const invalid = formData.requestTypes.filter((id) => !validRequestTypeIds.has(id));
@@ -163,7 +177,7 @@ export function validateURLParams(
     }
   }
 
-  if (formData.caseId != null && formData.caseId !== '') {
+  if (hasCaseList && formData.caseId != null && formData.caseId !== '') {
     if (!validCaseIds.has(formData.caseId)) {
       errors.push(
         'The case specified in the URL (case or caseName) was not found. Please check the URL or select a case on the form.'
@@ -171,11 +185,11 @@ export function validateURLParams(
     }
   }
 
-  if (searchParams?.has('caseName')) {
+  if (hasCaseList && searchParams?.has('caseName')) {
     const caseNameParam = searchParams.get('caseName');
     const decoded = caseNameParam ? decodeURIComponent(caseNameParam).trim() : '';
     if (decoded) {
-      const resolvedId = resolveCaseNameToId(decoded);
+      const resolvedId = resolveCaseNameToId(decoded, caseList);
       if (!resolvedId || !validCaseIds.has(resolvedId)) {
         errors.push(
           `The case name "${decoded}" in the URL was not found. Please check the caseName parameter or select a case on the form.`
@@ -190,12 +204,15 @@ export function validateURLParams(
 
 /**
  * Parse and validate URL params in one call. Use this on the support-request page.
+ * Pass caseList from useCases() when cases are loaded so validation uses the API case list.
  */
 export function parseAndValidateURLParams(
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
+  options?: URLParamsCaseListOptions
 ): URLParamsValidationResult {
-  const formData = parseURLParams(searchParams);
-  return validateURLParams(formData, searchParams);
+  const caseList = options?.caseList ?? CASE_LIST;
+  const formData = parseURLParams(searchParams, { caseList });
+  return validateURLParams(formData, searchParams, { caseList });
 }
 
 /** Step index: 0 = request type, 1 = case, 2 = request data. Used to only put relevant params in the URL. */
@@ -205,14 +222,16 @@ export type SupportRequestStep = 0 | 1 | 2;
  * Builds URL search parameters from form data.
  * When step is provided, only includes params for that step and earlier (so going back removes later params).
  * Step 0: requestType only. Step 1: + case/caseName. Step 2 or undefined: + all form fields.
+ * When caseList is provided (e.g. from API), case name lookup uses it; otherwise uses static CASE_LIST.
  */
 export function buildURLParams(
   formData: Partial<DynamicFormData>,
-  options?: { useCaseName?: boolean; step?: SupportRequestStep }
+  options?: { useCaseName?: boolean; step?: SupportRequestStep } & URLParamsCaseListOptions
 ): URLSearchParams {
   const params = new URLSearchParams();
   const useCaseName = options?.useCaseName ?? true;
   const step = options?.step;
+  const caseList = options?.caseList ?? CASE_LIST;
 
   if (formData.requestTypes && formData.requestTypes.length > 0) {
     const labels = formData.requestTypes
@@ -227,7 +246,7 @@ export function buildURLParams(
     if (formData.caseId) {
       params.set('case', formData.caseId);
       if (useCaseName) {
-        const caseOption = CASE_LIST.find((c) => c.id === formData.caseId);
+        const caseOption = caseList.find((c) => c.id === formData.caseId);
         if (caseOption) params.set('caseName', caseOption.name);
       }
     }
@@ -276,7 +295,7 @@ export function buildURLParams(
  */
 export function getSupportRequestQueryString(
   formData: Partial<DynamicFormData>,
-  options?: { useCaseName?: boolean; step?: SupportRequestStep }
+  options?: { useCaseName?: boolean; step?: SupportRequestStep } & URLParamsCaseListOptions
 ): string {
   const params = buildURLParams(formData, options);
   const parts: string[] = [];

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Salesforce integration (Support_Channel__c)** – OAuth2 Authorization Code + PKCE for Connected App. **Routes**: `GET /oauth/start`, `GET /oauth/callback` (tokens in `.sf_tokens.json`), `GET /api/sf/describe/support-channel`, `POST /api/support-request` (creates Support_Channel__c). Form submit now calls `POST /api/support-request` with payload from `buildSupportRequestPayload(submission)`; on success redirects to success page with `sfId` in query. Env: `SALESFORCE_CONSUMER_KEY`, `SALESFORCE_CONSUMER_SECRET` (or `SF_CLIENT_ID`/`SF_CLIENT_SECRET`), optional `SF_LOGIN_URL`, `SF_API_VERSION`. **Docs**: `docs/salesforce.md`; canonical Support_Channel__c describe: `docs/salesforce-support-channel-schema.json`. `.sf_tokens.json` in .gitignore.
+
+- **Case list from Salesforce** – Case dropdown is now sourced from **GET /api/sf/projects** (Project__c). Replaced hardcoded CASE_LIST with `CasesProvider` + `useCases()`; cases are fetched when the user reaches the **Select Case** step (step 1) and cached for the session. A loading overlay is shown on the case list step until the list is loaded. **GET /api/sf/projects** returns CaseOption shape and is cached 5 min server-side. URL param parsing/validation and buildURLParams use the API case list when available; case validation is skipped until the list is loaded. Submissions still POST to the single Support project (SUPPORT_CHANNEL_DEFAULT_PROJECT_ID); payload includes case identity (caseId = selected case’s SF Project Id, caseName, caseCaseID, caseProjectName) for relations.
+
+### Changed
+
+- **Support request payload** – `buildSupportRequestPayload` now sends the full submission (all portal fields: reason, email, caseId, caseCaseID, requestTypeLabels, firstName, lastName, phone, address, etc.). The API still maps only createable Support_Channel__c fields for the POST; any body keys not mapped or not createable are logged server-side: `[support-request] Not sent to Salesforce (no mapping or not createable): ...`.
+
 ## [1.18.8] - 2026-02-17
 
 ### Added
