@@ -36,6 +36,10 @@ yarn-error.log*
 # Salesforce OAuth token storage (dev)
 .sf_tokens.json
 
+# Script temp outputs
+scripts/describe-out.json
+scripts/verify-createable-fields.txt
+
 # vercel
 .vercel
 

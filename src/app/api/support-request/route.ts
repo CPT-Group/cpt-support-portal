@@ -3,6 +3,8 @@ import {
   sfFetchWithStoredToken,
   readStoredTokens,
 } from '@/services/api/salesforceOAuth';
+import { notifySupportSubmissionTeams } from '@/utils/webhooks';
+import { REQUEST_TYPES } from '@/constants/requestTypes';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,21 +12,34 @@ const SOBJECT = 'Support_Channel__c';
 
 /**
  * Map portal form / submission keys to Support_Channel__c API names.
- * Matched to actual describe: Website_Detail_Summary__c, Case_Email__c, Case_No__c, Type__c.
- * OwnerId and Project__c are required and set in the route from userinfo + env (Support project).
- * Body includes case identity for relations: caseId = selected case's Salesforce Project__c Id,
- * caseName, caseCaseID, caseProjectName so you can filter/link in SF; if you add a Case_Project__c
- * lookup, map caseId to it here.
+ * Portal-specific fields (First_Name__c, Last_Name__c, etc.) are created via CLI:
+ * see salesforce-metadata/ and scripts/deploy-support-channel-fields.*
  */
 const PORTAL_TO_SF_FIELD: Record<string, string> = {
   reason: 'Website_Detail_Summary__c',
   description: 'Website_Detail_Summary__c',
   email: 'Case_Email__c',
   contact_email: 'Case_Email__c',
+  phone: 'Case_Phone__c',
+  address: 'Address__c',
   caseCaseID: 'Case_No__c',
   caseId: 'Case_No__c',
+  caseName: 'Case_Name__c',
   requestTypeLabels: 'Type__c',
   requestTypes: 'Type__c',
+  // Portal-only fields (deploy from salesforce-metadata/ first)
+  firstName: 'First_Name__c',
+  lastName: 'Last_Name__c',
+  cptId: 'CPT_ID__c',
+  previousAddress: 'Previous_Address__c',
+  newAddress: 'New_Address__c',
+  previousName: 'Previous_Name__c',
+  newName: 'New_Name__c',
+  ssnTaxId: 'SSN_Tax_ID__c',
+  beneficiaryName: 'Beneficiary_Name__c',
+  beneficiaryAddress: 'Beneficiary_Address__c',
+  beneficiaryEmail: 'Beneficiary_Email__c',
+  additionalDescription: 'Additional_Description__c',
 };
 
 interface DescribeField {
@@ -32,6 +47,7 @@ interface DescribeField {
   type: string;
   createable?: boolean;
   nillable?: boolean;
+  picklistValues?: Array<{ value: string; label: string }>;
 }
 
 async function getCreateableFields(): Promise<Set<string>> {
@@ -42,6 +58,66 @@ async function getCreateableFields(): Promise<Set<string>> {
   return new Set(
     fields.filter((f) => f.createable !== false).map((f) => f.name)
   );
+}
+
+/** Result of Type__c picklist describe: lookup key (lowercase) -> API value, and set of all valid API values. */
+interface TypePicklistResult {
+  labelOrValueToApiValue: Map<string, string>;
+  validApiValues: Set<string>;
+}
+
+/**
+ * Fetches Type__c picklist from describe. Builds a map so we can resolve portal labels to SF API values.
+ * Keys: both SF label (lowercase) and SF value (lowercase), so we match whether the org uses same label as value or not.
+ * Also returns the set of valid API values for fallback (e.g. "Request_Passcode" when label doesn't match).
+ */
+async function getTypePicklistResult(): Promise<TypePicklistResult> {
+  const raw = await sfFetchWithStoredToken<{ fields: DescribeField[] }>(
+    `/sobjects/${SOBJECT}/describe`
+  );
+  const fields = (raw.fields ?? []) as DescribeField[];
+  const typeField = fields.find((f) => f.name === 'Type__c');
+  const labelOrValueToApiValue = new Map<string, string>();
+  const validApiValues = new Set<string>();
+  if (typeField?.picklistValues) {
+    for (const pv of typeField.picklistValues) {
+      if (pv.value == null || pv.value === '') continue;
+      validApiValues.add(pv.value);
+      const keyLabel = pv.label?.trim().toLowerCase() ?? '';
+      const keyValue = pv.value.trim().toLowerCase();
+      if (keyLabel) labelOrValueToApiValue.set(keyLabel, pv.value);
+      labelOrValueToApiValue.set(keyValue, pv.value);
+    }
+  }
+  return { labelOrValueToApiValue, validApiValues };
+}
+
+/**
+ * Portal request type labels (all 17 from REQUEST_TYPES). Type__c in Salesforce should have these
+ * as labels or API values (e.g. "Request_Passcode") so resolution works for every option.
+ */
+const PORTAL_REQUEST_TYPE_LABELS = new Set(
+  REQUEST_TYPES.map((rt) => rt.label.trim())
+);
+
+/**
+ * Resolves request type label(s) from body to a Type__c API value. Tries each label in order.
+ * Only considers labels that are in our portal list (all 17 options). Matches by: SF label (case-insensitive),
+ * SF value (case-insensitive), or canonical form (spaces -> underscores) if that value exists in the picklist.
+ */
+function resolveTypeApiValue(
+  labels: string[],
+  result: TypePicklistResult
+): string | null {
+  const { labelOrValueToApiValue, validApiValues } = result;
+  const toTry = labels.map((l) => l.trim()).filter((l) => l && PORTAL_REQUEST_TYPE_LABELS.has(l));
+  for (const label of toTry.length > 0 ? toTry : labels.map((l) => l.trim()).filter(Boolean)) {
+    const byLabel = labelOrValueToApiValue.get(label.toLowerCase());
+    if (byLabel != null) return byLabel;
+    const canonicalValue = label.replace(/\s+/g, '_');
+    if (validApiValues.has(canonicalValue)) return canonicalValue;
+  }
+  return null;
 }
 
 /**
@@ -68,6 +144,7 @@ export async function POST(request: NextRequest) {
   }
 
   const createable = await getCreateableFields();
+  const typePicklistResult = await getTypePicklistResult();
   const payload: Record<string, unknown> = {};
   const bodyKeysSentToSf = new Set<string>();
 
@@ -75,6 +152,8 @@ export async function POST(request: NextRequest) {
     if (value === undefined || value === null) continue;
     const apiName = PORTAL_TO_SF_FIELD[key] ?? key;
     if (!createable.has(apiName)) continue;
+    // Type__c is a restricted picklist: resolve portal label to SF API value, not in the loop
+    if (apiName === 'Type__c' && (key === 'requestTypeLabels' || key === 'requestTypes')) continue;
     if (Array.isArray(value)) {
       if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) continue;
       payload[apiName] = value.join(', ');
@@ -82,6 +161,22 @@ export async function POST(request: NextRequest) {
       payload[apiName] = value;
     }
     bodyKeysSentToSf.add(key);
+  }
+
+  // Resolve Type__c from request type label(s) to picklist API value. Tries each selected label until one matches.
+  // Supports all 17 portal options: match by SF label, SF value, or canonical "Label_With_Underscores".
+  const labels = Array.isArray(body.requestTypeLabels)
+    ? (body.requestTypeLabels as string[]).filter((l): l is string => typeof l === 'string')
+    : typeof body.requestTypeLabels === 'string'
+      ? [body.requestTypeLabels]
+      : [];
+  if (labels.length > 0 && createable.has('Type__c')) {
+    const apiValue = resolveTypeApiValue(labels, typePicklistResult);
+    if (apiValue != null) {
+      payload['Type__c'] = apiValue;
+      bodyKeysSentToSf.add('requestTypeLabels');
+    }
+    // If no match, omit Type__c (field is nillable) so create still succeeds
   }
 
   const notSent = Object.keys(body).filter((k) => !bodyKeysSentToSf.has(k));
@@ -150,5 +245,23 @@ export async function POST(request: NextRequest) {
   const result = (await res.json()) as { id: string };
   const id = result.id;
   console.log('[support-request] Create success, new record id:', id);
+
+  // Fire-and-forget: notify Teams channel (never block or fail the request)
+  const webhookUrl = process.env.SUPPORT_SUBMISSION_WEBHOOK_URL?.trim();
+  if (webhookUrl) {
+    const caseName =
+      typeof body.caseName === 'string'
+        ? body.caseName
+        : typeof body.caseProjectName === 'string'
+          ? body.caseProjectName
+          : body.caseId ?? 'Unknown case';
+    const requestTypes = Array.isArray(body.requestTypeLabels)
+      ? (body.requestTypeLabels as string[]).join(', ')
+      : typeof body.requestTypeLabels === 'string'
+        ? body.requestTypeLabels
+        : '—';
+    notifySupportSubmissionTeams(webhookUrl, { caseName, requestTypes });
+  }
+
   return Response.json({ success: true, id });
 }

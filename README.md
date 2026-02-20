@@ -77,6 +77,7 @@ Theme files live in `src/styles/themes/`; fonts are still served from `public/th
 
 - `NEXT_PUBLIC_SITE_URL` - Base URL for metadata and OG images (optional, defaults to Netlify URL)
 - `NEXT_PUBLIC_GEOAPIFY_API_KEY` - Geoapify API key for address autocomplete functionality (required for address fields)
+- `SUPPORT_SUBMISSION_WEBHOOK_URL` - Optional. Microsoft Teams incoming webhook URL; when set, a fire-and-forget notification (case + request type) is sent on each successful support submission. Failures never affect the user or the API response.
 
 ### Setting Up Environment Variables
 
