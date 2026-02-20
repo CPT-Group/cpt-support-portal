@@ -47,7 +47,8 @@ export function CasesProvider({ children }: CasesProviderProps) {
       const res = await fetch('/api/sf/projects');
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError((data.message as string) || `Failed to load cases (${res.status})`);
+        const msg = (data.error as string) || (data.message as string) || `Failed to load cases (${res.status})`;
+        setError(msg);
         setCases([]);
         return;
       }
