@@ -6,8 +6,33 @@ Support requests are created in Salesforce as **Support_Channel__c** records. Th
 
 1. In `.env.local` set:
    - `SALESFORCE_CONSUMER_KEY` / `SALESFORCE_CONSUMER_SECRET` (from your Connected App)
-   - **`SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`** – required. Salesforce Project record Id (18 chars) for Support_Channel__c.Project__c. Get it from your org.
+   - **`SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`** – required. Salesforce **Support** project record Id (18 chars) for Support_Channel__c.Project__c. All support requests are created under this one project; create it once (see below).
    - Optionally `SF_LOGIN_URL` (default `https://login.salesforce.com`), `SF_API_VERSION` (default `v60.0`).
+
+### Creating the Support project (one-time)
+
+You need a single **Project__c** record to act as the Support bucket (call center / unified list). Create it to match the support portal’s expectations instead of reusing a case project.
+
+**Option A – Salesforce CLI (recommended)**  
+Requires [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) and an authenticated org (`sf org login web` or default org).
+
+```bash
+# Create a Project__c named "Support" and get its Id
+sf data create record --sobject Project__c --values "Name=Support"
+```
+
+The command prints the new record Id. Copy it into `.env.local` as `SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`.
+
+Scripts in this repo (optional; same idea):
+
+- **Bash:** `./scripts/create-support-project.sh` or `./scripts/create-support-project.sh "My Support Project"`
+- **PowerShell:** `./scripts/create-support-project.ps1` or `./scripts/create-support-project.ps1 -Name "My Support Project"`
+
+If your org has more required fields on Project__c, add them, e.g.  
+`--values "Name=Support" "RecordTypeId=012..."` (check Setup → Object Manager → Project for required fields).
+
+**Option B – Manual**  
+Create a Project in Salesforce (e.g. Name = “Support”), then open **GET /api/sf/projects** in the browser and copy the Id of that record into `.env.local`.
 
 2. In the Connected App, add callback URLs:
    - `http://localhost:3777/oauth/callback` (dev)
