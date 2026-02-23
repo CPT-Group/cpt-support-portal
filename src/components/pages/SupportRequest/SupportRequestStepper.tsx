@@ -6,7 +6,8 @@ import { Steps } from 'primereact/steps';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { useSupportRequestForm } from '@/hooks';
+import { useSupportRequestForm, useSyncSupportRequestUrl } from '@/hooks';
+import { useLoadingOverlay } from '@/providers/LoadingOverlayProvider';
 import {
   StepRequestTypeSelection,
   StepCaseSelection,
@@ -19,7 +20,6 @@ import { FAQ_DATA } from '@/constants';
 import { useCases } from '@/providers/CasesProvider';
 import { generateSubmissionJSON } from '@/utils/jsonGenerator';
 import { buildSupportRequestPayload } from '@/utils/salesforcePayload';
-import { getSupportRequestQueryString } from '@/utils/urlParams';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
 import { sendFAQFeedbackWebhook } from '@/utils/webhooks';
@@ -47,6 +47,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
   const toast = useRef<Toast>(null);
   const { cases, loading: casesLoading, error: casesError, loadOnce, refetch: refetchCases } = useCases();
   const { setIsFaqDialogOpen } = useHeader();
+  const { showLoading, hideLoading } = useLoadingOverlay();
   const [stepOpacity, setStepOpacity] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [faqDialogVisible, setFaqDialogVisible] = useState(false);
@@ -70,6 +71,8 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     consolidatedFields,
   } = useSupportRequestForm(initialData);
 
+  useSyncSupportRequestUrl(formData, activeStep, cases);
+
   useEffect(() => {
     setStepOpacity(0);
     const timer = setTimeout(() => setStepOpacity(1), 50);
@@ -80,17 +83,20 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     return () => clearTimeout(timer);
   }, [activeStep, onStepChange]);
 
-  // Keep the URL in sync with current step: step 0 = requestType only; step 1 = + case/caseName; step 2 = + form fields (back button removes later params)
-  useEffect(() => {
-    const query = getSupportRequestQueryString(formData, { step: activeStep, caseList: cases });
-    const newUrl = query ? `/support-request?${query}` : '/support-request';
-    router.replace(newUrl, { scroll: false });
-  }, [formData, activeStep, router, cases]);
-
   // When user reaches the case list step, fetch and cache the list (once per session)
   useEffect(() => {
     if (activeStep === 1) loadOnce();
   }, [activeStep, loadOnce]);
+
+  // Sync global loading overlay with submit state; hide on unmount
+  useEffect(() => {
+    if (isSubmitting) {
+      showLoading('Submitting your request...');
+    } else {
+      hideLoading();
+    }
+    return () => hideLoading();
+  }, [isSubmitting, showLoading, hideLoading]);
 
   const handleRequestTypesChange = useCallback(
     (selectedIds: string[]) => updateFormData({ requestTypes: selectedIds }),
@@ -372,21 +378,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         boxSizing: 'border-box',
       }}
     >
-      {isSubmitting && (
-        <div
-          className="loading-overlay"
-          aria-live="polite"
-          aria-busy="true"
-        >
-          <div className="flex flex-column align-items-center gap-3">
-            <ProgressSpinner
-              style={{ width: '3rem', height: '3rem' }}
-              strokeWidth="4"
-            />
-            <span className="font-medium">Submitting your request...</span>
-          </div>
-        </div>
-      )}
       <Toast ref={toast} position="bottom-right" />
       <div className="w-full" style={{ maxWidth: 'var(--support-form-max-width)', height: 'auto', overflow: 'visible' }}>
         <Steps model={STEPS} activeIndex={activeStep} />
