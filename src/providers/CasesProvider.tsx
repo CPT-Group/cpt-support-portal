@@ -53,6 +53,7 @@ export function CasesProvider({ children }: CasesProviderProps) {
         return;
       }
       setCases(data.cases ?? []);
+      setError((data.error as string) || null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load cases');
       setCases([]);

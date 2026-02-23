@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
+### Changed
+
+- **Loading overlay – theme-aware, spinner theming, copy, production default** – Overlay now follows the active theme: new `--loading-overlay-bg` in all six themes (light themes: transparent white/grey `rgba(255,255,255,0.78)`; dark: `rgba(0,0,0,0.65)`; dark-synth: purple tint). Text uses `var(--text-color)` so light theme shows dark text. ProgressSpinner stroke/circle use `var(--primary-color)` in `primereact-overrides.scss` so the spinner matches the theme. Default message set to "Loading, please wait..."; message text is bolder and larger (`font-bold text-lg`). Portal renders only after client mount to avoid hydration mismatch. `OVERLAY_ALWAYS_VISIBLE` set to `false` (overlay only on route loading and form submit). Removed ThemeProvider dependency from LoadingOverlayProvider. Docs: `theme-variables-checklist.md` updated with `--loading-overlay-bg`.
+
 ### Fixed
 
 - **Support request form flicker / scroll jump while typing** – The URL was previously updated on every formData change (every keystroke), causing the page to re-render and the browser to treat it like a navigation, which led to flicker and scroll reset. URL is now synced only when the step changes (Next or Previous). Implemented via `useSyncSupportRequestUrl`: an effect that runs when `activeStep` changes and reads current formData/cases from refs so it does not run on every keystroke. Prefill from URL params on load is unchanged; shareable URLs still reflect the current step and committed data.

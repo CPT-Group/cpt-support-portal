@@ -87,6 +87,16 @@ Keep your existing env vars (`SALESFORCE_CONSUMER_KEY`, `SALESFORCE_CONSUMER_SEC
 **Optional – Teams notification on submission**  
 Set `SUPPORT_SUBMISSION_WEBHOOK_URL` (e.g. to a Teams channel Incoming Webhook URL) to post a short message to Teams on each successful support submission (case name + request type). The call is fire-and-forget; if the webhook fails, the user and API response are unaffected.
 
+## Where to view submitted data in Salesforce
+
+Portal submissions create **Support_Channel__c** records (not Project__c). To see them:
+
+1. In the left navigation, click **Support Channel** (not "Projects").
+2. You’ll see the list of support requests. Use the **Support_Requests** list view (or "Recently Viewed") and use **Select Fields to Display** (gear next to "Search this list...") to add columns like First Name, Last Name, Case Name, Type, etc.
+3. Your new submission’s record ID is in the success page URL as `sfId=...`; you can search or open that ID in Support Channel to open the record.
+
+**Projects** shows the **Support** project (the bucket); **Support Channel** shows each submitted support request and its form data.
+
 ## Routes
 
 - **GET /oauth/start** – Redirects to Salesforce authorize.

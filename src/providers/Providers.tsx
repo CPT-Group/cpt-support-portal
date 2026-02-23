@@ -5,6 +5,7 @@ import { PrimeReactProvider } from './PrimeReactProvider';
 import { ThemeProvider } from './ThemeProvider';
 import { HeaderProvider } from './HeaderProvider';
 import { CasesProvider } from './CasesProvider';
+import { LoadingOverlayProvider } from './LoadingOverlayProvider';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -15,7 +16,9 @@ export const Providers = ({ children }: ProvidersProps) => {
     <ThemeProvider>
       <HeaderProvider>
         <CasesProvider>
-          <PrimeReactProvider>{children}</PrimeReactProvider>
+          <LoadingOverlayProvider>
+            <PrimeReactProvider>{children}</PrimeReactProvider>
+          </LoadingOverlayProvider>
         </CasesProvider>
       </HeaderProvider>
     </ThemeProvider>

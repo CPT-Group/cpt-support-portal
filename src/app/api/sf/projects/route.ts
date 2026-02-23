@@ -6,6 +6,16 @@ export const dynamic = 'force-dynamic';
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 let cache: { at: number; cases: CaseOption[] } | null = null;
 
+/** Return 200 with empty cases so the support page still loads; UI shows error and Retry. */
+function emptyCasesResponse(error: string) {
+  return Response.json({
+    success: true,
+    cases: [],
+    totalSize: 0,
+    error,
+  });
+}
+
 interface DescribeField {
   name: string;
   type: string;
@@ -17,6 +27,7 @@ interface DescribeField {
  * Returns Project__c records as the case list (CaseOption shape) for the support portal.
  * Source of truth for cases; cached server-side to reduce Salesforce API calls.
  * Also used to pick SUPPORT_CHANNEL_DEFAULT_PROJECT_ID (one Support project Id in .env).
+ * When tokens are missing or env is not configured, returns 200 with empty cases + error so the page loads.
  */
 export async function GET() {
   try {
@@ -65,9 +76,7 @@ export async function GET() {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error('[api/sf/projects]', message);
-    return Response.json(
-      { success: false, error: message },
-      { status: 500 }
-    );
+    // Always return 200 with empty cases so the support page loads; UI shows this message and Retry.
+    return emptyCasesResponse(message);
   }
 }

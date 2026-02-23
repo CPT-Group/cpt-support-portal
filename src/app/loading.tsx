@@ -1,25 +1,19 @@
 'use client';
 
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { useEffect } from 'react';
+import { useLoadingOverlay } from '@/providers/LoadingOverlayProvider';
 
 /**
- * Shown during route transitions (e.g. navigating to FAQ or support-request).
- * Uses theme variables so all themes have good contrast.
+ * Next.js route loading fallback. Triggers the global loading overlay (portaled above header)
+ * so it shows during route transitions. Renders nothing; the overlay is rendered by LoadingOverlayProvider.
  */
 export default function Loading() {
-  return (
-    <div
-      className="global-loading-overlay"
-      aria-live="polite"
-      aria-busy="true"
-    >
-      <div className="flex flex-column align-items-center gap-3">
-        <ProgressSpinner
-          style={{ width: '3rem', height: '3rem' }}
-          strokeWidth="4"
-        />
-        <span className="font-medium">Loading...</span>
-      </div>
-    </div>
-  );
+  const { showLoading, hideLoading } = useLoadingOverlay();
+
+  useEffect(() => {
+    showLoading('Loading, please wait...');
+    return () => hideLoading();
+  }, [showLoading, hideLoading]);
+
+  return null;
 }

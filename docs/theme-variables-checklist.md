@@ -35,7 +35,7 @@ These are the variables that **primereact-overrides.scss**, **base.scss**, and *
 | `--surface-hover` | Accordion, ListBox, Sidebar, Dropdown items | Hover state background |
 | `--text-color` | All components, body, main | Primary text |
 | `--text-color-secondary` | Card subtitle, Sidebar secondary, Dropdown placeholder/trigger, InputText label/placeholder | Muted text |
-| `--primary-color` | Message, Button primary, Dropdown/Input focus border | Brand/action color |
+| `--primary-color` | Message, Button primary, Dropdown/Input focus border, **ProgressSpinner** (stroke) | Brand/action color |
 | `--primary-color-text` | Button primary | Text on primary buttons |
 | `--button-primary-background-hover` | Button primary hover | Optional; fallback `var(--primary-color)` |
 | `--button-secondary-bg`, `--button-secondary-text`, `--button-secondary-hover-bg`, `--button-secondary-border`, `--button-secondary-shadow` | Secondary button (e.g. dark-synth neon purple) | Optional; default from variables uses surface/text |
@@ -49,6 +49,7 @@ These are the variables that **primereact-overrides.scss**, **base.scss**, and *
 | `--header-bg` | globals.css header | Header background |
 | `--header-fg` | globals.css header | Header text/icons |
 | `--scrollbar-track-bg`, `--scrollbar-thumb-bg`, `--scrollbar-thumb-hover-bg` | base.scss (global scrollbars), primereact-overrides (Firefox overlay scrollbars) | **Required** – all six themes set these so dropdown/list/sidebar scrollbars match theme (e.g. dark-synth not white) |
+| `--loading-overlay-bg` | globals.css .app-loading-overlay | **Required** – light themes use transparent white/grey (e.g. rgba(255,255,255,0.78)); dark themes use dark overlay (e.g. rgba(0,0,0,0.65)) so overlay matches theme |
 | *(Steps/stepper)* Same as above | Steps number, title, connector line, highlight | Uses `--text-color`, `--text-color-secondary`, `--surface-border`, `--focus-ring`, `--highlight-bg`, `--highlight-text-color` |
 
 ## Quick audit

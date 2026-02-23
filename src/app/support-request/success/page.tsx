@@ -16,6 +16,7 @@ const SuccessContent = () => {
   const caseName = searchParams.get('caseName') || '';
   const issueTypes = searchParams.get('issueTypes') || '';
   const submissionDataParam = searchParams.get('submissionData') || '';
+  const sfId = searchParams.get('sfId') || '';
 
   let submissionData: SubmissionData | null = null;
   try {
@@ -53,6 +54,11 @@ const SuccessContent = () => {
             <p className="text-xl text-color-secondary line-height-3">
               Your support request has been submitted. We will confirm once your request has been completed or if additional information is needed.
             </p>
+            {sfId && (
+              <p className="text-sm text-color-secondary mt-2">
+                Saved in Salesforce as Support Channel record. Staff: open <strong>Support Channel</strong> in the left nav (not Projects) to view this submission. Record ID: <code className="px-1 surface-200 border-round">{sfId}</code>
+              </p>
+            )}
             <div className="flex gap-3 justify-content-center flex-wrap mt-4">
               <Button
                 label="View FAQ"

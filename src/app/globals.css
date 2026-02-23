@@ -9,34 +9,25 @@
   --support-form-max-width: 56rem;
 }
 
-/* Full-screen loading overlay – covers entire viewport; use for route loading and submit overlay */
-.global-loading-overlay,
-.loading-overlay {
+/* Single full-screen loading overlay – rendered via portal to body, above header (z-index 1001).
+   Use useLoadingOverlay() to show/hide. Covers viewport with inset + 100dvh for mobile.
+   Background and text use theme vars (--loading-overlay-bg, --text-color) so light theme gets light overlay + dark text. */
+.app-loading-overlay {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  min-width: 100vw !important;
-  min-height: 100vh !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  height: 100vh !important; /* fallback for older browsers */
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background-color: var(--maskbg);
+  background-color: var(--loading-overlay-bg);
   color: var(--text-color);
-}
-
-.global-loading-overlay {
-  z-index: 9998;
-}
-
-.loading-overlay {
-  z-index: 9999;
+  z-index: 99999 !important;
+  pointer-events: auto !important;
 }
 
 /* Theme is applied via data-theme on html; SCSS theme files in main.scss override variables. */

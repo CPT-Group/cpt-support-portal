@@ -4,6 +4,7 @@
 // Variables used here (every theme must define these): --surface-card, --surface-overlay,
 // --surface-ground, --surface-border, --surface-hover, --text-color, --text-color-secondary,
 // --primary-color, --primary-color-text, --focus-ring, --highlight-bg, --highlight-text-color.
+// ProgressSpinner uses --primary-color for container/circle/path so it matches the theme.
 // When adding new overrides: use only these (or other theme vars). When adding a new theme:
 // define the same variable set with that theme's colors. See docs/theme-variables-checklist.md.
 
@@ -17,6 +18,26 @@
 }
 .p-card .p-card-subtitle {
   color: var(--text-color-secondary) !important;
+}
+
+// --- ProgressSpinner – use theme primary so spinner matches selected theme (loading overlay, etc.) ---
+// Scoped to [data-theme] so portaled overlay (which has data-theme) gets correct --primary-color.
+// Target container, .p-progress-circle, .p-progress-path, and SVG circle so all theme variants apply.
+[data-theme] .p-progress-spinner,
+.p-progress-spinner {
+  color: var(--primary-color) !important;
+}
+[data-theme] .p-progress-spinner .p-progress-circle,
+.p-progress-spinner .p-progress-circle {
+  stroke: var(--primary-color) !important;
+}
+[data-theme] .p-progress-spinner .p-progress-path,
+.p-progress-spinner .p-progress-path {
+  stroke: var(--primary-color) !important;
+}
+[data-theme] .p-progress-spinner circle,
+.p-progress-spinner circle {
+  stroke: var(--primary-color) !important;
 }
 
 // --- Accordion ---
