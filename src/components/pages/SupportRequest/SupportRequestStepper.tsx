@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Steps } from 'primereact/steps';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { useSupportRequestForm, useSyncSupportRequestUrl } from '@/hooks';
 import { useLoadingOverlay } from '@/providers/LoadingOverlayProvider';
 import {
@@ -88,15 +87,18 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     if (activeStep === 1) loadOnce();
   }, [activeStep, loadOnce]);
 
-  // Sync global loading overlay with submit state; hide on unmount
+  // Single effect: show main loading overlay for case list load or form submit, with appropriate message
   useEffect(() => {
-    if (isSubmitting) {
-      showLoading('Submitting your request...');
-    } else {
-      hideLoading();
-    }
+    const visible = casesLoading || isSubmitting;
+    const message = isSubmitting
+      ? 'Submitting your request...'
+      : casesLoading
+        ? 'Loading case list'
+        : undefined; // default when visible is false we hide anyway
+    if (visible) showLoading(message ?? 'Loading, please wait...');
+    else hideLoading();
     return () => hideLoading();
-  }, [isSubmitting, showLoading, hideLoading]);
+  }, [casesLoading, isSubmitting, showLoading, hideLoading]);
 
   const handleRequestTypesChange = useCallback(
     (selectedIds: string[]) => updateFormData({ requestTypes: selectedIds }),
@@ -303,21 +305,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
       case 1:
         return (
           <div className="relative w-full">
-            {(casesLoading || (cases.length === 0 && !casesError)) && (
-              <div
-                className="absolute inset-0 flex flex-column align-items-center justify-content-center gap-2 z-1"
-                style={{
-                  background: 'var(--maskbg, rgba(0,0,0,0.4))',
-                  borderRadius: 'var(--border-radius)',
-                  minHeight: '200px',
-                }}
-              >
-                <ProgressSpinner />
-                <span className="text-color" style={{ fontWeight: 500 }}>
-                  Loading case list...
-                </span>
-              </div>
-            )}
             {casesError && cases.length === 0 && (
               <div className="flex flex-column gap-2 p-3 surface-100 border-round mb-2">
                 <span className="text-color-secondary">Could not load case list.</span>

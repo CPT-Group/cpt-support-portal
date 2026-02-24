@@ -20,6 +20,7 @@ interface LoadingOverlayState {
 }
 
 interface LoadingOverlayContextType {
+  /** Show overlay. No args = default "Loading, please wait..."; pass a string for custom message (e.g. showLoading('Loading case list')). */
   showLoading: (message?: string) => void;
   hideLoading: () => void;
   loadingState: LoadingOverlayState;

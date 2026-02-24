@@ -18,6 +18,9 @@ const SuccessContent = () => {
   const submissionDataParam = searchParams.get('submissionData') || '';
   const sfId = searchParams.get('sfId') || '';
 
+  /** Toggle via NEXT_PUBLIC_SHOW_SUBMISSION_DATA_PROTOTYPE=true in env to show the prototype JSON card. */
+  const showSubmissionDataPrototype = process.env.NEXT_PUBLIC_SHOW_SUBMISSION_DATA_PROTOTYPE === 'true';
+
   let submissionData: SubmissionData | null = null;
   try {
     if (submissionDataParam) {
@@ -81,7 +84,7 @@ const SuccessContent = () => {
           </div>
         </Card>
 
-        {submissionData && (
+        {showSubmissionDataPrototype && submissionData && (
           <Card className="mt-4">
             <div className="flex flex-column gap-3">
               <div className="flex justify-content-between align-items-center">

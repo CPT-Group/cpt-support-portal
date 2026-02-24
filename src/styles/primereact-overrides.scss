@@ -159,6 +159,26 @@
   color: var(--button-secondary-text) !important;
 }
 
+// --- AutoComplete dropdown button (and input-group icon-only buttons): use secondary theme vars so they match theme (e.g. dark-synth neon purple) ---
+.p-autocomplete-dropdown.p-button:not(.p-button-primary):not(.p-button-text):not(.p-button-outlined),
+.p-inputgroup .p-button.p-button-icon-only:not(.p-button-primary):not(.p-button-text):not(.p-button-outlined) {
+  background: var(--button-secondary-bg) !important;
+  border-color: var(--button-secondary-border) !important;
+  color: var(--button-secondary-text) !important;
+  box-shadow: var(--button-secondary-shadow) !important;
+}
+.p-autocomplete-dropdown.p-button:not(.p-button-primary):not(.p-button-text):not(.p-button-outlined):not(:disabled):hover,
+.p-inputgroup .p-button.p-button-icon-only:not(.p-button-primary):not(.p-button-text):not(.p-button-outlined):not(:disabled):hover {
+  background: var(--button-secondary-hover-bg) !important;
+  border-color: var(--button-secondary-hover-bg) !important;
+  color: var(--button-secondary-text) !important;
+  box-shadow: var(--button-secondary-shadow) !important;
+}
+.p-autocomplete-dropdown.p-button .p-button-icon,
+.p-inputgroup .p-button.p-button-icon-only .p-button-icon {
+  color: var(--button-secondary-text) !important;
+}
+
 // --- Dialog ---
 .p-dialog {
   background: var(--surface-overlay) !important;

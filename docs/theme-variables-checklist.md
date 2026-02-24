@@ -38,7 +38,7 @@ These are the variables that **primereact-overrides.scss**, **base.scss**, and *
 | `--primary-color` | Message, Button primary, Dropdown/Input focus border, **ProgressSpinner** (stroke) | Brand/action color |
 | `--primary-color-text` | Button primary | Text on primary buttons |
 | `--button-primary-background-hover` | Button primary hover | Optional; fallback `var(--primary-color)` |
-| `--button-secondary-bg`, `--button-secondary-text`, `--button-secondary-hover-bg`, `--button-secondary-border`, `--button-secondary-shadow` | Secondary button (e.g. dark-synth neon purple) | Optional; default from variables uses surface/text |
+| `--button-secondary-bg`, `--button-secondary-text`, `--button-secondary-hover-bg`, `--button-secondary-border`, `--button-secondary-shadow` | Secondary button, **AutoComplete dropdown button**, input-group icon-only buttons (e.g. dark-synth neon purple) | Optional; default from variables uses surface/text |
 | `--focus-ring` | Accordion, Sidebar, Dropdown, InputText | Focus outline/box-shadow |
 | `--highlight-bg` | ListBox selected, Dropdown selected | Selected item background |
 | `--highlight-text-color` | ListBox selected, Dropdown selected | Selected item text |
