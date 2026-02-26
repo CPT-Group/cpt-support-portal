@@ -44,7 +44,7 @@ interface DescribeField {
   type: string;
   createable?: boolean;
   nillable?: boolean;
-  picklistValues?: Array<{ value: string; label: string }>;
+  picklistValues?: Array<{ value: string; label: string; active?: boolean }>;
 }
 
 async function getCreateableFields(): Promise<Set<string>> {
@@ -79,6 +79,7 @@ async function getTypePicklistResult(): Promise<TypePicklistResult> {
   if (typeField?.picklistValues) {
     for (const pv of typeField.picklistValues) {
       if (pv.value == null || pv.value === '') continue;
+      if (pv.active === false) continue;
       validApiValues.add(pv.value);
       const keyLabel = pv.label?.trim().toLowerCase() ?? '';
       const keyValue = pv.value.trim().toLowerCase();
@@ -86,6 +87,7 @@ async function getTypePicklistResult(): Promise<TypePicklistResult> {
       labelOrValueToApiValue.set(keyValue, pv.value);
     }
   }
+  console.log('[support-request] Type__c active picklist values:', [...validApiValues].join(', '));
   return { labelOrValueToApiValue, validApiValues };
 }
 
@@ -143,9 +145,14 @@ export async function POST(request: NextRequest) {
   try {
     return await handleSupportRequestCreate(body);
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Support request submission failed';
+    const msg =
+      err instanceof Error ? err.message : String(err ?? 'Support request submission failed');
     console.error('[support-request]', msg);
-    return Response.json({ success: false, message: msg }, { status: 500 });
+    const body = { success: false, message: msg };
+    return new Response(JSON.stringify(body), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
 
@@ -180,10 +187,12 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
   if (labels.length > 0 && createable.has('Type__c')) {
     const apiValue = resolveTypeApiValue(labels, typePicklistResult);
     if (apiValue != null) {
+      console.log(`[support-request] Resolved Type__c: "${apiValue}" from labels: ${JSON.stringify(labels)}`);
       payload['Type__c'] = apiValue;
       bodyKeysSentToSf.add('requestTypeLabels');
+    } else {
+      console.log(`[support-request] No Type__c match for labels: ${JSON.stringify(labels)} – omitting (nillable)`);
     }
-    // If no match, omit Type__c (field is nillable) so create still succeeds
   }
 
   const notSent = Object.keys(body).filter((k) => !bodyKeysSentToSf.has(k));
@@ -221,12 +230,27 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     );
   }
 
-  // Use sfFetchWithStoredToken so tokens come from file (local) or SF_REFRESH_TOKEN (Netlify/serverless)
-  const result = await sfFetchWithStoredToken<{ id: string }>(`/sobjects/${SOBJECT}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
+  let result: { id: string };
+  try {
+    result = await sfFetchWithStoredToken<{ id: string }>(`/sobjects/${SOBJECT}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (createErr) {
+    const errMsg = createErr instanceof Error ? createErr.message : String(createErr);
+    if (payload['Type__c'] && /restricted picklist|INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST/i.test(errMsg)) {
+      console.warn(`[support-request] bad value for restricted picklist field: ${payload['Type__c']} – retrying without Type__c`);
+      delete payload['Type__c'];
+      result = await sfFetchWithStoredToken<{ id: string }>(`/sobjects/${SOBJECT}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      throw createErr;
+    }
+  }
   const id = result.id;
   console.log('[support-request] Create success, new record id:', id);
 

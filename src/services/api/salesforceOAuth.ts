@@ -306,8 +306,19 @@ async function getTokensViaJwt(): Promise<StoredTokens> {
     );
   }
 
-  // Normalize PEM: env often has literal \n
-  const privateKey = privateKeyPem.replace(/\\n/g, '\n');
+  // Normalize PEM: env may have literal \n, or Netlify may strip newlines to one long line
+  let privateKey = privateKeyPem.replace(/\\n/g, '\n');
+  if (!privateKey.includes('\n') && privateKey.includes('-----BEGIN')) {
+    // Single line (e.g. Netlify stripped newlines): restore PEM shape
+    const begin = '-----BEGIN PRIVATE KEY-----';
+    const end = '-----END PRIVATE KEY-----';
+    const idxEnd = privateKey.indexOf(end);
+    if (idxEnd !== -1) {
+      const middle = privateKey.slice(privateKey.indexOf(begin) + begin.length, idxEnd).replace(/\s/g, '');
+      const lines = middle.match(/.{1,64}/g) || [];
+      privateKey = `${begin}\n${lines.join('\n')}\n${end}\n`;
+    }
+  }
 
   const now = Math.floor(Date.now() / 1000);
   const exp = now + 180; // 3 min
