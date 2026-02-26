@@ -95,7 +95,7 @@ export interface StoredTokens {
   issued_at?: number;
 }
 
-/** In-memory cache for tokens obtained via SF_REFRESH_TOKEN (per serverless invocation) */
+/** In-memory cache for tokens (serverless env-based or auto-refreshed) */
 let cachedTokensFromEnv: StoredTokens | null = null;
 
 export async function exchangeCodeForTokens(
@@ -177,17 +177,10 @@ export function readStoredTokens(): StoredTokens {
 }
 
 /**
- * Refresh access token using SF_REFRESH_TOKEN env (for serverless where .sf_tokens.json is not persistent).
- * Result is cached in memory for the current process to avoid refreshing on every API call.
+ * Use a refresh_token to obtain a new access_token from Salesforce.
+ * Works for both local dev (.sf_tokens.json) and serverless (SF_REFRESH_TOKEN env).
  */
-async function refreshTokensFromEnv(): Promise<StoredTokens> {
-  if (cachedTokensFromEnv) return cachedTokensFromEnv;
-  const refreshToken = process.env.SF_REFRESH_TOKEN?.trim();
-  if (!refreshToken) {
-    throw new Error(
-      'No Salesforce tokens found. Complete OAuth locally, then set SF_REFRESH_TOKEN in env (e.g. on Netlify) from .sf_tokens.json'
-    );
-  }
+async function refreshAccessToken(refreshToken: string): Promise<StoredTokens> {
   const { clientId, clientSecret } = getClientCreds();
   const loginUrl = getLoginUrl();
   const body = new URLSearchParams({
@@ -215,12 +208,41 @@ async function refreshTokensFromEnv(): Promise<StoredTokens> {
   const data = (await res.json()) as {
     access_token: string;
     instance_url: string;
+    issued_at?: string;
   };
   const tokens: StoredTokens = {
     access_token: data.access_token,
     instance_url: data.instance_url.replace(/\/$/, ''),
     refresh_token: refreshToken,
+    issued_at: data.issued_at ? parseInt(data.issued_at, 10) : Date.now(),
   };
+  return tokens;
+}
+
+/** Persist refreshed tokens to disk (best-effort; serverless may be read-only). */
+function saveTokensToFile(tokens: StoredTokens): void {
+  try {
+    const tokenPath = join(process.cwd(), TOKEN_FILE);
+    writeFileSync(tokenPath, JSON.stringify(tokens, null, 2), 'utf8');
+    console.log('[SF OAuth] Refreshed tokens saved to', tokenPath);
+  } catch {
+    // Serverless (e.g. Netlify) often has read-only fs
+  }
+}
+
+/**
+ * Refresh access token using SF_REFRESH_TOKEN env (for serverless where .sf_tokens.json is not persistent).
+ * Result is cached in memory for the current process to avoid refreshing on every API call.
+ */
+async function refreshTokensFromEnv(): Promise<StoredTokens> {
+  if (cachedTokensFromEnv) return cachedTokensFromEnv;
+  const refreshToken = process.env.SF_REFRESH_TOKEN?.trim();
+  if (!refreshToken) {
+    throw new Error(
+      'No Salesforce tokens found. Complete OAuth locally, then set SF_REFRESH_TOKEN in env (e.g. on Netlify) from .sf_tokens.json'
+    );
+  }
+  const tokens = await refreshAccessToken(refreshToken);
   cachedTokensFromEnv = tokens;
   return tokens;
 }
@@ -236,38 +258,66 @@ async function getStoredTokensAsync(): Promise<StoredTokens> {
   }
 }
 
+function buildSfUrl(path: string, instanceUrl: string): string {
+  if (path.startsWith('http')) return path;
+  if (path.startsWith('/services/oauth2')) return `${instanceUrl}${path}`;
+  return `${instanceUrl}/services/data/${SF_API_VERSION}${path}`;
+}
+
+function parseSfError(status: number, statusText: string, text: string): string {
+  let msg = `Salesforce API error ${status}: ${statusText}`;
+  try {
+    const err = JSON.parse(text);
+    if (Array.isArray(err)) msg = err.map((e: { message?: string }) => e.message).join('; ');
+    else if (err.error_description) msg = err.error_description;
+    else if (err.message) msg = err.message;
+  } catch {
+    if (text) msg += ` - ${text.slice(0, 200)}`;
+  }
+  return msg;
+}
+
+/**
+ * Make an authenticated Salesforce API request. On 401 (expired access_token),
+ * automatically refreshes using the stored refresh_token and retries once.
+ */
 export async function sfFetchWithStoredToken<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const tokens = await getStoredTokensAsync();
-  const url = path.startsWith('http')
-    ? path
-    : path.startsWith('/services/oauth2')
-      ? `${tokens.instance_url}${path}`
-      : `${tokens.instance_url}/services/data/${SF_API_VERSION}${path}`;
+  let tokens = await getStoredTokensAsync();
+  const url = buildSfUrl(path, tokens.instance_url);
 
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${tokens.access_token}`,
-      ...(options.headers as Record<string, string>),
-    },
-  });
+  const doFetch = (accessToken: string) =>
+    fetch(url, {
+      ...options,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        ...(options.headers as Record<string, string>),
+      },
+    });
+
+  let res = await doFetch(tokens.access_token);
+
+  if (res.status === 401 && tokens.refresh_token) {
+    console.log('[SF OAuth] Access token expired, refreshing...');
+    try {
+      tokens = await refreshAccessToken(tokens.refresh_token);
+      saveTokensToFile(tokens);
+      cachedTokensFromEnv = null;
+      res = await doFetch(tokens.access_token);
+    } catch (refreshErr) {
+      console.error('[SF OAuth] Auto-refresh failed:', refreshErr);
+      throw new Error(
+        'Salesforce access token expired and auto-refresh failed. Re-authenticate via GET /oauth/start'
+      );
+    }
+  }
 
   if (!res.ok) {
     const text = await res.text();
-    let msg = `Salesforce API error ${res.status}: ${res.statusText}`;
-    try {
-      const err = JSON.parse(text);
-      if (Array.isArray(err)) msg = err.map((e: { message?: string }) => e.message).join('; ');
-      else if (err.error_description) msg = err.error_description;
-      else if (err.message) msg = err.message;
-    } catch {
-      if (text) msg += ` - ${text.slice(0, 200)}`;
-    }
-    throw new Error(msg);
+    throw new Error(parseSfError(res.status, res.statusText, text));
   }
 
   return res.json() as Promise<T>;

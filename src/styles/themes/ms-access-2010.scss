@@ -73,4 +73,11 @@ html[data-theme='ms-access-2010'],
   --card-border: 1px solid #ababab !important;
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
   --p-primary-color: var(--primary-color) !important;
+
+  // Secondary button: Office blue-gray aligned with MS Access 2010 header accent
+  --button-secondary-bg: #83b3d0 !important;
+  --button-secondary-text: #17365d !important;
+  --button-secondary-hover-bg: #9ec5e0 !important;
+  --button-secondary-border: #83b3d0 !important;
+  --button-secondary-shadow: none !important;
 }

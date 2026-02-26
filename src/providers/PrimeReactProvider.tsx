@@ -12,7 +12,11 @@ interface PrimeReactProviderProps {
   children: ReactNode;
 }
 
+const primeReactValue = {
+  ripple: true,
+};
+
 export const PrimeReactProvider = ({ children }: PrimeReactProviderProps) => {
-  return <PRProvider>{children}</PRProvider>;
+  return <PRProvider value={primeReactValue}>{children}</PRProvider>;
 };
 

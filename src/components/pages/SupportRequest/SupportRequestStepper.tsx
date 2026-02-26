@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Steps } from 'primereact/steps';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { useSupportRequestForm, useSyncSupportRequestUrl } from '@/hooks';
 import { useLoadingOverlay } from '@/providers/LoadingOverlayProvider';
 import {
@@ -87,18 +88,16 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     if (activeStep === 1) loadOnce();
   }, [activeStep, loadOnce]);
 
-  // Single effect: show main loading overlay for case list load or form submit, with appropriate message
+  // Show overlay during form submission (triggered by user action, so useEffect timing is fine)
   useEffect(() => {
-    const visible = casesLoading || isSubmitting;
-    const message = isSubmitting
-      ? 'Submitting your request...'
-      : casesLoading
-        ? 'Loading case list'
-        : undefined; // default when visible is false we hide anyway
-    if (visible) showLoading(message ?? 'Loading, please wait...');
+    if (isSubmitting) showLoading('Submitting your request...');
     else hideLoading();
     return () => hideLoading();
-  }, [casesLoading, isSubmitting, showLoading, hideLoading]);
+  }, [isSubmitting, showLoading, hideLoading]);
+
+  // Case list loading state: rendered directly in JSX (not via effect) so the overlay
+  // appears in the same paint as the step content -- no flash of empty dropdown.
+  const caseListPending = activeStep === 1 && cases.length === 0 && !casesError;
 
   const handleRequestTypesChange = useCallback(
     (selectedIds: string[]) => updateFormData({ requestTypes: selectedIds }),
@@ -365,6 +364,14 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
         boxSizing: 'border-box',
       }}
     >
+      {caseListPending && (
+        <div className="app-loading-overlay" role="status" aria-live="polite" aria-busy="true">
+          <div className="flex flex-column align-items-center gap-3">
+            <ProgressSpinner style={{ width: '3rem', height: '3rem' }} strokeWidth="4" />
+            <span className="font-bold text-lg">Loading case list</span>
+          </div>
+        </div>
+      )}
       <Toast ref={toast} position="bottom-right" />
       <div className="w-full" style={{ maxWidth: 'var(--support-form-max-width)', height: 'auto', overflow: 'visible' }}>
         <Steps model={STEPS} activeIndex={activeStep} />

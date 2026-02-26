@@ -51,7 +51,7 @@ export const HomeHero = () => {
             size="large"
             onClick={handleFAQ}
             loading={isPending}
-            className="p-button-outlined"
+            className="p-button-secondary p-button-outlined"
           />
         </div>
       </div>

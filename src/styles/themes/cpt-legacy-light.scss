@@ -64,6 +64,13 @@ html[data-theme='cpt-legacy-light'],
   --message-error-bg: #fef2f2 !important;
   --message-error-border: #b91c1c !important;
   --message-error-text: #7f1d1d !important;
+
+  // Secondary button: CPT blue-gray aligned with legacy light theme
+  --button-secondary-bg: #a3b3c7 !important;
+  --button-secondary-text: #1a3a5c !important;
+  --button-secondary-hover-bg: #bac6d5 !important;
+  --button-secondary-border: #a3b3c7 !important;
+  --button-secondary-shadow: none !important;
 }
 
 // Error message contrast – override PrimeReact so text is readable on light theme (no transparent/light red on white)

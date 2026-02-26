@@ -64,6 +64,13 @@ html[data-theme='cpt-legacy-dark'],
   --message-error-bg: rgba(185, 28, 28, 0.25) !important;
   --message-error-border: #dc2626 !important;
   --message-error-text: #fecaca !important;
+
+  // Secondary button: CPT slate aligned with legacy dark theme
+  --button-secondary-bg: #6a7d9b !important;
+  --button-secondary-text: rgba(255, 255, 255, 0.95) !important;
+  --button-secondary-hover-bg: #7a8fb0 !important;
+  --button-secondary-border: #6a7d9b !important;
+  --button-secondary-shadow: none !important;
 }
 
 // Error message – use theme variables so error messages match CPT Legacy Dark (readable on dark background)

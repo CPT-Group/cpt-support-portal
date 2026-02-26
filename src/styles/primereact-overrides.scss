@@ -89,12 +89,14 @@
   color: var(--primary-color) !important;
 }
 
-// --- Button (layout: center align icon + label, gap between them) ---
+// --- Button (layout: center align icon + label, gap between them; ripple container) ---
 .p-button {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 0.5rem !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 .p-button .p-button-icon-left,
 .p-button .p-button-icon-right {
@@ -105,6 +107,21 @@
 .p-button .p-button-icon-bottom {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+// --- Button icon centering (fix off-center thumbs / icons in icon-only and icon+label buttons) ---
+.p-button .p-button-icon,
+.p-button [data-pc-section='icon'] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+.p-button .p-button-icon i,
+.p-button [data-pc-section='icon'] i {
+  line-height: 1 !important;
+  display: block !important;
 }
 
 // --- Button (primary uses theme vars) ---
@@ -157,6 +174,29 @@
 .p-button.p-button-secondary .p-button-icon-right,
 .p-button.p-button-secondary .p-button-label {
   color: var(--button-secondary-text) !important;
+}
+// Outlined secondary: text/icon must use accent color so they're visible on dark backgrounds (e.g. dark-synth)
+.p-button.p-button-secondary.p-button-outlined .p-button-icon-left,
+.p-button.p-button-secondary.p-button-outlined .p-button-icon-right,
+.p-button.p-button-secondary.p-button-outlined .p-button-label,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined .p-button-icon-left,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined .p-button-icon-right,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined .p-button-label,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined .p-button-icon-left,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined .p-button-icon-right,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined .p-button-label {
+  color: var(--button-secondary-bg) !important;
+}
+.p-button.p-button-secondary.p-button-outlined:not(:disabled):hover .p-button-icon-left,
+.p-button.p-button-secondary.p-button-outlined:not(:disabled):hover .p-button-icon-right,
+.p-button.p-button-secondary.p-button-outlined:not(:disabled):hover .p-button-label,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-icon-left,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-icon-right,
+.p-button-group.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-label,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-icon-left,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-icon-right,
+.p-splitbutton.p-button-secondary > .p-button.p-button-outlined:not(:disabled):hover .p-button-label {
+  color: var(--button-secondary-bg) !important;
 }
 
 // --- AutoComplete dropdown button (and input-group icon-only buttons): use secondary theme vars so they match theme (e.g. dark-synth neon purple) ---
