@@ -40,6 +40,10 @@ yarn-error.log*
 scripts/describe-out.json
 scripts/verify-createable-fields.txt
 
+# Salesforce JWT key/cert (do not commit)
+scripts/salesforce-jwt/server.key
+scripts/salesforce-jwt/server.crt
+
 # vercel
 .vercel
 

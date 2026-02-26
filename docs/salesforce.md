@@ -1,6 +1,6 @@
 # Salesforce integration (Support Portal)
 
-Support requests are created in Salesforce as **Support_Channel__c** records. This app uses OAuth2 (Authorization Code + PKCE) and stores tokens in `.sf_tokens.json` (dev). Secrets stay server-side.
+Support requests are created in Salesforce as **Support_Channel__c** records. The app supports two auth methods: **JWT Bearer** (recommended for production – no OAuth, same config on local and Netlify) or **OAuth2 (PKCE + refresh token)** with `.sf_tokens.json` or `SF_REFRESH_TOKEN`. Secrets stay server-side.
 
 ## Setup
 
@@ -72,15 +72,45 @@ Create a Project in Salesforce (e.g. Name = “Support”), then open **GET /api
 
 3. Complete OAuth once (dev or first deploy): open **GET /oauth/start** in a browser, sign in to Salesforce, and land on the callback page. Tokens are saved to `.sf_tokens.json`.
 
+### JWT auth (recommended for Netlify – no OAuth)
+
+With JWT you never use `/oauth/start` or refresh tokens. Same env vars work locally and on Netlify.
+
+**1. Create a certificate (one-time)**  
+On your machine:
+```bash
+openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt
+```
+Use any values for the prompts. You get **server.key** (private key) and **server.crt** (certificate).
+
+**2. In Salesforce (External Client App / Connected App)**  
+- **Settings** → **OAuth Settings** → expand.  
+- Enable **Use digital signatures** and upload **server.crt** (the certificate, not the key).  
+- Set **Run As** (or permitted user) to the Salesforce username the portal should act as (e.g. a dedicated integration user). That user must have access to create Support_Channel__c and to the Support project.
+
+**3. Environment variables (local and Netlify)**  
+Set these; no OAuth or refresh token needed.
+
+- **SF_CLIENT_ID** = Consumer Key from the app (or SALESFORCE_CONSUMER_KEY).
+- **SF_JWT_PRIVATE_KEY** = contents of **server.key** (PEM). In env you can use one line with `\n` for newlines, e.g. `-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----`.
+- **SF_USERNAME** = the Salesforce username that matches **Run As** (e.g. `support-portal@yourcompany.com`).
+- **SF_LOGIN_URL** = `https://login.salesforce.com` or `https://test.salesforce.com` for sandbox.
+- **SUPPORT_CHANNEL_DEFAULT_PROJECT_ID** = Support project Id (same as before).
+
+You do **not** need `SF_CLIENT_SECRET`, `SF_REFRESH_TOKEN`, or `.sf_tokens.json` for JWT. The app will use JWT when both `SF_JWT_PRIVATE_KEY` and `SF_USERNAME` are set.
+
 ### Deploying to Netlify (or other serverless)
 
 On serverless, the filesystem is ephemeral: `.sf_tokens.json` written during `/oauth/callback` is not available to later requests (or other instances), so `/api/sf/projects` and support submission would fail with “No Salesforce tokens found”.
 
 **redirect_uri must match configuration:** If Salesforce returns this even though the URL is in the Connected App, set **`SF_OAUTH_BASE_URL`** in Netlify to your exact production URL (no trailing slash), e.g. `https://cpt-support-portal.netlify.app`. In the Connected App, Callback URL(s) must be exactly that plus `/oauth/callback` (no trailing slash).
 
-**Fix (refresh token):** Complete OAuth once **locally** (or on deploy after setting SF_OAUTH_BASE_URL). Open `.sf_tokens.json` or the OAuth success page and copy the **`refresh_token`** value. In Netlify (or your host), add an **environment variable**:
+**Fix (refresh token):** Salesforce issues a **different refresh token per callback URL**. The token from localhost OAuth cannot be used on Netlify, and vice versa.
 
-- **`SF_REFRESH_TOKEN`** = the `refresh_token` value from `.sf_tokens.json`
+- **For Netlify (production):** Do OAuth **once on your production URL**: open `https://your-site.netlify.app/oauth/start` (with SF_OAUTH_BASE_URL set to that URL). Sign in to Salesforce and land on the callback success page. Copy the **`refresh_token`** shown there (or from the page source). In Netlify → Site settings → Environment variables, add **`SF_REFRESH_TOKEN`** = that value. Do **not** use the refresh_token from a localhost OAuth for Netlify.
+- **For local:** Use `.sf_tokens.json` (from `http://localhost:3777/oauth/start`), or set `SF_REFRESH_TOKEN` in `.env.local` to the token from a **localhost** OAuth.
+
+**Connected App – refresh token validity:** In Salesforce, open your Connected App → Edit → OAuth policies. Set **Refresh Token Validity** to **"Refresh token is valid until revoked"** (or a long period). If it is too short, the refresh token will expire and you would have to run OAuth again; with "until revoked" you do OAuth once (locally), set `SF_REFRESH_TOKEN` in production, and the app runs 24/7 without re-auth.
 
 Keep your existing env vars (`SALESFORCE_CONSUMER_KEY`, `SALESFORCE_CONSUMER_SECRET`, `SF_LOGIN_URL`, `SF_API_VERSION`, `SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`). The app will use `SF_REFRESH_TOKEN` to obtain access tokens when the token file is missing, so the case list and support submissions work on deploy.
 

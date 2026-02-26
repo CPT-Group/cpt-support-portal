@@ -1,30 +1,38 @@
 /**
- * Salesforce OAuth2 Authorization Code flow with PKCE (server-side only).
+ * Salesforce auth: OAuth2 (PKCE + refresh) or JWT Bearer.
  * Support Portal: /oauth/start, /oauth/callback, token file .sf_tokens.json, POST support-request.
- * Supports SALESFORCE_CONSUMER_KEY/SECRET or SF_CLIENT_ID/SF_CLIENT_SECRET.
  *
- * Serverless (e.g. Netlify): .sf_tokens.json is not persistent. Set SF_REFRESH_TOKEN in env
- * (copy from .sf_tokens.json after completing OAuth once locally). The app will use it to
- * obtain access tokens when the file is missing.
+ * Token priority: (1) JWT if SF_JWT_PRIVATE_KEY + SF_USERNAME set — no OAuth, same on local & Netlify.
+ * (2) SF_REFRESH_TOKEN env. (3) .sf_tokens.json file.
  */
 
-import { createHash, randomBytes } from 'crypto';
+import { createHash, randomBytes, createSign } from 'crypto';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 const SF_API_VERSION = process.env.SF_API_VERSION || 'v60.0';
 const TOKEN_FILE = '.sf_tokens.json';
 
-function getClientCreds(): { clientId: string; clientSecret: string } {
-  const clientId =
+function getClientId(): string {
+  const id =
     process.env.SF_CLIENT_ID?.trim() ||
     process.env.SALESFORCE_CONSUMER_KEY?.trim();
+  if (!id) {
+    throw new Error(
+      'SF_CLIENT_ID (or SALESFORCE_CONSUMER_KEY) is required for Salesforce auth'
+    );
+  }
+  return id;
+}
+
+function getClientCreds(): { clientId: string; clientSecret: string } {
+  const clientId = getClientId();
   const clientSecret =
     process.env.SF_CLIENT_SECRET?.trim() ||
     process.env.SALESFORCE_CONSUMER_SECRET?.trim();
-  if (!clientId || !clientSecret) {
+  if (!clientSecret) {
     throw new Error(
-      'Salesforce OAuth requires SF_CLIENT_ID + SF_CLIENT_SECRET (or SALESFORCE_CONSUMER_KEY + SALESFORCE_CONSUMER_SECRET)'
+      'SF_CLIENT_SECRET (or SALESFORCE_CONSUMER_SECRET) is required for OAuth/refresh. For JWT-only, set SF_JWT_PRIVATE_KEY and SF_USERNAME instead.'
     );
   }
   return { clientId, clientSecret };
@@ -95,8 +103,11 @@ export interface StoredTokens {
   issued_at?: number;
 }
 
-/** In-memory cache for tokens (serverless env-based or auto-refreshed) */
+/** In-memory cache for tokens (JWT or refresh env) */
 let cachedTokensFromEnv: StoredTokens | null = null;
+
+/** In-memory cache for JWT-issued tokens (reused until near expiry) */
+let cachedJwtTokens: StoredTokens | null = null;
 
 export async function exchangeCodeForTokens(
   code: string,
@@ -233,28 +244,159 @@ function saveTokensToFile(tokens: StoredTokens): void {
 /**
  * Refresh access token using SF_REFRESH_TOKEN env (for serverless where .sf_tokens.json is not persistent).
  * Result is cached in memory for the current process to avoid refreshing on every API call.
+ *
+ * Important: Salesforce issues a different refresh_token per redirect_uri. The token from
+ * localhost OAuth cannot be used on Netlify, and vice versa. For production, do OAuth once
+ * on the production URL (e.g. https://your-site.netlify.app/oauth/start) and set
+ * SF_REFRESH_TOKEN to that token.
  */
 async function refreshTokensFromEnv(): Promise<StoredTokens> {
   if (cachedTokensFromEnv) return cachedTokensFromEnv;
   const refreshToken = process.env.SF_REFRESH_TOKEN?.trim();
   if (!refreshToken) {
     throw new Error(
-      'No Salesforce tokens found. Complete OAuth locally, then set SF_REFRESH_TOKEN in env (e.g. on Netlify) from .sf_tokens.json'
+      'SF_REFRESH_TOKEN is not set. For production (Netlify): open your production URL/oauth/start, complete OAuth, copy the refresh_token from the success page into Netlify env. For local: use .sf_tokens.json or set SF_REFRESH_TOKEN from a localhost OAuth.'
     );
   }
-  const tokens = await refreshAccessToken(refreshToken);
-  cachedTokensFromEnv = tokens;
-  return tokens;
+  try {
+    const tokens = await refreshAccessToken(refreshToken);
+    cachedTokensFromEnv = tokens;
+    return tokens;
+  } catch (err) {
+    const sfMsg = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      `${sfMsg} For production (Netlify), SF_REFRESH_TOKEN must be the refresh_token from OAuth completed on your production URL (e.g. https://cpt-support-portal.netlify.app/oauth/start), not from localhost — Salesforce issues different refresh tokens per callback URL.`
+    );
+  }
+}
+
+/** Base64url encode (no +/, no padding) for JWT. */
+function base64urlEncode(input: string | Buffer): string {
+  const buf = typeof input === 'string' ? Buffer.from(input, 'utf8') : input;
+  return buf
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
 }
 
 /**
- * Get tokens from file or, if missing (e.g. Netlify), from SF_REFRESH_TOKEN env.
+ * Get access token via JWT Bearer flow. No OAuth, no refresh token, no callback URL.
+ * Requires: Connected App with "Use digital signatures" and certificate uploaded;
+ * SF_CLIENT_ID, SF_JWT_PRIVATE_KEY (PEM), SF_USERNAME, SF_LOGIN_URL.
+ */
+async function getTokensViaJwt(): Promise<StoredTokens> {
+  if (cachedJwtTokens) {
+    const nowSec = Date.now() / 1000;
+    const age =
+      cachedJwtTokens.issued_at != null
+        ? nowSec - cachedJwtTokens.issued_at
+        : Infinity;
+    if (age < ACCESS_TOKEN_MAX_AGE_SEC) return cachedJwtTokens;
+  }
+
+  const clientId = getClientId();
+  const username = process.env.SF_USERNAME?.trim();
+  const privateKeyPem = process.env.SF_JWT_PRIVATE_KEY?.trim();
+  const loginUrl = getLoginUrl();
+
+  if (!username || !privateKeyPem) {
+    throw new Error(
+      'JWT auth requires SF_USERNAME and SF_JWT_PRIVATE_KEY (PEM). In Salesforce: enable "Use digital signatures" on the Connected App and upload the certificate.'
+    );
+  }
+
+  // Normalize PEM: env often has literal \n
+  const privateKey = privateKeyPem.replace(/\\n/g, '\n');
+
+  const now = Math.floor(Date.now() / 1000);
+  const exp = now + 180; // 3 min
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const payload = {
+    iss: clientId,
+    sub: username,
+    aud: loginUrl.replace(/\/$/, ''),
+    exp,
+  };
+  const headerB64 = base64urlEncode(JSON.stringify(header));
+  const payloadB64 = base64urlEncode(JSON.stringify(payload));
+  const signingInput = `${headerB64}.${payloadB64}`;
+  const sign = createSign('RSA-SHA256');
+  sign.update(signingInput);
+  sign.end();
+  const signature = sign.sign(privateKey);
+  const signatureB64 = base64urlEncode(signature);
+  const assertion = `${signingInput}.${signatureB64}`;
+
+  const body = new URLSearchParams({
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    assertion,
+  });
+
+  const res = await fetch(`${loginUrl}/services/oauth2/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString(),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    let msg = `Salesforce JWT error ${res.status}: ${res.statusText}`;
+    try {
+      const err = JSON.parse(text);
+      if (err.error_description) msg = err.error_description;
+    } catch {
+      if (text) msg += ` - ${text.slice(0, 200)}`;
+    }
+    throw new Error(msg);
+  }
+
+  const data = (await res.json()) as {
+    access_token: string;
+    instance_url: string;
+    issued_at?: string;
+  };
+
+  const tokens: StoredTokens = {
+    access_token: data.access_token,
+    instance_url: data.instance_url.replace(/\/$/, ''),
+    issued_at: data.issued_at ? parseInt(data.issued_at, 10) : Date.now(),
+  };
+  cachedJwtTokens = tokens;
+  return tokens;
+}
+
+/** Salesforce access tokens typically expire in 2 hours; refresh when older than this (seconds). */
+const ACCESS_TOKEN_MAX_AGE_SEC = 90 * 60; // 90 minutes
+
+/**
+ * Get tokens: (1) JWT if SF_JWT_PRIVATE_KEY + SF_USERNAME set; (2) SF_REFRESH_TOKEN env;
+ * (3) .sf_tokens.json with proactive refresh when old. JWT = same config local & Netlify, no OAuth.
  */
 async function getStoredTokensAsync(): Promise<StoredTokens> {
-  try {
-    return readStoredTokens();
-  } catch {
+  if (process.env.SF_JWT_PRIVATE_KEY?.trim() && process.env.SF_USERNAME?.trim()) {
+    return getTokensViaJwt();
+  }
+  if (process.env.SF_REFRESH_TOKEN?.trim()) {
     return refreshTokensFromEnv();
+  }
+  try {
+    let tokens = readStoredTokens();
+    const nowSec = Date.now() / 1000;
+    const ageSec =
+      tokens.issued_at != null ? nowSec - tokens.issued_at : Infinity;
+    if (
+      tokens.refresh_token &&
+      ageSec > ACCESS_TOKEN_MAX_AGE_SEC
+    ) {
+      tokens = await refreshAccessToken(tokens.refresh_token);
+      saveTokensToFile(tokens);
+    }
+    return tokens;
+  } catch {
+    throw new Error(
+      'No Salesforce tokens. Complete OAuth once on localhost (GET /oauth/start), then set SF_REFRESH_TOKEN in env for production (or keep .sf_tokens.json locally).'
+    );
   }
 }
 
@@ -300,18 +442,26 @@ export async function sfFetchWithStoredToken<T>(
 
   let res = await doFetch(tokens.access_token);
 
-  if (res.status === 401 && tokens.refresh_token) {
-    console.log('[SF OAuth] Access token expired, refreshing...');
-    try {
-      tokens = await refreshAccessToken(tokens.refresh_token);
-      saveTokensToFile(tokens);
+  if (res.status === 401) {
+    if (tokens.refresh_token) {
+      console.log('[SF OAuth] Access token expired, refreshing...');
+      try {
+        tokens = await refreshAccessToken(tokens.refresh_token);
+        saveTokensToFile(tokens);
+        cachedTokensFromEnv = null;
+        res = await doFetch(tokens.access_token);
+      } catch (refreshErr) {
+        console.error('[SF OAuth] Auto-refresh failed:', refreshErr);
+        throw new Error(
+          'Salesforce access token expired and auto-refresh failed. Re-authenticate via GET /oauth/start'
+        );
+      }
+    } else {
+      // JWT or no refresh token: clear cache and retry once with fresh token
+      cachedJwtTokens = null;
       cachedTokensFromEnv = null;
+      tokens = await getStoredTokensAsync();
       res = await doFetch(tokens.access_token);
-    } catch (refreshErr) {
-      console.error('[SF OAuth] Auto-refresh failed:', refreshErr);
-      throw new Error(
-        'Salesforce access token expired and auto-refresh failed. Re-authenticate via GET /oauth/start'
-      );
     }
   }
 

@@ -1,8 +1,5 @@
 import { NextRequest } from 'next/server';
-import {
-  sfFetchWithStoredToken,
-  readStoredTokens,
-} from '@/services/api/salesforceOAuth';
+import { sfFetchWithStoredToken } from '@/services/api/salesforceOAuth';
 import { notifySupportSubmissionTeams } from '@/utils/webhooks';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 
@@ -143,6 +140,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  try {
+    return await handleSupportRequestCreate(body);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Support request submission failed';
+    console.error('[support-request]', msg);
+    return Response.json({ success: false, message: msg }, { status: 500 });
+  }
+}
+
+async function handleSupportRequestCreate(body: Record<string, unknown>): Promise<Response> {
   const createable = await getCreateableFields();
   const typePicklistResult = await getTypePicklistResult();
   const payload: Record<string, unknown> = {};
@@ -214,35 +221,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const tokens = readStoredTokens();
-  const apiVersion = process.env.SF_API_VERSION || 'v60.0';
-  const url = `${tokens.instance_url}/services/data/${apiVersion}/sobjects/${SOBJECT}`;
-
-  const res = await fetch(url, {
+  // Use sfFetchWithStoredToken so tokens come from file (local) or SF_REFRESH_TOKEN (Netlify/serverless)
+  const result = await sfFetchWithStoredToken<{ id: string }>(`/sobjects/${SOBJECT}`, {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${tokens.access_token}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-
-  if (!res.ok) {
-    const text = await res.text();
-    let msg = `Salesforce create error ${res.status}: ${res.statusText}`;
-    try {
-      const err = JSON.parse(text);
-      if (Array.isArray(err)) msg = err.map((e: { message?: string }) => e.message).join('; ');
-      else if (err.message) msg = err.message;
-    } catch {
-      if (text) msg += ` - ${text.slice(0, 200)}`;
-    }
-    console.error('[support-request]', msg);
-    return Response.json({ success: false, message: msg }, { status: 500 });
-  }
-
-  const result = (await res.json()) as { id: string };
   const id = result.id;
   console.log('[support-request] Create success, new record id:', id);
 
