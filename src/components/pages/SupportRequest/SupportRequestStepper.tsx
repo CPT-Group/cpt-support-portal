@@ -352,7 +352,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     <div
       className="flex flex-column align-items-center page-responsive-padding"
       style={{
-        minHeight: 'calc(100vh - var(--header-offset) - 1rem)',
+        flex: 1,
         paddingTop: '0.5rem',
         paddingBottom: '0.5rem',
         paddingLeft: '1.5rem',

@@ -22,9 +22,8 @@ export const HomeHero = () => {
 
   return (
     <div 
-      className="flex flex-column align-items-center justify-content-center"
+      className="flex flex-column align-items-center justify-content-center flex-1"
       style={{ 
-        minHeight: 'calc(100vh - 5rem)',
         padding: '3rem 1rem',
         boxSizing: 'border-box'
       }}

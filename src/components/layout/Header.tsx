@@ -57,12 +57,6 @@ export const Header = memo(() => {
           borderBottom: '1px solid var(--surface-border)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
-          margin: 0,
-          padding: 0,
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
         }}
       >
         <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1rem', width: '100%' }}>

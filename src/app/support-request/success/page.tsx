@@ -48,7 +48,7 @@ const SuccessContent = () => {
   };
 
   return (
-    <div className="flex flex-column align-items-center justify-content-center min-h-screen p-4">
+    <div className="flex flex-column align-items-center justify-content-center flex-1 p-4">
       <div className="w-full max-w-screen-md">
         <Card className="text-center">
           <div className="flex flex-column align-items-center gap-4">
@@ -110,7 +110,7 @@ const SuccessContent = () => {
 };
 
 const LoadingFallback = () => (
-  <div className="flex flex-column align-items-center justify-content-center min-h-screen">
+  <div className="flex flex-column align-items-center justify-content-center flex-1">
     <ProgressSpinner />
   </div>
 );

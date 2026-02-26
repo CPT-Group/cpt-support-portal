@@ -67,7 +67,7 @@ const SupportRequestContent = () => {
 };
 
 const LoadingFallback = () => (
-  <div className="flex flex-column align-items-center justify-content-center min-h-screen">
+  <div className="flex flex-column align-items-center justify-content-center flex-1">
     <ProgressSpinner />
   </div>
 );
