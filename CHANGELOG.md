@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
+### Added
+
+- **SEO: favicon, app icons, OG/Twitter images, and sitemap** – Generated missing assets referenced by `layout.tsx` metadata. Favicon (`favicon.ico`, 32px), general icon (`icon.png`, 192px), and Apple touch icon (`apple-icon.png`, 180px) use the CPT star on a dark-blue background. OpenGraph image (`opengraph-image.png`, 1200x630) and Twitter image show "CPT Group / Support Portal / Class Member Support Center" on a branded dark gradient. Added `src/app/sitemap.ts` (Next.js App Router convention) listing the three public indexable pages (home, support-request, FAQ) with appropriate priorities. `robots.txt` updated with `Sitemap:` directive. Generator script at `scripts/generate-seo-assets.js` (sharp-based, re-runnable).
+
 ### Fixed
 
 - **Header layout: sticky with reserved space, no hardcoded offset** – Header changed from `position: fixed` (out of flow, required hardcoded `--header-offset: 3rem` padding) to `position: sticky` (stays in document flow, reserves its own height dynamically). Body is now a flex column (`min-height: 100dvh`) with `<main>` as `flex: 1`, so page content fills the remaining viewport below the header. All pages updated: `min-h-screen` (100vh, which included the header area and caused off-center content) replaced with `flex-1` so centering happens within the actual available space. Removed `--header-offset` CSS variable, removed conditional `paddingTop` from `MainContent`, and removed `position: fixed` / `left` / `right` from Header inline styles. Affected pages: success, home hero, support-request, FAQ, congratulations, terms, privacy, and the stepper wrapper.
@@ -13,7 +17,8 @@ All notable changes to this project will be documented in this file. **Update th
 
 ### Changed
 
-- **Jira ticket SS-25 updated** – Pushed comprehensive Salesforce admin instructions to [SS-25](https://cptgroup.atlassian.net/browse/SS-25) covering: custom field deployment (12 portal-specific fields), field-level security, list view column configuration (CreatedDate, Type, First/Last Name, Case Name, Email, Phone, etc.), search/filter setup, Type__c picklist sync (all 17 request types), and verification/acceptance criteria.
+- **Jira ticket SS-25 updated (Feb 25 diagnosis)** – Updated [SS-25](https://cptgroup.atlassian.net/browse/SS-25) description with Salesforce API diagnosis findings: added new "CRITICAL: Blocking Issues Found" section at top (Type__c 500 errors, wrong RecordType, 12 missing fields confirmed via describe, Case_Name__c not API-createable), added "B2. RecordType Configuration" section (Support_Portal record type setup + picklist assignment), updated Section A with deployment confirmation status, updated Section E to require active picklist values assigned to Support_Portal record type, updated Case_Name__c notes and acceptance criteria. Added detailed comment summarizing blocking issues and parallel dev/admin action items.
+- **Jira ticket SS-25 updated (initial)** – Pushed comprehensive Salesforce admin instructions to [SS-25](https://cptgroup.atlassian.net/browse/SS-25) covering: custom field deployment (12 portal-specific fields), field-level security, list view column configuration (CreatedDate, Type, First/Last Name, Case Name, Email, Phone, etc.), search/filter setup, Type__c picklist sync (all 17 request types), and verification/acceptance criteria.
 
 ### Changed
 

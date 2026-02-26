@@ -5,3 +5,5 @@ Disallow: /privacy
 Disallow: /support-request/success
 Disallow: /api/
 
+Sitemap: https://cpt-support-portal.netlify.app/sitemap.xml
+
