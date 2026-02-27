@@ -95,8 +95,8 @@ async function getRequestTypePicklistResult(): Promise<RequestTypePicklistResult
 }
 
 /**
- * Portal request type labels (all 17 from REQUEST_TYPES). Type__c in Salesforce should have these
- * as labels or API values (e.g. "Request_Passcode") so resolution works for every option.
+ * Portal request type labels (all 17 from REQUEST_TYPES). Request_Type__c in Salesforce should have
+ * these as labels or API values (e.g. "Request_Passcode") so resolution works for every option.
  */
 const PORTAL_REQUEST_TYPE_LABELS = new Set(
   REQUEST_TYPES.map((rt) => rt.label.trim())

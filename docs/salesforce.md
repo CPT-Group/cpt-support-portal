@@ -147,7 +147,7 @@ Use it when updating the form → Salesforce mapping or the support-request API.
 
 ## Request_Type__c multipicklist (request type)
 
-Support_Channel__c **Type__c** is a restricted picklist. The portal sends request type **labels** (e.g. "Request Passcode"); the API resolves them to the org’s picklist **API value** before create so all 17 portal options work.
+Support_Channel__c **Request_Type__c** is a multi-select picklist. The portal sends request type **labels** (e.g. "Request Passcode"); the API resolves them to the org’s picklist **API value** before create so all 17 portal options work.
 
 **For resolution to work**, the Request_Type__c picklist in your org should use one of these:
 
