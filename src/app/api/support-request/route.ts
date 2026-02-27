@@ -127,16 +127,29 @@ function resolveRequestTypeApiValues(
 
 /**
  * POST /api/support-request
- * Body: JSON with portal fields (subject, description, email, reason, caseId, ...).
- * Creates a Support_Channel__c record; returns { success, id }.
+ * Accepts JSON or multipart/form-data (when files are attached).
+ * Creates a Support_Channel__c record; uploads files to Salesforce as ContentVersion;
+ * returns { success, id }.
  */
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
+  let files: File[] = [];
+
   try {
-    body = await request.json();
+    const contentType = request.headers.get('content-type') ?? '';
+    if (contentType.includes('multipart/form-data')) {
+      const fd = await request.formData();
+      const payloadStr = fd.get('payload');
+      body = typeof payloadStr === 'string' ? JSON.parse(payloadStr) : {};
+      for (const entry of fd.getAll('files')) {
+        if (entry instanceof File) files.push(entry);
+      }
+    } else {
+      body = await request.json();
+    }
   } catch {
     return Response.json(
-      { success: false, message: 'Invalid JSON body' },
+      { success: false, message: 'Invalid request body' },
       { status: 400 }
     );
   }
@@ -149,20 +162,20 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    return await handleSupportRequestCreate(body);
+    return await handleSupportRequestCreate(body, files);
   } catch (err) {
     const msg =
       err instanceof Error ? err.message : String(err ?? 'Support request submission failed');
     console.error('[support-request]', msg);
-    const body = { success: false, message: msg };
-    return new Response(JSON.stringify(body), {
+    const errBody = { success: false, message: msg };
+    return new Response(JSON.stringify(errBody), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 }
 
-async function handleSupportRequestCreate(body: Record<string, unknown>): Promise<Response> {
+async function handleSupportRequestCreate(body: Record<string, unknown>, files: File[] = []): Promise<Response> {
   const createable = await getCreateableFields();
   const requestTypePicklistResult = await getRequestTypePicklistResult();
   const payload: Record<string, unknown> = {};
@@ -275,6 +288,45 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
   }
   const id = result.id;
   console.log('[support-request] Create success, new record id:', id);
+
+  // Upload attached files to Salesforce as ContentVersion, then link to the record.
+  // Non-blocking: file upload failures are logged but don't fail the submission.
+  if (files.length > 0) {
+    console.log(`[support-request] Uploading ${files.length} file(s) to Salesforce...`);
+    for (const file of files) {
+      try {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const base64Data = buffer.toString('base64');
+        const cv = await sfFetchWithStoredToken<{ id: string }>('/sobjects/ContentVersion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            Title: file.name.replace(/\.[^/.]+$/, '') || file.name,
+            PathOnClient: file.name,
+            VersionData: base64Data,
+          }),
+        });
+        console.log(`[support-request] ContentVersion created: ${cv.id} for "${file.name}"`);
+
+        // Get the ContentDocumentId from the new ContentVersion to create the link
+        const cvDetail = await sfFetchWithStoredToken<{ ContentDocumentId: string }>(
+          `/sobjects/ContentVersion/${cv.id}?fields=ContentDocumentId`
+        );
+        await sfFetchWithStoredToken('/sobjects/ContentDocumentLink', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ContentDocumentId: cvDetail.ContentDocumentId,
+            LinkedEntityId: id,
+            ShareType: 'V',
+          }),
+        });
+        console.log(`[support-request] File "${file.name}" linked to record ${id}`);
+      } catch (fileErr) {
+        console.error(`[support-request] File upload failed for "${file.name}":`, fileErr);
+      }
+    }
+  }
 
   // Fire-and-forget: notify Teams channel (never block or fail the request)
   const webhookUrl = process.env.SUPPORT_SUBMISSION_WEBHOOK_URL?.trim();

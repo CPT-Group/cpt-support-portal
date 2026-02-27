@@ -218,7 +218,7 @@ Requires Salesforce CLI and an authenticated org. The script runs `sf sobject de
 | Beneficiary email | Beneficiary_Email__c | Portal field (deployed) |
 | Additional description | Additional_Description__c | Portal field (**pending creation by admin**) |
 
-File uploads (supporting documentation) are not sent to Salesforce; only form text is.
+File uploads (supporting documentation) are uploaded to Salesforce as **ContentVersion** records and linked to the Support_Channel__c record via **ContentDocumentLink**. Files appear in the "Files" related list on the record. Upload failures are logged but never fail the submission. The Netlify serverless function body limit is ~6MB, so very large files may need a different approach; the portal enforces a 5MB per-file limit.
 
 ## List view columns (Support Requests)
 

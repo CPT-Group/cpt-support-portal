@@ -141,11 +141,30 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
       const selectedCase = cases.find((c) => c.id === formData.caseId);
       const submissionData = generateSubmissionJSON(formData, selectedCase || null);
       const payload = buildSupportRequestPayload(submissionData);
-      const res = await fetch('/api/support-request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+
+      // Collect actual File objects from form data before they're converted to metadata
+      const files: File[] = [];
+      for (const value of Object.values(formData)) {
+        if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
+          files.push(...(value as File[]));
+        }
+      }
+
+      let res: Response;
+      if (files.length > 0) {
+        const fd = new FormData();
+        fd.append('payload', JSON.stringify(payload));
+        for (const file of files) {
+          fd.append('files', file, file.name);
+        }
+        res = await fetch('/api/support-request', { method: 'POST', body: fd });
+      } else {
+        res = await fetch('/api/support-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         toast.current?.show({
