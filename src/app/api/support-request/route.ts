@@ -214,26 +214,24 @@ async function handleSupportRequestCreate(body: Record<string, unknown>, files: 
     }
   }
 
-  // Case_Name__c is a formula (from Project__c) and not writable. Prepend the
-  // selected case name to the description so it's visible on the record.
-  const caseName = typeof body.caseName === 'string' ? body.caseName.trim() : '';
-  if (caseName && payload['Website_Detail_Summary__c']) {
-    payload['Website_Detail_Summary__c'] = `[Case: ${caseName}]\n${payload['Website_Detail_Summary__c']}`;
-    bodyKeysSentToSf.add('caseName');
-  } else if (caseName) {
-    payload['Website_Detail_Summary__c'] = `[Case: ${caseName}]`;
-    bodyKeysSentToSf.add('caseName');
-  }
+  // caseName is tracked for the "not sent" log; Case_Name__c is a formula from Project__c
+  // and auto-populates now that Project__c points to the selected case.
+  if (typeof body.caseName === 'string') bodyKeysSentToSf.add('caseName');
 
   const notSent = Object.keys(body).filter((k) => !bodyKeysSentToSf.has(k));
   if (notSent.length > 0) {
     console.log('[support-request] Not sent to Salesforce (no mapping or not createable):', notSent.join(', '));
   }
 
-  const projectId = process.env.SUPPORT_CHANNEL_DEFAULT_PROJECT_ID?.trim();
+  // Project__c = the selected case's Project record ID (from the dropdown).
+  // Case_Name__c is a formula that reads from Project__c, so it auto-populates with
+  // the correct case name. Falls back to env var if no case was selected.
+  const selectedCaseId = typeof body.caseId === 'string' ? body.caseId.trim() : '';
+  const defaultProjectId = process.env.SUPPORT_CHANNEL_DEFAULT_PROJECT_ID?.trim();
+  const projectId = selectedCaseId || defaultProjectId;
   if (!projectId) {
     return Response.json(
-      { success: false, message: 'SUPPORT_CHANNEL_DEFAULT_PROJECT_ID is not set (required for Support_Channel__c.Project__c)' },
+      { success: false, message: 'No case selected and SUPPORT_CHANNEL_DEFAULT_PROJECT_ID is not set' },
       { status: 500 }
     );
   }

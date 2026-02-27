@@ -196,7 +196,7 @@ Requires Salesforce CLI and an authenticated org. The script runs `sf sobject de
 
 | Portal field | Support_Channel__c (API name) | Notes |
 |--------------|-------------------------------|-------|
-| Case (matter) name | *(prepended to Website_Detail_Summary__c as `[Case: ...]`)* | Case_Name__c is a formula (from Project__c), not writable |
+| Case (matter) name | Case_Name__c *(auto, formula from Project__c)* | Project__c is set to the selected case; Case_Name__c auto-populates |
 | Case/project Id | Case_No__c | |
 | Case email | Case_Email__c | Auto-populated from selected Project record (Email__c) |
 | Case phone | Case_Phone__c | Auto-populated from selected Project record (Phone__c) |
