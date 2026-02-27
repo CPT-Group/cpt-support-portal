@@ -40,6 +40,8 @@ export function generateSubmissionJSON(
     submission.caseLabel = selectedCase.label;
     submission.caseProjectName = selectedCase.projectName;
     submission.caseCaseID = selectedCase.caseID;
+    if (selectedCase.caseEmail) submission.caseEmail = selectedCase.caseEmail;
+    if (selectedCase.casePhone) submission.casePhone = selectedCase.casePhone;
   }
 
   // Get request type labels

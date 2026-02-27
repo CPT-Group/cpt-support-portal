@@ -15,9 +15,13 @@ const SOBJECT = 'Support_Channel__c';
 const PORTAL_TO_SF_FIELD: Record<string, string> = {
   reason: 'Website_Detail_Summary__c',
   description: 'Website_Detail_Summary__c',
-  email: 'Case_Email__c',
-  contact_email: 'Case_Email__c',
-  phone: 'Case_Phone__c',
+  // Member email/phone → dedicated class member fields (Email__c, Phone__c)
+  email: 'Email__c',
+  contact_email: 'Email__c',
+  phone: 'Phone__c',
+  // Case email/phone → auto-populated from selected Project record
+  caseEmail: 'Case_Email__c',
+  casePhone: 'Case_Phone__c',
   address: 'Address__c',
   caseCaseID: 'Case_No__c',
   caseId: 'Case_No__c',

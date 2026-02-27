@@ -48,11 +48,11 @@ export async function GET() {
     const refTo = projectField?.referenceTo?.[0];
     const objectName = refTo ?? 'Project__c';
 
-    const soql = `SELECT Id, Name FROM ${objectName} ORDER BY Name LIMIT 500`;
+    const soql = `SELECT Id, Name, Email__c, Phone__c FROM ${objectName} ORDER BY Name LIMIT 500`;
     const encoded = encodeURIComponent(soql);
     const result = await sfFetchWithStoredToken<{
       totalSize: number;
-      records: Array<{ Id: string; Name?: string }>;
+      records: Array<{ Id: string; Name?: string; Email__c?: string; Phone__c?: string }>;
     }>(`/query?q=${encoded}`);
 
     const records = result.records ?? [];
@@ -62,6 +62,8 @@ export async function GET() {
       name: r.Name ?? r.Id,
       projectName: r.Name ?? '',
       caseID: r.Id,
+      caseEmail: r.Email__c ?? '',
+      casePhone: r.Phone__c ?? '',
     }));
 
     cache = { at: now, cases };

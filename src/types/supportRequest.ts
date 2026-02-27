@@ -6,6 +6,8 @@ export interface CaseOption {
   name: string;
   projectName: string;
   caseID: string;
+  caseEmail?: string;
+  casePhone?: string;
 }
 
 export interface IssueTypeOption {

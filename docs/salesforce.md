@@ -198,8 +198,10 @@ Requires Salesforce CLI and an authenticated org. The script runs `sf sobject de
 |--------------|-------------------------------|-------|
 | Case (matter) name | *(prepended to Website_Detail_Summary__c as `[Case: ...]`)* | Case_Name__c is a formula (from Project__c), not writable |
 | Case/project Id | Case_No__c | |
-| Email | Case_Email__c | |
-| Phone | Case_Phone__c | |
+| Case email | Case_Email__c | Auto-populated from selected Project record (Email__c) |
+| Case phone | Case_Phone__c | Auto-populated from selected Project record (Phone__c) |
+| Member email | Email__c | Class member's personal email (form input) |
+| Member phone | Phone__c | Class member's personal phone (form input) |
 | Address | Address__c | |
 | Reason/description | Website_Detail_Summary__c | |
 | Request type(s) | Type__c | Restricted picklist; all 17 portal values active |
