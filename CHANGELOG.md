@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. **Update th
 
 ## [Unreleased]
 
+### Fixed
+
+- **Header sizing and spacing to match button scale (NOVA-806)** – Header elements were visually undersized compared to the home page buttons. Increased CPT logo height from 28px to 38px (SVG `height` attribute and `.logo` CSS), hamburger menu button from 2rem to 2.5rem with 1.25rem icon font size, toolbar vertical padding from 0.35rem to 0.6rem, and container horizontal padding from 1rem to 1.5rem so the logo and menu icon sit closer to the screen edges. Header now feels visually unified with the larger, more padded button theme on the home screen.
+
 ### Added
 
 - **RecordTypeId support for Support_Channel__c** – Portal submissions now set `RecordTypeId` on created records when `SUPPORT_CHANNEL_RECORD_TYPE_ID` is configured. This assigns the "Support Portal" record type (and its dedicated page layout) instead of the org default, so Salesforce users see only portal-relevant fields. Env var is optional; when unset, behavior is unchanged. Record Type Id from Kevin: `012Ua000003YaCDIA0`.
