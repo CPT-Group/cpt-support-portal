@@ -19,7 +19,6 @@ const PORTAL_TO_SF_FIELD = {
   address: 'Address__c',
   caseCaseID: 'Case_No__c',
   caseId: 'Case_No__c',
-  caseName: 'Case_Name__c',
   requestTypeLabels: 'Type__c',
   requestTypes: 'Type__c',
   firstName: 'First_Name__c',

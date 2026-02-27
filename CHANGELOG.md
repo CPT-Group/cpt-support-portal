@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file. **Update th
 
 ### Added
 
+- **RecordTypeId support for Support_Channel__c** – Portal submissions now set `RecordTypeId` on created records when `SUPPORT_CHANNEL_RECORD_TYPE_ID` is configured. This assigns the "Support Portal" record type (and its dedicated page layout) instead of the org default, so Salesforce users see only portal-relevant fields. Env var is optional; when unset, behavior is unchanged. Record Type Id from Kevin: `012Ua000003YaCDIA0`.
+
+### Fixed
+
+- **Case_Name__c mapping removed (formula field, not writable)** – `Case_Name__c` is a Salesforce formula derived from `Project__c`, so it cannot be written to. Removed the `caseName → Case_Name__c` mapping from `PORTAL_TO_SF_FIELD` and the verify script. The selected case/matter name is now prepended to `Website_Detail_Summary__c` as `[Case: Smith v. Jones]` so it's visible on the record. Case ID is still stored in `Case_No__c`. Updated Jira SS-25 with current field status (CLI-verified: 11/12 custom fields live, `Additional_Description__c` still pending creation by admin, all 17 Type__c picklist values active).
+
 - **SEO: favicon, app icons, OG/Twitter images, and sitemap** – Generated missing assets referenced by `layout.tsx` metadata. Favicon (`favicon.ico`, 32px), general icon (`icon.png`, 192px), and Apple touch icon (`apple-icon.png`, 180px) use the CPT star on a dark-blue background. OpenGraph image (`opengraph-image.png`, 1200x630) and Twitter image show "CPT Group / Support Portal / Class Member Support Center" on a branded dark gradient. Added `src/app/sitemap.ts` (Next.js App Router convention) listing the three public indexable pages (home, support-request, FAQ) with appropriate priorities. `robots.txt` updated with `Sitemap:` directive. Generator script at `scripts/generate-seo-assets.js` (sharp-based, re-runnable).
 
 ### Fixed

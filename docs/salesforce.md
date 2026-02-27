@@ -7,6 +7,7 @@ Support requests are created in Salesforce as **Support_Channel__c** records. Th
 1. In `.env.local` set:
    - `SALESFORCE_CONSUMER_KEY` / `SALESFORCE_CONSUMER_SECRET` (from your Connected App)
    - **`SUPPORT_CHANNEL_DEFAULT_PROJECT_ID`** – required. Salesforce **Support** project record Id (18 chars) for Support_Channel__c.Project__c. All support requests are created under this one project; create it once (see below).
+   - **`SUPPORT_CHANNEL_RECORD_TYPE_ID`** – optional but recommended. The Record Type Id (18 chars, starts with `012`) for the "Support Portal" record type on Support_Channel__c. When set, new records use this record type (and its page layout) instead of the org default. Get the Id from your Salesforce admin or from Setup → Object Manager → Support Channel → Record Types.
    - Optionally `SF_LOGIN_URL` (default `https://login.salesforce.com`), `SF_API_VERSION` (default `v60.0`).
 
 ### Creating the Support project (one-time)
@@ -96,6 +97,7 @@ Set these; no OAuth or refresh token needed.
 - **SF_USERNAME** = the Salesforce username that matches **Run As** (e.g. `support-portal@yourcompany.com`).
 - **SF_LOGIN_URL** = `https://login.salesforce.com` or `https://test.salesforce.com` for sandbox.
 - **SUPPORT_CHANNEL_DEFAULT_PROJECT_ID** = Support project Id (same as before).
+- **SUPPORT_CHANNEL_RECORD_TYPE_ID** = (optional) Record Type Id for the "Support Portal" record type on Support_Channel__c. Gives portal submissions their own page layout.
 
 You do **not** need `SF_CLIENT_SECRET`, `SF_REFRESH_TOKEN`, or `.sf_tokens.json` for JWT. The app will use JWT when both `SF_JWT_PRIVATE_KEY` and `SF_USERNAME` are set.
 
@@ -192,25 +194,27 @@ Requires Salesforce CLI and an authenticated org. The script runs `sf sobject de
 
 ### Portal → Support_Channel__c mapping
 
-| Portal field | Support_Channel__c (API name) |
-|--------------|-------------------------------|
-| Case (matter) name | Case_Name__c |
-| Case/project Id | Case_No__c |
-| Email | Case_Email__c |
-| Phone | Case_Phone__c |
-| Address | Address__c |
-| Reason/description | Website_Detail_Summary__c |
-| Request type(s) | Type__c |
-| First name | First_Name__c *(portal fields, deploy above)* |
-| Last name | Last_Name__c |
-| CPT ID | CPT_ID__c |
-| Previous address | Previous_Address__c |
-| New address | New_Address__c |
-| Previous name | Previous_Name__c |
-| New name | New_Name__c |
-| SSN/Tax ID | SSN_Tax_ID__c |
-| Beneficiary name/address/email | Beneficiary_Name__c, Beneficiary_Address__c, Beneficiary_Email__c |
-| Additional description | Additional_Description__c |
+| Portal field | Support_Channel__c (API name) | Notes |
+|--------------|-------------------------------|-------|
+| Case (matter) name | *(prepended to Website_Detail_Summary__c as `[Case: ...]`)* | Case_Name__c is a formula (from Project__c), not writable |
+| Case/project Id | Case_No__c | |
+| Email | Case_Email__c | |
+| Phone | Case_Phone__c | |
+| Address | Address__c | |
+| Reason/description | Website_Detail_Summary__c | |
+| Request type(s) | Type__c | Restricted picklist; all 17 portal values active |
+| First name | First_Name__c | Portal field (deployed) |
+| Last name | Last_Name__c | Portal field (deployed) |
+| CPT ID | CPT_ID__c | Portal field (deployed) |
+| Previous address | Previous_Address__c | Portal field (deployed) |
+| New address | New_Address__c | Portal field (deployed) |
+| Previous name | Previous_Name__c | Portal field (deployed) |
+| New name | New_Name__c | Portal field (deployed) |
+| SSN/Tax ID | SSN_Tax_ID__c | Portal field (deployed) |
+| Beneficiary name | Beneficiary_Name__c | Portal field (deployed) |
+| Beneficiary address | Beneficiary_Address__c | Portal field (deployed) |
+| Beneficiary email | Beneficiary_Email__c | Portal field (deployed) |
+| Additional description | Additional_Description__c | Portal field (**pending creation by admin**) |
 
 File uploads (supporting documentation) are not sent to Salesforce; only form text is.
 

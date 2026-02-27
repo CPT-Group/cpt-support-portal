@@ -21,7 +21,6 @@ const PORTAL_TO_SF_FIELD: Record<string, string> = {
   address: 'Address__c',
   caseCaseID: 'Case_No__c',
   caseId: 'Case_No__c',
-  caseName: 'Case_Name__c',
   requestTypeLabels: 'Type__c',
   requestTypes: 'Type__c',
   // Portal-only fields (deploy from salesforce-metadata/ first)
@@ -195,6 +194,17 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     }
   }
 
+  // Case_Name__c is a formula (from Project__c) and not writable. Prepend the
+  // selected case name to the description so it's visible on the record.
+  const caseName = typeof body.caseName === 'string' ? body.caseName.trim() : '';
+  if (caseName && payload['Website_Detail_Summary__c']) {
+    payload['Website_Detail_Summary__c'] = `[Case: ${caseName}]\n${payload['Website_Detail_Summary__c']}`;
+    bodyKeysSentToSf.add('caseName');
+  } else if (caseName) {
+    payload['Website_Detail_Summary__c'] = `[Case: ${caseName}]`;
+    bodyKeysSentToSf.add('caseName');
+  }
+
   const notSent = Object.keys(body).filter((k) => !bodyKeysSentToSf.has(k));
   if (notSent.length > 0) {
     console.log('[support-request] Not sent to Salesforce (no mapping or not createable):', notSent.join(', '));
@@ -208,6 +218,11 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     );
   }
   payload['Project__c'] = projectId;
+
+  const recordTypeId = process.env.SUPPORT_CHANNEL_RECORD_TYPE_ID?.trim();
+  if (recordTypeId) {
+    payload['RecordTypeId'] = recordTypeId;
+  }
 
   const userinfo = await sfFetchWithStoredToken<{ user_id?: string }>('/services/oauth2/userinfo');
   const ownerId = userinfo?.user_id;
