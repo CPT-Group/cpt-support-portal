@@ -145,11 +145,11 @@ The full Salesforce describe response for **Support_Channel__c** (sobject, label
 
 Use it when updating the form → Salesforce mapping or the support-request API.
 
-## Type__c picklist (request type)
+## Request_Type__c multipicklist (request type)
 
 Support_Channel__c **Type__c** is a restricted picklist. The portal sends request type **labels** (e.g. "Request Passcode"); the API resolves them to the org’s picklist **API value** before create so all 17 portal options work.
 
-**For resolution to work**, the Type__c picklist in your org should use one of these:
+**For resolution to work**, the Request_Type__c picklist in your org should use one of these:
 
 - **Labels** that match the portal labels below (case-insensitive), or  
 - **API values** that match the portal label (case-insensitive), or  
@@ -158,7 +158,7 @@ Support_Channel__c **Type__c** is a restricted picklist. The portal sends reques
 **Portal request type labels (all 17):**  
 Request Notice Packet, Request Passcode, Update Mailing Address, Request Name Change, Deceased Class Member, Request to Be Added to Case, Respond to Dispute Notice, Respond to Deficient Notice, Respond to SSN/W9 Request, Request Check Reissue, Request Cashed Check Copy, Request Tax Forms, Request Fraud Affidavit Packet, Did you Receive my Response?, Have you Received my Supporting Documents?, What is my Settlement Amount?, When will I Receive my Settlement Payment?
 
-If no value matches, Type__c is left blank (nillable) and the record still creates.
+If no values match, Request_Type__c is left blank (nillable) and the record still creates.
 
 ## Form → Salesforce mapping
 
@@ -204,7 +204,7 @@ Requires Salesforce CLI and an authenticated org. The script runs `sf sobject de
 | Member phone | Phone__c | Class member's personal phone (form input) |
 | Address | Address__c | |
 | Reason/description | Website_Detail_Summary__c | |
-| Request type(s) | Type__c | Restricted picklist; all 17 portal values active |
+| Request type(s) | Request_Type__c | Multi-select picklist; all 17 portal values active; semicolon-separated |
 | First name | First_Name__c | Portal field (deployed) |
 | Last name | Last_Name__c | Portal field (deployed) |
 | CPT ID | CPT_ID__c | Portal field (deployed) |

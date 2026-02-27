@@ -25,8 +25,8 @@ const PORTAL_TO_SF_FIELD: Record<string, string> = {
   address: 'Address__c',
   caseCaseID: 'Case_No__c',
   caseId: 'Case_No__c',
-  requestTypeLabels: 'Type__c',
-  requestTypes: 'Type__c',
+  requestTypeLabels: 'Request_Type__c',
+  requestTypes: 'Request_Type__c',
   // Portal-only fields (deploy from salesforce-metadata/ first)
   firstName: 'First_Name__c',
   lastName: 'Last_Name__c',
@@ -60,23 +60,23 @@ async function getCreateableFields(): Promise<Set<string>> {
   );
 }
 
-/** Result of Type__c picklist describe: lookup key (lowercase) -> API value, and set of all valid API values. */
-interface TypePicklistResult {
+/** Result of Request_Type__c picklist describe: lookup key (lowercase) -> API value, and set of all valid API values. */
+interface RequestTypePicklistResult {
   labelOrValueToApiValue: Map<string, string>;
   validApiValues: Set<string>;
 }
 
 /**
- * Fetches Type__c picklist from describe. Builds a map so we can resolve portal labels to SF API values.
+ * Fetches Request_Type__c (multipicklist) from describe. Builds a map so we can resolve portal labels to SF API values.
  * Keys: both SF label (lowercase) and SF value (lowercase), so we match whether the org uses same label as value or not.
  * Also returns the set of valid API values for fallback (e.g. "Request_Passcode" when label doesn't match).
  */
-async function getTypePicklistResult(): Promise<TypePicklistResult> {
+async function getRequestTypePicklistResult(): Promise<RequestTypePicklistResult> {
   const raw = await sfFetchWithStoredToken<{ fields: DescribeField[] }>(
     `/sobjects/${SOBJECT}/describe`
   );
   const fields = (raw.fields ?? []) as DescribeField[];
-  const typeField = fields.find((f) => f.name === 'Type__c');
+  const typeField = fields.find((f) => f.name === 'Request_Type__c');
   const labelOrValueToApiValue = new Map<string, string>();
   const validApiValues = new Set<string>();
   if (typeField?.picklistValues) {
@@ -90,7 +90,7 @@ async function getTypePicklistResult(): Promise<TypePicklistResult> {
       labelOrValueToApiValue.set(keyValue, pv.value);
     }
   }
-  console.log('[support-request] Type__c active picklist values:', [...validApiValues].join(', '));
+  console.log('[support-request] Request_Type__c active picklist values:', [...validApiValues].join(', '));
   return { labelOrValueToApiValue, validApiValues };
 }
 
@@ -103,23 +103,26 @@ const PORTAL_REQUEST_TYPE_LABELS = new Set(
 );
 
 /**
- * Resolves request type label(s) from body to a Type__c API value. Tries each label in order.
+ * Resolves request type labels from body to Request_Type__c API values.
+ * Returns ALL matched values joined with semicolons (Salesforce multipicklist format).
  * Only considers labels that are in our portal list (all 17 options). Matches by: SF label (case-insensitive),
  * SF value (case-insensitive), or canonical form (spaces -> underscores) if that value exists in the picklist.
  */
-function resolveTypeApiValue(
+function resolveRequestTypeApiValues(
   labels: string[],
-  result: TypePicklistResult
+  result: RequestTypePicklistResult
 ): string | null {
   const { labelOrValueToApiValue, validApiValues } = result;
   const toTry = labels.map((l) => l.trim()).filter((l) => l && PORTAL_REQUEST_TYPE_LABELS.has(l));
-  for (const label of toTry.length > 0 ? toTry : labels.map((l) => l.trim()).filter(Boolean)) {
+  const candidates = toTry.length > 0 ? toTry : labels.map((l) => l.trim()).filter(Boolean);
+  const resolved: string[] = [];
+  for (const label of candidates) {
     const byLabel = labelOrValueToApiValue.get(label.toLowerCase());
-    if (byLabel != null) return byLabel;
+    if (byLabel != null) { resolved.push(byLabel); continue; }
     const canonicalValue = label.replace(/\s+/g, '_');
-    if (validApiValues.has(canonicalValue)) return canonicalValue;
+    if (validApiValues.has(canonicalValue)) { resolved.push(canonicalValue); }
   }
-  return null;
+  return resolved.length > 0 ? resolved.join(';') : null;
 }
 
 /**
@@ -161,7 +164,7 @@ export async function POST(request: NextRequest) {
 
 async function handleSupportRequestCreate(body: Record<string, unknown>): Promise<Response> {
   const createable = await getCreateableFields();
-  const typePicklistResult = await getTypePicklistResult();
+  const requestTypePicklistResult = await getRequestTypePicklistResult();
   const payload: Record<string, unknown> = {};
   const bodyKeysSentToSf = new Set<string>();
 
@@ -169,8 +172,8 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     if (value === undefined || value === null) continue;
     const apiName = PORTAL_TO_SF_FIELD[key] ?? key;
     if (!createable.has(apiName)) continue;
-    // Type__c is a restricted picklist: resolve portal label to SF API value, not in the loop
-    if (apiName === 'Type__c' && (key === 'requestTypeLabels' || key === 'requestTypes')) continue;
+    // Request_Type__c is a multipicklist: resolve portal labels to SF API values outside the loop
+    if (apiName === 'Request_Type__c' && (key === 'requestTypeLabels' || key === 'requestTypes')) continue;
     if (Array.isArray(value)) {
       if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) continue;
       payload[apiName] = value.join(', ');
@@ -180,21 +183,21 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     bodyKeysSentToSf.add(key);
   }
 
-  // Resolve Type__c from request type label(s) to picklist API value. Tries each selected label until one matches.
+  // Resolve Request_Type__c from request type labels to multipicklist API values (semicolon-separated).
   // Supports all 17 portal options: match by SF label, SF value, or canonical "Label_With_Underscores".
   const labels = Array.isArray(body.requestTypeLabels)
     ? (body.requestTypeLabels as string[]).filter((l): l is string => typeof l === 'string')
     : typeof body.requestTypeLabels === 'string'
       ? [body.requestTypeLabels]
       : [];
-  if (labels.length > 0 && createable.has('Type__c')) {
-    const apiValue = resolveTypeApiValue(labels, typePicklistResult);
+  if (labels.length > 0 && createable.has('Request_Type__c')) {
+    const apiValue = resolveRequestTypeApiValues(labels, requestTypePicklistResult);
     if (apiValue != null) {
-      console.log(`[support-request] Resolved Type__c: "${apiValue}" from labels: ${JSON.stringify(labels)}`);
-      payload['Type__c'] = apiValue;
+      console.log(`[support-request] Resolved Request_Type__c: "${apiValue}" from labels: ${JSON.stringify(labels)}`);
+      payload['Request_Type__c'] = apiValue;
       bodyKeysSentToSf.add('requestTypeLabels');
     } else {
-      console.log(`[support-request] No Type__c match for labels: ${JSON.stringify(labels)} – omitting (nillable)`);
+      console.log(`[support-request] No Request_Type__c match for labels: ${JSON.stringify(labels)} – omitting (nillable)`);
     }
   }
 
@@ -258,9 +261,9 @@ async function handleSupportRequestCreate(body: Record<string, unknown>): Promis
     });
   } catch (createErr) {
     const errMsg = createErr instanceof Error ? createErr.message : String(createErr);
-    if (payload['Type__c'] && /restricted picklist|INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST/i.test(errMsg)) {
-      console.warn(`[support-request] bad value for restricted picklist field: ${payload['Type__c']} – retrying without Type__c`);
-      delete payload['Type__c'];
+    if (payload['Request_Type__c'] && /restricted picklist|INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST/i.test(errMsg)) {
+      console.warn(`[support-request] bad value for restricted picklist field: ${payload['Request_Type__c']} – retrying without Request_Type__c`);
+      delete payload['Request_Type__c'];
       result = await sfFetchWithStoredToken<{ id: string }>(`/sobjects/${SOBJECT}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
