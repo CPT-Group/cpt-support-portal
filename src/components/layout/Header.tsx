@@ -60,7 +60,7 @@ export const Header = memo(() => {
           WebkitBackdropFilter: 'blur(10px)',
         }}
       >
-        <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 1.5rem', width: '100%' }}>
+        <div style={{ padding: '0 1.5rem', width: '100%' }}>
           <Toolbar
             start={startContent}
             end={endContent}

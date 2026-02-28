@@ -102,7 +102,7 @@ const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentVie
         dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
       />
     </div>
-    <div className="flex flex-column gap-2 mt-2 w-full">
+    <div className="flex flex-column align-items-center gap-2 mt-2 w-full">
       <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
       <div className="flex justify-content-center gap-2">
         <Button
