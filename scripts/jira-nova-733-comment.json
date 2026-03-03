@@ -1,0 +1,97 @@
+{
+  "body": {
+    "type": "doc",
+    "version": 1,
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Instructions for Thomas (Dev):",
+            "marks": [{ "type": "strong" }]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Please run a full end-to-end submission test for each support request type below to confirm things perform as expected and to demonstrate to stakeholders that all routes are functioning."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "For each request type:"
+          }
+        ]
+      },
+      {
+        "type": "bulletList",
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Complete a full submission through the portal (all required fields for that type)." }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Confirm the request submits successfully and the route/API behaves as expected." }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Take a screenshot of the resulting case/record in Salesforce and attach it to this ticket (or link it)." }]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Use the table below as your checklist; fill in the \"Passed Testing\" column (e.g. Yes + link to screenshot or attach)."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Support request types – required vs optional fields:",
+            "marks": [{ "type": "strong" }]
+          }
+        ]
+      },
+      {
+        "type": "codeBlock",
+        "attrs": {},
+        "content": [
+          {
+            "type": "text",
+            "text": "| Request | Required fields | Optional fields | Passed Testing |\n|--------|----------------------------------------|----------------------------------|----------------|\n| Request Notice Packet | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| Request Passcode | First Name, Last Name, Email Address, Phone | CPT ID | |\n| Update Mailing Address | First Name, Last Name, Email Address, Phone, Previous Address, New Address | CPT ID | |\n| Request Name Change | First Name, Last Name, Email Address, Phone, Address, Previous Name, New Name, Supporting Documentation | CPT ID, Additional Description | |\n| Deceased Class Member | First Name, Last Name, Email Address, Phone, Address, SSN/Tax ID, Beneficiary Name, Beneficiary Address, Beneficiary Email, Supporting Documentation | CPT ID, Additional Description | |\n| Request to Be Added to Case | First Name, Last Name, Email Address, Phone, Address, Supporting Documentation | Additional Description | |\n| Respond to Dispute Notice | First Name, Last Name, Email Address, Phone, Address, Supporting Documentation | CPT ID | |\n| Respond to Deficient Notice | First Name, Last Name, Email Address, Phone, Address, Supporting Documentation | CPT ID | |\n| Respond to SSN/W9 Request | First Name, Last Name, Email Address, Phone, Address, SSN/Tax ID | CPT ID, Supporting Documentation, Additional Description | |\n| Request Check Reissue | First Name, Last Name, Email Address, Phone, Previous Address, New Address | CPT ID | |\n| Request Cashed Check Copy | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| Request Tax Forms | First Name, Last Name, Email Address, Phone, Address, SSN/Tax ID | CPT ID | |\n| Request Fraud Affidavit Packet | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| Did you Receive my Response? | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| Have you Received my Supporting Documents? | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| What is my Settlement Amount? | First Name, Last Name, Email Address, Phone, Address | CPT ID | |\n| When will I Receive my Settlement Payment? | First Name, Last Name, Email Address, Phone, Address | CPT ID | |"
+          }
+        ]
+      }
+    ]
+  }
+}

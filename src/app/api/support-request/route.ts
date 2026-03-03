@@ -329,6 +329,8 @@ async function handleSupportRequestCreate(body: Record<string, unknown>, files: 
   // Fire-and-forget: notify Teams channel (never block or fail the request)
   const webhookUrl = process.env.SUPPORT_SUBMISSION_WEBHOOK_URL?.trim();
   if (webhookUrl) {
+    const firstName: string = typeof body.firstName === 'string' ? body.firstName : '—';
+    const lastName: string = typeof body.lastName === 'string' ? body.lastName : '—';
     const caseName: string =
       typeof body.caseName === 'string'
         ? body.caseName
@@ -342,7 +344,7 @@ async function handleSupportRequestCreate(body: Record<string, unknown>, files: 
       : typeof body.requestTypeLabels === 'string'
         ? body.requestTypeLabels
         : '—';
-    notifySupportSubmissionTeams(webhookUrl, { caseName, requestTypes });
+    notifySupportSubmissionTeams(webhookUrl, { firstName, lastName, caseName, requestTypes });
   }
 
   return Response.json({ success: true, id });

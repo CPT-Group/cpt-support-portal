@@ -24,6 +24,65 @@ function getInitialStep(initialData?: Partial<DynamicFormData>): StepIndex {
   return 0;
 }
 
+/**
+ * Pure validation: returns the first error message for a field, or null if valid.
+ * No side effects — does not call setErrors.
+ */
+function getFieldValidationError(
+  value: string | string[] | File[] | null | undefined,
+  fieldConfig: FieldConfig
+): string | null {
+  const errorMessages: string[] = [];
+
+  if (fieldConfig.required) {
+    if (
+      value === null ||
+      value === undefined ||
+      (typeof value === 'string' && value.trim() === '') ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
+      errorMessages.push(`${fieldConfig.label} is required`);
+    }
+  }
+
+  if (value && typeof value === 'string' && value.trim() !== '') {
+    const stringValue = value.trim();
+
+    if (fieldConfig.type !== 'address' && fieldConfig.validation?.minLength && stringValue.length < fieldConfig.validation.minLength) {
+      errorMessages.push(
+        `${fieldConfig.label} must be at least ${fieldConfig.validation.minLength} characters`
+      );
+    }
+
+    if (fieldConfig.validation?.maxLength && stringValue.length > fieldConfig.validation.maxLength) {
+      errorMessages.push(
+        `${fieldConfig.label} must be no more than ${fieldConfig.validation.maxLength} characters`
+      );
+    }
+
+    if (fieldConfig.type !== 'address' && fieldConfig.validation?.pattern && !fieldConfig.validation.pattern.test(stringValue)) {
+      if (fieldConfig.type === 'email') {
+        errorMessages.push('Please enter a valid email address');
+      } else if (fieldConfig.type === 'phone') {
+        errorMessages.push('Please enter a valid phone number');
+      } else if (fieldConfig.type === 'ssn') {
+        errorMessages.push('Please enter a valid SSN or Tax ID');
+      } else {
+        errorMessages.push(`Please enter a valid ${fieldConfig.label.toLowerCase()}`);
+      }
+    }
+
+    if (fieldConfig.type !== 'address' && fieldConfig.validation?.custom) {
+      const customError = fieldConfig.validation.custom(stringValue);
+      if (customError) {
+        errorMessages.push(customError);
+      }
+    }
+  }
+
+  return errorMessages.length > 0 ? errorMessages[0] : null;
+}
+
 export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) => {
   const [formData, setFormData] = useState<DynamicFormData>(() =>
     createInitialFormData(initialData)
@@ -35,88 +94,36 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
 
   const updateFormData = useCallback((updates: Partial<DynamicFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
-    // Clear errors for updated fields
     const updatedKeys = Object.keys(updates);
     setErrors((prev) => {
       const newErrors = { ...prev };
       updatedKeys.forEach((key) => {
         delete newErrors[key];
       });
+      // Always clear the summary error when the user edits any field — it's stale
+      // and will be regenerated on the next submit attempt if needed.
+      delete newErrors._general;
       return newErrors;
     });
   }, []);
 
+  /** Validates a single field and updates error state. Used for on-blur validation. */
   const validateField = useCallback(
     (fieldId: string, value: string | string[] | File[] | null | undefined, providedFieldConfig?: FieldConfig) => {
-      // Use provided fieldConfig (from consolidation) or look up from FORM_FIELDS
       const fieldConfig = providedFieldConfig || FORM_FIELDS[fieldId];
       if (!fieldConfig) {
-        return null; // Unknown field, skip validation
+        return null;
       }
 
-      const errorMessages: string[] = [];
-
-      // Check required
-      if (fieldConfig.required) {
-        if (
-          value === null ||
-          value === undefined ||
-          (typeof value === 'string' && value.trim() === '') ||
-          (Array.isArray(value) && value.length === 0)
-        ) {
-          errorMessages.push(`${fieldConfig.label} is required`);
-        }
-      }
-
-      // Only validate if value exists
-      if (value && typeof value === 'string' && value.trim() !== '') {
-        const stringValue = value.trim();
-
-        // Skip minLength validation for address fields - just check they exist
-        if (fieldConfig.type !== 'address' && fieldConfig.validation?.minLength && stringValue.length < fieldConfig.validation.minLength) {
-          errorMessages.push(
-            `${fieldConfig.label} must be at least ${fieldConfig.validation.minLength} characters`
-          );
-        }
-
-        // Check maxLength
-        if (fieldConfig.validation?.maxLength && stringValue.length > fieldConfig.validation.maxLength) {
-          errorMessages.push(
-            `${fieldConfig.label} must be no more than ${fieldConfig.validation.maxLength} characters`
-          );
-        }
-
-        // Check pattern (skip for address fields)
-        if (fieldConfig.type !== 'address' && fieldConfig.validation?.pattern && !fieldConfig.validation.pattern.test(stringValue)) {
-          if (fieldConfig.type === 'email') {
-            errorMessages.push('Please enter a valid email address');
-          } else if (fieldConfig.type === 'phone') {
-            errorMessages.push('Please enter a valid phone number');
-          } else if (fieldConfig.type === 'ssn') {
-            errorMessages.push('Please enter a valid SSN or Tax ID');
-          } else {
-            errorMessages.push(`Please enter a valid ${fieldConfig.label.toLowerCase()}`);
-          }
-        }
-
-        // Custom validation (skip for address fields)
-        if (fieldConfig.type !== 'address' && fieldConfig.validation?.custom) {
-          const customError = fieldConfig.validation.custom(stringValue);
-          if (customError) {
-            errorMessages.push(customError);
-          }
-        }
-      }
-
-      const errorMessage = errorMessages.length > 0 ? errorMessages[0] : null;
+      const errorMessage = getFieldValidationError(value, fieldConfig);
 
       setErrors((prev) => {
         if (errorMessage) {
           return { ...prev, [fieldId]: errorMessage };
         } else {
-          const newErrors = { ...prev };
-          delete newErrors[fieldId];
-          return newErrors;
+          const next = { ...prev };
+          delete next[fieldId];
+          return next;
         }
       });
 
@@ -146,51 +153,50 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
           }
           break;
 
-        case 2: // Request Data (includes optional additional documentation)
-          // Validate all required fields for selected request types
+        case 2: {
           const missingFields = validateRequiredFields(formData, formData.requestTypes || []);
           if (missingFields.length > 0) {
             const missingLabels = getMissingFieldLabels(missingFields);
             newErrors._general = `Please fill in all required fields: ${missingLabels.join(', ')}`;
-            
-            // Also mark individual fields as required
+
             missingFields.forEach((fieldId) => {
               const fieldConfig = FORM_FIELDS[fieldId];
               if (fieldConfig) {
                 newErrors[fieldId] = `${fieldConfig.label} is required`;
               }
             });
-            
+
             setErrors(newErrors);
             return false;
           }
 
-          // Validate all required fields that have values
+          // Pure validation pass — uses getFieldValidationError (no setErrors side effects)
+          // so the only setErrors call is the single one at the end of this function.
           const { required, optional } = consolidateFields(formData.requestTypes || []);
-          
-          // Validate required fields
+
           required.forEach((fieldConfig) => {
-            const value = formData[fieldConfig.id];
-            const error = validateField(fieldConfig.id, value, fieldConfig);
+            const error = getFieldValidationError(formData[fieldConfig.id], fieldConfig);
             if (error) {
               newErrors[fieldConfig.id] = error;
             }
           });
-          
-          // Validate optional fields only if they have values
+
           optional.forEach((fieldConfig) => {
             const value = formData[fieldConfig.id];
-            // Only validate optional fields if they have a value
-            if (value !== null && value !== undefined && 
-                ((typeof value === 'string' && value.trim() !== '') ||
-                (Array.isArray(value) && value.length > 0))) {
-              const error = validateField(fieldConfig.id, value, fieldConfig);
+            const hasValue =
+              value !== null &&
+              value !== undefined &&
+              ((typeof value === 'string' && value.trim() !== '') ||
+                (Array.isArray(value) && value.length > 0));
+            if (hasValue) {
+              const error = getFieldValidationError(value, fieldConfig);
               if (error) {
                 newErrors[fieldConfig.id] = error;
               }
             }
           });
           break;
+        }
       }
 
       if (Object.keys(newErrors).length > 0) {
@@ -201,7 +207,7 @@ export const useSupportRequestForm = (initialData?: Partial<DynamicFormData>) =>
       setErrors({});
       return true;
     },
-    [formData, validateField]
+    [formData]
   );
 
   const goToNextStep = useCallback((): boolean => {

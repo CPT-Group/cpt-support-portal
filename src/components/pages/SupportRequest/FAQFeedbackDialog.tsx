@@ -102,9 +102,9 @@ const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentVie
         dangerouslySetInnerHTML={{ __html: selectedFaq.answer }}
       />
     </div>
-    <div className="flex flex-column align-items-center gap-2 mt-2 w-full">
-      <h2 className="m-0 font-semibold text-center">Was this helpful?</h2>
-      <div className="flex justify-content-center gap-2">
+    <div className="mt-2 w-full" style={{ textAlign: 'center' }}>
+      <h2 className="m-0 font-semibold" style={{ marginBottom: '0.5rem' }}>Was this helpful?</h2>
+      <div className="flex justify-content-center align-items-center gap-2">
         <Button
           icon="pi pi-thumbs-down"
           onClick={onThumbsDown}
@@ -112,6 +112,7 @@ const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentVie
           tooltip="No - Continue to form"
           tooltipOptions={{ position: 'top' }}
           aria-label="No - Continue to form"
+          style={{ width: '3rem', height: '3rem' }}
         />
         <Button
           icon="pi pi-thumbs-up"
@@ -120,6 +121,7 @@ const FAQContentView = ({ selectedFaq, onThumbsDown, onThumbsUp }: FAQContentVie
           tooltip="Yes - Share feedback"
           tooltipOptions={{ position: 'top' }}
           aria-label="Yes - Share feedback"
+          style={{ width: '3rem', height: '3rem' }}
         />
       </div>
     </div>

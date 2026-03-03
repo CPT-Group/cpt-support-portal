@@ -2,16 +2,24 @@
  * Webhook utility functions for sending data to external services
  */
 
+interface SupportSubmissionWebhookData {
+  firstName: string;
+  lastName: string;
+  caseName: string;
+  requestTypes: string;
+}
+
 /**
  * Fire-and-forget: sends a support submission notification to a Teams webhook.
  * Only call from server (e.g. API route). Never throws; failures are logged and swallowed.
  */
 export function notifySupportSubmissionTeams(
   webhookUrl: string,
-  data: { caseName: string; requestTypes: string }
+  data: SupportSubmissionWebhookData
 ): void {
   const text =
-    `**Support submission**\n\n` +
+    `**New Support Submission**\n\n` +
+    `**Name:** ${data.firstName} ${data.lastName}\n` +
     `**Case:** ${data.caseName}\n` +
     `**Request type(s):** ${data.requestTypes}`;
   fetch(webhookUrl, {
