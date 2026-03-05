@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. **Update this file after every completed task.**
 
+## [1.19.0] - 2026-03-03
+
+### Changed
+
+- **Salesforce submission disabled (migrating to Prospero / Service Cloud)** – Support request submissions were going to the wrong Salesforce org (`Support_Channel__c`). Disabled the Salesforce POST while we wait for updated Service Cloud integration details from the Salesforce admin. The API route (`POST /api/support-request`) now returns 503 with a clear message; the original handler is preserved in a comment block for re-enablement. On the client side, the Submit button now opens an "Under Construction" dialog (using `AppDialog`) that says submission is temporarily disabled and shows "Waiting for Prospero." No form data is sent anywhere. Removed unused submission imports (`generateSubmissionJSON`, `buildSupportRequestPayload`) and the `isSubmitting` state/overlay from `SupportRequestStepper`.
+
 ## [Unreleased]
 
 ### Changed

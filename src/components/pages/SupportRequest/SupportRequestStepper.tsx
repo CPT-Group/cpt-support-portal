@@ -7,7 +7,6 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useSupportRequestForm, useSyncSupportRequestUrl } from '@/hooks';
-import { useLoadingOverlay } from '@/providers/LoadingOverlayProvider';
 import {
   StepRequestTypeSelection,
   StepCaseSelection,
@@ -18,12 +17,11 @@ import type { FAQDialogView } from './FAQFeedbackDialog';
 import type { CaseOption, DynamicFormData } from '@/types';
 import { FAQ_DATA } from '@/constants';
 import { useCases } from '@/providers/CasesProvider';
-import { generateSubmissionJSON } from '@/utils/jsonGenerator';
-import { buildSupportRequestPayload } from '@/utils/salesforcePayload';
 import { REQUEST_TYPES } from '@/constants/requestTypes';
 import type { FAQItem } from '@/constants/faqData';
 import { sendFAQFeedbackWebhook } from '@/utils/webhooks';
 import { useHeader } from '@/providers/HeaderProvider';
+import { AppDialog } from '@/components/common/AppDialog';
 
 interface SupportRequestStepperProps {
   initialData?: Partial<DynamicFormData>;
@@ -47,9 +45,9 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
   const toast = useRef<Toast>(null);
   const { cases, loading: casesLoading, error: casesError, loadOnce, refetch: refetchCases } = useCases();
   const { setIsFaqDialogOpen } = useHeader();
-  const { showLoading, hideLoading } = useLoadingOverlay();
   const [stepOpacity, setStepOpacity] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Submission disabled: migrating to Prospero / Service Cloud
+  const isSubmitting = false;
   const [faqDialogVisible, setFaqDialogVisible] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState<FAQItem | null>(null);
   const [faqDialogView, setFaqDialogView] = useState<FAQDialogView>('faq');
@@ -57,6 +55,7 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
   const [faqComments, setFaqComments] = useState<string>('');
   const [faqFeedbackError, setFaqFeedbackError] = useState<string | null>(null);
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [underConstructionVisible, setUnderConstructionVisible] = useState(false);
 
   const {
     formData,
@@ -88,13 +87,6 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     if (activeStep === 1) loadOnce();
   }, [activeStep, loadOnce]);
 
-  // Show overlay during form submission (triggered by user action, so useEffect timing is fine)
-  useEffect(() => {
-    if (isSubmitting) showLoading('Submitting your request...');
-    else hideLoading();
-    return () => hideLoading();
-  }, [isSubmitting, showLoading, hideLoading]);
-
   // Case list loading state: rendered directly in JSX (not via effect) so the overlay
   // appears in the same paint as the step content -- no flash of empty dropdown.
   const caseListPending = activeStep === 1 && cases.length === 0 && !casesError;
@@ -119,89 +111,9 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
     [validateField]
   );
 
-  const handleSubmit = useCallback(async () => {
-    if (isSubmitting) return;
-    if (!validateStep(2)) {
-      toast.current?.show({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill in all required fields correctly before submitting.',
-        life: 5000,
-      });
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      toast.current?.show({
-        severity: 'info',
-        summary: 'Submitting',
-        detail: 'Please wait while we process your request...',
-        life: 3000,
-      });
-      const selectedCase = cases.find((c) => c.id === formData.caseId);
-      const submissionData = generateSubmissionJSON(formData, selectedCase || null);
-      const payload = buildSupportRequestPayload(submissionData);
-
-      // Collect actual File objects from form data before they're converted to metadata
-      const files: File[] = [];
-      for (const value of Object.values(formData)) {
-        if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
-          files.push(...(value as File[]));
-        }
-      }
-
-      let res: Response;
-      if (files.length > 0) {
-        const fd = new FormData();
-        fd.append('payload', JSON.stringify(payload));
-        for (const file of files) {
-          fd.append('files', file, file.name);
-        }
-        res = await fetch('/api/support-request', { method: 'POST', body: fd });
-      } else {
-        res = await fetch('/api/support-request', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      }
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        toast.current?.show({
-          severity: 'error',
-          summary: 'Submission Failed',
-          detail: (data.message as string) || `Request failed (${res.status}). Please try again.`,
-          life: 6000,
-        });
-        setIsSubmitting(false);
-        return;
-      }
-      const sfId = data.id as string | undefined;
-      const params = new URLSearchParams({
-        firstName: typeof formData.firstName === 'string' ? formData.firstName : '',
-        caseName: selectedCase?.label ?? '',
-        requestTypes: submissionData.requestTypeLabels?.join(', ') ?? '',
-        submissionData: btoa(JSON.stringify(submissionData)),
-      });
-      if (sfId) params.set('sfId', sfId);
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Your support request has been submitted successfully!',
-        life: 3000,
-      });
-      setTimeout(() => router.push(`/support-request/success?${params.toString()}`), 1000);
-    } catch (err) {
-      console.error('Support request submit error:', err);
-      toast.current?.show({
-        severity: 'error',
-        summary: 'Submission Failed',
-        detail: 'An error occurred while submitting your request. Please try again.',
-        life: 5000,
-      });
-      setIsSubmitting(false);
-    }
-  }, [formData, validateStep, router, isSubmitting]);
+  const handleSubmit = useCallback(() => {
+    setUnderConstructionVisible(true);
+  }, []);
 
   const handleNextClick = useCallback(() => {
     if (activeStep === 0 && formData.requestTypes?.length) {
@@ -438,6 +350,29 @@ export const SupportRequestStepper = ({ initialData, onStepChange }: SupportRequ
           )}
         </div>
       </div>
+
+      <AppDialog
+        header="Under Construction"
+        visible={underConstructionVisible}
+        onHide={() => setUnderConstructionVisible(false)}
+        style={{ width: '30rem' }}
+        breakpoints={{ '640px': '90vw' }}
+      >
+        <div className="flex flex-column align-items-center gap-3 py-3">
+          <i className="pi pi-wrench text-5xl" style={{ color: 'var(--primary-color)' }} />
+          <p className="text-center m-0" style={{ lineHeight: 1.5 }}>
+            Submission is currently under construction while we migrate to a new system.
+            Please check back soon.
+          </p>
+          <p className="text-center m-0 text-color-secondary text-sm">Waiting for Prospero</p>
+          <Button
+            label="OK"
+            icon="pi pi-check"
+            onClick={() => setUnderConstructionVisible(false)}
+            className="mt-2"
+          />
+        </div>
+      </AppDialog>
 
       <FAQFeedbackDialog
         visible={faqDialogVisible}

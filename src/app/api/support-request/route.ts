@@ -127,10 +127,26 @@ function resolveRequestTypeApiValues(
 
 /**
  * POST /api/support-request
- * Accepts JSON or multipart/form-data (when files are attached).
- * Creates a Support_Channel__c record; uploads files to Salesforce as ContentVersion;
- * returns { success, id }.
+ *
+ * DISABLED: Salesforce submission is temporarily disabled while migrating
+ * from Support_Channel__c to Prospero / Service Cloud. The client-side submit
+ * button already shows an "Under Construction" dialog; this guard ensures no
+ * data reaches the old Salesforce org even if the endpoint is hit directly.
+ *
+ * Restore the original handler once the new Service Cloud integration is ready.
  */
+export async function POST(_request: NextRequest) {
+  return Response.json(
+    {
+      success: false,
+      message: 'Support request submission is temporarily disabled while we migrate to a new system. Please check back soon.',
+    },
+    { status: 503 }
+  );
+}
+
+/* ---------- Original handler (preserved for re-enablement) ----------
+
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
   let files: File[] = [];
@@ -174,6 +190,8 @@ export async function POST(request: NextRequest) {
     });
   }
 }
+
+---------- End original handler ---------- */
 
 async function handleSupportRequestCreate(body: Record<string, unknown>, files: File[] = []): Promise<Response> {
   const createable = await getCreateableFields();

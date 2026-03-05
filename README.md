@@ -109,6 +109,6 @@ Configured for Netlify deployment. See `netlify.toml` for build settings.
 
 ## Version
 
-Current version: **1.18.1**
+Current version: **1.19.0**
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
